@@ -64,7 +64,7 @@
 
                     <?php if (!empty($post['thumbnail'])) : ?>
                         <figure class="mb-8">
-                            <img src="<?= esc($post['thumbnail']) ?>" class="w-full h-auto rounded-2xl shadow-2xl border border-slate-100" alt="<?= esc($post['title']) ?>">
+                            <img src="<?= filter_var($post['thumbnail'], FILTER_VALIDATE_URL) ? $post['thumbnail'] : base_url($post['thumbnail']) ?>" class="w-full h-auto rounded-2xl shadow-2xl border border-slate-100" alt="<?= esc($post['title']) ?>">
                             <?php if (!empty($post['thumbnail_caption'])) : ?>
                                 <figcaption class="mt-5 text-center text-xs text-slate-500 italic font-medium">
                                     <i class="fas fa-fw fa-camera mr-2 opacity-50"></i><?= esc($post['thumbnail_caption']) ?>
@@ -130,7 +130,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <?php foreach ($related_posts as $related) : ?>
                             <a href="<?= base_url('post/' . esc($related['slug'])) ?>" class="group block relative rounded-2xl overflow-hidden aspect-[16/10] border border-slate-200 shadow-sm">
-                                <img src="<?= esc($related['thumbnail']) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Related">
+                                <img src="<?= filter_var($related['thumbnail'], FILTER_VALIDATE_URL) ? $related['thumbnail'] : base_url($related['thumbnail']) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Related">
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent p-6 flex flex-col justify-end">
                                     <h3 class="text-white font-bold leading-tight group-hover:text-sky-300 transition-colors tracking-tight"><?= esc($related['title']) ?></h3>
                                     <div class="mt-3 text-[10px] font-bold text-slate-300 uppercase tracking-widest flex items-center">
@@ -161,7 +161,7 @@
                         <?php foreach ($recent_posts as $recent) : ?>
                             <a href="<?= base_url('post/' . esc($recent['slug'])) ?>" class="group flex gap-5">
                                 <div class="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden shadow-md border border-slate-100">
-                                    <img src="<?= esc($recent['thumbnail']) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="Recent">
+                                    <img src="<?= filter_var($recent['thumbnail'], FILTER_VALIDATE_URL) ? $recent['thumbnail'] : base_url($recent['thumbnail']) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="Recent">
                                 </div>
                                 <div class="flex-1">
                                     <h3 class="text-sm font-bold text-slate-900 line-clamp-2 group-hover:text-blue-800 transition-colors leading-snug tracking-tight">
@@ -191,7 +191,7 @@
                         <?php foreach ($popular_posts as $popular) : ?>
                             <a href="<?= base_url('post/' . esc($popular['slug'])) ?>" class="group flex gap-5">
                                 <div class="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden shadow-md border border-slate-100">
-                                    <img src="<?= esc($popular['thumbnail']) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="Popular">
+                                    <img src="<?= filter_var($popular['thumbnail'], FILTER_VALIDATE_URL) ? $popular['thumbnail'] : base_url($popular['thumbnail']) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="Popular">
                                 </div>
                                 <div class="flex-1">
                                     <h3 class="text-sm font-bold text-slate-900 line-clamp-2 group-hover:text-blue-800 transition-colors leading-snug tracking-tight">

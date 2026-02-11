@@ -90,7 +90,15 @@ class Posts extends BaseController
 
     public function edit($id = null)
     {
-        $post = $this->postService->getPostBySlug((string)$id) ?: (new \App\Models\PostModel())->find($id);
+        $postModel = new \App\Models\PostModel();
+        $post = $this->postService->getPostBySlug((string)$id);
+        
+        if (!$post) {
+            $post = $postModel->find($id);
+            if ($post) {
+                $post = $postModel->withCategoriesAndTags([$post])[0];
+            }
+        }
         
         if (!$post) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the post: ' . $id);

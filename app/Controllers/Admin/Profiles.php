@@ -62,7 +62,7 @@ class Profiles extends BaseController
             return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil dibuat.');
         }
 
-        return redirect()->back()->withInput()->with('error', 'Failed to save profile.');
+        return redirect()->back()->withInput()->with('errors', $this->profileService->errors() ?: ['error' => 'Gagal menyimpan profil.']);
     }
 
     public function edit($id = null)
@@ -79,7 +79,7 @@ class Profiles extends BaseController
     {
         $profile = $this->profileService->getProfileById((int)$id);
         if (!$profile) {
-            return redirect()->back()->with('error', 'Profile not found.');
+            return redirect()->to(base_url('admin/profiles'))->with('error', 'Profil tidak ditemukan.');
         }
 
         if (!$this->validate($this->getValidationRules(true))) {
@@ -93,13 +93,20 @@ class Profiles extends BaseController
         if (!$isTableType) {
             $newImageSource = $this->request->getPost('pasted_image') ?: $this->request->getFile('image');
             if ($newImageSource && ($newImageSource instanceof \CodeIgniter\HTTP\FileUpload ? $newImageSource->getName() !== '' : true)) {
-                $this->mediaService->deleteImage($profile['image']);
-                $image = $this->mediaService->saveImage($newImageSource, 'profiles', false);
+                $newImage = $this->mediaService->saveImage($newImageSource, 'profiles', false);
+                if ($newImage) {
+                    $this->mediaService->deleteImage($profile['image']);
+                    $image = $newImage;
+                }
             }
+        } else {
+            // If it becomes a table type, we might want to clear the image
+            // $image = null; 
         }
 
+        $name = $this->request->getPost('name');
         $data = [
-            'name'        => $this->request->getPost('name'),
+            'name'        => $name,
             'position'    => $this->request->getPost('position'),
             'institution' => $this->request->getPost('institution'),
             'type'        => $this->request->getPost('type'),
@@ -108,11 +115,21 @@ class Profiles extends BaseController
             'order'       => (int)($this->request->getPost('order') ?? 0),
         ];
 
-        if ($this->profileService->updateProfile((int)$id, $data)) {
-            return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil diperbarui.');
+        // Update slug if name changed
+        if (!empty($name) && $name !== $profile['name']) {
+            $data['slug'] = url_title($name, '-', true);
         }
 
-        return redirect()->back()->withInput()->with('error', 'Failed to update profile.');
+        try {
+            if ($this->profileService->updateProfile((int)$id, $data)) {
+                return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil diperbarui.');
+            }
+            
+            $errors = $this->profileService->errors();
+            return redirect()->back()->withInput()->with('errors', $errors ?: ['error' => 'Gagal memperbarui profil.']);
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        }
     }
 
     public function delete($id = null)

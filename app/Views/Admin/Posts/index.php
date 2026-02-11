@@ -113,7 +113,7 @@
                                 <div class="flex items-center">
                                     <div class="w-20 h-12 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0 border border-slate-200">
                                         <?php if (!empty($post['thumbnail'])) : ?>
-                                            <img src="<?= esc($post['thumbnail']) ?>" class="w-full h-full object-cover">
+                                            <img src="<?= filter_var($post['thumbnail'], FILTER_VALIDATE_URL) ? $post['thumbnail'] : base_url($post['thumbnail']) ?>" class="w-full h-full object-cover">
                                         <?php else : ?>
                                             <div class="w-full h-full flex items-center justify-center"><i class="fas fa-fw fa-image text-slate-300"></i></div>
                                         <?php endif; ?>

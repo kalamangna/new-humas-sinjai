@@ -47,4 +47,9 @@ class ProfileService
     {
         return $this->profileModel->delete($id);
     }
+
+    public function errors()
+    {
+        return $this->profileModel->errors();
+    }
 }

@@ -9,7 +9,7 @@
             <?php foreach ($slides as $index => $slide): ?>
                 <!-- Use 'relative' for the first slide to give the container height, 'absolute' for others -->
                 <div class="carousel-slide transition-opacity duration-1000 ease-in-out <?= $index === 0 ? 'relative opacity-100 z-10' : 'absolute inset-0 opacity-0 z-0' ?>" data-index="<?= $index ?>">
-                    <img src="<?= esc($slide['image_path']) ?>"
+                    <img src="<?= filter_var($slide['image_path'], FILTER_VALIDATE_URL) ? $slide['image_path'] : base_url($slide['image_path']) ?>"
                         class="w-full h-auto block"
                         alt="Slide <?= $index + 1 ?>">
                 </div>
@@ -53,7 +53,7 @@
                                     <div class="relative h-64 overflow-hidden bg-slate-100">
                                         <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="block h-full">
                                             <?php if (!empty($post['thumbnail'])) : ?>
-                                                <img src="<?= esc($post['thumbnail']) ?>" alt="<?= esc($post['title']) ?>" 
+                                                <img src="<?= filter_var($post['thumbnail'], FILTER_VALIDATE_URL) ? $post['thumbnail'] : base_url($post['thumbnail']) ?>" alt="<?= esc($post['title']) ?>" 
                                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                             <?php else: ?>
                                                 <div class="w-full h-full flex items-center justify-center">

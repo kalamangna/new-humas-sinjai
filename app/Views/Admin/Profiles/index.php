@@ -28,7 +28,7 @@
                             <td class="px-8 py-6 w-1">
                                 <div class="w-14 h-20 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm flex-shrink-0">
                                     <?php if (!empty($profile['image'])) : ?>
-                                        <img src="<?= esc($profile['image']) ?>" class="w-full h-full object-cover">
+                                        <img src="<?= filter_var($profile['image'], FILTER_VALIDATE_URL) ? $profile['image'] : base_url($profile['image']) ?>" class="w-full h-full object-cover">
                                     <?php else : ?>
                                         <div class="w-full h-full flex items-center justify-center"><i class="fas fa-fw fa-user text-slate-300"></i></div>
                                     <?php endif; ?>

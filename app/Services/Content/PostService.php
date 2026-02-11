@@ -145,7 +145,7 @@ class PostService
             }
 
             // Sync categories
-            $this->postCategoryModel->where('post_id', $id)->delete();
+            $this->postModel->db->table('post_categories')->where('post_id', $id)->delete();
             if (!empty($categoryIds)) {
                 $catsToInsert = array_map(fn($catId) => [
                     'post_id' => $id, 
@@ -155,7 +155,7 @@ class PostService
             }
 
             // Sync tags
-            $this->postTagModel->where('post_id', $id)->delete();
+            $this->postModel->db->table('post_tags')->where('post_id', $id)->delete();
             $this->syncTags($id, $tagsString);
 
             $this->postModel->db->transComplete();

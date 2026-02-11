@@ -34,7 +34,7 @@
                     <div class="text-center mb-10">
                         <div class="relative inline-block mb-10">
                             <?php if (!empty($profile['image'])) : ?>
-                                <img src="<?= esc($profile['image']) ?>" alt="<?= esc($profile['name']) ?>" 
+                                <img src="<?= filter_var($profile['image'], FILTER_VALIDATE_URL) ? $profile['image'] : base_url($profile['image']) ?>" alt="<?= esc($profile['name']) ?>" 
                                     class="w-64 h-auto md:w-80 rounded-3xl shadow-2xl border-8 border-slate-50 mx-auto transform hover:scale-105 transition-transform duration-500">
                             <?php else : ?>
                                 <div class="w-64 h-80 bg-slate-50 rounded-3xl shadow-inner border-4 border-dashed border-slate-200 flex items-center justify-center mx-auto">

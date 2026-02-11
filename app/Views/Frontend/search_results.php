@@ -54,7 +54,7 @@
                     <div class="relative h-60 overflow-hidden">
                         <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="block h-full">
                             <?php if (!empty($post['thumbnail'])) : ?>
-                                <img src="<?= esc($post['thumbnail']) ?>" alt="<?= esc($post['title']) ?>" 
+                                <img src="<?= filter_var($post['thumbnail'], FILTER_VALIDATE_URL) ? $post['thumbnail'] : base_url($post['thumbnail']) ?>" alt="<?= esc($post['title']) ?>" 
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <?php else: ?>
                                 <div class="w-full h-full bg-slate-50 flex items-center justify-center">

@@ -20,7 +20,7 @@
             <li>
                 <div class="flex items-center">
                     <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <span class="text-slate-400"><?= esc($title) ?></span>
+                    <span class="text-slate-400 normal-case"><?= esc($title) ?></span>
                 </div>
             </li>
         </ol>
@@ -46,7 +46,7 @@
                             <div class="absolute -bottom-4 -right-4 w-20 h-20 bg-blue-800/10 rounded-full blur-2xl -z-10"></div>
                         </div>
                         
-                        <h1 class="text-4xl md:text-6xl font-black text-slate-900 mb-4 tracking-tight uppercase">
+                        <h1 class="text-4xl md:text-6xl font-black text-slate-900 mb-4 tracking-tight">
                             <?= $profile['name'] ? esc($profile['name']) : esc($profile['position']) ?>
                         </h1>
                         

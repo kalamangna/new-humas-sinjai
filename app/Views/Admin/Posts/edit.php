@@ -110,15 +110,20 @@
 
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Label / Tags <span class="text-red-600">*</span></label>
+                            <?php 
+                                $oldTags = old('tags');
+                                $displayTags = !is_null($oldTags) ? (is_array($oldTags) ? $oldTags : explode(',', $oldTags)) : $post_tag_names;
+                                $displayTags = array_filter(array_map('trim', $displayTags));
+                            ?>
                             <div id="tag-container" class="bg-slate-50 border border-slate-200 rounded-2xl p-4 min-h-[100px] flex flex-wrap gap-2 text-[10px] font-black uppercase tracking-widest">
-                                <?php foreach ($post_tag_names as $tagName) : ?>
+                                <?php foreach ($displayTags as $tagName) : ?>
                                     <div class="tag-badge inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-800 rounded-lg border border-blue-200" data-tag="<?= esc($tagName) ?>">
                                         <?= esc($tagName) ?>
                                         <button type="button" class="ml-2 hover:text-red-600 remove-tag"><i class="fas fa-fw fa-times-circle"></i></button>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
-                            <input type="hidden" name="tags" id="tags-input" value="<?= implode(',', old('tags', $post_tag_names)) ?>">
+                            <input type="hidden" name="tags" id="tags-input" value="<?= esc(implode(',', $displayTags)) ?>">
                             
                             <div class="flex gap-2">
                                 <input type="text" id="manual-tag-input" class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-800" placeholder="Tambah tag manual...">

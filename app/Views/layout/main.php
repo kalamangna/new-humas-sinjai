@@ -183,7 +183,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
                 <!-- Info -->
                 <div class="space-y-8 text-center md:text-left">
-                    <img src="<?= base_url('humas.png') ?>" alt="Humas Sinjai" class="h-14 w-auto brightness-200 mx-auto md:mx-0">
+                    <img src="<?= base_url('humas.png') ?>" alt="Humas Sinjai" class="h-14 w-auto mx-auto md:mx-0">
                     <p class="text-sm leading-relaxed font-medium">Portal Berita Resmi Pemerintah Kabupaten Sinjai. Menyajikan informasi pembangunan dan pelayanan publik yang transparan, akuntabel, dan inspiratif.</p>
                     <div class="flex justify-center md:justify-start space-x-6">
                         <a href="#" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fab fa-facebook-f text-xl"></i></a>

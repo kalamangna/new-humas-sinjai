@@ -7,7 +7,7 @@
     document.currentScript.getAttribute("data-title") ||
     "Berita Terbaru - Humas Sinjai";
   const theme = document.currentScript.getAttribute("data-theme") || "light";
-  const apiUrl = "https://humas.sinjaikab.go.id/v1/rss-widget/index.php";
+  const apiUrl = "https://humas.sinjaikab.go.id/v2/rss-widget/index.php";
 
   fetch(apiUrl)
     .then((res) => res.json())
@@ -51,7 +51,7 @@
       html += `
           </ul>
             <div class="humas-sinjai-footer">
-              <img src="https://humas.sinjaikab.go.id/v1/humas.png" alt="Logo Sinjai" class="humas-sinjai-footer-logo">
+              <img src="https://humas.sinjaikab.go.id/v2/humas.png" alt="Logo Sinjai" class="humas-sinjai-footer-logo">
               <a href="https://humas.sinjaikab.go.id" target="_blank">humas.sinjaikab.go.id</a>
             </div>
         </div>

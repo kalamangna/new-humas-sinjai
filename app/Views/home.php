@@ -16,15 +16,15 @@
             <?php endforeach; ?>
             
             <!-- Controls -->
-            <button id="prev-slide" class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 bg-blue-950/40 hover:bg-blue-900 text-white p-3 md:p-4 rounded-2xl transition-all border border-white/10 backdrop-blur-sm shadow-2xl">
-                <i class="fas fa-chevron-left text-lg md:text-xl"></i>
+            <button id="prev-slide" class="hidden md:block absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-30 bg-blue-950/40 hover:bg-blue-900 text-white p-2 md:p-4 rounded-xl md:rounded-2xl transition-all border border-white/10 backdrop-blur-sm shadow-2xl">
+                <i class="fas fa-chevron-left text-sm md:text-xl"></i>
             </button>
-            <button id="next-slide" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 bg-blue-950/40 hover:bg-blue-900 text-white p-3 md:p-4 rounded-2xl transition-all border border-white/10 backdrop-blur-sm shadow-2xl">
-                <i class="fas fa-chevron-right text-lg md:text-xl"></i>
+            <button id="next-slide" class="hidden md:block absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-30 bg-blue-950/40 hover:bg-blue-900 text-white p-2 md:p-4 rounded-xl md:rounded-2xl transition-all border border-white/10 backdrop-blur-sm shadow-2xl">
+                <i class="fas fa-chevron-right text-sm md:text-xl"></i>
             </button>
 
             <!-- Indicators -->
-            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex space-x-3">
+            <div class="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 z-30 space-x-3">
                 <?php foreach ($slides as $index => $slide): ?>
                     <button class="carousel-indicator w-2.5 h-2.5 rounded-full transition-all border border-white/20 <?= $index === 0 ? 'bg-blue-600 w-8' : 'bg-white/40' ?>" data-index="<?= $index ?>"></button>
                 <?php endforeach; ?>

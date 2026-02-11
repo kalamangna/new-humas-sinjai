@@ -2,83 +2,92 @@
 
 <?= $this->section('content') ?>
 
-<div class="container">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb" class="my-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="<?= base_url('/') ?>" class="text-decoration-none">
-                    <i class="fas fa-home me-2"></i>Beranda
+    <nav class="flex mb-16" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
+            <li class="inline-flex items-center">
+                <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
+                    <i class="fas fa-home mr-2 text-blue-800"></i>Beranda
                 </a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Semua Kategori</li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fas fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <span class="text-slate-400">Kategori Informasi</span>
+                </div>
+            </li>
         </ol>
     </nav>
 
     <!-- Header Section -->
-    <div class="row mb-5">
-        <div class="col-12 text-center">
-            <h1 class="fw-bold display-5 mb-3">
-                <i class="fas fa-folder-tree text-primary me-3"></i><?= esc($title) ?>
-            </h1>
-            <div class="border-bottom border-primary mx-auto" style="width: 100px;"></div>
-        </div>
+    <div class="text-center mb-20">
+        <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Indeks Informasi</p>
+        <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight flex flex-col md:flex-row items-center justify-center gap-4">
+            <i class="fas fa-folder-tree text-blue-800 opacity-20 hidden md:block"></i>
+            <?= esc($title) ?>
+        </h1>
+        <div class="mt-8 w-24 h-2 bg-blue-800 mx-auto rounded-full"></div>
     </div>
 
     <?php if (!empty($categories)) : ?>
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card border-0 shadow rounded-4 overflow-hidden">
-                    <div class="card-body p-0">
-                        <div class="list-group list-group-flush">
-                            <?php foreach ($categories as $category) : ?>
-                                <div class="list-group-item border-0 p-4">
-                                    <div class="d-flex align-items-center mb-3">
-                                        <i class="fas fa-folder-open text-primary fa-lg me-3"></i>
-                                        <span class="fw-bold fs-5 text-dark"><?= esc($category['name']) ?></span>
-                                    </div>
-
-                                    <?php if (isset($subCategories[$category['id']])) : ?>
-                                        <div class="row g-2 ps-4">
-                                            <?php foreach ($subCategories[$category['id']] as $subCategory) : ?>
-                                                <div class="col-12 col-md-6">
-                                                    <a href="<?= base_url('category/' . esc($subCategory['slug'])) ?>"
-                                                        class="card border-0 shadow-sm rounded-3 text-decoration-none text-dark h-100">
-                                                        <div class="card-body p-3">
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <div class="d-flex align-items-center">
-                                                                    <i class="fas fa-folder text-secondary me-2"></i>
-                                                                    <span class="fw-medium"><?= esc($subCategory['name']) ?></span>
-                                                                </div>
-                                                                <span class="badge bg-primary rounded-pill shadow-sm"><?= $subCategory['post_count'] ?></span>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            <?php endforeach; ?>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                                <?php if ($category !== end($categories)) : ?>
-                                    <hr class="my-0">
-                                <?php endif; ?>
-                            <?php endforeach; ?>
+        <div class="max-w-5xl mx-auto grid grid-cols-1 gap-12">
+            <?php foreach ($categories as $category) : ?>
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+                    <!-- Category Header -->
+                    <div class="px-8 py-8 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+                        <div class="flex items-center">
+                            <div class="p-4 bg-blue-800 text-white rounded-2xl shadow-lg shadow-blue-900/20 mr-6">
+                                <i class="fas fa-folder-open text-xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-black text-slate-900 tracking-tight"><?= esc($category['name']) ?></h2>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Kategori Utama</p>
+                            </div>
                         </div>
+                        <a href="<?= base_url('category/' . esc($category['slug'])) ?>" class="px-6 py-2 bg-slate-100 text-slate-700 font-black text-[10px] uppercase tracking-widest rounded-full border border-slate-200 hover:bg-blue-800 hover:text-white hover:border-blue-900 transition-all">
+                            Lihat Semua
+                        </a>
+                    </div>
+
+                    <div class="p-8 md:p-12">
+                        <?php if (isset($subCategories[$category['id']])) : ?>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <?php foreach ($subCategories[$category['id']] as $subCategory) : ?>
+                                    <a href="<?= base_url('category/' . esc($subCategory['slug'])) ?>"
+                                        class="flex items-center justify-between p-5 bg-white border border-slate-100 rounded-2xl hover:border-blue-800 hover:shadow-xl hover:shadow-blue-900/5 transition-all group">
+                                        <div class="flex items-center min-w-0">
+                                            <i class="fas fa-folder text-slate-200 group-hover:text-blue-800 mr-4 transition-colors flex-shrink-0"></i>
+                                            <span class="font-bold text-slate-700 group-hover:text-slate-900 transition-colors truncate tracking-tight"><?= esc($subCategory['name']) ?></span>
+                                        </div>
+                                        <div class="flex-shrink-0 ml-4 px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-black rounded-lg border border-slate-100 group-hover:bg-blue-50 group-hover:text-blue-800 group-hover:border-blue-100 transition-all">
+                                            <?= number_format($subCategory['post_count']) ?>
+                                        </div>
+                                    </a>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php else : ?>
+                            <div class="py-6 px-8 border-2 border-dashed border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 italic text-sm">
+                                Belum ada sub-kategori tersedia untuk klasifikasi ini.
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     <?php else : ?>
         <!-- Empty State -->
-        <div class="text-center py-5">
-            <div class="mb-4">
-                <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+        <div class="text-center py-24 bg-white rounded-[3rem] border border-slate-200 shadow-sm px-8 max-w-2xl mx-auto">
+            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200">
+                <i class="fas fa-folder-minus text-5xl"></i>
             </div>
-            <h3 class="text-muted mb-3">Belum ada kategori</h3>
-            <p class="text-muted mb-4">Tidak ada kategori yang ditemukan.</p>
+            <h3 class="text-3xl font-black text-slate-900 mb-4 tracking-tight">Data Tidak Ditemukan</h3>
+            <p class="text-slate-500 mb-12 leading-relaxed">Saat ini belum ada kategori informasi yang dipublikasikan oleh sistem. Silakan periksa kembali beberapa saat lagi.</p>
+            <a href="<?= base_url() ?>" class="inline-flex items-center px-10 py-5 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
+                <i class="fas fa-home mr-3 text-base"></i>Beranda Utama
+            </a>
         </div>
     <?php endif; ?>
 </div>
-
 
 <?= $this->endSection() ?>

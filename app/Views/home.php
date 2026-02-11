@@ -2,145 +2,195 @@
 
 <?= $this->section('content') ?>
 
-
-
-<!-- Carousel Section -->
-<section>
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-        <?php if (!empty($slides)): ?>
-            <div class="carousel-indicators">
-                <?php foreach ($slides as $index => $slide): ?>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<?= $index ?>" class="<?= $index === 0 ? 'active' : '' ?>" aria-current="<?= $index === 0 ? 'true' : 'false' ?>" aria-label="Slide <?= $index + 1 ?>"></button>
-                <?php endforeach; ?>
-            </div>
-            <div class="carousel-inner bg-dark">
-                <?php foreach ($slides as $index => $slide): ?>
-                    <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                        <img src="<?= esc($slide['image_path']) ?>" class="d-block mx-auto" alt="Carousel Slide" style="max-height: 600px; width: auto; max-width: 100%; object-fit: contain;">
-                    </div>
-                <?php endforeach; ?>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
+<!-- Hero / Carousel Section -->
+<section class="relative bg-slate-900 overflow-hidden border-b-8 border-blue-900">
+    <?php if (!empty($slides)): ?>
+        <div id="hero-carousel" class="relative h-[400px] md:h-[650px]">
+            <?php foreach ($slides as $index => $slide): ?>
+                <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 ease-in-out <?= $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' ?>" data-index="<?= $index ?>">
+                    <img src="<?= esc($slide['image_path']) ?>" class="w-full h-full object-cover md:object-contain bg-slate-950" alt="Slide">
+                    <!-- Subtle Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
+                </div>
+            <?php endforeach; ?>
+            
+            <!-- Controls -->
+            <button id="prev-slide" class="absolute left-6 top-1/2 -translate-y-1/2 z-20 bg-slate-900/40 hover:bg-blue-800 text-white p-4 rounded-full transition-all border border-white/10 backdrop-blur-sm">
+                <i class="fas fa-chevron-left text-xl"></i>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
+            <button id="next-slide" class="absolute right-6 top-1/2 -translate-y-1/2 z-20 bg-slate-900/40 hover:bg-blue-800 text-white p-4 rounded-full transition-all border border-white/10 backdrop-blur-sm">
+                <i class="fas fa-chevron-right text-xl"></i>
             </button>
-        <?php endif; ?>
-    </div>
-</section>
 
-<!-- Featured Posts -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <!-- Header Section -->
-        <div class="row mb-5">
-            <div class="col-12 text-center">
-                <h2 class="fw-bold display-5 mb-3">
-                    <i class="fas fa-newspaper text-primary me-3"></i>Berita Terbaru
-                </h2>
-                <div class="border-bottom border-primary mx-auto" style="width: 100px;"></div>
+            <!-- Indicators -->
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex space-x-3">
+                <?php foreach ($slides as $index => $slide): ?>
+                    <button class="carousel-indicator w-3 h-3 rounded-full transition-all border border-white/20 <?= $index === 0 ? 'bg-blue-600 w-8' : 'bg-white/40' ?>" data-index="<?= $index ?>"></button>
+                <?php endforeach; ?>
             </div>
         </div>
+    <?php endif; ?>
+</section>
 
-        <!-- Posts Grid -->
+<!-- Featured News Grid -->
+<section class="py-20 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-black text-slate-900 flex items-center justify-center tracking-tight">
+                <i class="fas fa-newspaper text-blue-800 mr-5"></i>
+                BERITA TERBARU
+            </h2>
+            <div class="mt-6 w-24 h-2 bg-blue-800 mx-auto rounded-full"></div>
+            <p class="mt-4 text-slate-500 font-medium uppercase tracking-widest text-sm">Informasi Terkini Pemerintah Kabupaten Sinjai</p>
+        </div>
+
         <?php if (!empty($posts)): ?>
-            <div class="row g-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 <?php foreach ($posts as $index => $post): ?>
-                    <?php if ($index < 6): // Tampilkan 6 post pertama 
-                    ?>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card h-100 shadow border-0 rounded-4 overflow-hidden">
-                                <div class="position-relative">
-                                    <a href="<?= base_url('post/' . esc($post['slug'])) ?>">
-                                        <?php if (!empty($post['thumbnail'])) : ?>
-                                            <img src="<?= esc($post['thumbnail']) ?>" class="card-img-top" alt="<?= esc($post['title']) ?>" style="height: 220px; object-fit: cover;">
-                                        <?php else: ?>
-                                            <div class="card-img-top bg-gradient-primary d-flex align-items-center justify-content-center" style="height: 220px; background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);">
-                                                <i class="fas fa-newspaper text-white fa-4x"></i>
-                                            </div>
-                                        <?php endif; ?>
-                                    </a>
-
-                                    <!-- Category Badge -->
-                                    <?php if (!empty($post['categories'])) : ?>
-                                        <div class="position-absolute top-0 start-0 m-3">
-                                            <?php foreach ($post['categories'] as $category) : ?>
-                                                <a href="<?= base_url('category/' . esc($category['slug'])) ?>" class="badge bg-primary text-decoration-none me-1 shadow-sm">
-                                                    <?= esc($category['name']) ?>
-                                                </a>
-                                            <?php endforeach; ?>
+                    <?php if ($index < 6): ?>
+                        <article class="group bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col border border-slate-200">
+                            <!-- Image Container -->
+                            <div class="relative h-60 overflow-hidden">
+                                <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="block h-full">
+                                    <?php if (!empty($post['thumbnail'])) : ?>
+                                        <img src="<?= esc($post['thumbnail']) ?>" alt="<?= esc($post['title']) ?>" 
+                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                    <?php else: ?>
+                                        <div class="w-full h-full bg-slate-100 flex items-center justify-center">
+                                            <i class="fas fa-image text-slate-300 text-6xl"></i>
                                         </div>
                                     <?php endif; ?>
-                                </div>
+                                </a>
 
-                                <div class="card-body d-flex flex-column p-4">
-                                    <h5 class="card-title fw-bold mb-3">
-                                        <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="text-decoration-none text-dark stretched-link">
-                                            <?= esc($post['title']) ?>
-                                        </a>
-                                    </h5>
-                                    <p class="card-text text-muted flex-grow-1 mb-4">
-                                        <?= word_limiter(strip_tags($post['content']), 20) ?>
-                                    </p>
-
-                                    <div class="mt-auto pt-3 border-top">
-                                        <div class="d-flex justify-content-between align-items-center text-muted small">
-                                            <span class="d-flex align-items-center">
-                                                <i class="fas fa-calendar-alt me-2"></i>
-                                                <?php
-                                                // Use published_at as primary date, fallback to created_at
-                                                $dateField = '';
-                                                if (isset($post['published_at']) && !empty($post['published_at'])) {
-                                                    $dateField = $post['published_at'];
-                                                } elseif (isset($post['created_at']) && !empty($post['created_at'])) {
-                                                    $dateField = $post['created_at'];
-                                                } else {
-                                                    $dateField = date('Y-m-d'); // fallback to current date
-                                                }
-                                                echo format_date($dateField, 'date_only');
-                                                ?>
-                                            </span>
-                                            <span class="d-flex align-items-center">
-                                                <i class="fas fa-user-edit me-2"></i>
-                                                <?= esc($post['author_name'] ?? 'Admin') ?>
-                                            </span>
-                                        </div>
+                                <!-- Categories -->
+                                <?php if (!empty($post['categories'])) : ?>
+                                    <div class="absolute top-4 left-4 flex flex-wrap gap-2">
+                                        <?php foreach ($post['categories'] as $category) : ?>
+                                            <a href="<?= base_url('category/' . esc($category['slug'])) ?>" 
+                                                class="px-3 py-1 bg-blue-800 text-white text-[10px] font-bold uppercase tracking-wider rounded-md backdrop-blur-sm hover:bg-blue-900 transition-colors">
+                                                <?= esc($category['name']) ?>
+                                            </a>
+                                        <?php endforeach; ?>
                                     </div>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="p-8 flex flex-col flex-1">
+                                <h3 class="text-xl font-bold text-slate-900 mb-4 line-clamp-2 leading-tight group-hover:text-blue-800 transition-colors tracking-tight">
+                                    <a href="<?= base_url('post/' . esc($post['slug'])) ?>">
+                                        <?= esc($post['title']) ?>
+                                    </a>
+                                </h3>
+                                
+                                <p class="text-slate-600 text-sm mb-8 line-clamp-3 leading-relaxed">
+                                    <?= word_limiter(strip_tags($post['content']), 22) ?>
+                                </p>
+
+                                <div class="mt-auto pt-5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-bold uppercase tracking-wider">
+                                    <span class="flex items-center">
+                                        <i class="far fa-calendar-alt mr-2 text-blue-700"></i>
+                                        <?php
+                                            $dateField = $post['published_at'] ?: ($post['created_at'] ?: date('Y-m-d'));
+                                            echo format_date($dateField, 'date_only');
+                                        ?>
+                                    </span>
+                                    <span class="flex items-center">
+                                        <i class="far fa-user mr-2 text-blue-700"></i>
+                                        <?= esc($post['author_name'] ?? 'Admin') ?>
+                                    </span>
                                 </div>
                             </div>
-                        </div>
+                        </article>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>
 
-            <!-- View All Button -->
-            <div class="row mt-5">
-                <div class="col-12 text-center">
-                    <a href="<?= base_url('posts') ?>" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-sm">
-                        <i class="fas fa-list me-2"></i>Lihat Semua Berita
-                    </a>
-                </div>
+            <!-- View All -->
+            <div class="mt-20 text-center">
+                <a href="<?= base_url('posts') ?>" class="inline-flex items-center px-10 py-5 bg-blue-800 text-white font-black uppercase tracking-widest text-sm rounded-xl shadow-xl hover:bg-blue-900 hover:-translate-y-1 transition-all duration-300">
+                    <i class="fas fa-list-ul mr-3"></i>
+                    LIHAT SEMUA BERITA
+                </a>
             </div>
 
         <?php else: ?>
-            <!-- Empty State -->
-            <div class="row">
-                <div class="col-12 text-center py-5">
-                    <div class="mb-4">
-                        <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
-                    </div>
-                    <h3 class="text-muted mb-3">Belum ada berita</h3>
-                    <p class="text-muted mb-4">Silakan kembali lagi nanti untuk melihat berita terbaru.</p>
-                    <a href="<?= base_url() ?>" class="btn btn-outline-primary">
-                        <i class="fas fa-home me-2"></i>Kembali ke Halaman Utama
-                    </a>
+            <div class="bg-white rounded-3xl p-16 text-center shadow-sm border border-slate-200">
+                <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-8 text-slate-300">
+                    <i class="fas fa-inbox text-4xl"></i>
                 </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-3 tracking-tight">Belum ada berita</h3>
+                <p class="text-slate-500 mb-10 max-w-md mx-auto">Informasi terbaru saat ini belum tersedia. Silakan kembali lagi nanti.</p>
+                <a href="<?= base_url() ?>" class="text-blue-800 font-bold hover:underline flex items-center justify-center">
+                    <i class="fas fa-sync-alt mr-2"></i> Refresh Halaman
+                </a>
             </div>
         <?php endif; ?>
     </div>
 </section>
+
+<script>
+    // Pure JS Carousel
+    document.addEventListener('DOMContentLoaded', () => {
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        const nextBtn = document.getElementById('next-slide');
+        const prevBtn = document.getElementById('prev-slide');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach(s => {
+                s.classList.replace('opacity-100', 'opacity-0');
+                s.classList.replace('z-10', 'z-0');
+            });
+            indicators.forEach(i => {
+                i.classList.replace('bg-blue-600', 'bg-white/40');
+                i.classList.remove('w-8');
+            });
+            
+            slides[index].classList.replace('opacity-0', 'opacity-100');
+            slides[index].classList.replace('z-0', 'z-10');
+            indicators[index].classList.replace('bg-white/40', 'bg-blue-600');
+            indicators[index].classList.add('w-8');
+            currentSlide = index;
+        }
+
+        if(nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                let next = (currentSlide + 1) % slides.length;
+                showSlide(next);
+            });
+        }
+
+        if(prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                let prev = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(prev);
+            });
+        }
+
+        // Auto play
+        let autoPlay = setInterval(() => {
+            if(slides.length > 1) {
+                let next = (currentSlide + 1) % slides.length;
+                showSlide(next);
+            }
+        }, 6000);
+
+        // Reset autoplay on interaction
+        [nextBtn, prevBtn, ...indicators].forEach(el => {
+            if(el) {
+                el.addEventListener('click', () => {
+                    clearInterval(autoPlay);
+                    autoPlay = setInterval(() => {
+                        let next = (currentSlide + 1) % slides.length;
+                        showSlide(next);
+                    }, 8000);
+                });
+            }
+        });
+    });
+</script>
 
 <?= $this->endSection() ?>

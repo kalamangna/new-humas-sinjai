@@ -2,125 +2,99 @@
 
 <?= $this->section('content') ?>
 
-<div class="container">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb" class="my-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="<?= base_url('/') ?>" class="text-decoration-none">
-                    <i class="fas fa-home me-2"></i>Beranda
+    <nav class="flex mb-12" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
+            <li class="inline-flex items-center">
+                <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
+                    <i class="fas fa-home mr-2 text-blue-800"></i>Beranda
                 </a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Hasil Pencarian</li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fas fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <span class="text-slate-400">Pencarian Informasi</span>
+                </div>
+            </li>
         </ol>
     </nav>
 
     <!-- Header Section -->
-    <div class="row mb-5">
-        <div class="col-12 text-center">
-            <h1 class="fw-bold display-5 mb-3">
-                <i class="fas fa-search text-primary me-3"></i>Hasil Pencarian
-            </h1>
-            <p class="lead text-muted">
-                <?php if (!empty($query)) : ?>
-                    Menampilkan hasil untuk: "<strong><?= esc($query) ?></strong>"
-                <?php else : ?>
-                    Masukkan kata kunci untuk mencari berita
-                <?php endif; ?>
-            </p>
-            <div class="border-bottom border-primary mx-auto" style="width: 100px;"></div>
-        </div>
+    <div class="text-center mb-16">
+        <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Hasil Penelusuran</p>
+        <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight">
+            <i class="fas fa-search text-blue-800 mr-5 opacity-20"></i>Pencarian Berita
+        </h1>
+        <p class="mt-6 text-lg text-slate-600 font-medium">
+            <?php if (!empty($query)) : ?>
+                Menampilkan hasil untuk kata kunci: <span class="text-blue-800 font-black italic">"<?= esc($query) ?>"</span>
+            <?php else : ?>
+                Silakan masukkan kata kunci untuk memulai pencarian.
+            <?php endif; ?>
+        </p>
+        <div class="mt-8 w-24 h-2 bg-blue-800 mx-auto rounded-full"></div>
     </div>
 
     <?php if (!empty($posts)) : ?>
-        <!-- Search Info -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="alert alert-primary border-0 rounded-4 shadow-sm">
-                    <i class="fas fa-info-circle me-2"></i>
-                    Ditemukan <strong><?= count($posts) ?></strong> berita yang sesuai dengan pencarian "<strong><?= esc($query) ?></strong>"
-                </div>
+        <!-- Info Alert -->
+        <div class="bg-blue-50 border-l-4 border-blue-800 p-6 mb-12 rounded-r-2xl shadow-sm flex items-center">
+            <div class="bg-blue-800 p-2 rounded-lg mr-5 shadow-lg shadow-blue-900/20">
+                <i class="fas fa-info-circle text-white text-xl"></i>
             </div>
+            <p class="text-slate-700 font-bold uppercase tracking-wider text-[11px]">
+                Ditemukan <span class="text-blue-800 text-lg mx-1"><?= number_format(count($posts)) ?></span> Berita yang relevan dengan pencarian anda.
+            </p>
         </div>
 
-        <!-- Posts Grid -->
-        <div class="row g-4">
+        <!-- Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             <?php foreach ($posts as $post) : ?>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 shadow border-0 rounded-4 overflow-hidden">
-                        <div class="position-relative">
-                            <a href="<?= base_url('post/' . esc($post['slug'])) ?>">
-                                <?php if (!empty($post['thumbnail'])) : ?>
-                                    <img src="<?= esc($post['thumbnail']) ?>" class="card-img-top" alt="<?= esc($post['title']) ?>" style="height: 200px; object-fit: cover;">
-                                <?php else : ?>
-                                    <div class="card-img-top bg-gradient-primary d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);">
-                                        <i class="fas fa-newspaper text-white fa-3x"></i>
-                                    </div>
-                                <?php endif; ?>
-                            </a>
-
-                            <!-- Category Badge -->
-                            <?php if (!empty($post['categories'])) : ?>
-                                <div class="position-absolute top-0 start-0 m-3">
-                                    <?php foreach ($post['categories'] as $category) : ?>
-                                        <a href="<?= base_url('category/' . esc($category['slug'])) ?>" class="badge bg-primary text-decoration-none me-1 shadow-sm">
-                                            <?= esc($category['name']) ?>
-                                        </a>
-                                    <?php endforeach; ?>
+                <article class="group bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col border border-slate-200">
+                    <div class="relative h-60 overflow-hidden">
+                        <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="block h-full">
+                            <?php if (!empty($post['thumbnail'])) : ?>
+                                <img src="<?= esc($post['thumbnail']) ?>" alt="<?= esc($post['title']) ?>" 
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <?php else: ?>
+                                <div class="w-full h-full bg-slate-50 flex items-center justify-center">
+                                    <i class="fas fa-newspaper text-slate-200 text-6xl"></i>
                                 </div>
                             <?php endif; ?>
-                        </div>
+                        </a>
+                    </div>
 
-                        <div class="card-body d-flex flex-column p-4">
-                            <h5 class="card-title fw-bold mb-3">
-                                <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="text-decoration-none text-dark stretched-link">
-                                    <?= esc($post['title']) ?>
-                                </a>
-                            </h5>
-                            <p class="card-text text-muted flex-grow-1 mb-4">
-                                <?= word_limiter(strip_tags($post['content']), 20) ?>
-                            </p>
-
-                            <div class="mt-auto pt-3 border-top">
-                                <div class="d-flex justify-content-between align-items-center text-muted small">
-                                    <span class="d-flex align-items-center">
-                                        <i class="fas fa-calendar-alt me-2"></i>
-                                        <?php
-                                        // Use published_at as primary date, fallback to created_at
-                                        $dateField = '';
-                                        if (isset($post['published_at']) && !empty($post['published_at'])) {
-                                            $dateField = $post['published_at'];
-                                        } elseif (isset($post['created_at']) && !empty($post['created_at'])) {
-                                            $dateField = $post['created_at'];
-                                        } else {
-                                            $dateField = date('Y-m-d'); // fallback to current date
-                                        }
-                                        echo format_date($dateField, 'date_only');
-                                        ?>
-                                    </span>
-                                    <span class="d-flex align-items-center">
-                                        <i class="fas fa-user-edit me-2"></i>
-                                        <?= esc($post['author_name'] ?? 'Admin') ?>
-                                    </span>
-                                </div>
-                            </div>
+                    <div class="p-8 flex flex-col flex-1">
+                        <h3 class="text-xl font-bold text-slate-900 mb-4 line-clamp-2 leading-tight group-hover:text-blue-800 transition-colors tracking-tight">
+                            <a href="<?= base_url('post/' . esc($post['slug'])) ?>">
+                                <?= esc($post['title']) ?>
+                            </a>
+                        </h3>
+                        <p class="text-slate-600 text-sm mb-8 line-clamp-3 leading-relaxed">
+                            <?= word_limiter(strip_tags($post['content']), 22) ?>
+                        </p>
+                        <div class="mt-auto pt-5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-bold uppercase tracking-wider">
+                            <span class="flex items-center">
+                                <i class="far fa-calendar-alt mr-2 text-blue-700"></i>
+                                <?= format_date($post['published_at'] ?? $post['created_at'] ?? 'now', 'date_only') ?>
+                            </span>
+                            <span class="flex items-center">
+                                <i class="far fa-user mr-2 text-blue-700"></i>
+                                <?= esc($post['author_name'] ?? 'Admin') ?>
+                            </span>
                         </div>
                     </div>
-                </div>
+                </article>
             <?php endforeach; ?>
         </div>
 
         <!-- Pagination -->
         <?php if (isset($pager) && $pager->getPageCount() > 1) : ?>
-            <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center justify-content-lg-between mt-5 pt-4">
-                <div class="text-muted small mb-2 mb-lg-0">
-                    <?php
-                    $from = ($pager->getCurrentPage() - 1) * $pager->getPerPage() + 1;
-                    $to = $from + count($posts) - 1;
-                    ?>
-                    Menampilkan <?= $from ?>-<?= $to ?> dari <?= $pager->getTotal() ?> berita
+            <div class="mt-20 flex flex-col md:flex-row items-center justify-between border-t-2 border-slate-100 pt-12">
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    Menampilkan <span class="text-slate-900"><?= number_format(count($posts)) ?></span> data hasil penelusuran.
                 </div>
-                <div class="d-flex align-items-center">
+                <div>
                     <?= $pager->links('default', 'custom_bootstrap') ?>
                 </div>
             </div>
@@ -128,65 +102,45 @@
 
     <?php else : ?>
         <!-- No Results -->
-        <div class="text-center py-5">
-            <div class="mb-4">
-                <i class="fas fa-search fa-4x text-muted mb-3"></i>
+        <div class="text-center py-20 bg-white rounded-[3rem] border border-slate-200 shadow-sm px-8 max-w-4xl mx-auto">
+            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200">
+                <i class="fas fa-search-minus text-5xl"></i>
             </div>
-            <h3 class="text-muted mb-3">Tidak ada hasil ditemukan</h3>
-            <p class="text-muted mb-4">
-                <?php if (!empty($query)) : ?>
-                    Tidak ada berita yang sesuai dengan pencarian "<strong><?= esc($query) ?></strong>".
-                <?php else : ?>
-                    Silakan masukkan kata kunci pencarian.
-                <?php endif; ?>
+            <h3 class="text-3xl font-black text-slate-900 mb-4 tracking-tight">Data Tidak Ditemukan</h3>
+            <p class="text-slate-500 mb-12 max-w-xl mx-auto leading-relaxed">
+                Mohon maaf, sistem tidak menemukan informasi yang sesuai dengan kata kunci <span class="text-blue-800 font-black italic">"<?= esc($query) ?>"</span>. Silakan gunakan kata kunci yang lebih spesifik atau umum.
             </p>
-            <div class="d-flex gap-3 justify-content-center flex-wrap mb-5">
-                <a href="<?= base_url('/') ?>" class="btn btn-primary btn-lg px-4 rounded-pill shadow-sm">
-                    <i class="fas fa-home me-2"></i>Kembali ke Beranda
+            
+            <div class="flex flex-wrap gap-4 justify-center mb-16">
+                <a href="<?= base_url('/') ?>" class="inline-flex items-center px-8 py-4 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
+                    <i class="fas fa-home mr-3 text-base"></i>Beranda Utama
                 </a>
-                <a href="<?= base_url('categories') ?>" class="btn btn-outline-primary btn-lg px-4 rounded-pill shadow-sm">
-                    <i class="fas fa-folder me-2"></i>Lihat Semua Kategori
-                </a>
-                <a href="<?= base_url('tags') ?>" class="btn btn-outline-primary btn-lg px-4 rounded-pill shadow-sm">
-                    <i class="fas fa-tags me-2"></i>Lihat Semua Tag
+                <a href="<?= base_url('categories') ?>" class="inline-flex items-center px-8 py-4 bg-slate-100 text-slate-700 font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-slate-200 transition-all border border-slate-200">
+                    <i class="fas fa-folder mr-3 text-base"></i>Indeks Kategori
                 </a>
             </div>
 
             <!-- Search Tips -->
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="card border-0 shadow rounded-4 bg-light">
-                        <div class="card-body p-5">
-                            <h6 class="fw-bold mb-4 text-dark text-center">
-                                <i class="fas fa-lightbulb text-primary me-2"></i>Tips Pencarian:
-                            </h6>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-center text-muted">
-                                        <i class="fas fa-check text-primary me-3 fa-lg"></i>
-                                        <span>Gunakan kata kunci yang lebih umum</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-center text-muted">
-                                        <i class="fas fa-check text-primary me-3 fa-lg"></i>
-                                        <span>Coba kata kunci yang berbeda</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-center text-muted">
-                                        <i class="fas fa-check text-primary me-3 fa-lg"></i>
-                                        <span>Periksa ejaan kata kunci</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-center text-muted">
-                                        <i class="fas fa-check text-primary me-3 fa-lg"></i>
-                                        <span>Jelajahi kategori atau tag terkait</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="max-w-3xl mx-auto bg-slate-50 rounded-[2rem] p-10 border border-slate-100 text-left">
+                <h4 class="text-xs font-black text-slate-900 uppercase tracking-[0.3em] mb-8 flex items-center">
+                    <i class="fas fa-lightbulb text-yellow-500 mr-3 text-lg"></i> Panduan Optimasi Pencarian
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-blue-100 text-blue-800 p-1.5 rounded-lg flex-shrink-0 mt-0.5"><i class="fas fa-check text-[10px]"></i></div>
+                        <p class="text-slate-600 text-sm font-medium leading-relaxed">Gunakan kata kunci yang lebih umum untuk cakupan informasi yang lebih luas.</p>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-blue-100 text-blue-800 p-1.5 rounded-lg flex-shrink-0 mt-0.5"><i class="fas fa-check text-[10px]"></i></div>
+                        <p class="text-slate-600 text-sm font-medium leading-relaxed">Pastikan ejaan kata kunci sudah benar sesuai dengan KBBI atau istilah teknis.</p>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-blue-100 text-blue-800 p-1.5 rounded-lg flex-shrink-0 mt-0.5"><i class="fas fa-check text-[10px]"></i></div>
+                        <p class="text-slate-600 text-sm font-medium leading-relaxed">Coba gunakan variasi kata lain atau sinonim yang berkaitan dengan topik berita.</p>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-blue-100 text-blue-800 p-1.5 rounded-lg flex-shrink-0 mt-0.5"><i class="fas fa-check text-[10px]"></i></div>
+                        <p class="text-slate-600 text-sm font-medium leading-relaxed">Gunakan menu Kategori jika anda ingin mencari berita berdasarkan topik khusus.</p>
                     </div>
                 </div>
             </div>

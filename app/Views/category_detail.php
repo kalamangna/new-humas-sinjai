@@ -2,113 +2,99 @@
 
 <?= $this->section('content') ?>
 
-<div class="container">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <!-- Header Section -->
-    <div class="row mb-5">
-        <div class="col-12 text-center">
-            <nav aria-label="breadcrumb" class="my-4">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="<?= base_url('/') ?>" class="text-decoration-none">
-                            <i class="fas fa-home me-2"></i>Beranda
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="<?= base_url('categories') ?>" class="text-decoration-none">Kategori</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page"><?= esc($category['name'] ?? 'Kategori') ?></li>
-                </ol>
-            </nav>
+    <div class="mb-16">
+        <nav class="flex mb-10" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
+                <li class="inline-flex items-center">
+                    <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
+                        <i class="fas fa-home mr-2 text-blue-800"></i>Beranda
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                        <a href="<?= base_url('categories') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">Kategori</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                        <span class="text-slate-400 truncate max-w-[150px]"><?= esc($category['name'] ?? 'Detail') ?></span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
 
-            <h1 class="fw-bold display-5 mb-3">
-                <i class="fas fa-folder text-primary me-3"></i>Kategori: <?= esc($category['name'] ?? '') ?>
+        <div class="text-center">
+            <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Arsip Berita</p>
+            <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight">
+                <i class="fas fa-folder-open text-blue-800 mr-5 opacity-20"></i><?= esc($category['name'] ?? 'Kategori') ?>
             </h1>
             <?php if (!empty($category['description'])) : ?>
-                <p class="lead text-muted"><?= esc($category['description']) ?></p>
+                <p class="mt-6 text-lg text-slate-600 max-w-2xl mx-auto font-medium"><?= esc($category['description']) ?></p>
             <?php endif; ?>
-            <div class="border-bottom border-primary mx-auto" style="width: 100px;"></div>
+            <div class="mt-8 w-24 h-2 bg-blue-800 mx-auto rounded-full"></div>
         </div>
     </div>
 
     <!-- Posts Grid -->
     <?php if (!empty($posts)) : ?>
-        <div class="row g-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             <?php foreach ($posts as $post) : ?>
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow border-0 rounded-4 overflow-hidden">
-                        <div class="position-relative">
-                            <a href="<?= base_url('post/' . esc($post['slug'])) ?>">
-                                <?php if (!empty($post['thumbnail'])) : ?>
-                                    <img src="<?= esc($post['thumbnail']) ?>" class="card-img-top" alt="<?= esc($post['title']) ?>" style="height: 200px; object-fit: cover;">
-                                <?php else : ?>
-                                    <div class="card-img-top bg-gradient-primary d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);">
-                                        <i class="fas fa-newspaper text-white fa-3x"></i>
-                                    </div>
-                                <?php endif; ?>
-                            </a>
-
-                            <!-- Category Badge -->
-                            <?php if (!empty($post['categories'])) : ?>
-                                <div class="position-absolute top-0 start-0 m-3">
-                                    <?php foreach ($post['categories'] as $category) : ?>
-                                        <a href="<?= base_url('category/' . esc($category['slug'])) ?>" class="badge bg-primary text-decoration-none me-1 shadow-sm">
-                                            <?= esc($category['name']) ?>
-                                        </a>
-                                    <?php endforeach; ?>
+                <article class="group bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col border border-slate-200">
+                    <!-- Image -->
+                    <div class="relative h-60 overflow-hidden">
+                        <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="block h-full">
+                            <?php if (!empty($post['thumbnail'])) : ?>
+                                <img src="<?= esc($post['thumbnail']) ?>" alt="<?= esc($post['title']) ?>" 
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <?php else: ?>
+                                <div class="w-full h-full bg-slate-50 flex items-center justify-center">
+                                    <i class="fas fa-newspaper text-slate-200 text-6xl"></i>
                                 </div>
                             <?php endif; ?>
-                        </div>
+                        </a>
+                    </div>
 
-                        <div class="card-body d-flex flex-column p-4">
-                            <h5 class="card-title fw-bold mb-3">
-                                <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="text-decoration-none text-dark stretched-link">
-                                    <?= esc($post['title']) ?>
-                                </a>
-                            </h5>
-                            <p class="card-text text-muted flex-grow-1 mb-4">
-                                <?= word_limiter(strip_tags($post['content']), 20) ?>
-                            </p>
+                    <!-- Content -->
+                    <div class="p-8 flex flex-col flex-1">
+                        <h3 class="text-xl font-bold text-slate-900 mb-4 line-clamp-2 leading-tight group-hover:text-blue-800 transition-colors tracking-tight">
+                            <a href="<?= base_url('post/' . esc($post['slug'])) ?>">
+                                <?= esc($post['title']) ?>
+                            </a>
+                        </h3>
+                        
+                        <p class="text-slate-600 text-sm mb-8 line-clamp-3 leading-relaxed">
+                            <?= word_limiter(strip_tags($post['content']), 22) ?>
+                        </p>
 
-                            <div class="mt-auto pt-3 border-top">
-                                <div class="d-flex justify-content-between align-items-center text-muted small">
-                                    <span class="d-flex align-items-center">
-                                        <i class="fas fa-calendar-alt me-2"></i>
-                                        <?php
-                                        // Use published_at as primary date, fallback to created_at
-                                        $dateField = '';
-                                        if (isset($post['published_at']) && !empty($post['published_at'])) {
-                                            $dateField = $post['published_at'];
-                                        } elseif (isset($post['created_at']) && !empty($post['created_at'])) {
-                                            $dateField = $post['created_at'];
-                                        } else {
-                                            $dateField = date('Y-m-d'); // fallback to current date
-                                        }
-                                        echo format_date($dateField, 'date_only');
-                                        ?>
-                                    </span>
-                                    <span class="d-flex align-items-center">
-                                        <i class="fas fa-user-edit me-2"></i>
-                                        <?= esc($post['author_name'] ?? 'Admin') ?>
-                                    </span>
-                                </div>
-                            </div>
+                        <div class="mt-auto pt-5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-bold uppercase tracking-wider">
+                            <span class="flex items-center">
+                                <i class="far fa-calendar-alt mr-2 text-blue-700"></i>
+                                <?php
+                                    $dateField = $post['published_at'] ?: ($post['created_at'] ?: date('Y-m-d'));
+                                    echo format_date($dateField, 'date_only');
+                                ?>
+                            </span>
+                            <span class="flex items-center">
+                                <i class="far fa-user mr-2 text-blue-700"></i>
+                                <?= esc($post['author_name'] ?? 'Admin') ?>
+                            </span>
                         </div>
                     </div>
-                </div>
+                </article>
             <?php endforeach; ?>
         </div>
 
         <!-- Pagination -->
         <?php if (isset($pager) && $pager->getPageCount() > 1) : ?>
-            <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center justify-content-lg-between mt-5 pt-4">
-                <div class="text-muted small mb-2 mb-lg-0">
-                    <?php
-                    $from = ($pager->getCurrentPage() - 1) * $pager->getPerPage() + 1;
-                    $to = $from + count($posts) - 1;
-                    ?>
-                    Menampilkan <?= $from ?>-<?= $to ?> dari <?= $pager->getTotal() ?> berita
+            <div class="mt-20 flex flex-col md:flex-row items-center justify-between border-t-2 border-slate-100 pt-12">
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 md:mb-0">
+                    Menampilkan <span class="text-slate-900"><?= number_format($from) ?>-<?= number_format($to) ?></span> dari <span class="text-blue-800"><?= number_format($pager->getTotal()) ?></span> berita
                 </div>
-                <div class="d-flex align-items-center">
+                <div>
                     <?= $pager->links('default', 'custom_bootstrap') ?>
                 </div>
             </div>
@@ -116,15 +102,20 @@
 
     <?php else : ?>
         <!-- Empty State -->
-        <div class="text-center py-5">
-            <div class="mb-4">
-                <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+        <div class="text-center py-24 bg-white rounded-[3rem] border border-slate-200 shadow-sm px-8 max-w-2xl mx-auto">
+            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200">
+                <i class="fas fa-inbox text-5xl"></i>
             </div>
-            <h3 class="text-muted mb-3">Belum ada berita</h3>
-            <p class="text-muted mb-4">Tidak ada berita dalam kategori <?= esc($category['name'] ?? 'ini') ?>.</p>
-            <a href="<?= base_url('/') ?>" class="btn btn-primary btn-lg px-4 rounded-pill shadow-sm">
-                <i class="fas fa-arrow-left me-2"></i>Kembali ke Beranda
-            </a>
+            <h3 class="text-3xl font-black text-slate-900 mb-4 tracking-tight">Tidak Ada Berita</h3>
+            <p class="text-slate-500 mb-12 leading-relaxed">Saat ini belum tersedia arsip berita untuk klasifikasi informasi ini. Silakan jelajahi kategori lainnya atau kembali ke beranda.</p>
+            <div class="flex flex-wrap gap-4 justify-center">
+                <a href="<?= base_url('/') ?>" class="inline-flex items-center px-8 py-4 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
+                    <i class="fas fa-arrow-left mr-3 text-base"></i>Beranda Utama
+                </a>
+                <a href="<?= base_url('categories') ?>" class="inline-flex items-center px-8 py-4 bg-slate-100 text-slate-700 font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-slate-200 transition-all border border-slate-200">
+                    <i class="fas fa-list mr-3 text-base"></i>Semua Kategori
+                </a>
+            </div>
         </div>
     <?php endif; ?>
 </div>

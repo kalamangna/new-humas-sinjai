@@ -3,225 +3,174 @@
 <?= $this->section('page_title') ?>Dashboard<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<button class="btn btn-outline-primary btn-sm" onclick="window.location.reload()">
-    <i class="fas fa-sync-alt me-2"></i>Refresh
+<button class="inline-flex items-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors shadow-sm" onclick="window.location.reload()">
+    <i class="fas fa-sync-alt mr-2 text-blue-600"></i>Refresh
 </button>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
-<!-- Stats Cards -->
-<div class="row g-3 mb-5">
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <?php $isAdmin = session()->get('role') === 'admin'; ?>
+    
     <!-- Posts Card -->
-    <div class="<?= $isAdmin ? 'col-xl-3' : 'col-xl-4' ?> col-md-6">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body p-4">
-                <div class="d-flex align-items-center">
-                    <div class="p-3 rounded-3 bg-primary me-3">
-                        <i class="fas fa-newspaper text-white fs-4"></i>
-                    </div>
-                    <div class="flex-grow-1">
-                        <h3 class="fw-bold text-dark mb-1"><?= $postCount ?? '0' ?></h3>
-                        <p class="text-muted mb-0">Total Berita</p>
-                    </div>
-                </div>
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
+        <div class="flex items-center mb-4">
+            <div class="p-3 bg-blue-50 rounded-xl text-blue-600">
+                <i class="fas fa-newspaper text-xl"></i>
             </div>
-            <div class="card-footer bg-transparent border-0 pb-3 px-4">
-                <a href="<?= base_url('admin/posts') ?>" class="btn btn-outline-primary btn-sm w-100">
-                    <i class="fas fa-eye me-2"></i>Lihat Semua
-                </a>
+            <div class="ml-4">
+                <h3 class="text-2xl font-bold text-slate-900"><?= $postCount ?? '0' ?></h3>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Berita</p>
             </div>
         </div>
+        <a href="<?= base_url('admin/posts') ?>" class="mt-auto pt-4 border-t border-slate-50 text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center">
+            LIHAT SEMUA <i class="fas fa-chevron-right ml-1"></i>
+        </a>
     </div>
 
     <!-- Categories Card -->
-    <div class="<?= $isAdmin ? 'col-xl-3' : 'col-xl-4' ?> col-md-6">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body p-4">
-                <div class="d-flex align-items-center">
-                    <div class="p-3 rounded-3 bg-success me-3">
-                        <i class="fas fa-folder text-white fs-4"></i>
-                    </div>
-                    <div class="flex-grow-1">
-                        <h3 class="fw-bold text-dark mb-0"><?= $categoryCount ?? '0' ?></h3>
-                        <p class="text-muted mb-0">Total Kategori</p>
-                    </div>
-                </div>
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
+        <div class="flex items-center mb-4">
+            <div class="p-3 bg-emerald-50 rounded-xl text-emerald-600">
+                <i class="fas fa-folder text-xl"></i>
             </div>
-            <div class="card-footer bg-transparent border-0 pb-3 px-4">
-                <a href="<?= base_url('admin/categories') ?>" class="btn btn-outline-success btn-sm w-100">
-                    <i class="fas fa-eye me-2"></i>Lihat Semua
-                </a>
+            <div class="ml-4">
+                <h3 class="text-2xl font-bold text-slate-900"><?= $categoryCount ?? '0' ?></h3>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Kategori</p>
             </div>
         </div>
+        <a href="<?= base_url('admin/categories') ?>" class="mt-auto pt-4 border-t border-slate-50 text-xs font-bold text-emerald-600 hover:text-emerald-800 flex items-center">
+            LIHAT SEMUA <i class="fas fa-chevron-right ml-1"></i>
+        </a>
     </div>
 
     <!-- Tags Card -->
-    <div class="<?= $isAdmin ? 'col-xl-3' : 'col-xl-4' ?> col-md-6">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body p-4">
-                <div class="d-flex align-items-center">
-                    <div class="p-3 rounded-3 bg-info me-3">
-                        <i class="fas fa-tags text-white fs-4"></i>
-                    </div>
-                    <div class="flex-grow-1">
-                        <h3 class="fw-bold text-dark mb-0"><?= $tagCount ?? '0' ?></h3>
-                        <p class="text-muted mb-0">Total Tag</p>
-                    </div>
-                </div>
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
+        <div class="flex items-center mb-4">
+            <div class="p-3 bg-purple-50 rounded-xl text-purple-600">
+                <i class="fas fa-tags text-xl"></i>
             </div>
-            <div class="card-footer bg-transparent border-0 pb-3 px-4">
-                <a href="<?= base_url('admin/tags') ?>" class="btn btn-outline-info btn-sm w-100">
-                    <i class="fas fa-eye me-2"></i>Lihat Semua
-                </a>
+            <div class="ml-4">
+                <h3 class="text-2xl font-bold text-slate-900"><?= $tagCount ?? '0' ?></h3>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Tags</p>
             </div>
         </div>
+        <a href="<?= base_url('admin/tags') ?>" class="mt-auto pt-4 border-t border-slate-50 text-xs font-bold text-purple-600 hover:text-purple-800 flex items-center">
+            LIHAT SEMUA <i class="fas fa-chevron-right ml-1"></i>
+        </a>
     </div>
 
     <?php if ($isAdmin) : ?>
         <!-- Users Card -->
-        <div class="col-xl-3 col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center">
-                        <div class="p-3 rounded-3 bg-warning me-3">
-                            <i class="fas fa-users text-white fs-4"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <h3 class="fw-bold text-dark mb-0"><?= $userCount ?? '0' ?></h3>
-                            <p class="text-muted mb-0">Total Pengguna</p>
-                        </div>
-                    </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
+            <div class="flex items-center mb-4">
+                <div class="p-3 bg-orange-50 rounded-xl text-orange-600">
+                    <i class="fas fa-users text-xl"></i>
                 </div>
-                <div class="card-footer bg-transparent border-0 pb-3 px-4">
-                    <a href="<?= base_url('admin/users') ?>" class="btn btn-outline-warning btn-sm w-100">
-                        <i class="fas fa-eye me-2"></i>Lihat Semua
-                    </a>
+                <div class="ml-4">
+                    <h3 class="text-2xl font-bold text-slate-900"><?= $userCount ?? '0' ?></h3>
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Pengguna</p>
                 </div>
             </div>
+            <a href="<?= base_url('admin/users') ?>" class="mt-auto pt-4 border-t border-slate-50 text-xs font-bold text-orange-600 hover:text-orange-800 flex items-center">
+                LIHAT SEMUA <i class="fas fa-chevron-right ml-1"></i>
+            </a>
         </div>
     <?php endif; ?>
 </div>
 
 <!-- Quick Actions -->
-<div class="row mb-5">
-    <div class="col-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-transparent border-bottom py-4">
-                <h5 class="fw-bold text-dark mb-0">
-                    <i class="fas fa-bolt me-3"></i>Aksi Cepat
-                </h5>
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    <?php $isAdmin = session()->get('role') === 'admin'; ?>
-                    <div class="<?= $isAdmin ? 'col-lg-3' : 'col-lg-4' ?> col-6">
-                        <a href="<?= base_url('admin/posts/new') ?>" class="btn btn-primary w-100 d-flex flex-column align-items-center py-3 text-white text-decoration-none">
-                            <i class="fas fa-plus-circle fs-2 mb-2"></i>
-                            <span>Tambah Berita</span>
-                            <small class="text-light opacity-75 mt-1">Berita baru</small>
-                        </a>
-                    </div>
-                    <div class="<?= $isAdmin ? 'col-lg-3' : 'col-lg-4' ?> col-6">
-                        <a href="<?= base_url('admin/categories/new') ?>" class="btn btn-success w-100 d-flex flex-column align-items-center py-3 text-white text-decoration-none">
-                            <i class="fas fa-folder-plus fs-2 mb-2"></i>
-                            <span>Tambah Kategori</span>
-                            <small class="text-light opacity-75 mt-1">Kategori baru</small>
-                        </a>
-                    </div>
-                    <div class="<?= $isAdmin ? 'col-lg-3' : 'col-lg-4' ?> col-6">
-                        <a href="<?= base_url('admin/tags/new') ?>" class="btn btn-info w-100 d-flex flex-column align-items-center py-3 text-white text-decoration-none">
-                            <i class="fas fa-tag fs-2 mb-2"></i>
-                            <span>Tambah Tag</span>
-                            <small class="text-light opacity-75 mt-1">Tag baru</small>
-                        </a>
-                    </div>
-                    <?php if ($isAdmin) : ?>
-                        <div class="col-lg-3 col-6">
-                            <a href="<?= base_url('admin/users/new') ?>" class="btn btn-warning w-100 d-flex flex-column align-items-center py-3 text-white text-decoration-none">
-                                <i class="fas fa-user-plus fs-2 mb-2"></i>
-                                <span>Tambah Pengguna</span>
-                                <small class="text-light opacity-75 mt-1">Pengguna baru</small>
-                            </a>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-8">
+    <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
+        <h3 class="font-bold text-slate-900 flex items-center">
+            <i class="fas fa-bolt mr-3 text-yellow-500"></i>Aksi Cepat
+        </h3>
+    </div>
+    <div class="p-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <a href="<?= base_url('admin/posts/new') ?>" class="flex flex-col items-center justify-center p-6 bg-blue-600 rounded-xl text-white hover:bg-blue-700 transition-all group">
+                <i class="fas fa-plus-circle text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
+                <span class="font-bold text-sm">Berita Baru</span>
+            </a>
+            <a href="<?= base_url('admin/categories/new') ?>" class="flex flex-col items-center justify-center p-6 bg-emerald-600 rounded-xl text-white hover:bg-emerald-700 transition-all group">
+                <i class="fas fa-folder-plus text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
+                <span class="font-bold text-sm">Kategori Baru</span>
+            </a>
+            <a href="<?= base_url('admin/tags/new') ?>" class="flex flex-col items-center justify-center p-6 bg-purple-600 rounded-xl text-white hover:bg-purple-700 transition-all group">
+                <i class="fas fa-tag text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
+                <span class="font-bold text-sm">Tag Baru</span>
+            </a>
+            <?php if ($isAdmin) : ?>
+                <a href="<?= base_url('admin/users/new') ?>" class="flex flex-col items-center justify-center p-6 bg-orange-600 rounded-xl text-white hover:bg-orange-700 transition-all group">
+                    <i class="fas fa-user-plus text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-bold text-sm">User Baru</span>
+                </a>
+            <?php endif; ?>
         </div>
     </div>
 </div>
 
-<!-- Popular and Recent Posts -->
-<div class="row g-3 mb-5">
+<!-- Data Tables -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
     <!-- Popular Posts -->
-    <div class="col-lg-6">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-header bg-transparent border-bottom py-4">
-                <h5 class="fw-bold text-dark mb-0">
-                    <i class="fas fa-fire me-3"></i>Berita Terpopuler
-                </h5>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="border-0 ps-4 py-3 fw-semibold text-dark">Judul</th>
-                                <th class="border-0 pe-4 py-3 fw-semibold text-dark text-end">Dilihat</th>
-                            </tr>
-                        </thead>
-                        <tbody id="popular-posts-data" class="border-top-0">
-                            <tr class="border-bottom">
-                                <td colspan="2" class="text-center py-5">
-                                    <div class="spinner-border text-primary mb-3" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                    <p class="text-muted mb-0">Memuat data...</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+            <h3 class="font-bold text-slate-900 flex items-center">
+                <i class="fas fa-fire mr-3 text-orange-500"></i>Terpopuler
+            </h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead class="bg-slate-50 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    <tr>
+                        <th class="px-6 py-3">Judul Berita</th>
+                        <th class="px-6 py-3 text-right">Views</th>
+                    </tr>
+                </thead>
+                <tbody id="popular-posts-data" class="divide-y divide-slate-100">
+                    <tr>
+                        <td colspan="2" class="px-6 py-12 text-center">
+                            <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-600 border-t-transparent"></div>
+                            <p class="mt-4 text-slate-500 text-sm">Memuat data...</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <!-- Recent Posts -->
-    <div class="col-lg-6">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-header bg-transparent border-bottom py-4">
-                <h5 class="fw-bold text-dark mb-0">
-                    <i class="fas fa-history me-3"></i>Berita Terbaru
-                </h5>
-            </div>
-            <div class="card-body p-0">
-                <?php if (!empty($recentPosts)) : ?>
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th class="border-0 ps-4 py-3 fw-semibold text-dark">Judul</th>
-                                    <th class="border-0 pe-4 py-3 fw-semibold text-dark">Tanggal</th>
-                                </tr>
-                            </thead>
-                            <tbody class="border-top-0">
-                                <?php foreach ($recentPosts as $post) : ?>
-                                    <tr class="border-bottom">
-                                        <td class="ps-4 py-3"><?= esc($post['title']) ?></td>
-                                        <td class="pe-4 py-3"><?= format_date($post['published_at']) ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                <?php else : ?>
-                    <div class="text-center py-5">
-                        <i class="fas fa-inbox fa-2x text-muted mb-3"></i>
-                        <p class="text-muted mb-0">Belum ada berita.</p>
-                    </div>
-                <?php endif; ?>
-            </div>
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+            <h3 class="font-bold text-slate-900 flex items-center">
+                <i class="fas fa-history mr-3 text-blue-600"></i>Terbaru
+            </h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead class="bg-slate-50 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    <tr>
+                        <th class="px-6 py-3">Judul Berita</th>
+                        <th class="px-6 py-3">Tanggal</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    <?php if (!empty($recentPosts)) : ?>
+                        <?php foreach ($recentPosts as $post) : ?>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4 text-sm font-medium text-slate-700 truncate max-w-xs"><?= esc($post['title']) ?></td>
+                                <td class="px-6 py-4 text-sm text-slate-500 whitespace-nowrap"><?= format_date($post['published_at']) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <tr>
+                            <td colspan="2" class="px-6 py-12 text-center text-slate-500">Belum ada berita.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -234,26 +183,22 @@
             .then(response => response.json())
             .then(data => {
                 popularPostsData.innerHTML = '';
+                if (data.length === 0) {
+                    popularPostsData.innerHTML = '<tr><td colspan="2" class="px-6 py-8 text-center text-slate-500">Tidak ada data.</td></tr>';
+                    return;
+                }
                 data.forEach(item => {
                     const row = document.createElement('tr');
-                    row.className = 'border-bottom';
+                    row.className = 'hover:bg-slate-50 transition-colors';
                     row.innerHTML = `
-                        <td class="ps-4 py-3">${item.title}</td>
-                        <td class="pe-4 py-3 text-end">${item.views}</td>
+                        <td class="px-6 py-4 text-sm font-medium text-slate-700 truncate max-w-xs">${item.title}</td>
+                        <td class="px-6 py-4 text-sm text-orange-600 font-bold text-right">${item.views.toLocaleString()}</td>
                     `;
                     popularPostsData.appendChild(row);
                 });
             })
             .catch(error => {
-                console.error('Error fetching popular posts:', error);
-                popularPostsData.innerHTML = `
-                    <tr class="border-bottom">
-                        <td colspan="2" class="text-center py-5 text-muted">
-                            <i class="fas fa-exclamation-circle fs-1 mb-3"></i>
-                            <p>Gagal memuat data.</p>
-                        </td>
-                    </tr>
-                `;
+                popularPostsData.innerHTML = '<tr><td colspan="2" class="px-6 py-8 text-center text-red-500 font-medium italic">Gagal memuat data analitik.</td></tr>';
             });
     });
 </script>

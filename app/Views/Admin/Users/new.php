@@ -1,10 +1,10 @@
-<?= $this->extend('layout/admin') ?>
+<?= $this->extend('Layouts/admin') ?>
 
 <?= $this->section('page_title') ?>Tambah Akun Baru<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/users') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
-    <i class="fas fa-arrow-left mr-2"></i>Kembali
+    <i class="fas fa-fw fa-arrow-left mr-2"></i>Kembali
 </a>
 <?= $this->endSection() ?>
 
@@ -14,7 +14,7 @@
     <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
         <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
             <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4">
-                <i class="fas fa-user-plus text-sm"></i>
+                <i class="fas fa-fw fa-user-plus text-sm"></i>
             </div>
             <div>
                 <h2 class="text-lg font-black text-slate-900 tracking-tight">Akun Pengguna Baru</h2>
@@ -63,7 +63,7 @@
                         Batal
                     </a>
                     <button type="submit" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
-                        <i class="fas fa-save mr-2 text-sm"></i>Simpan Pengguna
+                        <i class="fas fa-fw fa-save mr-2 text-sm"></i>Simpan Pengguna
                     </button>
                 </div>
             </form>

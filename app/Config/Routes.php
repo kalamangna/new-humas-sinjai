@@ -5,57 +5,68 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
 
+// Frontend Routes
+$routes->get('/', 'Frontend\Home::index');
+$routes->get('posts', 'Frontend\Home::posts');
+$routes->get('post/(:segment)', 'Frontend\Home::post/$1');
+$routes->get('category/(:segment)', 'Frontend\Home::category/$1');
+$routes->get('tag/(:segment)', 'Frontend\Home::tag/$1');
+$routes->get('tags', 'Frontend\Home::tags');
+$routes->get('about', 'Frontend\Page::about');
+$routes->get('contact', 'Frontend\Page::contact');
+$routes->get('widget', 'Frontend\Page::widget');
+$routes->get('search', 'Frontend\Home::search');
+$routes->get('profil/(:segment)', 'Frontend\Page::profile/$1');
+$routes->get('categories', 'Frontend\Home::categories');
+$routes->get('rss', 'Frontend\Home::rss');
+$routes->get('sitemap.xml', 'Frontend\Home::sitemap');
+$routes->get('program-prioritas', 'Frontend\Home::programPrioritas');
 
-// Auth routes
+// Auth Routes
 $routes->get('login', 'Auth\Login::index');
 $routes->post('login', 'Auth\Login::attemptLogin');
 $routes->get('logout', 'Auth\Login::logout');
+$routes->get('auth/login', 'Auth\Login::index');
+$routes->post('auth/login', 'Auth\Login::login');
 
+// API Routes
+$routes->group('api', static function ($routes) {
+    $routes->post('tags/suggest', 'Api\TagSuggestion::suggest');
+    
+    // Analytics API
+    $routes->group('analytics', static function ($routes) {
+        $routes->get('overview', 'Admin\Analytics::overview');
+        $routes->get('top-pages', 'Admin\Analytics::topPages');
+        $routes->get('traffic-sources', 'Admin\Analytics::trafficSources');
+        $routes->get('geo', 'Admin\Analytics::geo');
+        $routes->get('device-category', 'Admin\Analytics::deviceCategory');
+        $routes->get('popular-posts', 'Admin\Analytics::popularPosts');
+        $routes->get('monthly-post-stats', 'Admin\Analytics::monthlyPostStats');
+        $routes->get('monthly-user-stats', 'Admin\Analytics::monthlyUserStats');
+    });
+});
 
-
-$routes->get('posts', 'Home::posts');
-$routes->get('post/(:segment)', 'Home::post/$1');
-$routes->get('category/(:segment)', 'Home::category/$1');
-$routes->get('tag/(:segment)', 'Home::tag/$1');
-$routes->get('tags', 'Home::tags');
-$routes->get('about', 'Page::about');
-$routes->get('contact', 'Page::contact');
-$routes->get('widget', 'Page::widget');
-$routes->get('search', 'Home::search');
-$routes->get('profil/(:segment)', 'Page::profile/$1');
-
-$routes->get('categories', 'Home::categories');
-$routes->get('rss', 'Home::rss');
-$routes->get('sitemap.xml', 'Home::sitemap');
-$routes->get('program-prioritas', 'Home::programPrioritas');
-
-$routes->post('api/tags/suggest', 'Api\TagSuggestion::suggest');
-
-$routes->get('api/analytics/overview', 'Admin\\Analytics::overview');
-$routes->get('api/analytics/top-pages', 'Admin\\Analytics::topPages');
-$routes->get('api/analytics/traffic-sources', 'Admin\\Analytics::trafficSources');
-$routes->get('api/analytics/geo', 'Admin\\Analytics::geo');
-$routes->get('api/analytics/device-category', 'Admin\\Analytics::deviceCategory');
-
-$routes->get('api/analytics/popular-posts', 'Admin\\Analytics::popularPosts');
-$routes->get('api/analytics/monthly-post-stats', 'Admin\\Analytics::monthlyPostStats');
-$routes->get('api/analytics/monthly-user-stats', 'Admin\\Analytics::monthlyUserStats');
-
-$routes->get('auth/login', 'Auth\\Login::index');
-$routes->post('auth/login', 'Auth\\Login::login');
-
+// Admin Dashboard Routes
 $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
-    $routes->get('analytics/overview', 'Admin\\Analytics::overviewView');
-    $routes->get('analytics/top-pages', 'Admin\\Analytics::topPagesView');
-    $routes->get('analytics/traffic-sources', 'Admin\\Analytics::trafficSourcesView');
-    $routes->get('analytics/geo', 'Admin\\Analytics::geoView');
-    $routes->get('analytics/device-category', 'Admin\\Analytics::deviceCategoryView');
-    $routes->get('analytics/monthly-report/(:num)/(:num)', 'Admin\\Analytics::monthlyReport/$1/$2');
-    $routes->get('analytics/monthly-report', 'Admin\\Analytics::monthlyReport');
-    $routes->get('analytics/download-monthly-report/(:num)/(:num)', 'Admin\\Analytics::downloadMonthlyReportPdf/$1/$2');
     $routes->get('/', 'Admin\Dashboard::index');
+    $routes->get('profile', 'Admin\Users::profile');
+    $routes->get('settings', 'Admin\Users::settings');
+    $routes->post('users/update_settings', 'Admin\Users::update_settings');
+    
+    // Admin Analytics
+    $routes->group('analytics', static function ($routes) {
+        $routes->get('overview', 'Admin\Analytics::overviewView');
+        $routes->get('top-pages', 'Admin\Analytics::topPagesView');
+        $routes->get('traffic-sources', 'Admin\Analytics::trafficSourcesView');
+        $routes->get('geo', 'Admin\Analytics::geoView');
+        $routes->get('device-category', 'Admin\Analytics::deviceCategoryView');
+        $routes->get('monthly-report/(:num)/(:num)', 'Admin\Analytics::monthlyReport/$1/$2');
+        $routes->get('monthly-report', 'Admin\Analytics::monthlyReport');
+        $routes->get('download-monthly-report/(:num)/(:num)', 'Admin\Analytics::downloadMonthlyReportPdf/$1/$2');
+    });
+
+    // Resources
     $routes->resource('posts', ['controller' => 'Admin\Posts']);
     $routes->post('posts/upload_image', 'Admin\Posts::upload_image');
     $routes->resource('categories', ['controller' => 'Admin\Categories']);
@@ -63,10 +74,7 @@ $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
     $routes->resource('profiles', ['controller' => 'Admin\Profiles']);
     $routes->resource('carousel', ['controller' => 'Admin\Carousel', 'except' => 'show']);
     $routes->resource('users', ['controller' => 'Admin\Users', 'placeholder' => '(:num)', 'filter' => 'admin']);
-    $routes->get('profile', 'Admin\Users::profile');
-    $routes->get('settings', 'Admin\Users::settings');
-    $routes->post('users/update_settings', 'Admin\Users::update_settings');
 });
 
 // Custom 404 page for the frontend
-$routes->set404Override('App\Controllers\Home::error404');
+$routes->set404Override('App\Controllers\Frontend\Home::error404');

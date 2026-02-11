@@ -2,16 +2,24 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\ProfileModel;
+use App\Services\Content\ProfileService;
+use App\Services\Media\MediaService;
 
 class Profiles extends BaseController
 {
+    protected $profileService;
+    protected $mediaService;
+
+    public function __construct()
+    {
+        $this->profileService = new ProfileService();
+        $this->mediaService = new MediaService();
+    }
+
     public function index()
     {
-        $profileModel = new ProfileModel();
-
         $data = [
-            'profiles' => $profileModel->orderBy('order', 'ASC')->orderBy('created_at', 'DESC')->findAll(),
+            'profiles' => $this->profileService->getAllProfiles(),
         ];
 
         return $this->render('Admin/Profiles/index', $data);
@@ -24,117 +32,20 @@ class Profiles extends BaseController
 
     public function create()
     {
-        $validationRules = [
-            'name'     => 'permit_empty|max_length[255]',
-            'type'     => 'required|in_list[bupati,wakil-bupati,sekda,forkopimda,eselon-ii,eselon-iii,eselon-iv,kepala-desa]',
-        ];
+        if (!$this->validate($this->getValidationRules())) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
 
         $selectedType = $this->request->getPost('type');
         $isTableType = in_array($selectedType, ['forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa']);
 
-        if (!$isTableType && empty($this->request->getPost('pasted_image')) && $this->request->getFile('image')->getName() !== '') {
-            $validationRules['image'] = 'uploaded[image]|max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png,image/webp]';
-        }
-
-        if (! $this->validate($validationRules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-
-        $profileModel = new ProfileModel();
-
-        // Handle file upload
-        $imageName = null;
-        $pastedImage = $this->request->getPost('pasted_image');
-
-        if (!empty($pastedImage)) {
-            list($type, $data) = explode(';', $pastedImage);
-            list(, $data)      = explode(',', $data);
-            $data = base64_decode($data);
-            $tempPath = WRITEPATH . 'uploads/' . uniqid() . '.webp';
-            file_put_contents($tempPath, $data);
-            $processedImagePath = processImage($tempPath, false); // Assuming processImage helper exists as used in Posts
-            $imageName = uniqid() . '.webp';
-            rename($processedImagePath, FCPATH . 'uploads/profiles/' . $imageName);
-            $imageName = base_url('uploads/profiles/' . $imageName);
-        } else {
-            $file = $this->request->getFile('image');
-            if ($file && $file->isValid() && ! $file->hasMoved()) {
-                // Ensure directory exists
-                if (!is_dir(FCPATH . 'uploads/profiles')) {
-                    mkdir(FCPATH . 'uploads/profiles', 0755, true);
-                }
-                
-                $processedImagePath = processImage($file->getRealPath(), false);
-                $imageName = uniqid() . '.webp';
-                rename($processedImagePath, FCPATH . 'uploads/profiles/' . $imageName);
-                $imageName = base_url('uploads/profiles/' . $imageName);
-            }
-        }
-
-        $name = $this->request->getPost('name');
-        $position = $this->request->getPost('position');
-        
-        $slugSource = $name ?: ($position ?: $selectedType);
-        $slug = url_title($slugSource, '-', true);
-        
-        // Ensure unique slug
-        if (empty($slug) || $profileModel->where('slug', $slug)->first()) {
-            $slug = ($slug ?: 'profile') . '-' . uniqid();
-        }
-
-        $data = [
-            'name'        => $name,
-            'slug'        => $slug,
-            'position'    => $position,
-            'institution' => $this->request->getPost('institution'),
-            'type'        => $this->request->getPost('type'),
-            'bio'         => $this->request->getPost('bio'),
-            'image'       => $imageName,
-            'order'       => $this->request->getPost('order') ? (int)$this->request->getPost('order') : 0,
-        ];
-
-        if ($profileModel->save($data)) {
-            return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil dibuat.');
-        }
-
-        return redirect()->back()->withInput()->with('errors', $profileModel->errors());
-    }
-
-    public function edit($id = null)
-    {
-        $profileModel = new ProfileModel();
-        $data['profile'] = $profileModel->find($id);
-
-        if (empty($data['profile'])) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the profile: ' . $id);
-        }
-
-        return $this->render('Admin/Profiles/edit', $data);
-    }
-
-    public function update($id = null)
-    {
-        $profileModel = new ProfileModel();
-        $profile = $profileModel->find($id);
-
-        if (empty($profile)) {
-            return redirect()->back()->with('error', 'Profile not found.');
-        }
-
-        $validationRules = [
-            'name'     => 'permit_empty|max_length[255]',
-            'type'     => 'required|in_list[bupati,wakil-bupati,sekda,forkopimda,eselon-ii,eselon-iii,eselon-iv,kepala-desa]',
-        ];
-
-        $selectedType = $this->request->getPost('type');
-        $isTableType = in_array($selectedType, ['forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa']);
-
-        if (!$isTableType && empty($this->request->getPost('pasted_image')) && $this->request->getFile('image')->getName() !== '') {
-            $validationRules['image'] = 'uploaded[image]|max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png,image/webp]';
-        }
-
-        if (! $this->validate($validationRules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        $image = null;
+        if (!$isTableType) {
+            $image = $this->mediaService->saveImage(
+                $this->request->getPost('pasted_image') ?: $this->request->getFile('image'),
+                'profiles',
+                false // fit = false for profiles
+            );
         }
 
         $data = [
@@ -143,60 +54,91 @@ class Profiles extends BaseController
             'institution' => $this->request->getPost('institution'),
             'type'        => $this->request->getPost('type'),
             'bio'         => $this->request->getPost('bio'),
-            'order'       => $this->request->getPost('order') ? (int)$this->request->getPost('order') : 0,
+            'image'       => $image,
+            'order'       => (int)($this->request->getPost('order') ?? 0),
         ];
 
-        // Handle file upload
-        $pastedImage = $this->request->getPost('pasted_image');
-        if (!empty($pastedImage)) {
-             // Delete old image if it exists
-             if (! empty($profile['image']) && file_exists(FCPATH . ltrim(parse_url($profile['image'], PHP_URL_PATH), '/'))) {
-                unlink(FCPATH . ltrim(parse_url($profile['image'], PHP_URL_PATH), '/'));
-            }
+        if ($this->profileService->createProfile($data)) {
+            return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil dibuat.');
+        }
 
-            list($type, $imgData) = explode(';', $pastedImage);
-            list(, $imgData)      = explode(',', $imgData);
-            $imgData = base64_decode($imgData);
-            $tempPath = WRITEPATH . 'uploads/' . uniqid() . '.webp';
-            file_put_contents($tempPath, $imgData);
-            $processedImagePath = processImage($tempPath, false);
-            $imageName = uniqid() . '.webp';
-            rename($processedImagePath, FCPATH . 'uploads/profiles/' . $imageName);
-            $data['image'] = base_url('uploads/profiles/' . $imageName);
-        } else {
-            $file = $this->request->getFile('image');
-            if ($file && $file->isValid() && ! $file->hasMoved()) {
-                // Delete old image if it exists
-                if (! empty($profile['image']) && file_exists(FCPATH . ltrim(parse_url($profile['image'], PHP_URL_PATH), '/'))) {
-                    unlink(FCPATH . ltrim(parse_url($profile['image'], PHP_URL_PATH), '/'));
-                }
+        return redirect()->back()->withInput()->with('error', 'Failed to save profile.');
+    }
 
-                // Ensure directory exists
-                if (!is_dir(FCPATH . 'uploads/profiles')) {
-                    mkdir(FCPATH . 'uploads/profiles', 0755, true);
-                }
+    public function edit($id = null)
+    {
+        $profile = $this->profileService->getProfileById((int)$id);
+        if (!$profile) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the profile: ' . $id);
+        }
 
-                $processedImagePath = processImage($file->getRealPath(), false);
-                $imageName = uniqid() . '.webp';
-                rename($processedImagePath, FCPATH . 'uploads/profiles/' . $imageName);
-                $data['image'] = base_url('uploads/profiles/' . $imageName);
+        return $this->render('Admin/Profiles/edit', ['profile' => $profile]);
+    }
+
+    public function update($id = null)
+    {
+        $profile = $this->profileService->getProfileById((int)$id);
+        if (!$profile) {
+            return redirect()->back()->with('error', 'Profile not found.');
+        }
+
+        if (!$this->validate($this->getValidationRules(true))) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $selectedType = $this->request->getPost('type');
+        $isTableType = in_array($selectedType, ['forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa']);
+
+        $image = $profile['image'];
+        if (!$isTableType) {
+            $newImageSource = $this->request->getPost('pasted_image') ?: $this->request->getFile('image');
+            if ($newImageSource && ($newImageSource instanceof \CodeIgniter\HTTP\FileUpload ? $newImageSource->getName() !== '' : true)) {
+                $this->mediaService->deleteImage($profile['image']);
+                $image = $this->mediaService->saveImage($newImageSource, 'profiles', false);
             }
         }
 
-        if ($profileModel->update($id, $data)) {
+        $data = [
+            'name'        => $this->request->getPost('name'),
+            'position'    => $this->request->getPost('position'),
+            'institution' => $this->request->getPost('institution'),
+            'type'        => $this->request->getPost('type'),
+            'bio'         => $this->request->getPost('bio'),
+            'image'       => $image,
+            'order'       => (int)($this->request->getPost('order') ?? 0),
+        ];
+
+        if ($this->profileService->updateProfile((int)$id, $data)) {
             return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil diperbarui.');
         }
 
-        return redirect()->back()->withInput()->with('errors', $profileModel->errors());
+        return redirect()->back()->withInput()->with('error', 'Failed to update profile.');
     }
 
     public function delete($id = null)
     {
-        $profileModel = new ProfileModel();
-        if ($profileModel->delete($id)) {
+        $profile = $this->profileService->getProfileById((int)$id);
+        if ($profile && $this->profileService->deleteProfile((int)$id)) {
+            $this->mediaService->deleteImage($profile['image']);
             return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil dihapus.');
         }
-
         return redirect()->to(base_url('admin/profiles'))->with('error', 'Error deleting profile.');
+    }
+
+    protected function getValidationRules(bool $isUpdate = false): array
+    {
+        $rules = [
+            'name' => 'permit_empty|max_length[255]',
+            'type' => 'required|in_list[bupati,wakil-bupati,sekda,forkopimda,eselon-ii,eselon-iii,eselon-iv,kepala-desa]',
+        ];
+
+        $selectedType = $this->request->getPost('type');
+        $isTableType = in_array($selectedType, ['forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa']);
+
+        if (!$isUpdate && !$isTableType && empty($this->request->getPost('pasted_image'))) {
+            $rules['image'] = 'uploaded[image]|max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png,image/webp]';
+        }
+
+        return $rules;
     }
 }

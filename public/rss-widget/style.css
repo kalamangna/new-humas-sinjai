@@ -1,85 +1,88 @@
 /* ======================================================
-   Widget Berita Humas Sinjai
+   Widget Berita Humas Sinjai - Modern Standard
 ====================================================== */
 
+:root {
+  --hs-primary: #1e3a8a;
+  --hs-primary-dark: #172554;
+  --hs-slate-50: #f8fafc;
+  --hs-slate-100: #f1f5f9;
+  --hs-slate-200: #e2e8f0;
+  --hs-slate-400: #94a3b8;
+  --hs-slate-500: #64748b;
+  --hs-slate-600: #475569;
+  --hs-slate-900: #0f172a;
+}
+
 .humas-sinjai-widget {
-  border-radius: 8px;
-  border: 0.5px solid #1e3c72;
-  padding: 10px;
+  border-radius: 1.5rem;
+  border: 1px solid var(--hs-slate-200);
+  padding: 1.25rem;
   max-width: 100%;
-  background: #fff;
-  color: #222;
-  font-family: system-ui, sans-serif;
+  background: #ffffff;
+  color: var(--hs-slate-900);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
 }
 
 .humas-sinjai-title {
-  background: #1e3c72;
-  color: #fff;
-  padding: 8px;
-  border-radius: 6px;
-  text-align: center;
-  margin-bottom: 10px;
-  font-size: 14px;
-  font-weight: 600;
+  background: var(--hs-primary);
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px; /* jarak antara logo dan teks */
+  gap: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.2);
+}
+
+.humas-sinjai-title i {
+  opacity: 0.5;
 }
 
 .humas-sinjai-widget ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.humas-sinjai-widget li {
-  border-bottom: 1px solid #eee;
-  padding-bottom: 6px;
-  margin-bottom: 8px;
-}
-
-/* ======================================================
-   Link & Footer
-====================================================== */
-.humas-sinjai-widget a {
-  font-weight: 600;
-  color: #1e3c72;
-  text-decoration: none;
-}
-
-.humas-sinjai-widget a:hover {
-  text-decoration: underline;
-}
-
-.humas-sinjai-footer {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 12px;
-  color: #666;
-}
-
-/* ======================================================
-   Thumbnail Sebelah Kiri (Layout Horizontal)
-====================================================== */
 .humas-sinjai-item {
   display: flex;
-  align-items: flex-start;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 8px;
-  margin-bottom: 8px;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 1rem;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: inherit;
 }
 
-.humas-sinjai-item > *:not(:last-child) {
-  margin-right: 10px; /* pengganti gap */
+.humas-sinjai-item:hover {
+  background: var(--hs-slate-50);
+  border-color: var(--hs-slate-100);
+  transform: translateX(4px);
 }
 
 .humas-sinjai-thumb-wrapper {
   flex-shrink: 0;
-  width: 80px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 0.75rem;
+  background: var(--hs-slate-100);
+  border: 1px solid var(--hs-slate-200);
 }
 
 .humas-sinjai-thumb {
@@ -87,77 +90,128 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.5s ease;
+}
+
+.humas-sinjai-item:hover .humas-sinjai-thumb {
+  transform: scale(1.1);
 }
 
 .humas-sinjai-content {
   flex: 1;
+  min-width: 0;
 }
 
-.humas-sinjai-content a {
+.humas-sinjai-content-title {
   display: block;
   margin: 0;
   padding: 0;
-  line-height: 1.3;
-  font-size: 14px;
-  font-weight: 600;
-  color: #1e3c72;
-  text-decoration: none;
+  line-height: 1.4;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--hs-slate-900);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  transition: color 0.2s ease;
 }
 
-.humas-sinjai-content a:hover {
-  text-decoration: underline;
+.humas-sinjai-item:hover .humas-sinjai-content-title {
+  color: var(--hs-primary);
 }
 
 .humas-sinjai-content small {
-  display: block;
-  color: #777;
-  font-size: 13px;
-  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--hs-slate-500);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  margin-top: 0.375rem;
 }
 
 .humas-sinjai-footer {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 12px;
-  color: #666;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--hs-slate-100);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 4px;
+  justify-content: space-between;
 }
 
 .humas-sinjai-footer-logo {
-  height: 30px;
+  height: 24px;
   width: auto;
   object-fit: contain;
 }
 
+.humas-sinjai-footer a {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--hs-slate-400);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: color 0.2s ease;
+}
+
+.humas-sinjai-footer a:hover {
+  color: var(--hs-primary);
+}
+
 /* ======================================================
-   Dark Mode
+   Dark Theme Variant
 ====================================================== */
 .humas-sinjai-widget.humas-sinjai-dark {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  color: #fff;
-  border: 0;
+  background: var(--hs-slate-900);
+  border-color: #1e293b;
+  color: #f1f5f9;
 }
 
 .humas-sinjai-widget.humas-sinjai-dark .humas-sinjai-title {
-  background: #fff;
-  color: #1e3c72;
+  background: #ffffff;
+  color: var(--hs-primary);
 }
 
-.humas-sinjai-widget.humas-sinjai-dark a {
-  color: #fff;
+.humas-sinjai-widget.humas-sinjai-dark .humas-sinjai-item:hover {
+  background: #1e293b;
+  border-color: #334155;
 }
 
-.humas-sinjai-widget.humas-sinjai-dark .humas-sinjai-footer {
-  color: #fff;
+.humas-sinjai-widget.humas-sinjai-dark .humas-sinjai-content-title {
+  color: #f1f5f9;
 }
 
-.humas-sinjai-widget.humas-sinjai-dark .humas-sinjai-content a {
-  color: #fff;
+.humas-sinjai-widget.humas-sinjai-dark .humas-sinjai-item:hover .humas-sinjai-content-title {
+  color: #60a5fa;
 }
 
 .humas-sinjai-widget.humas-sinjai-dark .humas-sinjai-content small {
-  color: #ddd;
+  color: var(--hs-slate-400);
+}
+
+.humas-sinjai-widget.humas-sinjai-dark .humas-sinjai-footer {
+  border-top-color: #1e293b;
+}
+
+.humas-sinjai-widget.humas-sinjai-dark .humas-sinjai-footer a {
+  color: var(--hs-slate-500);
+}
+
+.humas-sinjai-widget.humas-sinjai-dark .humas-sinjai-footer a:hover {
+  color: #ffffff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .humas-sinjai-widget {
+    padding: 1rem;
+  }
+  .humas-sinjai-thumb-wrapper {
+    width: 56px;
+    height: 56px;
+  }
 }

@@ -1,10 +1,10 @@
-<?= $this->extend('layout/admin') ?>
+<?= $this->extend('Layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Manajemen Slider<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Media Banner Beranda<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/carousel/new') ?>" class="inline-flex items-center px-4 py-2 bg-blue-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
-    <i class="fas fa-plus-circle mr-2"></i>Tambah Slide
+    <i class="fas fa-fw fa-plus-circle mr-2"></i>Tambah Gambar
 </a>
 <?= $this->endSection() ?>
 
@@ -15,12 +15,12 @@
         <table class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <th class="px-8 py-5">Urutan</th>
+                    <th class="px-8 py-5">Urutan Tampil</th>
                     <th class="px-8 py-5">Pratinjau Visual</th>
                     <th class="px-8 py-5 text-right">Aksi</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100">
+            <tbody id="carousel-data" class="divide-y divide-slate-100 whitespace-nowrap">
                 <?php if (!empty($slides)): ?>
                     <?php foreach ($slides as $slide): ?>
                         <tr class="hover:bg-slate-50 transition-colors group">
@@ -32,15 +32,15 @@
                                     <img src="<?= esc($slide['image_path']) ?>" class="w-full h-full object-cover">
                                 </div>
                             </td>
-                            <td class="px-8 py-6 text-right space-x-1 whitespace-nowrap">
-                                <a href="<?= base_url('admin/carousel/' . $slide['id'] . '/edit') ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all">
-                                    <i class="fas fa-edit"></i>
+                            <td class="px-8 py-6 text-right space-x-1 whitespace-nowrap w-1">
+                                <a href="<?= base_url('admin/carousel/' . $slide['id'] . '/edit') ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
+                                    <i class="fas fa-fw fa-edit"></i>
                                 </a>
                                 <form action="<?= base_url('admin/carousel/' . $slide['id']) ?>" method="post" class="inline">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <?= csrf_field() ?>
-                                    <button type="submit" class="p-2 bg-slate-100 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all" onclick="return confirm('Hapus slide ini?')">
-                                        <i class="fas fa-trash"></i>
+                                    <button type="submit" class="p-2 bg-slate-100 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm" onclick="return confirm('Hapus gambar banner ini?')">
+                                        <i class="fas fa-fw fa-trash"></i>
                                     </button>
                                 </form>
                             </td>
@@ -50,9 +50,9 @@
                     <tr>
                         <td colspan="3" class="px-8 py-24 text-center">
                             <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-200">
-                                <i class="fas fa-images text-2xl"></i>
+                                <i class="fas fa-fw fa-images text-2xl"></i>
                             </div>
-                            <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tidak ada slide tersedia</p>
+                            <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tidak ada banner tersedia</p>
                         </td>
                     </tr>
                 <?php endif; ?>

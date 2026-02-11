@@ -2,105 +2,73 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\CategoryModel;
+use App\Services\Content\CategoryService;
 
 class Categories extends BaseController
 {
-    protected $model;
+    protected $categoryService;
 
     public function __construct()
     {
-        $this->model = new CategoryModel();
+        $this->categoryService = new CategoryService();
     }
 
     public function index()
     {
-        $postModel = new \App\Models\PostModel(); // Need this for total posts
+        $filters = ['search' => $this->request->getGet('search')];
+        $result = $this->categoryService->getAdminCategories($filters);
 
-        // Get filters from request
-        $filters = [
-            'search'   => $this->request->getGet('search'),
-        ];
-
-        $builder = $this->model
-            ->select('categories.*, parent.name as parent_name, COUNT(post_categories.post_id) as post_count')
-            ->join('post_categories', 'post_categories.category_id = categories.id', 'left')
-            ->join('categories as parent', 'parent.id = categories.parent_id', 'left')
-            ->groupBy('categories.id');
-
-        if (!empty($filters['search'])) {
-            $builder->like('categories.name', $filters['search']);
-        }
-
-        $data = [
-            'categories'        => $builder->orderBy('categories.name', 'ASC')->paginate(10),
-            'pager'             => $this->model->pager,
+        $data = array_merge($result, [
             'filters'           => $filters,
-            'total_categories'  => $this->data['total_categories'], // Use data from BaseController
-            'active_categories' => $this->model->join('post_categories', 'post_categories.category_id = categories.id')->countAll(),
+            'total_categories'  => $this->data['total_categories'],
             'total_posts'       => $this->data['total_posts'],
-        ];
+        ]);
 
         return $this->render('Admin/Categories/index', $data);
     }
 
     public function new()
     {
-        $data['categories'] = $this->model->orderBy('name', 'ASC')->findAll();
+        $data['categories'] = $this->categoryService->getAllCategories();
         return $this->render('Admin/Categories/new', $data);
     }
 
     public function create()
     {
-        $parentId = $this->request->getPost('parent_id');
-
-        $data = [
-            'name' => $this->request->getPost('name'),
-            'slug' => url_title($this->request->getPost('name'), '-', true),
-            'parent_id' => empty($parentId) ? null : $parentId,
-        ];
-
-if ($this->model->save($data)) {
+        if ($this->categoryService->createCategory($this->request->getPost())) {
             return redirect()->to(base_url('admin/categories'))->with('success', 'Kategori berhasil dibuat.');
         }
-
-        return redirect()->back()->withInput()->with('errors', $this->model->errors());
+        return redirect()->back()->withInput()->with('errors', 'Failed to create category.');
     }
 
     public function edit($id = null)
     {
-        $data['category'] = $this->model->find($id);
-        $data['categories'] = $this->model->orderBy('name', 'ASC')->findAll();
-
-        if (empty($data['category'])) {
+        $category = (new \App\Models\CategoryModel())->find($id);
+        if (!$category) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the category: ' . $id);
         }
+
+        $data = [
+            'category'   => $category,
+            'categories' => $this->categoryService->getAllCategories()
+        ];
 
         return $this->render('Admin/Categories/edit', $data);
     }
 
     public function update($id = null)
-    { 
-        $parentId = $this->request->getPost('parent_id');
-        $data = [
-            'name' => $this->request->getPost('name'),
-            'slug' => url_title($this->request->getPost('name'), '-', true),
-            'parent_id' => empty($parentId) ? null : $parentId,
-        ];
-
-if ($this->model->update($id, $data)) {
+    {
+        if ($this->categoryService->updateCategory((int)$id, $this->request->getPost())) {
             return redirect()->to(base_url('admin/categories'))->with('success', 'Kategori berhasil diperbarui.');
         }
-
-        return redirect()->back()->withInput()->with('errors', $this->model->errors());
+        return redirect()->back()->withInput()->with('errors', 'Failed to update category.');
     }
 
     public function delete($id = null)
     {
-if ($this->model->delete($id)) {
+        if ($this->categoryService->deleteCategory((int)$id)) {
             return redirect()->to(base_url('admin/categories'))->with('success', 'Kategori berhasil dihapus.');
         }
-
         return redirect()->to(base_url('admin/categories'))->with('error', 'Error deleting category.');
     }
 }

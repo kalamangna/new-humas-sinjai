@@ -1,10 +1,10 @@
-<?= $this->extend('layout/admin') ?>
+<?= $this->extend('Layouts/admin') ?>
 
 <?= $this->section('page_title') ?>Sumber Kunjungan<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/analytics/overview') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
-    <i class="fas fa-arrow-left mr-2"></i>Kembali
+    <i class="fas fa-fw fa-arrow-left mr-2"></i>Kembali
 </a>
 <?= $this->endSection() ?>
 
@@ -18,19 +18,19 @@
 <div id="analytics-content" class="hidden">
     <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
         <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
-            <i class="fas fa-globe mr-3 text-emerald-600 opacity-50"></i>
-            <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">Analisa Sumber Lalu Lintas</h3>
+            <i class="fas fa-fw fa-globe mr-3 text-emerald-600 opacity-50"></i>
+            <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">ANALISIS SUMBER LALU LINTAS</h2>
         </div>
-        
+
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
                         <th class="px-8 py-5">Source (Sumber)</th>
-                        <th class="px-8 py-5">Medium</th>
-                        <th class="px-8 py-5">Sesi Aktif</th>
-                        <th class="px-8 py-5">Hits</th>
-                        <th class="px-8 py-5 text-right">Engagement</th>
+                        <th class="px-8 py-5 w-1 whitespace-nowrap">Medium</th>
+                        <th class="px-8 py-5 w-1 whitespace-nowrap">Sesi Aktif</th>
+                        <th class="px-8 py-5 w-1 whitespace-nowrap">Hits</th>
+                        <th class="px-8 py-5 text-right w-1 whitespace-nowrap">Engagement</th>
                     </tr>
                 </thead>
                 <tbody id="traffic-sources-data" class="divide-y divide-slate-100"></tbody>
@@ -56,16 +56,16 @@
                     row.innerHTML = `
                         <td class="px-8 py-6">
                             <div class="flex items-center">
-                                <div class="w-2 h-2 bg-emerald-500 rounded-full mr-4 opacity-40 group-hover:opacity-100 transition-opacity"></div>
-                                <span class="font-bold text-slate-900 tracking-tight uppercase text-xs">${item.sessionSource || 'Direct'}</span>
+                                <div class="w-2 h-2 bg-emerald-500 rounded-full mr-4 opacity-40 group-hover:opacity-100 transition-opacity flex-shrink-0"></div>
+                                <span class="font-bold text-slate-900 text-xs truncate max-w-[200px] inline-block">${item.sessionSource || 'Direct'}</span>
                             </div>
                         </td>
-                        <td class="px-8 py-6">
+                        <td class="px-8 py-6 w-1 whitespace-nowrap">
                             <span class="px-2 py-1 bg-slate-100 text-slate-500 text-[9px] font-black uppercase tracking-widest rounded border border-slate-200">${item.sessionMedium || 'None'}</span>
                         </td>
-                        <td class="px-8 py-6 text-sm font-bold text-slate-700">${parseInt(item.sessions).toLocaleString()}</td>
-                        <td class="px-8 py-6 text-sm font-bold text-slate-700">${parseInt(item.screenPageViews).toLocaleString()}</td>
-                        <td class="px-8 py-6 text-right">
+                        <td class="px-8 py-6 text-sm font-bold text-slate-700 w-1 whitespace-nowrap">${parseInt(item.sessions).toLocaleString()}</td>
+                        <td class="px-8 py-6 text-sm font-bold text-slate-700 w-1 whitespace-nowrap">${parseInt(item.screenPageViews).toLocaleString()}</td>
+                        <td class="px-8 py-6 text-right w-1 whitespace-nowrap">
                             <span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-black rounded-lg border border-emerald-100">
                                 ${parseInt(item.totalUsers).toLocaleString()} Users
                             </span>

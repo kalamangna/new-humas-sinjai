@@ -75,9 +75,9 @@ class GoogleAnalyticsModel extends Model
             return true;
         });
 
-        // only include path with /v2
+        // only include path with /v1
         $filteredData = array_filter($filteredData, function ($item) {
-            return str_starts_with($item['pagePath'], '/v2');
+            return str_starts_with($item['pagePath'], '/v1');
         });
 
         // Apply limit setelah filtering
@@ -159,9 +159,9 @@ class GoogleAnalyticsModel extends Model
             ];
         }, $data);
 
-        // Filter hanya post dengan path /v2/post/
+        // Filter hanya post dengan path /v1/post/
         $filteredData = array_filter($data, function ($item) {
-            return str_starts_with($item['path'], '/v2/post/');
+            return str_starts_with($item['path'], '/v1/post/');
         });
 
         // Limit 5 data teratas

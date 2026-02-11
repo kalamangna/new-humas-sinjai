@@ -1,4 +1,4 @@
-<?= $this->extend('layout/admin') ?>
+<?= $this->extend('Layouts/admin') ?>
 
 <?= $this->section('page_title') ?>Laporan Bulanan<?= $this->endSection() ?>
 
@@ -12,7 +12,7 @@
         <?php endforeach; ?>
     </select>
     <a href="<?= base_url("admin/analytics/download-monthly-report/{$year}/{$month}") ?>" id="download-pdf-btn" class="inline-flex items-center px-4 py-2 bg-rose-600 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-rose-700 transition-all shadow-lg shadow-rose-900/20">
-        <i class="fas fa-file-pdf mr-2" id="btn-icon"></i>
+        <i class="fas fa-fw fa-file-pdf mr-2" id="btn-icon"></i>
         <div id="loading-spinner" class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
         Download PDF
     </a>
@@ -76,7 +76,7 @@
                             </td>
                             <td class="px-8 py-6 text-right">
                                 <a href="<?= base_url('post/' . esc($post['slug'])) ?>" target="_blank" class="inline-flex items-center p-2 bg-slate-100 text-slate-400 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all shadow-sm">
-                                    <i class="fas fa-external-link-alt text-xs"></i>
+                                    <i class="fas fa-fw fa-external-link-alt text-xs"></i>
                                 </a>
                             </td>
                         </tr>
@@ -85,7 +85,7 @@
                     <tr>
                         <td colspan="5" class="px-8 py-24 text-center">
                             <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-200">
-                                <i class="fas fa-inbox text-3xl"></i>
+                                <i class="fas fa-fw fa-inbox text-3xl"></i>
                             </div>
                             <h4 class="text-sm font-black text-slate-400 uppercase tracking-widest">Data Tidak Ditemukan</h4>
                             <p class="text-xs text-slate-400 mt-2">Tidak ada aktivitas publikasi pada periode ini.</p>

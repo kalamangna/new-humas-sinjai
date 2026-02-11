@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Frontend;
 
 use App\Models\ProfileModel;
 
@@ -9,19 +9,19 @@ class Page extends BaseController
     public function about()
     {
         $data['title'] = 'Tentang';
-        return view('about', $data);
+        return view('Frontend/about', $data);
     }
 
     public function contact()
     {
         $data['title'] = 'Kontak';
-        return view('contact', $data);
+        return view('Frontend/contact', $data);
     }
 
     public function widget()
     {
         $data['title'] = 'Panduan Widget';
-        return view('widget_guide', $data);
+        return view('Frontend/widget_guide', $data);
     }
 
     public function profile($type)
@@ -37,7 +37,7 @@ class Page extends BaseController
              if ($profile) {
                  $data['title'] = $profile['name'] ?: ($profile['position'] ?: 'Profil');
                  $data['profile'] = $profile;
-                 return view('profile_detail', $data);
+                 return view('Frontend/profile_detail', $data);
              }
              throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
@@ -67,10 +67,10 @@ class Page extends BaseController
                 elseif ($official['type'] == 'kepala-desa') $data['groupedProfiles']['Kepala Desa'][] = $official;
             }
             
-            return view('profile_list', $data);
+            return view('Frontend/profile_list', $data);
         } else {
             $data['profile'] = $model->where('type', $type)->orderBy('order', 'ASC')->orderBy('created_at', 'DESC')->first();
-            return view('profile_detail', $data);
+            return view('Frontend/profile_detail', $data);
         }
     }
 }

@@ -2,37 +2,30 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\UserModel;
+use App\Services\Auth\UserService;
 
 class Users extends BaseController
 {
+    protected $userService;
+
+    public function __construct()
+    {
+        $this->userService = new UserService();
+    }
+
     public function index()
     {
-        $userModel = new UserModel();
+        $filters = ['search' => $this->request->getGet('search')];
+        $result = $this->userService->getAdminUsers($filters);
+        $stats = $this->userService->getUserStats();
 
-        // Get filters from request
-        $filters = [
-            'search'   => $this->request->getGet('search'),
-        ];
-
-        $builder = $userModel
-            ->select('users.*, COUNT(posts.id) as post_count')
-            ->join('posts', 'posts.user_id = users.id', 'left')
-            ->groupBy('users.id');
-
-        if (!empty($filters['search'])) {
-            $builder->like('users.name', $filters['search']);
-        }
-
-        $data = [
-            'users'          => $builder->orderBy('users.name', 'ASC')->paginate(10),
-            'pager'          => $userModel->pager,
-            'filters'        => $filters,
-            'total_users'    => $userModel->countAllResults(),
-            'admin_users'    => $userModel->where('role', 'admin')->countAllResults(),
-            'author_users'   => $userModel->where('role', 'author')->countAllResults(),
+        $data = array_merge($result, [
+            'filters'         => $filters,
+            'total_users'     => $stats['total'],
+            'admin_users'     => $stats['admin'],
+            'author_users'    => $stats['author'],
             'current_user_id' => session()->get('user_id'),
-        ];
+        ]);
 
         return $this->render('Admin/Users/index', $data);
     }
@@ -44,143 +37,88 @@ class Users extends BaseController
 
     public function create()
     {
-        $userModel = new UserModel();
-
-        $data = [
-            'name' => $this->request->getPost('name'),
-            'email' => $this->request->getPost('email'),
-            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'role' => $this->request->getPost('role'),
-        ];
-
-        if ($userModel->save($data)) {
+        if ($this->userService->createUser($this->request->getPost())) {
             return redirect()->to(base_url('admin/users'))->with('success', 'Pengguna berhasil dibuat.');
         }
-
-        return redirect()->back()->withInput()->with('errors', $userModel->errors());
+        return redirect()->back()->withInput()->with('errors', 'Failed to create user.');
     }
 
     public function show($id = null)
     {
-        $userModel = new UserModel();
-        $data['user'] = $userModel->find($id);
-
-        if (empty($data['user'])) {
+        $user = $this->userService->getUserById((int)$id);
+        if (!$user) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the user: ' . $id);
         }
-
-        return $this->render('Admin/Users/show', $data);
+        return $this->render('Admin/Users/show', ['user' => $user]);
     }
 
     public function edit($id = null)
     {
-        $userModel = new UserModel();
-        $data['user'] = $userModel->find($id);
-
-        if (empty($data['user'])) {
+        $user = $this->userService->getUserById((int)$id);
+        if (!$user) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the user: ' . $id);
         }
-
-        return $this->render('Admin/Users/edit', $data);
+        return $this->render('Admin/Users/edit', ['user' => $user]);
     }
 
     public function update($id = null)
     {
-        $userModel = new UserModel();
-        $data = [
-            'name' => $this->request->getPost('name'),
-            'email' => $this->request->getPost('email'),
-            'role' => $this->request->getPost('role'),
-        ];
-
-        if ($this->request->getPost('password')) {
-            $data['password'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
-        }
-
-        if ($userModel->update($id, $data)) {
+        if ($this->userService->updateUser((int)$id, $this->request->getPost())) {
             return redirect()->to(base_url('admin/users'))->with('success', 'Pengguna berhasil diperbarui.');
         }
-
-        return redirect()->back()->withInput()->with('errors', $userModel->errors());
+        return redirect()->back()->withInput()->with('errors', 'Failed to update user.');
     }
 
     public function delete($id = null)
     {
-        $userModel = new UserModel();
-        if ($userModel->delete($id)) {
+        if ($this->userService->deleteUser((int)$id)) {
             return redirect()->to(base_url('admin/users'))->with('success', 'Pengguna berhasil dihapus.');
         }
-
         return redirect()->to(base_url('admin/users'))->with('error', 'Error deleting user.');
     }
 
     public function profile()
     {
-        $userModel = new UserModel();
         $userId = session()->get('user_id');
-        $data['user'] = $userModel->find($userId);
-
-        if (empty($data['user'])) {
+        $user = $this->userService->getUserById((int)$userId);
+        if (!$user) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the user profile.');
         }
-
-        return $this->render('Admin/Users/profile', $data);
+        return $this->render('Admin/Users/profile', ['user' => $user]);
     }
 
     public function settings()
     {
-        $userModel = new UserModel();
         $userId = session()->get('user_id');
-        $data['user'] = $userModel->find($userId);
-
-        if (empty($data['user'])) {
+        $user = $this->userService->getUserById((int)$userId);
+        if (!$user) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find user settings.');
         }
-
-        return $this->render('Admin/Users/settings', $data);
+        return $this->render('Admin/Users/settings', ['user' => $user]);
     }
 
     public function update_settings()
     {
-        $userModel = new UserModel();
         $userId = $this->request->getPost('user_id');
-        $user = $userModel->find($userId);
-
-        if (empty($user)) {
-            return redirect()->back()->with('error', 'User not found.');
-        }
-
+        
         $validationRules = [
             'name'  => 'required|min_length[3]|max_length[255]',
             'email' => 'required|valid_email|is_unique[users.email,id,' . $userId . ']'
         ];
 
-        $password = $this->request->getPost('password');
-        $passwordConfirm = $this->request->getPost('password_confirm');
-
-        if (!empty($password)) {
+        if ($this->request->getPost('password')) {
             $validationRules['password'] = 'min_length[8]';
             $validationRules['password_confirm'] = 'matches[password]';
         }
 
-        if (! $this->validate($validationRules)) {
+        if (!$this->validate($validationRules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $userData = [
-            'name'  => $this->request->getPost('name'),
-            'email' => $this->request->getPost('email')
-        ];
-
-        if (!empty($password)) {
-            $userData['password'] = password_hash($password, PASSWORD_DEFAULT);
-        }
-
-        if ($userModel->update($userId, $userData)) {
-            // Update session data if current user's profile is updated
+        if ($this->userService->updateUser((int)$userId, $this->request->getPost())) {
             if (session()->get('user_id') == $userId) {
-                session()->set('name', $userData['name']);
-                session()->set('email', $userData['email']);
+                session()->set('name', $this->request->getPost('name'));
+                session()->set('email', $this->request->getPost('email'));
             }
             return redirect()->to(base_url('admin'))->with('message', 'Pengaturan profil berhasil diperbarui.');
         }

@@ -2,21 +2,24 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\CarouselSlideModel;
+use App\Services\Content\CarouselService;
+use App\Services\Media\MediaService;
 
 class Carousel extends BaseController
 {
-    protected $carouselSlideModel;
+    protected $carouselService;
+    protected $mediaService;
 
     public function __construct()
     {
-        $this->carouselSlideModel = new CarouselSlideModel();
+        $this->carouselService = new CarouselService();
+        $this->mediaService = new MediaService();
     }
 
     public function index()
     {
         $data = [
-            'slides' => $this->carouselSlideModel->orderBy('slide_order', 'ASC')->findAll(),
+            'slides' => $this->carouselService->getAllSlides(),
         ];
 
         return $this->render('Admin/Carousel/index', $data);
@@ -38,20 +41,11 @@ class Carousel extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $image = $this->request->getFile('image');
+        $imagePath = $this->mediaService->saveImage($this->request->getFile('image'), 'carousel', false);
 
-        if ($image->isValid() && !$image->hasMoved()) {
-            // Ensure directory exists
-            if (!is_dir(FCPATH . 'uploads/carousel')) {
-                mkdir(FCPATH . 'uploads/carousel', 0755, true);
-            }
-
-            $processedImagePath = processImage($image->getRealPath(), false);
-            $newName = uniqid() . '.webp';
-            rename($processedImagePath, FCPATH . 'uploads/carousel/' . $newName);
-
-            $this->carouselSlideModel->save([
-                'image_path' => base_url('uploads/carousel/' . $newName),
+        if ($imagePath) {
+            $this->carouselService->createSlide([
+                'image_path' => $imagePath,
                 'slide_order' => $this->request->getPost('slide_order'),
             ]);
 
@@ -61,16 +55,17 @@ class Carousel extends BaseController
         return redirect()->back()->withInput()->with('error', 'Gagal mengunggah gambar.');
     }
 
-    public function edit($id)
+    public function edit($id = null)
     {
-        $data = [
-            'slide' => $this->carouselSlideModel->find($id),
-        ];
+        $slide = $this->carouselService->getSlideById((int)$id);
+        if (!$slide) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the slide: ' . $id);
+        }
 
-        return $this->render('Admin/Carousel/edit', $data);
+        return $this->render('Admin/Carousel/edit', ['slide' => $slide]);
     }
 
-    public function update($id)
+    public function update($id = null)
     {
         $validationRules = [
             'image' => 'max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png,image/webp]',
@@ -81,51 +76,34 @@ class Carousel extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $slide = $this->carouselSlideModel->find($id);
-        $image = $this->request->getFile('image');
+        $slide = $this->carouselService->getSlideById((int)$id);
+        if (!$slide) {
+            return redirect()->back()->with('error', 'Slide not found.');
+        }
 
         $data = [
             'slide_order' => $this->request->getPost('slide_order'),
         ];
 
-        if ($image->isValid() && !$image->hasMoved()) {
-            // Ensure directory exists
-            if (!is_dir(FCPATH . 'uploads/carousel')) {
-                mkdir(FCPATH . 'uploads/carousel', 0755, true);
-            }
-
-            $processedImagePath = processImage($image->getRealPath(), false);
-            $newName = uniqid() . '.webp';
-            rename($processedImagePath, FCPATH . 'uploads/carousel/' . $newName);
-            $data['image_path'] = base_url('uploads/carousel/' . $newName);
-
-            // Delete old image
-            if ($slide && !empty($slide['image_path'])) {
-                $oldPath = FCPATH . ltrim(parse_url($slide['image_path'], PHP_URL_PATH), '/');
-                if (file_exists($oldPath)) {
-                    unlink($oldPath);
-                }
-            }
+        $newImage = $this->request->getFile('image');
+        if ($newImage && $newImage->isValid() && !$newImage->hasMoved()) {
+            $this->mediaService->deleteImage($slide['image_path']);
+            $data['image_path'] = $this->mediaService->saveImage($newImage, 'carousel', false);
         }
 
-        $this->carouselSlideModel->update($id, $data);
+        $this->carouselService->updateSlide((int)$id, $data);
 
         return redirect()->to(base_url('/admin/carousel'))->with('success', 'Slide berhasil diperbarui.');
     }
 
-    public function delete($id)
+    public function delete($id = null)
     {
-        $slide = $this->carouselSlideModel->find($id);
-
-        if ($slide && !empty($slide['image_path'])) {
-            $oldPath = FCPATH . ltrim(parse_url($slide['image_path'], PHP_URL_PATH), '/');
-            if (file_exists($oldPath)) {
-                unlink($oldPath);
-            }
+        $slide = $this->carouselService->getSlideById((int)$id);
+        if ($slide && $this->carouselService->deleteSlide((int)$id)) {
+            $this->mediaService->deleteImage($slide['image_path']);
+            return redirect()->to(base_url('/admin/carousel'))->with('success', 'Slide berhasil dihapus.');
         }
 
-        $this->carouselSlideModel->delete($id);
-
-        return redirect()->to(base_url('/admin/carousel'))->with('success', 'Slide berhasil dihapus.');
+        return redirect()->to(base_url('/admin/carousel'))->with('error', 'Error deleting slide.');
     }
 }

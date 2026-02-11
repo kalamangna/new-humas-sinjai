@@ -1,4 +1,4 @@
-<?= $this->extend('layout/admin') ?>
+<?= $this->extend('Layouts/admin') ?>
 
 <?= $this->section('page_title') ?>Ringkasan Analitik Situs<?= $this->endSection() ?>
 
@@ -6,7 +6,7 @@
 <div class="flex flex-col items-end">
     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Periode Laporan</span>
     <div class="inline-flex items-center px-3 py-1 bg-white border border-slate-200 rounded-lg shadow-sm">
-        <i class="far fa-calendar-alt text-blue-800 mr-2 text-xs"></i>
+        <i class="far fa-fw fa-calendar-alt text-blue-800 mr-2 text-xs"></i>
         <span class="text-xs font-bold text-slate-700">Semua Waktu (All-Time)</span>
     </div>
 </div>
@@ -20,7 +20,7 @@
     <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
         <div class="flex items-start justify-between">
             <div class="w-12 h-12 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center group-hover:bg-blue-800 group-hover:text-white transition-all">
-                <i class="fas fa-users text-xl"></i>
+                <i class="fas fa-fw fa-users text-xl"></i>
             </div>
             <div class="text-right">
                 <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="total-users">...</h3>
@@ -34,7 +34,7 @@
     <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
         <div class="flex items-start justify-between">
             <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all">
-                <i class="fas fa-user-plus text-xl"></i>
+                <i class="fas fa-fw fa-user-plus text-xl"></i>
             </div>
             <div class="text-right">
                 <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="new-users">...</h3>
@@ -48,7 +48,7 @@
     <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
         <div class="flex items-start justify-between">
             <div class="w-12 h-12 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center group-hover:bg-sky-600 group-hover:text-white transition-all">
-                <i class="fas fa-eye text-xl"></i>
+                <i class="fas fa-fw fa-eye text-xl"></i>
             </div>
             <div class="text-right">
                 <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="screen-page-views">...</h3>
@@ -62,7 +62,7 @@
     <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
         <div class="flex items-start justify-between">
             <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-all">
-                <i class="fas fa-chart-line text-xl"></i>
+                <i class="fas fa-fw fa-chart-line text-xl"></i>
             </div>
             <div class="text-right">
                 <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="sessions">...</h3>
@@ -76,7 +76,7 @@
     <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
         <div class="flex items-start justify-between">
             <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center group-hover:bg-rose-600 group-hover:text-white transition-all">
-                <i class="fas fa-chart-pie text-xl"></i>
+                <i class="fas fa-fw fa-chart-pie text-xl"></i>
             </div>
             <div class="text-right">
                 <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="bounce-rate">...</h3>
@@ -90,7 +90,7 @@
     <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
         <div class="flex items-start justify-between">
             <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all">
-                <i class="fas fa-clock text-xl"></i>
+                <i class="fas fa-fw fa-clock text-xl"></i>
             </div>
             <div class="text-right">
                 <h3 class="text-xl font-black text-slate-900 tracking-tight" id="average-session-duration">...</h3>
@@ -106,7 +106,7 @@
     <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
         <div class="flex items-center justify-between mb-10 border-b border-slate-50 pb-6">
             <h4 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
-                <i class="fas fa-chart-bar mr-3 text-blue-800"></i>Grafik Kunjungan Konten
+                <i class="fas fa-fw fa-chart-bar mr-3 text-blue-800"></i>Grafik Kunjungan Konten
             </h4>
             <a href="<?= base_url('admin/analytics/monthly-report') ?>" class="text-[10px] font-black text-blue-800 uppercase tracking-widest hover:underline">Detail Laporan</a>
         </div>
@@ -120,7 +120,7 @@
     <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
         <div class="flex items-center justify-between mb-10 border-b border-slate-50 pb-6">
             <h4 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
-                <i class="fas fa-user-friends mr-3 text-blue-800"></i>Tren Pertumbuhan User
+                <i class="fas fa-fw fa-user-friends mr-3 text-blue-800"></i>Tren Pertumbuhan User
             </h4>
         </div>
         <div id="monthly-user-chart-spinner" class="h-64 flex flex-col items-center justify-center space-y-4">
@@ -134,28 +134,28 @@
 <!-- Advanced Reports -->
 <div class="bg-slate-900 rounded-[3rem] p-10 md:p-16 border border-slate-800 shadow-2xl relative overflow-hidden">
     <div class="absolute top-0 right-0 p-16 text-white opacity-5">
-        <i class="fas fa-rocket text-9xl"></i>
+        <i class="fas fa-fw fa-rocket text-9xl"></i>
     </div>
     <div class="relative z-10">
-        <h4 class="text-xs font-black text-blue-500 uppercase tracking-[0.4em] mb-4">Analisa Strategis</h4>
+        <h4 class="text-xs font-black text-blue-500 uppercase tracking-[0.4em] mb-4">Analisis Strategis</h4>
         <h2 class="text-2xl md:text-4xl font-black text-white mb-12 tracking-tight">Modul Laporan Lanjutan</h2>
         
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <a href="<?= base_url('admin/analytics/top-pages') ?>" class="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-blue-800 transition-all text-center">
-                <i class="fas fa-file-alt text-3xl text-blue-500 group-hover:text-white mb-4 transition-colors"></i>
-                <p class="text-[10px] font-black text-white uppercase tracking-widest">Konten Populer</p>
+                <i class="fas fa-fw fa-file-alt text-3xl text-blue-500 group-hover:text-white mb-4 transition-colors"></i>
+                <p class="text-[10px] font-black text-white uppercase tracking-widest">Halaman Populer</p>
             </a>
             <a href="<?= base_url('admin/analytics/traffic-sources') ?>" class="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-emerald-600 transition-all text-center">
-                <i class="fas fa-globe text-3xl text-emerald-500 group-hover:text-white mb-4 transition-colors"></i>
-                <p class="text-[10px] font-black text-white uppercase tracking-widest">Sumber Trafik</p>
+                <i class="fas fa-fw fa-globe text-3xl text-emerald-500 group-hover:text-white mb-4 transition-colors"></i>
+                <p class="text-[10px] font-black text-white uppercase tracking-widest">Sumber Kunjungan</p>
             </a>
             <a href="<?= base_url('admin/analytics/geo') ?>" class="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-sky-600 transition-all text-center">
-                <i class="fas fa-map-marker-alt text-3xl text-sky-500 group-hover:text-white mb-4 transition-colors"></i>
+                <i class="fas fa-fw fa-map-marker-alt text-3xl text-sky-500 group-hover:text-white mb-4 transition-colors"></i>
                 <p class="text-[10px] font-black text-white uppercase tracking-widest">Sebaran Lokasi</p>
             </a>
             <a href="<?= base_url('admin/analytics/device-category') ?>" class="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-amber-500 transition-all text-center">
-                <i class="fas fa-desktop text-3xl text-amber-500 group-hover:text-white mb-4 transition-colors"></i>
-                <p class="text-[10px] font-black text-white uppercase tracking-widest">Device Stat</p>
+                <i class="fas fa-fw fa-desktop text-3xl text-amber-500 group-hover:text-white mb-4 transition-colors"></i>
+                <p class="text-[10px] font-black text-white uppercase tracking-widest">Statistik Perangkat</p>
             </a>
         </div>
     </div>

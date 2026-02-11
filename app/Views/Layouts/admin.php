@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-slate-100">
+<html lang="id" class="h-full bg-slate-100 dark:bg-slate-900 transition-colors duration-200">
 
 <head>
     <meta charset="UTF-8">
@@ -18,6 +18,13 @@
     <script src="<?= base_url('assets/tinymce/tinymce/tinymce.min.js') ?>" referrerpolicy="origin" crossorigin="anonymous"></script>
     
     <script>
+        // Initialize theme before page load to avoid flicker
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
         tinymce.init({
             selector: 'textarea#content, textarea#bio',
             plugins: 'code table lists image',
@@ -43,10 +50,10 @@
     </script>
 </head>
 
-<body class="h-full font-sans antialiased text-slate-900 bg-slate-100">
+<body class="h-full font-sans antialiased text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-200">
     <div class="min-h-screen flex overflow-hidden">
         <!-- Sidebar -->
-        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-300 transition-transform duration-300 transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0 border-r border-slate-800 flex-shrink-0">
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-300 transition-transform duration-300 transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0 border-r border-slate-800 flex-shrink-0 dark:bg-black dark:border-slate-900">
             <div class="flex flex-col h-full">
                 <!-- Brand -->
                 <div class="flex items-center justify-between h-20 px-6 bg-slate-950 border-b border-slate-800">
@@ -55,47 +62,47 @@
                         <img src="<?= base_url('humas.png') ?>" alt="Logo" class="h-10 w-auto">
                     </a>
                     <button id="close-sidebar" class="lg:hidden text-slate-500 hover:text-white">
-                        <i class="fas fa-times text-xl"></i>
+                        <i class="fas fa-fw fa-times text-xl"></i>
                     </button>
                 </div>
 
                 <!-- Navigation -->
                 <nav class="flex-1 px-4 py-8 space-y-1.5 overflow-y-auto">
                     <a href="<?= base_url('admin') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fas fa-tachometer-alt w-6 opacity-75"></i>
-                        <span class="ml-3 font-medium text-sm">Dashboard</span>
+                        <i class="fas fa-fw fa-tachometer-alt w-6 opacity-75"></i>
+                        <span class="ml-3 font-medium text-sm">Dasbor</span>
                     </a>
                     <a href="<?= base_url('admin/posts') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/posts*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fas fa-newspaper w-6 opacity-75"></i>
-                        <span class="ml-3 font-medium text-sm">Manajemen Berita</span>
+                        <i class="fas fa-fw fa-newspaper w-6 opacity-75"></i>
+                        <span class="ml-3 font-medium text-sm">Kelola Berita</span>
                     </a>
                     <a href="<?= base_url('admin/categories') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/categories*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fas fa-folder w-6 opacity-75"></i>
-                        <span class="ml-3 font-medium text-sm">Kategori</span>
+                        <i class="fas fa-fw fa-folder w-6 opacity-75"></i>
+                        <span class="ml-3 font-medium text-sm">Kelola Kategori</span>
                     </a>
                     <a href="<?= base_url('admin/tags') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/tags*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fas fa-tags w-6 opacity-75"></i>
-                        <span class="ml-3 font-medium text-sm">Label / Tag</span>
+                        <i class="fas fa-fw fa-tags w-6 opacity-75"></i>
+                        <span class="ml-3 font-medium text-sm">Kelola Label</span>
                     </a>
                     <a href="<?= base_url('admin/carousel') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/carousel*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fas fa-images w-6 opacity-75"></i>
-                        <span class="ml-3 font-medium text-sm">Slider Beranda</span>
+                        <i class="fas fa-fw fa-images w-6 opacity-75"></i>
+                        <span class="ml-3 font-medium text-sm">Media Banner</span>
                     </a>
                     <a href="<?= base_url('admin/profiles') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/profiles*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fas fa-user-tie w-6 opacity-75"></i>
+                        <i class="fas fa-fw fa-user-tie w-6 opacity-75"></i>
                         <span class="ml-3 font-medium text-sm">Profil Pejabat</span>
                     </a>
                     <a href="<?= base_url('admin/analytics/overview') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/analytics*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fas fa-chart-line w-6 opacity-75"></i>
+                        <i class="fas fa-fw fa-chart-line w-6 opacity-75"></i>
                         <span class="ml-3 font-medium text-sm">Analitik Situs</span>
                     </a>
                     
                     <?php if (session()->get('role') === 'admin') : ?>
                         <div class="pt-6 mt-6 border-t border-slate-800">
-                            <h3 class="px-4 mb-3 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Pengaturan Sistem</h3>
+                            <h3 class="px-4 mb-3 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Konfigurasi Sistem</h3>
                             <a href="<?= base_url('admin/users') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/users*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                                <i class="fas fa-users w-6 opacity-75"></i>
-                                <span class="ml-3 font-medium text-sm">Akun Pengguna</span>
+                                <i class="fas fa-fw fa-users w-6 opacity-75"></i>
+                                <span class="ml-3 font-medium text-sm">Manajemen Pengguna</span>
                             </a>
                         </div>
                     <?php endif; ?>
@@ -117,22 +124,26 @@
             <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-slate-900/60 hidden transition-opacity lg:hidden"></div>
 
             <!-- Topbar -->
-            <header class="flex items-center justify-between h-20 px-6 bg-white border-b border-slate-200 sticky top-0 z-30 flex-shrink-0">
+            <header class="flex items-center justify-between h-20 px-6 bg-white border-b border-slate-200 sticky top-0 z-30 flex-shrink-0 dark:bg-slate-900 dark:border-slate-800">
                 <div class="flex items-center">
                     <button id="open-sidebar" class="text-slate-500 hover:text-slate-900 lg:hidden p-2 mr-4">
-                        <i class="fas fa-bars text-xl"></i>
+                        <i class="fas fa-fw fa-bars text-xl"></i>
                     </button>
                     <div>
-                        <h1 class="text-lg font-bold text-slate-800 leading-none truncate max-w-[200px] sm:max-w-md">
-                            <?= $this->renderSection('page_title') ?? 'Dashboard' ?>
+                        <h1 class="text-lg font-bold text-slate-800 leading-none truncate max-w-[200px] sm:max-w-md dark:text-slate-200">
+                            <?= $this->renderSection('page_title') ?? 'Dasbor' ?>
                         </h1>
-                        <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mt-1">Humas Sinjai Official Admin</p>
+                        <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mt-1 dark:text-slate-400">Administrator Humas Sinjai</p>
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-3 sm:space-x-6">
-                    <a href="<?= base_url('/') ?>" target="_blank" class="hidden sm:flex items-center px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors">
-                        <i class="fas fa-external-link-alt mr-2"></i>Kunjungi Situs
+                    <button id="theme-toggle" type="button" class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none rounded-lg p-2.5 transition-colors">
+                        <i id="theme-toggle-dark-icon" class="hidden fas fa-moon"></i>
+                        <i id="theme-toggle-light-icon" class="hidden fas fa-sun"></i>
+                    </button>
+                    <a href="<?= base_url('/') ?>" target="_blank" class="hidden sm:flex items-center px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                        <i class="fas fa-fw fa-external-link-alt mr-2"></i>Kunjungi Situs
                     </a>
 
                     <!-- User Dropdown -->
@@ -142,23 +153,23 @@
                                 <?= substr(session()->get('name') ?? 'A', 0, 1) ?>
                             </div>
                             <div class="hidden md:block text-left">
-                                <p class="text-xs font-bold text-slate-900 leading-none"><?= session()->get('name') ?? 'Administrator' ?></p>
-                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mt-1"><?= ucfirst(session()->get('role') ?? 'staff') ?></p>
+                                <p class="text-xs font-bold text-slate-900 leading-none dark:text-slate-200"><?= session()->get('name') ?? 'Administrator' ?></p>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mt-1 dark:text-slate-400"><?= ucfirst(session()->get('role') ?? 'staf') ?></p>
                             </div>
-                            <i class="fas fa-chevron-down text-[10px] text-slate-400"></i>
+                            <i class="fas fa-fw fa-chevron-down text-[10px] text-slate-400"></i>
                         </button>
                         <!-- Dropdown Menu -->
-                        <div class="absolute right-0 w-56 mt-0 bg-white rounded-xl shadow-2xl ring-1 ring-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-1 transition-all duration-200 z-50">
+                        <div class="absolute right-0 w-56 mt-0 bg-white rounded-xl shadow-2xl ring-1 ring-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-1 transition-all duration-200 z-50 dark:bg-slate-800 dark:ring-slate-700">
                             <div class="py-2">
-                                <a href="<?= base_url('admin/profile') ?>" class="flex items-center px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">
-                                    <i class="fas fa-user-circle w-5 text-slate-400"></i>Profil Saya
+                                <a href="<?= base_url('admin/profile') ?>" class="flex items-center px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-700/50">
+                                    <i class="fas fa-fw fa-user-circle w-5 text-slate-400"></i>Profil Saya
                                 </a>
-                                <a href="<?= base_url('admin/settings') ?>" class="flex items-center px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">
-                                    <i class="fas fa-cog w-5 text-slate-400"></i>Pengaturan
+                                <a href="<?= base_url('admin/settings') ?>" class="flex items-center px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-700/50">
+                                    <i class="fas fa-fw fa-cog w-5 text-slate-400"></i>Pengaturan Akun
                                 </a>
-                                <div class="border-t border-slate-100 my-1"></div>
-                                <a href="<?= base_url('logout') ?>" class="flex items-center px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50">
-                                    <i class="fas fa-sign-out-alt w-5"></i>Keluar Sistem
+                                <div class="border-t border-slate-100 my-1 dark:border-slate-700"></div>
+                                <a href="<?= base_url('logout') ?>" class="flex items-center px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10">
+                                    <i class="fas fa-fw fa-sign-out-alt w-5"></i>Keluar Sistem
                                 </a>
                             </div>
                         </div>
@@ -172,7 +183,7 @@
                     <!-- Page Actions -->
                     <div class="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <h1 class="text-2xl font-black text-slate-900 tracking-tight sm:hidden"><?= $this->renderSection('page_title') ?? 'Dashboard' ?></h1>
+                            <h1 class="text-2xl font-black text-slate-900 tracking-tight sm:hidden dark:text-slate-100"><?= $this->renderSection('page_title') ?? 'Dasbor' ?></h1>
                         </div>
                         <div class="flex items-center space-x-3">
                             <?= $this->renderSection('page_actions') ?>
@@ -183,7 +194,7 @@
                     <?php if (session()->getFlashdata('success')) : ?>
                         <div class="bg-emerald-50 border-l-4 border-emerald-500 p-5 mb-8 rounded-r-xl shadow-sm flex items-center animate-in fade-in slide-in-from-top-2 duration-300">
                             <div class="bg-emerald-500 rounded-full p-1.5 mr-4">
-                                <i class="fas fa-check text-white text-xs"></i>
+                                <i class="fas fa-fw fa-check text-white text-xs"></i>
                             </div>
                             <span class="text-sm font-bold text-emerald-900"><?= session()->getFlashdata('success') ?></span>
                         </div>
@@ -192,7 +203,7 @@
                     <?php if (session()->getFlashdata('error')) : ?>
                         <div class="bg-red-50 border-l-4 border-red-500 p-5 mb-8 rounded-r-xl shadow-sm flex items-center animate-in fade-in slide-in-from-top-2 duration-300">
                             <div class="bg-red-500 rounded-full p-1.5 mr-4">
-                                <i class="fas fa-exclamation-triangle text-white text-xs"></i>
+                                <i class="fas fa-fw fa-exclamation-triangle text-white text-xs"></i>
                             </div>
                             <span class="text-sm font-bold text-red-900"><?= session()->getFlashdata('error') ?></span>
                         </div>
@@ -202,9 +213,9 @@
                         <div class="bg-red-50 border-l-4 border-red-500 p-6 mb-8 rounded-r-xl shadow-sm animate-in fade-in slide-in-from-top-2 duration-300">
                             <div class="flex items-center mb-3">
                                 <div class="bg-red-500 rounded-full p-1.5 mr-4">
-                                    <i class="fas fa-exclamation-triangle text-white text-xs"></i>
+                                    <i class="fas fa-fw fa-exclamation-triangle text-white text-xs"></i>
                                 </div>
-                                <span class="text-sm font-black text-red-900 uppercase tracking-widest">Terjadi Kesalahan Validasi</span>
+                                <span class="text-sm font-black text-red-900 uppercase tracking-widest">Terjadi Kesalahan Data</span>
                             </div>
                             <ul class="list-disc list-inside space-y-1 ml-10">
                                 <?php foreach (session()->getFlashdata('errors') as $error) : ?>
@@ -254,5 +265,6 @@
             }, 6000);
         });
     </script>
+    <script src="https://cdn.userway.org/widget.js" data-account="S41ThPrHz4"></script>
 </body>
 </html>

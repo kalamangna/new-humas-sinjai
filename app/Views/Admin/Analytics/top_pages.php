@@ -1,10 +1,10 @@
-<?= $this->extend('layout/admin') ?>
+<?= $this->extend('Layouts/admin') ?>
 
 <?= $this->section('page_title') ?>Konten Terpopuler<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/analytics/overview') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
-    <i class="fas fa-arrow-left mr-2"></i>Kembali
+    <i class="fas fa-fw fa-arrow-left mr-2"></i>Kembali
 </a>
 <?= $this->endSection() ?>
 
@@ -18,9 +18,9 @@
 <div id="analytics-content" class="hidden">
     <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
         <div class="px-8 py-6 bg-slate-50 border-b border-slate-200">
-            <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
-                <i class="fas fa-list-ol mr-3 text-blue-800"></i>Top 10 Halaman Paling Banyak Diakses
-            </h3>
+            <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
+                <i class="fas fa-fw fa-list-ol mr-3 text-blue-800"></i>TOP 10 HALAMAN TERPOPULER
+            </h2>
         </div>
         
         <div class="overflow-x-auto">
@@ -29,8 +29,8 @@
                     <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
                         <th class="px-8 py-5">Peringkat & Judul Halaman</th>
                         <th class="px-8 py-5">Alamat (Path)</th>
-                        <th class="px-8 py-5">Intensitas</th>
-                        <th class="px-8 py-5 text-right">Unique Users</th>
+                        <th class="px-8 py-5 w-1 whitespace-nowrap">Intensitas</th>
+                        <th class="px-8 py-5 text-right w-1 whitespace-nowrap">Unique Users</th>
                     </tr>
                 </thead>
                 <tbody id="top-pages-data" class="divide-y divide-slate-100"></tbody>
@@ -56,7 +56,7 @@
                     row.innerHTML = `
                         <td class="px-8 py-6">
                             <div class="flex items-center">
-                                <span class="w-8 h-8 bg-blue-50 text-blue-800 rounded-lg flex items-center justify-center font-black text-xs mr-4 border border-blue-100 group-hover:bg-blue-800 group-hover:text-white transition-all">
+                                <span class="w-8 h-8 bg-blue-50 text-blue-800 rounded-lg flex-shrink-0 flex items-center justify-center font-black text-xs mr-4 border border-blue-100 group-hover:bg-blue-800 group-hover:text-white transition-all">
                                     ${index + 1}
                                 </span>
                                 <div class="min-w-0">
@@ -65,7 +65,7 @@
                             </div>
                         </td>
                         <td class="px-8 py-6">
-                            <span class="px-3 py-1 bg-slate-100 text-slate-500 font-mono text-[10px] rounded-md border border-slate-200 italic">
+                            <span class="px-3 py-1 bg-slate-100 text-slate-500 font-mono text-[10px] rounded-md border border-slate-200 italic truncate max-w-[150px] inline-block">
                                 ${page.pagePath || '/'}
                             </span>
                         </td>

@@ -43,9 +43,11 @@
                 <option value="draft" <?= ($filters['status'] ?? '') == 'draft' ? 'selected' : '' ?>>Draft</option>
             </select>
         </div>
-        <div class="flex items-end space-x-2">
-            <button type="submit" class="flex-1 px-4 py-2 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all">Filter</button>
-            <a href="<?= base_url('admin/posts') ?>" class="px-4 py-2 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200 text-center">Reset</a>
+        <div class="flex flex-col justify-end">
+            <div class="flex items-center space-x-2">
+                <button type="submit" class="flex-1 px-4 py-2.5 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all">Filter</button>
+                <a href="<?= base_url('admin/posts') ?>" class="px-4 py-2.5 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200 text-center">Reset</a>
+            </div>
         </div>
     </form>
 </div>

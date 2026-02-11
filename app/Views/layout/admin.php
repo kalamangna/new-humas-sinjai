@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- Third Party Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="<?= base_url('assets/tinymce/tinymce/tinymce.min.js') ?>" referrerpolicy="origin" crossorigin="anonymous"></script>
     
     <script>
@@ -43,20 +43,16 @@
     </script>
 </head>
 
-<body class="h-full">
-    <div class="min-h-full">
-        <!-- Mobile Sidebar Overlay -->
-        <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-slate-900/60 hidden lg:hidden transition-opacity"></div>
-
+<body class="h-full font-sans antialiased text-slate-900 bg-slate-100">
+    <div class="min-h-screen flex overflow-hidden">
         <!-- Sidebar -->
-        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-300 transition-transform duration-300 transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0 border-r border-slate-800">
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-300 transition-transform duration-300 transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0 border-r border-slate-800 flex-shrink-0">
             <div class="flex flex-col h-full">
                 <!-- Brand -->
                 <div class="flex items-center justify-between h-20 px-6 bg-slate-950 border-b border-slate-800">
                     <a href="<?= base_url('admin') ?>" class="flex items-center space-x-3">
                         <!-- Official Logo Humas Sinjai - Untouched -->
                         <img src="<?= base_url('humas.png') ?>" alt="Logo" class="h-10 w-auto">
-                        <span class="text-white font-bold text-lg tracking-tight">E-PORTAL</span>
                     </a>
                     <button id="close-sidebar" class="lg:hidden text-slate-500 hover:text-white">
                         <i class="fas fa-times text-xl"></i>
@@ -116,22 +112,25 @@
         </aside>
 
         <!-- Main Content Area -->
-        <div class="flex flex-col flex-1 min-w-0">
+        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+            <!-- Mobile Sidebar Overlay -->
+            <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-slate-900/60 hidden transition-opacity lg:hidden"></div>
+
             <!-- Topbar -->
-            <header class="flex items-center justify-between h-20 px-4 bg-white border-b border-slate-200 lg:px-10 sticky top-0 z-30">
+            <header class="flex items-center justify-between h-20 px-6 bg-white border-b border-slate-200 sticky top-0 z-30 flex-shrink-0">
                 <div class="flex items-center">
-                    <button id="open-sidebar" class="text-slate-500 hover:text-slate-900 lg:hidden p-2">
+                    <button id="open-sidebar" class="text-slate-500 hover:text-slate-900 lg:hidden p-2 mr-4">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
-                    <div class="ml-4 lg:ml-0">
-                        <h1 class="text-lg font-bold text-slate-800 leading-none">
+                    <div>
+                        <h1 class="text-lg font-bold text-slate-800 leading-none truncate max-w-[200px] sm:max-w-md">
                             <?= $this->renderSection('page_title') ?? 'Dashboard' ?>
                         </h1>
                         <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mt-1">Humas Sinjai Official Admin</p>
                     </div>
                 </div>
 
-                <div class="flex items-center space-x-6">
+                <div class="flex items-center space-x-3 sm:space-x-6">
                     <a href="<?= base_url('/') ?>" target="_blank" class="hidden sm:flex items-center px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors">
                         <i class="fas fa-external-link-alt mr-2"></i>Kunjungi Situs
                     </a>
@@ -139,7 +138,7 @@
                     <!-- User Dropdown -->
                     <div class="relative group">
                         <button class="flex items-center space-x-3 focus:outline-none py-2">
-                            <div class="w-10 h-10 bg-slate-100 border border-slate-200 rounded-full flex items-center justify-center text-blue-800 font-black">
+                            <div class="w-10 h-10 bg-slate-100 border border-slate-200 rounded-full flex items-center justify-center text-blue-800 font-black flex-shrink-0">
                                 <?= substr(session()->get('name') ?? 'A', 0, 1) ?>
                             </div>
                             <div class="hidden md:block text-left">
@@ -168,39 +167,41 @@
             </header>
 
             <!-- Page Content -->
-            <main class="p-4 lg:p-10">
-                <!-- Page Actions -->
-                <div class="mb-10 flex flex-wrap items-center justify-between gap-4">
-                    <div class="sm:hidden">
-                        <h1 class="text-2xl font-black text-slate-900 tracking-tight"><?= $this->renderSection('page_title') ?? 'Dashboard' ?></h1>
-                    </div>
-                    <div class="flex items-center space-x-3 ml-auto">
-                        <?= $this->renderSection('page_actions') ?>
-                    </div>
-                </div>
-
-                <!-- Alert Messages -->
-                <?php if (session()->getFlashdata('success')) : ?>
-                    <div class="bg-emerald-50 border-l-4 border-emerald-500 p-5 mb-8 rounded-r-xl shadow-sm flex items-center animate-in fade-in slide-in-from-top-2 duration-300">
-                        <div class="bg-emerald-500 rounded-full p-1.5 mr-4">
-                            <i class="fas fa-check text-white text-xs"></i>
+            <main class="flex-1 overflow-x-hidden overflow-y-auto p-6 lg:p-10">
+                <div class="max-w-full mx-auto">
+                    <!-- Page Actions -->
+                    <div class="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <h1 class="text-2xl font-black text-slate-900 tracking-tight sm:hidden"><?= $this->renderSection('page_title') ?? 'Dashboard' ?></h1>
                         </div>
-                        <span class="text-sm font-bold text-emerald-900"><?= session()->getFlashdata('success') ?></span>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (session()->getFlashdata('error')) : ?>
-                    <div class="bg-red-50 border-l-4 border-red-500 p-5 mb-8 rounded-r-xl shadow-sm flex items-center animate-in fade-in slide-in-from-top-2 duration-300">
-                        <div class="bg-red-500 rounded-full p-1.5 mr-4">
-                            <i class="fas fa-exclamation-triangle text-white text-xs"></i>
+                        <div class="flex items-center space-x-3">
+                            <?= $this->renderSection('page_actions') ?>
                         </div>
-                        <span class="text-sm font-bold text-red-900"><?= session()->getFlashdata('error') ?></span>
                     </div>
-                <?php endif; ?>
 
-                <!-- Render Section Content -->
-                <div class="animate-in fade-in duration-500">
-                    <?= $this->renderSection('content') ?>
+                    <!-- Alert Messages -->
+                    <?php if (session()->getFlashdata('success')) : ?>
+                        <div class="bg-emerald-50 border-l-4 border-emerald-500 p-5 mb-8 rounded-r-xl shadow-sm flex items-center animate-in fade-in slide-in-from-top-2 duration-300">
+                            <div class="bg-emerald-500 rounded-full p-1.5 mr-4">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <span class="text-sm font-bold text-emerald-900"><?= session()->getFlashdata('success') ?></span>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (session()->getFlashdata('error')) : ?>
+                        <div class="bg-red-50 border-l-4 border-red-500 p-5 mb-8 rounded-r-xl shadow-sm flex items-center animate-in fade-in slide-in-from-top-2 duration-300">
+                            <div class="bg-red-500 rounded-full p-1.5 mr-4">
+                                <i class="fas fa-exclamation-triangle text-white text-xs"></i>
+                            </div>
+                            <span class="text-sm font-bold text-red-900"><?= session()->getFlashdata('error') ?></span>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Render Section Content -->
+                    <div class="animate-in fade-in duration-500">
+                        <?= $this->renderSection('content') ?>
+                    </div>
                 </div>
             </main>
         </div>

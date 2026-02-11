@@ -114,7 +114,7 @@
             <div class="w-10 h-10 border-4 border-slate-100 border-t-blue-800 rounded-full animate-spin"></div>
             <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinkronisasi Data...</span>
         </div>
-        <canvas id="monthly-post-chart" class="hidden h-64"></canvas>
+        <div id="monthly-post-chart" class="hidden min-h-[256px]"></div>
     </div>
 
     <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
@@ -127,7 +127,7 @@
             <div class="w-10 h-10 border-4 border-slate-100 border-t-emerald-600 rounded-full animate-spin"></div>
             <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinkronisasi Data...</span>
         </div>
-        <canvas id="monthly-user-chart" class="hidden h-64"></canvas>
+        <div id="monthly-user-chart" class="hidden min-h-[256px]"></div>
     </div>
 </div>
 
@@ -168,6 +168,8 @@
         const monthlyUserChartSpinner = document.getElementById('monthly-user-chart-spinner');
         const monthlyUserChart = document.getElementById('monthly-user-chart');
 
+        const isDark = document.documentElement.classList.contains('dark');
+
         fetch('<?= base_url('api/analytics/overview') ?>')
             .then(response => response.json())
             .then(data => {
@@ -196,14 +198,33 @@
                 monthlyPostChartSpinner.classList.add('hidden');
                 monthlyPostChart.classList.remove('hidden');
                 const sorted = data.sort((a,b) => a.year - b.year || a.month - b.month);
-                new Chart(document.getElementById('monthly-post-chart').getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels: sorted.map(i => i.formatted_date),
-                        datasets: [{ label: 'Page Views', data: sorted.map(i => i.screenPageViews), backgroundColor: '#1e40af', borderRadius: 8 }]
+                
+                const options = {
+                    chart: {
+                        type: 'bar',
+                        height: 256,
+                        toolbar: { show: false },
+                        fontFamily: 'inherit'
                     },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { display: false } }, x: { grid: { display: false } } } }
-                });
+                    theme: { mode: isDark ? 'dark' : 'light' },
+                    series: [{
+                        name: 'Page Views',
+                        data: sorted.map(i => i.screenPageViews)
+                    }],
+                    xaxis: {
+                        categories: sorted.map(i => i.formatted_date),
+                        axisBorder: { show: false },
+                        axisTicks: { show: false }
+                    },
+                    colors: ['#1e40af'],
+                    plotOptions: {
+                        bar: { borderRadius: 4, columnWidth: '60%' }
+                    },
+                    dataLabels: { enabled: false },
+                    grid: { borderColor: '#f1f5f9' }
+                };
+
+                new ApexCharts(monthlyPostChart, options).render();
             });
 
         fetch('<?= base_url('api/analytics/monthly-user-stats') ?>')
@@ -212,14 +233,35 @@
                 monthlyUserChartSpinner.classList.add('hidden');
                 monthlyUserChart.classList.remove('hidden');
                 const sorted = data.sort((a,b) => a.year - b.year || a.month - b.month);
-                new Chart(document.getElementById('monthly-user-chart').getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: sorted.map(i => i.formatted_date),
-                        datasets: [{ label: 'Users', data: sorted.map(i => i.totalUsers), borderColor: '#059669', backgroundColor: 'rgba(5, 150, 105, 0.1)', fill: true, tension: 0.4 }]
+                
+                const options = {
+                    chart: {
+                        type: 'area',
+                        height: 256,
+                        toolbar: { show: false },
+                        fontFamily: 'inherit'
                     },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { display: false } }, x: { grid: { display: false } } } }
-                });
+                    theme: { mode: isDark ? 'dark' : 'light' },
+                    series: [{
+                        name: 'Users',
+                        data: sorted.map(i => i.totalUsers)
+                    }],
+                    xaxis: {
+                        categories: sorted.map(i => i.formatted_date),
+                        axisBorder: { show: false },
+                        axisTicks: { show: false }
+                    },
+                    colors: ['#059669'],
+                    stroke: { curve: 'smooth', width: 2 },
+                    fill: {
+                        type: 'gradient',
+                        gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.1 }
+                    },
+                    dataLabels: { enabled: false },
+                    grid: { borderColor: '#f1f5f9' }
+                };
+
+                new ApexCharts(monthlyUserChart, options).render();
             });
     });
 </script>

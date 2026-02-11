@@ -20,15 +20,15 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200">
             <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">Device Category</h3>
-            <div class="h-48 relative"><canvas id="deviceChart"></canvas></div>
+            <div id="deviceChart" class="h-48"></div>
         </div>
         <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200">
             <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">Operating System</h3>
-            <div class="h-48 relative"><canvas id="osChart"></canvas></div>
+            <div id="osChart" class="h-48"></div>
         </div>
         <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200">
             <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">Web Browser</h3>
-            <div class="h-48 relative"><canvas id="browserChart"></canvas></div>
+            <div id="browserChart" class="h-48"></div>
         </div>
     </div>
 
@@ -57,6 +57,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const deviceData = document.getElementById('device-data');
+        const isDark = document.documentElement.classList.contains('dark');
 
         fetch('<?= base_url('api/analytics/device-category') ?>')
             .then(r => r.json())
@@ -71,11 +72,45 @@
                     stats.browser[i.browser] = (stats.browser[i.browser] || 0) + parseInt(i.totalUsers);
                 });
 
-                const cfg = (l, d, c) => ({ type: 'doughnut', data: { labels: l, datasets: [{ data: d, backgroundColor: c, borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, cutout: '80%' } });
+                const cfg = (labels, series, colors) => ({
+                    chart: { type: 'donut', height: 192, fontFamily: 'inherit' },
+                    theme: { mode: isDark ? 'dark' : 'light' },
+                    series: series,
+                    labels: labels,
+                    colors: colors,
+                    legend: { show: false },
+                    dataLabels: { enabled: false },
+                    plotOptions: {
+                        pie: {
+                            donut: {
+                                size: '80%',
+                                labels: {
+                                    show: true,
+                                    name: { show: false },
+                                    value: {
+                                        show: true,
+                                        fontSize: '16px',
+                                        fontWeight: 900,
+                                        color: isDark ? '#f8fafc' : '#0f172a',
+                                        offsetY: 5,
+                                        formatter: (val) => parseInt(val).toLocaleString()
+                                    },
+                                    total: {
+                                        show: true,
+                                        formatter: (w) => {
+                                            return w.globals.seriesTotals.reduce((a, b) => a + b, 0).toLocaleString();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    stroke: { show: false }
+                });
                 
-                new Chart(document.getElementById('deviceChart'), cfg(Object.keys(stats.device), Object.values(stats.device), ['#f59e0b', '#fbbf24', '#fcd34d']));
-                new Chart(document.getElementById('osChart'), cfg(Object.keys(stats.os), Object.values(stats.os), ['#10b981', '#34d399', '#6ee7b7']));
-                new Chart(document.getElementById('browserChart'), cfg(Object.keys(stats.browser), Object.values(stats.browser), ['#3b82f6', '#60a5fa', '#93c5fd']));
+                new ApexCharts(document.getElementById('deviceChart'), cfg(Object.keys(stats.device), Object.values(stats.device), ['#f59e0b', '#fbbf24', '#fcd34d'])).render();
+                new ApexCharts(document.getElementById('osChart'), cfg(Object.keys(stats.os), Object.values(stats.os), ['#10b981', '#34d399', '#6ee7b7'])).render();
+                new ApexCharts(document.getElementById('browserChart'), cfg(Object.keys(stats.browser), Object.values(stats.browser), ['#3b82f6', '#60a5fa', '#93c5fd'])).render();
 
                 deviceData.innerHTML = '';
                 data.forEach(item => {

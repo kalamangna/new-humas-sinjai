@@ -22,9 +22,7 @@
             <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] mb-10 flex items-center">
                 <i class="fas fa-chart-pie mr-3 text-sky-600"></i>Proporsi Per Negara
             </h3>
-            <div class="h-80 relative">
-                <canvas id="countryChart"></canvas>
-            </div>
+            <div id="countryChart" class="h-80"></div>
         </div>
 
         <!-- Table -->
@@ -52,6 +50,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const geoData = document.getElementById('geo-data');
+        const isDark = document.documentElement.classList.contains('dark');
 
         fetch('<?= base_url('api/analytics/geo') ?>')
             .then(r => r.json())
@@ -65,18 +64,31 @@
                     countryUsers[c] = (countryUsers[c] || 0) + parseInt(item.totalUsers);
                 });
 
-                new Chart(document.getElementById('countryChart').getContext('2d'), {
-                    type: 'doughnut',
-                    data: {
-                        labels: Object.keys(countryUsers),
-                        datasets: [{
-                            data: Object.values(countryUsers),
-                            backgroundColor: ['#0369a1', '#0ea5e9', '#7dd3fc', '#e0f2fe', '#bae6fd'],
-                            borderWidth: 0
-                        }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10, weight: 'bold' } } } }, cutout: '70%' }
-                });
+                const options = {
+                    chart: { type: 'donut', height: 320, fontFamily: 'inherit' },
+                    theme: { mode: isDark ? 'dark' : 'light' },
+                    series: Object.values(countryUsers),
+                    labels: Object.keys(countryUsers),
+                    colors: ['#0369a1', '#0ea5e9', '#7dd3fc', '#e0f2fe', '#bae6fd'],
+                    legend: { position: 'bottom', fontSize: '10px', fontWeight: 700 },
+                    dataLabels: { enabled: false },
+                    stroke: { show: false },
+                    plotOptions: {
+                        pie: {
+                            donut: {
+                                size: '70%',
+                                labels: {
+                                    show: true,
+                                    name: { show: true, fontSize: '12px', fontWeight: 700 },
+                                    value: { show: true, fontSize: '20px', fontWeight: 900, formatter: (val) => parseInt(val).toLocaleString() },
+                                    total: { show: true, label: 'TOTAL' }
+                                }
+                            }
+                        }
+                    }
+                };
+
+                new ApexCharts(document.getElementById('countryChart'), options).render();
 
                 geoData.innerHTML = '';
                 data.forEach(item => {

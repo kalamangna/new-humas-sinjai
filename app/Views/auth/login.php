@@ -1,105 +1,89 @@
-<?= $this->extend('layout/main') ?>
+<?= $this->extend('layout/auth') ?>
 
 <?= $this->section('content') ?>
 
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <!-- Header Section -->
-            <div class="text-white text-center py-4 mb-4 rounded-3 bg-primary-gradient">
-                <i class="fas fa-user-lock display-4 mb-3 opacity-75"></i>
-                <h2 class="fw-bold mb-2">Login Admin</h2>
-                <p class="mb-0 opacity-85">Portal Berita Humas Sinjai</p>
-            </div>
+<div class="bg-white py-10 px-8 shadow-2xl rounded-[2.5rem] border border-slate-200 ring-8 ring-white">
+    <!-- Flash Message -->
+    <?php if (session()->getFlashdata('error')) : ?>
+        <div class="bg-red-50 border-l-4 border-red-600 p-4 mb-6 rounded-r-xl shadow-sm flex items-center">
+            <i class="fas fa-exclamation-triangle text-red-600 mr-3"></i>
+            <p class="text-xs font-bold text-red-800 uppercase tracking-tight"><?= session()->getFlashdata('error') ?></p>
+        </div>
+    <?php endif; ?>
 
-            <!-- Login Card -->
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4">
-                    <!-- Flash Message -->
-                    <?php if (session()->getFlashdata('error')) : ?>
-                        <div class="alert alert-danger d-flex align-items-center border-0" role="alert">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
-                            <?= session()->getFlashdata('error') ?>
-                        </div>
-                    <?php endif; ?>
+    <?php if (session()->getFlashdata('success')) : ?>
+        <div class="bg-emerald-50 border-l-4 border-emerald-600 p-4 mb-6 rounded-r-xl shadow-sm flex items-center">
+            <i class="fas fa-check-circle text-emerald-600 mr-3"></i>
+            <p class="text-xs font-bold text-emerald-800 uppercase tracking-tight"><?= session()->getFlashdata('success') ?></p>
+        </div>
+    <?php endif; ?>
 
-                    <?php if (session()->getFlashdata('success')) : ?>
-                        <div class="alert alert-success d-flex align-items-center border-0" role="alert">
-                            <i class="fas fa-check-circle me-2"></i>
-                            <?= session()->getFlashdata('success') ?>
-                        </div>
-                    <?php endif; ?>
+    <form action="<?= site_url('login') ?>" method="post" class="space-y-8">
+        <?= csrf_field() ?>
 
-                    <!-- Login Form -->
-                    <form action="<?= site_url('login') ?>" method="post">
-                        <?= csrf_field() ?>
-
-                        <!-- Email Input -->
-                        <div class="mb-4">
-                            <label for="email" class="form-label fw-semibold text-dark">
-                                <i class="fas fa-envelope me-2"></i>Alamat Email
-                            </label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0">
-                                    <i class="fas fa-at text-muted"></i>
-                                </span>
-                                <input type="email" name="email" class="form-control border-start-0" placeholder="masukkan email anda" value="<?= old('email') ?>" required>
-                            </div>
-                        </div>
-
-                        <!-- Password Input -->
-                        <div class="mb-4">
-                            <label for="password" class="form-label fw-semibold text-dark">
-                                <i class="fas fa-lock me-2"></i>Password
-                            </label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0">
-                                    <i class="fas fa-key text-muted"></i>
-                                </span>
-                                <input type="password" name="password" class="form-control border-start-0" placeholder="masukkan password" required>
-                                <button type="button" class="btn btn-outline-secondary" id="togglePassword">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Remember Me & Forgot Password -->
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="remember" name="remember" <?= old('remember') ? 'checked' : '' ?>>
-                                <label class="form-check-label text-muted small" for="remember">
-                                    Ingat saya
-                                </label>
-                            </div>
-                            <a href="#" class="text-decoration-none small text-primary">
-                                <i class="fas fa-question-circle me-1"></i>Lupa password?
-                            </a>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <button type="submit" class="btn btn-primary btn-lg w-100 fw-semibold py-2">
-                            <i class="fas fa-sign-in-alt me-2"></i>Login
-                        </button>
-                    </form>
-
-
-
-
+        <div class="space-y-6">
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Identitas Email</label>
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-300 group-focus-within:text-blue-800 transition-colors">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <input type="email" name="email" required
+                        class="block w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-sm font-bold text-slate-900 placeholder-slate-300 focus:border-blue-800 focus:bg-white outline-none transition-all"
+                        placeholder="staf@sinjaikab.go.id" value="<?= old('email') ?>">
                 </div>
             </div>
 
-
+            <!-- Password -->
+            <div>
+                <label for="password" class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Kredensial Password</label>
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-300 group-focus-within:text-blue-800 transition-colors">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <input type="password" name="password" id="login-password" required
+                        class="block w-full pl-12 pr-12 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-sm font-bold text-slate-900 placeholder-slate-300 focus:border-blue-800 focus:bg-white outline-none transition-all"
+                        placeholder="••••••••">
+                    <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-300 hover:text-slate-600 transition-colors">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
+
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <input id="remember" name="remember" type="checkbox" class="h-4 w-4 text-blue-800 focus:ring-blue-800 border-slate-300 rounded cursor-pointer" <?= old('remember') ? 'checked' : '' ?>>
+                <label for="remember" class="ml-2 block text-xs font-bold text-slate-500 uppercase tracking-tighter cursor-pointer">Ingat Perangkat</label>
+            </div>
+            <div class="text-xs">
+                <a href="#" class="font-black text-blue-800 uppercase tracking-tighter hover:text-blue-900">Masalah Login?</a>
+            </div>
+        </div>
+
+        <div>
+            <button type="submit" class="group relative w-full flex justify-center py-4 px-4 bg-blue-800 text-white text-xs font-black uppercase tracking-[0.3em] rounded-2xl hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-800 transition-all shadow-xl shadow-blue-900/20">
+                Masuk Sistem
+                <span class="absolute right-6 inset-y-0 flex items-center">
+                    <i class="fas fa-chevron-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                </span>
+            </button>
+        </div>
+    </form>
 </div>
 
 <script>
-    // Toggle Password Visibility
-    document.getElementById('togglePassword')?.addEventListener('click', function() {
-        const passwordInput = document.querySelector('input[name="password"]');
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-        this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    document.getElementById('toggle-password').addEventListener('click', function() {
+        const input = document.getElementById('login-password');
+        const icon = this.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
     });
 </script>
 

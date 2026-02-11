@@ -1,88 +1,78 @@
 <?= $this->extend('layout/admin') ?>
 
-<?= $this->section('page_title') ?>Pengaturan Pengguna<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Pengaturan Akun<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-transparent border-bottom-0 py-4">
-                <h4 class="fw-bold text-dark mb-0">
-                    <i class="fas fa-cog me-2 text-primary"></i>Pengaturan Pengguna
-                </h4>
-                <p class="text-muted mb-0 mt-2">Kelola pengaturan akun Anda.</p>
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
+            <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4">
+                <i class="fas fa-cog text-sm"></i>
             </div>
+            <div>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Preferensi & Keamanan</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Kelola informasi login dan identitas anda</p>
+            </div>
+        </div>
 
-            <div class="card-body">
-                <form action="<?= base_url('admin/users/update_settings') ?>" method="post" class="needs-validation" novalidate>
-                    <?= csrf_field() ?>
-                    <input type="hidden" name="user_id" value="<?= esc($user['id']) ?>">
+        <div class="p-8 md:p-12">
+            <form action="<?= base_url('admin/users/update_settings') ?>" method="post" class="space-y-8">
+                <?= csrf_field() ?>
+                <input type="hidden" name="user_id" value="<?= esc($user['id']) ?>">
 
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="name" class="form-label fw-semibold text-dark">Nama Lengkap <span class="text-danger">*</span></label>
-                                <input type="text" name="name" class="form-control form-control-lg border-0 bg-light rounded-3 py-3 <?= (isset(session('errors')['name'])) ? 'is-invalid' : '' ?>"
-                                    value="<?= old('name', $user['name']) ?>" placeholder="Masukkan nama..." required>
-                                <?php if (isset(session('errors')['name'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['name'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="email" class="form-label fw-semibold text-dark">Email <span class="text-danger">*</span></label>
-                                <input type="email" name="email" class="form-control form-control-lg border-0 bg-light rounded-3 py-3 <?= (isset(session('errors')['email'])) ? 'is-invalid' : '' ?>"
-                                    value="<?= old('email', $user['email']) ?>" placeholder="Masukkan email..." required>
-                                <?php if (isset(session('errors')['email'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['email'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="password" class="form-label fw-semibold text-dark">Password Baru</label>
-                                <input type="password" name="password" class="form-control form-control-lg border-0 bg-light rounded-3 py-3 <?= (isset(session('errors')['password'])) ? 'is-invalid' : '' ?>" placeholder="Biarkan kosong jika tidak ingin mengubah password.">
-                                <?php if (isset(session('errors')['password'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['password'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="password_confirm" class="form-label fw-semibold text-dark">Konfirmasi Password Baru</label>
-                                <input type="password" name="password_confirm" class="form-control form-control-lg border-0 bg-light rounded-3 py-3 <?= (isset(session('errors')['password_confirm'])) ? 'is-invalid' : '' ?>" placeholder="Konfirmasi password baru.">
-                                <?php if (isset(session('errors')['password_confirm'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['password_confirm'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
+                <div class="space-y-6">
+                    <div class="space-y-3">
+                        <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Nama Lengkap <span class="text-red-600">*</span></label>
+                        <input type="text" name="name" required
+                            class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all <?= (isset(session('errors')['name'])) ? 'border-red-500' : '' ?>"
+                            value="<?= old('name', $user['name']) ?>">
+                        <?php if (isset(session('errors')['name'])) : ?>
+                            <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['name'] ?></p>
+                        <?php endif; ?>
                     </div>
 
-                    <div class="row mt-5">
-                        <div class="col-12">
-                            <div class="d-flex gap-3 justify-content-end border-top pt-4">
-                                <button type="submit" class="btn btn-primary px-4">
-                                    <i class="fas fa-save me-2"></i>Simpan Perubahan
-                                </button>
-                            </div>
+                    <div class="space-y-3">
+                        <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Email Instansi <span class="text-red-600">*</span></label>
+                        <input type="email" name="email" required
+                            class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all <?= (isset(session('errors')['email'])) ? 'border-red-500' : '' ?>"
+                            value="<?= old('email', $user['email']) ?>">
+                        <?php if (isset(session('errors')['email'])) : ?>
+                            <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['email'] ?></p>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-50 space-y-6">
+                        <div class="space-y-3">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Ganti Password Baru</label>
+                            <input type="password" name="password"
+                                class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all <?= (isset(session('errors')['password'])) ? 'border-red-500' : '' ?>"
+                                placeholder="Biarkan kosong jika tidak ingin ganti...">
+                            <?php if (isset(session('errors')['password'])) : ?>
+                                <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['password'] ?></p>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="space-y-3">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Konfirmasi Password Baru</label>
+                            <input type="password" name="password_confirm"
+                                class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all <?= (isset(session('errors')['password_confirm'])) ? 'border-red-500' : '' ?>"
+                                placeholder="Ulangi password baru...">
+                            <?php if (isset(session('errors')['password_confirm'])) : ?>
+                                <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['password_confirm'] ?></p>
+                            <?php endif; ?>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <div class="pt-8 border-t border-slate-100">
+                    <button type="submit" class="w-full py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
+                        <i class="fas fa-save mr-2 text-sm"></i>Perbarui Pengaturan
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-
-<?= $this->include('layout/admin_validation_script') ?>
 
 <?= $this->endSection() ?>

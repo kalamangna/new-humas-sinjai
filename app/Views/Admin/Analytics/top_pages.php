@@ -1,133 +1,88 @@
 <?= $this->extend('layout/admin') ?>
 
-<?= $this->section('page_title') ?>Halaman Teratas<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Konten Terpopuler<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<a href="<?= base_url('admin/analytics/overview') ?>" class="btn btn-outline-primary btn-sm">
-    <i class="fas fa-arrow-left me-2"></i>Kembali
+<a href="<?= base_url('admin/analytics/overview') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
+    <i class="fas fa-arrow-left mr-2"></i>Kembali
 </a>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-<div class="container-fluid">
-    <div id="loading-spinner" class="d-flex justify-content-center align-items-center py-5">
-        <div class="text-center">
-            <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <p class="text-muted">Memuat data halaman teratas...</p>
-        </div>
-    </div>
 
-    <div id="analytics-content" class="d-none">
-        <div class="row">
-            <div class="col-12">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-transparent border-bottom py-4">
-                        <h5 class="fw-bold text-dark mb-0">
-                            <i class="fas fa-file-alt me-3"></i>Top 10 Halaman Paling Banyak Dilihat
-                        </h5>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th class="border-0 ps-4 py-3 fw-semibold text-dark">Judul Halaman</th>
-                                        <th class="border-0 py-3 fw-semibold text-dark">Path Halaman</th>
-                                        <th class="border-0 py-3 fw-semibold text-dark">Total Tampilan</th>
-                                        <th class="border-0 pe-4 py-3 fw-semibold text-dark">Total Pengguna</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="top-pages-data" class="border-top-0"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div id="loading-spinner" class="py-20 flex flex-col items-center justify-center space-y-4">
+    <div class="w-12 h-12 border-4 border-slate-100 border-t-blue-800 rounded-full animate-spin"></div>
+    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Menganalisa Data Halaman...</span>
+</div>
+
+<div id="analytics-content" class="hidden">
+    <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-8 py-6 bg-slate-50 border-b border-slate-200">
+            <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
+                <i class="fas fa-list-ol mr-3 text-blue-800"></i>Top 10 Halaman Paling Banyak Diakses
+            </h3>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                        <th class="px-8 py-5">Peringkat & Judul Halaman</th>
+                        <th class="px-8 py-5">Alamat (Path)</th>
+                        <th class="px-8 py-5">Intensitas</th>
+                        <th class="px-8 py-5 text-right">Unique Users</th>
+                    </tr>
+                </thead>
+                <tbody id="top-pages-data" class="divide-y divide-slate-100"></tbody>
+            </table>
         </div>
     </div>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const loadingSpinner = document.getElementById('loading-spinner');
-        const analyticsContent = document.getElementById('analytics-content');
         const topPagesData = document.getElementById('top-pages-data');
 
         fetch('<?= base_url('api/analytics/top-pages') ?>')
-            .then(response => response.json())
+            .then(r => r.json())
             .then(data => {
-                loadingSpinner.classList.add('d-none');
-                analyticsContent.classList.remove('d-none');
-
-                // Clear existing data
+                document.getElementById('loading-spinner').classList.add('hidden');
+                document.getElementById('analytics-content').classList.remove('hidden');
                 topPagesData.innerHTML = '';
 
-                // Populate table with data
                 data.forEach((page, index) => {
                     const row = document.createElement('tr');
-                    row.className = 'border-bottom';
-
-                    // Format user engagement duration
-                    let engagementDuration = '0 detik';
-                    if (page.userEngagementDuration) {
-                        const duration = parseFloat(page.userEngagementDuration);
-                        if (duration < 60) {
-                            engagementDuration = `${(duration % 60).toFixed(0)} detik`;
-                        } else if (duration < 3600) {
-                            const minutes = Math.floor(duration / 60);
-                            const seconds = (duration % 60).toFixed(0);
-                            engagementDuration = `${minutes} menit ${seconds} detik`;
-                        } else {
-                            const hours = Math.floor(duration / 3600);
-                            const minutes = Math.floor((duration % 3600) / 60);
-                            const seconds = (duration % 60).toFixed(0);
-                            engagementDuration = `${hours}jam ${minutes}menit ${seconds}detik`;
-                        }
-                    }
-
+                    row.className = 'hover:bg-slate-50 transition-colors group';
                     row.innerHTML = `
-                    <td class="ps-4 py-3">
-                        <div class="d-flex align-items-center">
-                            <span class="badge bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3 fw-bold" style="min-width: 40px; width: 40px; height: 40px; font-size: 0.9rem; flex-shrink: 0;">
-                                ${index + 1}
-                            </span>
-                            <div>
-                                <span class="fw-semibold text-dark">${page.pageTitle || 'Tidak ada judul'}</span>
+                        <td class="px-8 py-6">
+                            <div class="flex items-center">
+                                <span class="w-8 h-8 bg-blue-50 text-blue-800 rounded-lg flex items-center justify-center font-black text-xs mr-4 border border-blue-100 group-hover:bg-blue-800 group-hover:text-white transition-all">
+                                    ${index + 1}
+                                </span>
+                                <div class="min-w-0">
+                                    <div class="font-bold text-slate-900 truncate max-w-xs md:max-w-md tracking-tight">${page.pageTitle || 'Tanpa Judul'}</div>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td class="py-3">
-                        <code class="text-muted">${page.pagePath || '/'}</code>
-                    </td>
-                    <td class="py-3">
-                        <span class="fw-bold text-dark">${page.screenPageViews}</span>
-                        <small class="text-muted d-block">tampilan</small>
-                    </td>
-                    <td class="pe-4 py-3">
-                        <span class="fw-bold text-dark">${page.totalUsers}</span>
-                        <small class="text-muted d-block">pengguna</small>
-                    </td>
-                `;
-
+                        </td>
+                        <td class="px-8 py-6">
+                            <span class="px-3 py-1 bg-slate-100 text-slate-500 font-mono text-[10px] rounded-md border border-slate-200 italic">
+                                ${page.pagePath || '/'}
+                            </span>
+                        </td>
+                        <td class="px-8 py-6 text-sm font-bold text-slate-700">
+                            ${parseInt(page.screenPageViews).toLocaleString()} <span class="text-[10px] text-slate-400 font-medium uppercase tracking-tighter ml-1">Hits</span>
+                        </td>
+                        <td class="px-8 py-6 text-right">
+                            <span class="px-3 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">
+                                ${parseInt(page.totalUsers).toLocaleString()} User
+                            </span>
+                        </td>
+                    `;
                     topPagesData.appendChild(row);
                 });
             })
-            .catch(error => {
-                console.error('Error fetching top pages data:', error);
-                loadingSpinner.classList.add('d-none');
-                analyticsContent.classList.remove('d-none');
-
-                // Show error message
-                topPagesData.innerHTML = `
-                <tr class="border-bottom">
-                    <td colspan="4" class="text-center py-5 text-muted">
-                        <i class="fas fa-exclamation-circle fs-1 mb-3"></i>
-                        <p>Gagal memuat data. Silakan refresh halaman.</p>
-                    </td>
-                </tr>
-            `;
+            .catch(() => {
+                topPagesData.innerHTML = '<tr><td colspan="4" class="py-20 text-center text-red-500 font-bold">Gagal sinkronisasi data analitik.</td></tr>';
             });
     });
 </script>

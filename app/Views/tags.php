@@ -2,54 +2,62 @@
 
 <?= $this->section('content') ?>
 
-<div class="container">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb" class="my-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?= base_url('/') ?>" class="text-decoration-none">
-                    <i class="fas fa-home me-2"></i>Beranda
-                </a></li>
-            <li class="breadcrumb-item active" aria-current="page">Semua Tag</li>
+    <nav class="flex mb-16" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
+            <li class="inline-flex items-center">
+                <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
+                    <i class="fas fa-home mr-2 text-blue-800"></i>Beranda
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fas fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <span class="text-slate-400">Indeks Topik</span>
+                </div>
+            </li>
         </ol>
     </nav>
 
     <!-- Header Section -->
-    <div class="row mb-5">
-        <div class="col-12 text-center">
-            <h1 class="fw-bold display-5 mb-3">
-                <i class="fas fa-tags text-primary me-3"></i><?= esc($title) ?>
-            </h1>
-            <div class="border-bottom border-primary mx-auto" style="width: 100px;"></div>
-        </div>
+    <div class="text-center mb-20">
+        <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Klasifikasi Berita</p>
+        <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight">
+            <i class="fas fa-tags text-blue-800 mr-5 opacity-20"></i><?= esc($title) ?>
+        </h1>
+        <div class="mt-8 w-24 h-2 bg-blue-800 mx-auto rounded-full"></div>
+        <p class="mt-8 text-lg text-slate-500 max-w-2xl mx-auto font-medium">Temukan berita berdasarkan topik dan label kata kunci yang anda cari.</p>
     </div>
 
     <?php if (!empty($tags)) : ?>
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="card border-0 shadow rounded-4 overflow-hidden">
-                    <div class="card-body p-5">
-                        <div class="d-flex flex-wrap gap-3 justify-content-center">
-                            <?php foreach ($tags as $tag) : ?>
-                                <a href="<?= base_url('tag/' . esc($tag['slug'])) ?>"
-                                    class="btn btn-lg btn-outline-primary d-flex align-items-center rounded-pill shadow-sm px-4 py-2">
-                                    <i class="fas fa-tag me-2"></i>
-                                    <?= esc($tag['name']) ?>
-                                    <span class="badge bg-primary ms-2 rounded-pill"><?= $tag['post_count'] ?></span>
-                                </a>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
+        <div class="max-w-5xl mx-auto">
+            <div class="bg-white rounded-[3rem] shadow-sm border border-slate-200 p-10 md:p-16">
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <?php foreach ($tags as $tag) : ?>
+                        <a href="<?= base_url('tag/' . esc($tag['slug'])) ?>"
+                            class="inline-flex items-center px-6 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-700 hover:bg-blue-800 hover:text-white hover:border-blue-900 transition-all group shadow-sm">
+                            <i class="fas fa-tag mr-3 text-slate-300 group-hover:text-sky-300 transition-colors"></i>
+                            <span class="font-bold text-sm tracking-tight"><?= esc($tag['name']) ?></span>
+                            <span class="ml-4 px-2 py-0.5 bg-slate-200 text-slate-500 text-[10px] font-black rounded-lg group-hover:bg-blue-900 group-hover:text-white transition-all">
+                                <?= number_format($tag['post_count']) ?>
+                            </span>
+                        </a>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
     <?php else : ?>
         <!-- Empty State -->
-        <div class="text-center py-5">
-            <div class="mb-4">
-                <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+        <div class="text-center py-24 bg-white rounded-[3rem] border border-slate-200 shadow-sm px-8 max-w-2xl mx-auto">
+            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200">
+                <i class="fas fa-tags text-5xl"></i>
             </div>
-            <h3 class="text-muted mb-3">Belum ada tag</h3>
-            <p class="text-muted mb-4">Tidak ada tag yang ditemukan.</p>
+            <h3 class="text-3xl font-black text-slate-900 mb-4 tracking-tight">Belum Ada Tag</h3>
+            <p class="text-slate-500 mb-12 leading-relaxed">Saat ini sistem belum memiliki label kata kunci atau tag untuk klasifikasi berita. Silakan kembali lagi nanti.</p>
+            <a href="<?= base_url() ?>" class="inline-flex items-center px-10 py-5 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
+                <i class="fas fa-home mr-3 text-base"></i>Beranda Utama
+            </a>
         </div>
     <?php endif; ?>
 </div>

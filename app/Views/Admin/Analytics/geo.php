@@ -1,66 +1,49 @@
 <?= $this->extend('layout/admin') ?>
 
-<?= $this->section('page_title') ?>Geografis<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Distribusi Geografis<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<a href="<?= base_url('admin/analytics/overview') ?>" class="btn btn-outline-primary btn-sm">
-    <i class="fas fa-arrow-left me-2"></i>Kembali
+<a href="<?= base_url('admin/analytics/overview') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
+    <i class="fas fa-arrow-left mr-2"></i>Kembali
 </a>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-<div class="container-fluid">
-    <div id="loading-spinner" class="d-flex justify-content-center align-items-center py-5">
-        <div class="text-center">
-            <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <p class="text-muted">Memuat data geografis...</p>
-        </div>
-    </div>
 
-    <div id="analytics-content" class="d-none">
-        <div class="row g-3">
-            <div class="col-md-12">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-transparent border-bottom py-4">
-                        <h5 class="fw-bold text-dark mb-0">
-                            <i class="fas fa-flag me-3"></i>Negara
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="countryChart"></canvas>
-                    </div>
-                </div>
+<div id="loading-spinner" class="py-20 flex flex-col items-center justify-center space-y-4">
+    <div class="w-12 h-12 border-4 border-slate-100 border-t-sky-600 rounded-full animate-spin"></div>
+    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Memetakan Lokasi Akses...</span>
+</div>
+
+<div id="analytics-content" class="hidden space-y-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <!-- Chart -->
+        <div class="lg:col-span-5 bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
+            <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] mb-10 flex items-center">
+                <i class="fas fa-chart-pie mr-3 text-sky-600"></i>Proporsi Per Negara
+            </h3>
+            <div class="h-80 relative">
+                <canvas id="countryChart"></canvas>
             </div>
-            <div class="col-md-12">
         </div>
 
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-transparent border-bottom py-4">
-                        <h5 class="fw-bold text-dark mb-0">
-                            <i class="fas fa-map-marker-alt me-3"></i>Distribusi Pengunjung
-                        </h5>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th class="border-0 ps-4 py-3 fw-semibold text-dark">Negara</th>
-                                        <th class="border-0 py-3 fw-semibold text-dark">Wilayah</th>
-                                        <th class="border-0 py-3 fw-semibold text-dark">Kota</th>
-                                        <th class="border-0 py-3 fw-semibold text-dark">Sesi</th>
-                                        <th class="border-0 pe-4 py-3 fw-semibold text-dark">Total Pengguna</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="geo-data" class="border-top-0"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+        <!-- Table -->
+        <div class="lg:col-span-7 bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+            <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
+                <i class="fas fa-map-marker-alt mr-3 text-sky-600 opacity-50"></i>
+                <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">Detail Sebaran Pengunjung</h3>
+            </div>
+            <div class="overflow-x-auto flex-1">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                            <th class="px-8 py-5">Negara</th>
+                            <th class="px-8 py-5">Wilayah / Kota</th>
+                            <th class="px-8 py-5 text-right">User Base</th>
+                        </tr>
+                    </thead>
+                    <tbody id="geo-data" class="divide-y divide-slate-100"></tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -68,129 +51,57 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const loadingSpinner = document.getElementById('loading-spinner');
-        const analyticsContent = document.getElementById('analytics-content');
         const geoData = document.getElementById('geo-data');
 
         fetch('<?= base_url('api/analytics/geo') ?>')
-            .then(response => response.json())
+            .then(r => r.json())
             .then(data => {
-                loadingSpinner.classList.add('d-none');
-                analyticsContent.classList.remove('d-none');
-
-                // Process data for charts
+                document.getElementById('loading-spinner').classList.add('hidden');
+                document.getElementById('analytics-content').classList.remove('hidden');
+                
                 const countryUsers = {};
-
                 data.forEach(item => {
-                    // Country
-                    const country = item.country || 'Tidak diketahui';
-                    countryUsers[country] = (countryUsers[country] || 0) + parseInt(item.totalUsers);
+                    const c = item.country || 'Unknown';
+                    countryUsers[c] = (countryUsers[c] || 0) + parseInt(item.totalUsers);
                 });
 
-                // Create charts
-                createPieChart('countryChart', countryUsers, 'Country');
+                new Chart(document.getElementById('countryChart').getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(countryUsers),
+                        datasets: [{
+                            data: Object.values(countryUsers),
+                            backgroundColor: ['#0369a1', '#0ea5e9', '#7dd3fc', '#e0f2fe', '#bae6fd'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10, weight: 'bold' } } } }, cutout: '70%' }
+                });
 
-                // Clear existing data
                 geoData.innerHTML = '';
-
-                // Populate table with data
-                data.forEach((item, index) => {
+                data.forEach(item => {
                     const row = document.createElement('tr');
-                    row.className = 'border-bottom';
-
+                    row.className = 'hover:bg-slate-50 transition-colors group';
                     row.innerHTML = `
-                        <td class="ps-4 py-3">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <span class="fw-semibold text-dark">${item.country || 'Tidak diketahui'}</span>
-                                </div>
+                        <td class="px-8 py-6">
+                            <div class="flex items-center">
+                                <span class="font-bold text-slate-900 tracking-tight text-xs">${item.country || 'Direct'}</span>
                             </div>
                         </td>
-                        <td class="py-3">
-                            <span class="text-dark">${item.region || '-'}</span>
+                        <td class="px-8 py-6">
+                            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">${item.region || '-'}</div>
+                            <div class="text-[9px] text-slate-400 font-medium italic">${item.city || '-'}</div>
                         </td>
-                        <td class="py-3">
-                            <span class="text-dark">${item.city || '-'}</span>
-                        </td>
-                        <td class="py-3">
-                            <span class="fw-bold text-dark">${item.sessions}</span>
-                        </td>
-                        <td class="pe-4 py-3">
-                            <span class="fw-bold text-dark">${item.totalUsers}</span>
+                        <td class="px-8 py-6 text-right">
+                            <span class="px-3 py-1 bg-sky-50 text-sky-700 text-[10px] font-black rounded-lg border border-sky-100">
+                                ${parseInt(item.totalUsers).toLocaleString()} Users
+                            </span>
                         </td>
                     `;
                     geoData.appendChild(row);
                 });
-            })
-            .catch(error => {
-                console.error('Error fetching geo data:', error);
-                loadingSpinner.classList.add('d-none');
-                analyticsContent.classList.remove('d-none');
-
-                // Show error message
-                geoData.innerHTML = `
-                    <tr class="border-bottom">
-                        <td colspan="5" class="text-center py-5 text-muted">
-                            <i class="fas fa-exclamation-circle fs-1 mb-3"></i>
-                            <p>Gagal memuat data. Silakan refresh halaman.</p>
-                        </td>
-                    </tr>
-                `;
             });
-
-        function createPieChart(canvasId, data, label) {
-            const ctx = document.getElementById(canvasId).getContext('2d');
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(data),
-                    datasets: [{
-                        label: label,
-                        data: Object.values(data),
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.8)',
-                            'rgba(54, 162, 235, 0.8)',
-                            'rgba(255, 206, 86, 0.8)',
-                            'rgba(75, 192, 192, 0.8)',
-                            'rgba(153, 102, 255, 0.8)',
-                            'rgba(255, 159, 64, 0.8)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += new Intl.NumberFormat('id-ID').format(context.parsed);
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
     });
 </script>
+
 <?= $this->endSection() ?>

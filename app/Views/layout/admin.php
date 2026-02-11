@@ -54,7 +54,8 @@
                 <!-- Brand -->
                 <div class="flex items-center justify-between h-20 px-6 bg-slate-950 border-b border-slate-800">
                     <a href="<?= base_url('admin') ?>" class="flex items-center space-x-3">
-                        <img src="<?= base_url('humas.png') ?>" alt="Logo" class="h-10 w-auto brightness-200">
+                        <!-- Official Logo Humas Sinjai - Untouched -->
+                        <img src="<?= base_url('humas.png') ?>" alt="Logo" class="h-10 w-auto">
                         <span class="text-white font-bold text-lg tracking-tight">E-PORTAL</span>
                     </a>
                     <button id="close-sidebar" class="lg:hidden text-slate-500 hover:text-white">

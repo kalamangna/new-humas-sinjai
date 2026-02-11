@@ -1,191 +1,144 @@
-[file name]: index.php
-[file content begin]
 <?= $this->extend('layout/admin') ?>
 
-<?= $this->section('page_title') ?>Kelola Kategori<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Manajemen Kategori<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<a href="<?= base_url('admin/categories/new') ?>" class="btn btn-primary">
-    <i class="fas fa-plus-circle me-2"></i>Tambah Kategori
+<a href="<?= base_url('admin/categories/new') ?>" class="inline-flex items-center px-4 py-2 bg-blue-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
+    <i class="fas fa-plus-circle mr-2"></i>Tambah Kategori
 </a>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
-<!-- Search and Filter -->
-<div class="card border-0 shadow-sm mb-4">
-    <div class="card-body">
-        <form action="<?= base_url('admin/categories') ?>" method="get">
-            <div class="row g-3">
-                <div class="col-md-9">
-                    <input type="text" name="search" class="form-control" placeholder="Cari nama kategori..." value="<?= esc($filters['search'] ?? '') ?>">
-                </div>
-                <div class="col-md-3">
-                    <div class="d-grid d-md-flex gap-2">
-                        <button type="submit" class="btn btn-primary w-100">Filter</button>
-                        <a href="<?= base_url('admin/categories') ?>" class="btn btn-outline-secondary w-100">Reset</a>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
+<!-- Search Filter -->
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
+    <form action="<?= base_url('admin/categories') ?>" method="get" class="flex flex-col md:flex-row gap-4">
+        <div class="flex-1">
+            <input type="text" name="search" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Cari nama kategori..." value="<?= esc($filters['search'] ?? '') ?>">
+        </div>
+        <div class="flex gap-2">
+            <button type="submit" class="px-6 py-2 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all">Filter</button>
+            <a href="<?= base_url('admin/categories') ?>" class="px-6 py-2 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200">Reset</a>
+        </div>
+    </form>
 </div>
 
-<!-- Stats Overview -->
-<div class="row g-3 mb-4">
-    <div class="col-xl-4 col-md-6">
-        <div class="card border-0 bg-primary text-white">
-            <div class="card-body p-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h4 class="fw-bold mb-0"><?= $total_categories ?? '0' ?></h4>
-                        <small>Total Kategori</small>
-                    </div>
-                    <i class="fas fa-folder fa-2x opacity-75"></i>
-                </div>
+<!-- Stats -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-blue-800 p-6 rounded-2xl shadow-lg shadow-blue-900/20 text-white">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Total Kategori</p>
+                <h3 class="text-3xl font-black mt-1"><?= $total_categories ?? '0' ?></h3>
             </div>
+            <i class="fas fa-folder text-3xl opacity-30"></i>
         </div>
     </div>
-    <div class="col-xl-4 col-md-6">
-        <div class="card border-0 bg-success text-white">
-            <div class="card-body p-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h4 class="fw-bold mb-0"><?= $active_categories ?? '0' ?></h4>
-                        <small>Kategori Aktif</small>
-                    </div>
-                    <i class="fas fa-check-circle fa-2x opacity-75"></i>
-                </div>
+    <div class="bg-emerald-600 p-6 rounded-2xl shadow-lg shadow-emerald-900/20 text-white">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Kategori Aktif</p>
+                <h3 class="text-3xl font-black mt-1"><?= $active_categories ?? '0' ?></h3>
             </div>
+            <i class="fas fa-check-circle text-3xl opacity-30"></i>
         </div>
     </div>
-    <div class="col-xl-4 col-md-6">
-        <div class="card border-0 bg-info text-white">
-            <div class="card-body p-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h4 class="fw-bold mb-0"><?= $total_posts ?? '0' ?></h4>
-                        <small>Total Berita</small>
-                    </div>
-                    <i class="fas fa-newspaper fa-2x opacity-75"></i>
-                </div>
+    <div class="bg-sky-600 p-6 rounded-2xl shadow-lg shadow-sky-900/20 text-white">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Total Berita</p>
+                <h3 class="text-3xl font-black mt-1"><?= $total_posts ?? '0' ?></h3>
             </div>
+            <i class="fas fa-newspaper text-3xl opacity-30"></i>
         </div>
     </div>
 </div>
 
-<!-- Categories Table View -->
-<div class="card border-0 shadow-sm">
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead class="bg-light">
-                    <tr>
-                        <th class="border-0 ps-4">Nama Kategori</th>
-                        <th class="border-0">Slug</th>
-                        <th class="border-0">Parent</th>
-                        <th class="border-0">Jumlah Berita</th>
-                        <th class="border-0 text-end pe-4">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($categories)): ?>
-                        <?php foreach ($categories as $category): ?>
-                            <tr>
-                                <td class="ps-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 40px; height: 40px;">
-                                            <i class="fas fa-folder text-white"></i>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="fw-bold mb-0 text-dark"><?= esc($category['name']) ?></h6>
-                                            <?php if (!empty($category['description'])) : ?>
-                                                <small class="text-muted"><?= esc($category['description']) ?></small>
-                                            <?php endif; ?>
-                                        </div>
+<!-- Table -->
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                    <th class="px-8 py-5">Nama Kategori</th>
+                    <th class="px-8 py-5">Identitas (Slug)</th>
+                    <th class="px-8 py-5">Induk (Parent)</th>
+                    <th class="px-8 py-5">Total Konten</th>
+                    <th class="px-8 py-5 text-right">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                <?php if (!empty($categories)): ?>
+                    <?php foreach ($categories as $category): ?>
+                        <tr class="hover:bg-slate-50 transition-colors group">
+                            <td class="px-8 py-6">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-blue-50 text-blue-800 rounded-xl flex items-center justify-center mr-4 group-hover:bg-blue-800 group-hover:text-white transition-all">
+                                        <i class="fas fa-folder"></i>
                                     </div>
-                                </td>
-                                <td>
-                                    <code class="text-muted">/<?= esc($category['slug']) ?></code>
-                                </td>
-                                <td>
-                                    <?= esc($category['parent_name'] ?? '-') ?>
-                                </td>
-                                <td>
-                                    <span class="badge bg-primary"><?= $category['post_count'] ?? '0' ?></span>
-                                </td>
-                                <td class="text-end pe-4">
-                                    <div class="btn-group" role="group">
-                                        <?php if (($category['post_count'] ?? 0) > 0): ?>
-                                            <a href="<?= base_url('category/' . esc($category['slug'])) ?>" target="_blank" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Lihat Berita">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
+                                    <div>
+                                        <div class="font-bold text-slate-900 tracking-tight"><?= esc($category['name']) ?></div>
+                                        <?php if (!empty($category['description'])) : ?>
+                                            <div class="text-[10px] text-slate-400 font-medium italic mt-0.5"><?= esc($category['description']) ?></div>
                                         <?php endif; ?>
-                                        <a href="<?= base_url('admin/categories/' . $category['id'] . '/edit') ?>" class="btn btn-sm btn-outline-warning" data-bs-toggle="tooltip" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <form action="<?= base_url('admin/categories/' . $category['id']) ?>" method="post" class="d-inline">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <?= csrf_field() ?>
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus kategori <?= esc($category['name']) ?>?')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
                                     </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="5" class="text-center py-5">
-                                <?php if (!empty($filters['search'])) : ?>
-                                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
-                                    <h5 class="text-muted">Tidak ada kategori ditemukan</h5>
-                                    <p class="text-muted">Tidak ada kategori yang sesuai dengan kriteria pencarian Anda.</p>
-                                    <a href="<?= base_url('admin/categories') ?>" class="btn btn-primary mt-3">
-                                        <i class="fas fa-sync-alt me-2"></i>Reset Filter
-                                    </a>
-                                <?php else : ?>
-                                    <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
-                                    <h5 class="text-muted">Belum ada kategori</h5>
-                                    <p class="text-muted">Mulai dengan membuat kategori pertama Anda.</p>
-                                    <a href="<?= base_url('admin/categories/new') ?>" class="btn btn-primary">
-                                        <i class="fas fa-plus-circle me-2"></i>Tambah Kategori Pertama
+                                </div>
+                            </td>
+                            <td class="px-8 py-6">
+                                <span class="px-3 py-1 bg-slate-100 text-slate-500 font-mono text-[10px] rounded-md border border-slate-200">/<?= esc($category['slug']) ?></span>
+                            </td>
+                            <td class="px-8 py-6 text-sm text-slate-600 font-bold tracking-tight">
+                                <?= esc($category['parent_name'] ?? '-') ?>
+                            </td>
+                            <td class="px-8 py-6">
+                                <span class="px-2.5 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">
+                                    <?= $category['post_count'] ?? '0' ?> Berita
+                                </span>
+                            </td>
+                            <td class="px-8 py-6 text-right space-x-1 whitespace-nowrap">
+                                <a href="<?= base_url('admin/categories/' . $category['id'] . '/edit') ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="<?= base_url('admin/categories/' . $category['id']) ?>" method="post" class="inline">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <?= csrf_field() ?>
+                                    <button type="submit" class="p-2 bg-slate-100 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm" onclick="return confirm('Hapus kategori ini?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                                <?php if (($category['post_count'] ?? 0) > 0): ?>
+                                    <a href="<?= base_url('category/' . esc($category['slug'])) ?>" target="_blank" class="inline-flex items-center p-2 bg-slate-100 text-sky-600 rounded-lg hover:bg-sky-600 hover:text-white transition-all shadow-sm">
+                                        <i class="fas fa-external-link-alt"></i>
                                     </a>
                                 <?php endif; ?>
                             </td>
                         </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5" class="px-8 py-20 text-center">
+                            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-200">
+                                <i class="fas fa-folder-open text-2xl"></i>
+                            </div>
+                            <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tidak ada kategori tersedia</p>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
     </div>
 </div>
 
 <!-- Pagination -->
 <?php if (isset($pager) && $pager->getPageCount() > 1) : ?>
-    <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center justify-content-lg-between mt-4">
-        <div class="text-muted small mb-2 mb-lg-0">
-            <?php
-                $from = ($pager->getCurrentPage() - 1) * $pager->getPerPage() + 1;
-                $to = $from + count($categories) - 1;
-            ?>
-            Menampilkan <?= $from ?>-<?= $to ?> dari <?= $pager->getTotal() ?> kategori
+    <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            Total Record: <span class="text-slate-900"><?= number_format($pager->getTotal()) ?></span> Kategori
         </div>
-        <div class="d-flex align-items-text-center">
+        <div>
             <?= $pager->links('default', 'custom_bootstrap') ?>
         </div>
     </div>
 <?php endif; ?>
-
-<script>
-    // Initialize tooltips
-    document.addEventListener('DOMContentLoaded', function() {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
-    });
-</script>
 
 <?= $this->endSection() ?>

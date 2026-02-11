@@ -3,125 +3,117 @@
 <?= $this->section('content') ?>
 
 <!-- Hero Section -->
-<section class="bg-primary-gradient text-white py-5">
-    <div class="container">
-        <div class="row g-3">
-            <div class="col-12 text-center">
-                <h1 class="display-5 fw-bold mb-3">Tentang Kami</h1>
-                <p class="lead mb-0">
-                    Humas Sinjai menyajikan informasi publik yang transparan dan terpercaya.
-                </p>
-            </div>
-        </div>
+<section class="bg-blue-800 text-white py-20 border-b-8 border-blue-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="text-[11px] font-black text-sky-400 uppercase tracking-[0.5em] mb-4">Profil Lembaga</p>
+        <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight uppercase">Tentang Kami</h1>
+        <p class="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto font-medium leading-relaxed">
+            Humas Sinjai menyajikan informasi publik yang transparan, akurat, dan terpercaya untuk seluruh elemen masyarakat.
+        </p>
     </div>
 </section>
 
-<div class="container">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb" class="my-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="<?= base_url('/') ?>" class="text-decoration-none">
-                    <i class="fas fa-home me-2"></i>Beranda
+    <nav class="flex mb-16" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
+            <li class="inline-flex items-center">
+                <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
+                    <i class="fas fa-home mr-2 text-blue-800"></i>Beranda
                 </a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Tentang</li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fas fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <span class="text-slate-400">Profil</span>
+                </div>
+            </li>
         </ol>
     </nav>
 
     <!-- Visi Misi Section -->
-    <div class="row mb-5">
-        <div class="col-lg-6 mb-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body p-4">
-                    <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                        <i class="fas fa-bullseye text-white fa-lg"></i>
-                    </div>
-                    <h3 class="fw-bold mb-3">Visi</h3>
-                    <p class="text-muted mb-0">
-                        Menjadi pusat informasi yang terpercaya, transparan, dan akurat dalam mendukung pembangunan serta pelayanan publik di Kabupaten Sinjai.
-                    </p>
-                </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-24">
+        <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 relative overflow-hidden group hover:shadow-xl transition-all duration-500">
+            <div class="absolute top-0 right-0 p-8 text-slate-50 opacity-10 group-hover:opacity-20 transition-opacity">
+                <i class="fas fa-bullseye text-9xl"></i>
             </div>
+            <div class="w-16 h-16 bg-blue-800 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-900/20 mb-8">
+                <i class="fas fa-bullseye text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-black text-slate-900 mb-6 uppercase tracking-tight">Visi</h3>
+            <p class="text-slate-600 leading-relaxed font-medium">
+                Menjadi pusat informasi yang terpercaya, transparan, dan akurat dalam mendukung pembangunan serta pelayanan publik di Kabupaten Sinjai.
+            </p>
         </div>
-        <div class="col-lg-6 mb-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body p-4">
-                    <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                        <i class="fas fa-tasks text-white fa-lg"></i>
-                    </div>
-                    <h3 class="fw-bold mb-3">Misi</h3>
-                    <ul class="text-muted mb-0 ps-3">
-                        <li>Menyediakan informasi publik yang cepat, akurat, dan mudah diakses oleh masyarakat.</li>
-                        <li>Memperkuat komunikasi dua arah antara pemerintah dan masyarakat.</li>
-                        <li>Mempromosikan potensi daerah dan keberhasilan pembangunan di Kabupaten Sinjai.</li>
-                        <li>Meningkatkan citra positif pemerintah daerah melalui transparansi dan profesionalisme komunikasi publik.</li>
-                    </ul>
-                </div>
+
+        <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 relative overflow-hidden group hover:shadow-xl transition-all duration-500">
+            <div class="absolute top-0 right-0 p-8 text-slate-50 opacity-10 group-hover:opacity-20 transition-opacity">
+                <i class="fas fa-tasks text-9xl"></i>
             </div>
+            <div class="w-16 h-16 bg-blue-800 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-900/20 mb-8">
+                <i class="fas fa-tasks text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-black text-slate-900 mb-6 uppercase tracking-tight">Misi</h3>
+            <ul class="space-y-4">
+                <?php 
+                $misis = [
+                    "Menyediakan informasi publik yang cepat, akurat, dan mudah diakses oleh masyarakat.",
+                    "Memperkuat komunikasi dua arah antara pemerintah dan masyarakat.",
+                    "Mempromosikan potensi daerah dan keberhasilan pembangunan di Kabupaten Sinjai.",
+                    "Meningkatkan citra positif pemerintah daerah melalui transparansi dan profesionalisme komunikasi publik."
+                ];
+                foreach($misis as $misi): ?>
+                    <li class="flex items-start text-slate-600 font-medium">
+                        <i class="fas fa-check-circle text-blue-800 mt-1.5 mr-4 text-sm"></i>
+                        <span class="leading-relaxed"><?= $misi ?></span>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
         </div>
     </div>
 
     <!-- About Content -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-5">
-                    <h2 class="fw-bold mb-4">Profil Humas Sinjai</h2>
-                    <p class="text-muted mb-4">
-                        Bagian Hubungan Masyarakat (Humas) Pemerintah Kabupaten Sinjai merupakan unit kerja yang bertanggung jawab dalam pengelolaan informasi dan komunikasi publik. Kami hadir sebagai jembatan antara pemerintah dan masyarakat dalam menyampaikan berbagai informasi penting seputar kebijakan, program, dan kegiatan pembangunan.
+    <div class="bg-white rounded-[3rem] shadow-sm border border-slate-200 overflow-hidden mb-24">
+        <div class="grid grid-cols-1 lg:grid-cols-12">
+            <div class="lg:col-span-5 bg-slate-50 p-12 lg:p-16 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-slate-200">
+                <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4 text-center lg:text-left">Official Profile</p>
+                <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-8 leading-tight text-center lg:text-left tracking-tight">Profil Humas Sinjai</h2>
+                <div class="w-20 h-2 bg-blue-800 rounded-full mx-auto lg:mx-0"></div>
+            </div>
+            <div class="lg:col-span-7 p-12 lg:p-16">
+                <div class="prose prose-slate lg:prose-lg max-w-none text-slate-600 font-medium leading-relaxed">
+                    <p class="mb-8">
+                        Bagian Hubungan Masyarakat (Humas) Pemerintah Kabupaten Sinjai merupakan unit kerja strategis yang bertanggung jawab dalam pengelolaan informasi dan komunikasi publik secara komprehensif. Kami hadir sebagai jembatan utama antara pemerintah dan masyarakat dalam menyampaikan berbagai informasi krusial seputar kebijakan, program strategis, serta realisasi kegiatan pembangunan di seluruh wilayah Kabupaten Sinjai.
                     </p>
-                    <p class="text-muted">
-                        Melalui berbagai kanal komunikasi, baik media sosial, website resmi, maupun kegiatan tatap muka, Humas Sinjai berkomitmen menjadi garda terdepan dalam menyebarluaskan informasi publik yang membangun dan inspiratif bagi seluruh masyarakat Sinjai.
+                    <p>
+                        Melalui berbagai kanal komunikasi modern, mulai dari media sosial, portal web resmi, hingga kegiatan sosialisasi tatap muka, Humas Sinjai berkomitmen menjadi garda terdepan dalam menyebarluaskan informasi publik yang konstruktif dan inspiratif bagi seluruh lapisan masyarakat Sinjai demi terwujudnya tata kelola pemerintahan yang baik (Good Governance).
                     </p>
+                </div>
 
-                    <h4 class="fw-bold mb-3">Tugas dan Fungsi</h4>
-                    <div class="row g-3">
-                        <div class="col-md-6 mb-3">
-                            <div class="d-flex align-items-start">
-                                <i class="fas fa-check-circle text-primary me-3 mt-1"></i>
+                <div class="mt-16">
+                    <h4 class="text-xs font-black text-slate-900 uppercase tracking-[0.3em] mb-10 flex items-center">
+                        <i class="fas fa-layer-group mr-3 text-blue-800"></i>Tugas Pokok & Fungsi
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <?php 
+                        $tugas = [
+                            ["Pengelolaan Informasi", "Mengumpulkan, mengolah, dan menyebarluaskan informasi resmi pemerintah."],
+                            ["Media Relations", "Menjalin hubungan profesional dengan media massa nasional dan lokal."],
+                            ["Publikasi Daerah", "Mempublikasikan berbagai kegiatan strategis dan prestasi pemerintah daerah."],
+                            ["Dokumentasi Visual", "Mendokumentasikan seluruh kegiatan pemerintah melalui foto dan video profesional."],
+                            ["Manajemen Isu", "Menangani isu publik dan menyampaikan klarifikasi resmi demi reputasi daerah."]
+                        ];
+                        foreach($tugas as $t): ?>
+                            <div class="flex items-start group">
+                                <div class="w-10 h-10 bg-slate-100 text-blue-800 rounded-lg flex items-center justify-center flex-shrink-0 mr-5 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300">
+                                    <i class="fas fa-check text-xs"></i>
+                                </div>
                                 <div>
-                                    <h6 class="fw-bold">Pengelolaan Informasi</h6>
-                                    <p class="text-muted small">Mengumpulkan, mengolah, dan menyebarluaskan informasi resmi pemerintah</p>
+                                    <h6 class="font-black text-slate-900 text-sm mb-2 uppercase tracking-wide"><?= $t[0] ?></h6>
+                                    <p class="text-slate-500 text-xs leading-relaxed font-medium"><?= $t[1] ?></p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="d-flex align-items-start">
-                                <i class="fas fa-check-circle text-primary me-3 mt-1"></i>
-                                <div>
-                                    <h6 class="fw-bold">Media Relations</h6>
-                                    <p class="text-muted small">Menjalin hubungan baik dengan media massa dan menjawab kebutuhan informasi</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="d-flex align-items-start">
-                                <i class="fas fa-check-circle text-primary me-3 mt-1"></i>
-                                <div>
-                                    <h6 class="fw-bold">Publikasi</h6>
-                                    <p class="text-muted small">Mempublikasikan berbagai kegiatan dan prestasi pemerintah daerah</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="d-flex align-items-start">
-                                <i class="fas fa-check-circle text-primary me-3 mt-1"></i>
-                                <div>
-                                    <h6 class="fw-bold">Documentation</h6>
-                                    <p class="text-muted small">Mendokumentasikan seluruh kegiatan pemerintah melalui foto dan video</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="d-flex align-items-start">
-                                <i class="fas fa-check-circle text-primary me-3 mt-1"></i>
-                                <div>
-                                    <h6 class="fw-bold">Manajemen Krisis Informasi</h6>
-                                    <p class="text-muted small">Menangani isu publik dan menyampaikan klarifikasi resmi untuk menjaga reputasi pemerintah daerah.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -129,45 +121,28 @@
     </div>
 
     <!-- Team Section -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <h2 class="fw-bold text-center mb-5">Struktur Organisasi</h2>
-            <div class="row justify-content-center g-3">
-                <div class="col-md-4 mb-4">
-                    <div class="card text-center border-0 shadow-sm">
-                        <div class="card-body p-4">
-                            <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                                <i class="fas fa-user-tie text-white fa-2x"></i>
-                            </div>
-                            <h5 class="fw-bold">Kepala Bidang</h5>
-                            <p class="text-muted small">Memimpin dan mengkoordinasi seluruh kegiatan humas</p>
-                        </div>
-                    </div>
+    <div class="text-center mb-16">
+        <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Leadership</p>
+        <h2 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">Struktur Organisasi</h2>
+        <div class="mt-6 w-24 h-2 bg-blue-800 mx-auto rounded-full"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <?php 
+        $teams = [
+            ["Kepala Bidang", "Memimpin dan mengkoordinasi seluruh kegiatan komunikasi publik.", "fa-user-tie"],
+            ["Staf Humas", "Melaksanakan tugas-tugas operasional dan layanan informasi publik.", "fa-users"],
+            ["Tim Dokumentasi", "Produksi konten visual profesional melalui foto dan video.", "fa-camera"]
+        ];
+        foreach($teams as $team): ?>
+            <div class="bg-white text-center p-10 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-500 group">
+                <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-8 border-2 border-slate-100 group-hover:bg-blue-800 group-hover:border-blue-900 transition-all duration-500">
+                    <i class="fas <?= $team[2] ?> text-slate-300 text-3xl group-hover:text-white transition-colors duration-500"></i>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card text-center border-0 shadow-sm">
-                        <div class="card-body p-4">
-                            <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                                <i class="fas fa-users text-white fa-2x"></i>
-                            </div>
-                            <h5 class="fw-bold">Staf Humas</h5>
-                            <p class="text-muted small">Melaksanakan tugas-tugas operasional humas</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card text-center border-0 shadow-sm">
-                        <div class="card-body p-4">
-                            <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                                <i class="fas fa-camera text-white fa-2x"></i>
-                            </div>
-                            <h5 class="fw-bold">Tim Dokumentasi</h5>
-                            <p class="text-muted small">Mendokumentasikan kegiatan melalui foto dan video</p>
-                        </div>
-                    </div>
-                </div>
+                <h5 class="text-xl font-black text-slate-900 mb-4 tracking-tight"><?= $team[0] ?></h5>
+                <p class="text-slate-500 text-sm font-medium leading-relaxed"><?= $team[1] ?></p>
             </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 </div>
 

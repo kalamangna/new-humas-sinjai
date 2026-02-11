@@ -2,188 +2,106 @@
 
 <?= $this->section('content') ?>
 
-<!-- Hero Section -->
-<section class="bg-primary-gradient text-white py-5">
-    <div class="container">
-        <div class="row g-3">
-            <div class="col-12 text-center">
-                <h1 class="display-5 fw-bold mb-3">Kontak Kami</h1>
-                <p class="lead mb-0">
-                    Hubungi Humas Sinjai untuk pertanyaan, saran, atau pengaduan.
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<div class="container">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb" class="my-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="<?= base_url('/') ?>" class="text-decoration-none">
-                    <i class="fas fa-home me-2"></i>Beranda
+    <nav class="flex mb-16" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
+            <li class="inline-flex items-center">
+                <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
+                    <i class="fas fa-home mr-2 text-blue-800"></i>Beranda
                 </a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Kontak</li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fas fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <span class="text-slate-400">Hubungi Kami</span>
+                </div>
+            </li>
         </ol>
     </nav>
 
-    <div class="row g-3">
-        <!-- Contact Information -->
-        <div class="col-lg-4 mb-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body p-4">
-                    <h3 class="fw-bold mb-4">Informasi Kontak</h3>
-                    <p class="text-muted small mb-4">
-                        Silakan hubungi kami melalui kanal berikut untuk pertanyaan, klarifikasi, maupun kerja sama informasi publik.
+    <!-- Header Section -->
+    <div class="text-center mb-20">
+        <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Layanan Informasi</p>
+        <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight">
+            <i class="fas fa-headset text-blue-800 mr-5 opacity-20"></i>Kontak Kami
+        </h1>
+        <div class="mt-8 w-24 h-2 bg-blue-800 mx-auto rounded-full"></div>
+        <p class="mt-8 text-lg text-slate-500 max-w-2xl mx-auto font-medium">Kami siap melayani kebutuhan informasi dan komunikasi publik seputar Pemerintah Kabupaten Sinjai.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20">
+        <!-- Contact Info Cards -->
+        <div class="lg:col-span-5 space-y-8">
+            <!-- Address Card -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex items-start group hover:border-blue-800 transition-all duration-300">
+                <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center flex-shrink-0 mr-6 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300 shadow-sm">
+                    <i class="fas fa-map-marker-alt text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Alamat Kantor</h3>
+                    <p class="text-slate-900 font-bold leading-relaxed tracking-tight text-lg">
+                        Jl. Persatuan Raya No. 101, Balangnipa, Kec. Sinjai Utara, Kab. Sinjai
                     </p>
+                </div>
+            </div>
 
-                    <div class="mb-4">
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                                <i class="fas fa-map-marker-alt text-white"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold mb-1">Alamat Kantor</h6>
-                                <p class="text-muted mb-0 small">
-                                    Jl. Persatuan Raya No. 101<br>
-                                    Kel. Balangnipa, Kec. Sinjai Utara<br>
-                                    Kab. Sinjai, Sulawesi Selatan
-                                </p>
-                            </div>
-                        </div>
+            <!-- Email Card -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex items-start group hover:border-blue-800 transition-all duration-300">
+                <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center flex-shrink-0 mr-6 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300 shadow-sm">
+                    <i class="fas fa-envelope text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Email Resmi</h3>
+                    <p class="text-slate-900 font-bold leading-relaxed tracking-tight text-lg">
+                        humas@sinjaikab.go.id
+                    </p>
+                    <p class="text-slate-500 text-sm mt-1 font-medium">Layanan surat elektronik 24/7</p>
+                </div>
+            </div>
 
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                                <i class="fas fa-envelope text-white"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold mb-1">Email</h6>
-                                <p class="text-muted mb-0 small">humas@sinjaikab.go.id</p>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                                <i class="fas fa-phone text-white"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold mb-1">Telepon</h6>
-                                <p class="text-muted mb-0 small">(0482) 123456</p>
-                            </div>
-                        </div>
-
-                        <div class="d-flex align-items-start">
-                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                                <i class="fas fa-clock text-white"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold mb-1">Jam Operasional</h6>
-                                <p class="text-muted mb-0 small">
-                                    Senin - Jumat: 08.00 - 16.00 WITA<br>
-                                    Sabtu - Minggu: Tutup
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-4">
-                        <h6 class="fw-bold mb-3">Media Sosial</h6>
-                        <div class="d-flex gap-3">
-                            <a href="https://www.facebook.com/FP.KabupatenSinjai" target="_blank" class="text-primary fs-5" title="Facebook"><i class="fab fa-facebook"></i></a>
-                            <a href="https://x.com/sinjaikab" target="_blank" class="text-primary fs-5" title="Twitter"><i class="fab fa-x-twitter"></i></a>
-                            <a href="https://www.instagram.com/sinjaikab" target="_blank" class="text-primary fs-5" title="Instagram"><i class="fab fa-instagram"></i></a>
-                            <a href="https://www.youtube.com/@SINJAITV" target="_blank" class="text-primary fs-5" title="YouTube"><i class="fab fa-youtube"></i></a>
-                            <a href="https://www.tiktok.com/@pemkabsinjai" target="_blank" class="text-primary fs-5" title="TikTok"><i class="fab fa-tiktok"></i></a>
-                        </div>
+            <!-- Social Card -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex items-start group hover:border-blue-800 transition-all duration-300">
+                <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center flex-shrink-0 mr-6 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300 shadow-sm">
+                    <i class="fas fa-share-alt text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Media Sosial</h3>
+                    <div class="flex space-x-4 mt-2">
+                        <a href="https://www.facebook.com/FP.KabupatenSinjai" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/sinjaikab" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@pemkabsinjai" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://www.youtube.com/@SINJAITV" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Contact Form -->
-        <div class="col-lg-8 mb-4">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4">
-                    <h3 class="fw-bold mb-4">Kirim Pesan</h3>
-                    <form action="/contact/send" method="post">
-                        <div class="row g-3">
-                            <div class="col-md-6 mb-3">
-                                <label for="name" class="form-label fw-semibold">Nama Lengkap</label>
-                                <input type="text" class="form-control" id="name" name="name" required placeholder="Masukkan nama lengkap">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label fw-semibold">Alamat Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required placeholder="Masukkan alamat email">
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="subject" class="form-label fw-semibold">Subjek Pesan</label>
-                            <input type="text" class="form-control" id="subject" name="subject" required placeholder="Masukkan subjek pesan">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="category" class="form-label fw-semibold">Kategori</label>
-                            <select class="form-select" id="category" name="category" required>
-                                <option value="" selected disabled>Pilih kategori pesan</option>
-                                <option value="informasi">Permintaan Informasi</option>
-                                <option value="pengaduan">Pengaduan</option>
-                                <option value="saran">Saran & Kritik</option>
-                                <option value="kerjasama">Penawaran Kerjasama</option>
-                                <option value="lainnya">Lainnya</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="message" class="form-label fw-semibold">Isi Pesan</label>
-                            <textarea class="form-control" id="message" name="message" rows="5" required placeholder="Tuliskan pesan Anda di sini..."></textarea>
-                        </div>
-
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="fas fa-paper-plane me-2"></i>Kirim Pesan
-                            </button>
-                        </div>
-                    </form>
+        <!-- Map Section -->
+        <div class="lg:col-span-7">
+            <div class="bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden h-full min-h-[450px] relative">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15914.868748882522!2d120.25206256860015!3d-5.12061324749323!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2db951010072b7a9%3A0x8WX2QetWMMaGdYiw5!2sBalangnipa%2C%20Sinjai%20Utara%2C%20Sinjai%20Regency%2C%20South%20Sulawesi!5e0!3m2!1sen!2sid!4v1715600000000!5m2!1sen!2sid" 
+                    class="absolute inset-0 w-full h-full border-0 grayscale opacity-80" 
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div class="absolute bottom-6 right-6">
+                    <a href="https://maps.app.goo.gl/8WX2QetWMMaGdYiw5" target="_blank" class="px-6 py-3 bg-blue-800 text-white font-black text-[10px] uppercase tracking-widest rounded-xl shadow-xl hover:bg-blue-900 transition-all flex items-center">
+                        <i class="fas fa-directions mr-2 text-base"></i>Buka Navigasi
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Map Section -->
-    <div class="row mt-5">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4">
-                    <h3 class="fw-bold mb-4">Lokasi Kantor</h3>
-                    <div class="bg-light rounded" style="height: 400px;">
-                        <!-- Placeholder for Google Maps -->
-                        <!-- <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-secondary text-white">
-                            <div class="text-center">
-                                <i class="fas fa-map-marked-alt fa-3x mb-3"></i>
-                                <h5>Peta Lokasi Humas Sinjai</h5>
-                                <p class="mb-0">Jl. Persatuan Raya No. 101, Sinjai Utara</p>
-                            </div>
-                        </div> -->
-
-                        <!-- Actual Google Maps embed code would go here: -->
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.884098132308!2d120.25260607504117!3d-5.122372394854708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbc25decc193715%3A0xd7b2dd45eb907b0a!2sDinas%20Komunikasi%20Informatika%20dan%20Persandian%20Kabupaten%20Sinjai!5e0!3m2!1sen!2sid!4v1761821837072!5m2!1sen!2sid"
-                            width="100%"
-                            height="400"
-                            style="border:0;"
-                            allowfullscreen=""
-                            loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
-                    </div>
-                    <p class="text-muted small mt-3 text-center">
-                        Klik peta di atas untuk membuka lokasi di Google Maps.
-                    </p>
-                </div>
-            </div>
+    <!-- Complaint Section -->
+    <div class="bg-slate-900 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-64 h-64 bg-blue-800/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+        <div class="relative z-10">
+            <h2 class="text-2xl md:text-4xl font-black text-white mb-6 tracking-tight">Punya Pengaduan atau Aspirasi?</h2>
+            <p class="text-slate-400 mb-12 max-w-2xl mx-auto font-medium">Gunakan layanan aspirasi dan pengaduan online rakyat (LAPOR!) untuk menyampaikan keluhan anda secara langsung kepada pihak berwenang.</p>
+            <a href="https://lapor.go.id/" target="_blank" class="inline-block bg-white p-5 rounded-2xl hover:shadow-2xl hover:shadow-blue-900/40 transition-all hover:-translate-y-1">
+                <img src="<?= base_url('lapor.png') ?>" alt="Lapor" class="h-16 w-auto">
+            </a>
+            <p class="mt-8 text-blue-500 font-black text-[10px] uppercase tracking-widest italic">#BeraniLAPORUntukPerubahan</p>
         </div>
     </div>
 </div>

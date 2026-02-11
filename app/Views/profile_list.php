@@ -2,24 +2,37 @@
 
 <?= $this->section('content') ?>
 
-<div class="container">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb" class="my-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?= base_url('/') ?>" class="text-decoration-none"><i class="fas fa-home me-2"></i>Beranda</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Profil</li>
-            <li class="breadcrumb-item active" aria-current="page"><?= esc($title) ?></li>
+    <nav class="flex mb-12" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
+            <li class="inline-flex items-center">
+                <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
+                    <i class="fas fa-home mr-2 text-blue-800"></i>Beranda
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fas fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <span class="text-slate-400">Profil Pejabat</span>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fas fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <span class="text-slate-400"><?= esc($title) ?></span>
+                </div>
+            </li>
         </ol>
     </nav>
 
     <!-- Header Section -->
-    <div class="row mb-5">
-        <div class="col-12 text-center">
-            <h2 class="fw-bold display-5 mb-3">
-                <i class="fas fa-users text-primary me-3"></i><?= esc($title) ?>
-            </h2>
-            <div class="border-bottom border-primary mx-auto" style="width: 100px;"></div>
-        </div>
+    <div class="text-center mb-20">
+        <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Informasi Pejabat Daerah</p>
+        <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight">
+            <i class="fas fa-users text-blue-800 mr-5 opacity-20"></i><?= esc($title) ?>
+        </h1>
+        <div class="mt-8 w-24 h-2 bg-blue-800 mx-auto rounded-full"></div>
     </div>
 
     <?php 
@@ -33,54 +46,69 @@
     ?>
 
     <?php if ($hasData) : ?>
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <?php 
-                $displayOrder = ['Forkopimda', 'Eselon II', 'Eselon III', 'Eselon IV', 'Kepala Desa'];
-                foreach ($displayOrder as $groupName) : 
-                    $profiles = $groupedProfiles[$groupName] ?? [];
-                    if (!empty($profiles)) : ?>
-                        <div class="mb-5">
-                            <h3 class="fw-bold text-primary mb-3 ps-3 border-start border-5 border-primary"><?= esc($groupName) ?></h3>
-                            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                                <div class="table-responsive">
-                                    <table class="table table-hover mb-0 align-middle">
-                                        <thead class="bg-light">
-                                            <tr>
-                                                <th class="py-3 ps-4" style="width: 35%;">Nama</th>
-                                                <th class="py-3" style="width: 30%;">Jabatan</th>
-                                                <th class="py-3 pe-4" style="width: 35%;">
-                                                    <?php 
-                                                        if (strpos($groupName, 'Eselon') !== false) echo 'OPD';
-                                                        elseif ($groupName == 'Kepala Desa') echo 'Desa';
-                                                        else echo 'Instansi';
-                                                    ?>
-                                                </th>
+        <div class="max-w-5xl mx-auto">
+            <?php 
+            $displayOrder = ['Forkopimda', 'Eselon II', 'Eselon III', 'Eselon IV', 'Kepala Desa'];
+            foreach ($displayOrder as $groupName) : 
+                $profiles = $groupedProfiles[$groupName] ?? [];
+                if (!empty($profiles)) : ?>
+                    <div class="mb-16">
+                        <div class="flex items-center mb-8">
+                            <span class="w-2 h-10 bg-blue-800 mr-5 rounded-full"></span>
+                            <h3 class="text-2xl font-black text-slate-900 tracking-tight uppercase"><?= esc($groupName) ?></h3>
+                        </div>
+                        
+                        <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-black text-slate-500 uppercase tracking-widest">
+                                            <th class="px-8 py-5">Nama Pejabat / NIP</th>
+                                            <th class="px-8 py-5">Jabatan</th>
+                                            <th class="px-8 py-5">
+                                                <?php 
+                                                    if (strpos($groupName, 'Eselon') !== false) echo 'OPD / Instansi';
+                                                    elseif ($groupName == 'Kepala Desa') echo 'Wilayah / Desa';
+                                                    else echo 'Instansi / Lembaga';
+                                                ?>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100">
+                                        <?php foreach ($profiles as $profile) : ?>
+                                            <tr class="hover:bg-slate-50 transition-colors group">
+                                                <td class="px-8 py-6">
+                                                    <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors"><?= $profile['name'] ? esc($profile['name']) : '-' ?></div>
+                                                    <div class="text-[10px] text-slate-400 mt-1 font-medium italic"><?= esc($profile['nip'] ?? '') ?></div>
+                                                </td>
+                                                <td class="px-8 py-6 text-sm text-slate-600 font-medium">
+                                                    <?= esc($profile['position'] ?? '-') ?>
+                                                </td>
+                                                <td class="px-8 py-6 text-sm text-slate-600 font-medium">
+                                                    <span class="px-3 py-1 bg-slate-100 rounded-lg text-xs border border-slate-200">
+                                                        <?= esc($profile['institution'] ?? '-') ?>
+                                                    </span>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($profiles as $profile) : ?>
-                                                <tr>
-                                                    <td class="ps-4 fw-semibold text-dark"><?= $profile['name'] ? esc($profile['name']) : '-' ?></td>
-                                                    <td class="text-muted"><?= esc($profile['position'] ?? '-') ?></td>
-                                                    <td class="pe-4 text-muted"><?= esc($profile['institution'] ?? '-') ?></td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
         </div>
     <?php else : ?>
-        <div class="text-center py-5">
-            <i class="fas fa-users-slash fa-4x text-muted mb-3"></i>
-            <h3 class="text-muted">Data Belum Tersedia</h3>
-            <p class="text-muted">Daftar <?= esc($title) ?> belum ditambahkan.</p>
-            <a href="<?= base_url('/') ?>" class="btn btn-primary mt-3">Kembali ke Beranda</a>
+        <div class="text-center py-24 bg-white rounded-[3rem] border border-slate-200 shadow-sm px-8 max-w-2xl mx-auto">
+            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200">
+                <i class="fas fa-users-slash text-5xl"></i>
+            </div>
+            <h3 class="text-3xl font-black text-slate-900 mb-4 tracking-tight">Data Belum Tersedia</h3>
+            <p class="text-slate-500 mb-12 leading-relaxed">Daftar <?= esc($title) ?> saat ini belum tersedia dalam basis data kami. Silakan kembali beberapa saat lagi.</p>
+            <a href="<?= base_url() ?>" class="inline-flex items-center px-10 py-5 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
+                <i class="fas fa-home mr-3 text-base"></i>Beranda Utama
+            </a>
         </div>
     <?php endif; ?>
 </div>

@@ -1,85 +1,76 @@
 <?= $this->extend('layout/admin') ?>
 
-<?= $this->section('page_title') ?>Edit Pengguna<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Perbarui Data Pengguna<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<a href="<?= base_url('admin/users') ?>" class="btn btn-outline-secondary btn-sm">
-    <i class="fas fa-arrow-left me-2"></i>Kembali
+<a href="<?= base_url('admin/users') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
+    <i class="fas fa-arrow-left mr-2"></i>Kembali
 </a>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-transparent border-bottom-0 py-4">
-                <h4 class="fw-bold text-dark mb-0">
-                    <i class="fas fa-user-edit me-2 text-primary"></i>Edit Pengguna
-                </h4>
-                <p class="text-muted mb-0 mt-2">Perbarui detail pengguna.</p>
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
+            <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4">
+                <i class="fas fa-user-edit text-sm"></i>
             </div>
+            <div>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Edit Akun Pengguna</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">ID: #<?= $user['id'] ?> • <?= esc($user['name']) ?></p>
+            </div>
+        </div>
 
-            <div class="card-body">
-                <?= $this->include('layout/admin_errors') ?>
+        <div class="p-8 md:p-12">
+            <?= $this->include('layout/admin_errors') ?>
 
-                <form action="<?= base_url('admin/users/' . $user['id']) ?>" method="post" class="needs-validation" novalidate>
-                    <input type="hidden" name="_method" value="PUT">
-                    <?= csrf_field() ?>
+            <form action="<?= base_url('admin/users/' . $user['id']) ?>" method="post" class="space-y-8">
+                <input type="hidden" name="_method" value="PUT">
+                <?= csrf_field() ?>
 
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="name" class="form-label fw-semibold text-dark">Nama Lengkap <span class="text-danger">*</span></label>
-                                <input type="text" name="name" class="form-control form-control-lg border-0 bg-light rounded-3 py-3"
-                                    value="<?= old('name', $user['name']) ?>" placeholder="Masukkan nama..." required>
-                                <div class="invalid-feedback">Harap masukkan nama.</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="email" class="form-label fw-semibold text-dark">Email <span class="text-danger">*</span></label>
-                                <input type="email" name="email" class="form-control form-control-lg border-0 bg-light rounded-3 py-3"
-                                    value="<?= old('email', $user['email']) ?>" placeholder="Masukkan email..." required>
-                                <div class="invalid-feedback">Harap masukkan alamat email yang valid.</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="password" class="form-label fw-semibold text-dark">Password</label>
-                                <input type="password" name="password" class="form-control form-control-lg border-0 bg-light rounded-3 py-3">
-                                <small class="text-muted">Biarkan kosong untuk tidak mengubah password.</small>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="role" class="form-label fw-semibold text-dark">Role <span class="text-danger">*</span></label>
-                                <select name="role" class="form-select form-select-lg border-0 bg-light rounded-3 py-3" required>
-                                    <option value="author" <?= old('role', $user['role']) == 'author' ? 'selected' : '' ?>>Author</option>
-                                    <option value="admin" <?= old('role', $user['role']) == 'admin' ? 'selected' : '' ?>>Admin</option>
-                                </select>
-                            </div>
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-3">
+                        <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Nama Lengkap <span class="text-red-600">*</span></label>
+                        <input type="text" name="name" required
+                            class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all"
+                            value="<?= old('name', $user['name']) ?>">
                     </div>
 
-                    <div class="row mt-5">
-                        <div class="col-12">
-                            <div class="d-flex gap-3 justify-content-end border-top pt-4">
-                                <a href="<?= base_url('admin/users') ?>" class="btn btn-outline-secondary px-4">
-                                    <i class="fas fa-times me-2"></i>Batal
-                                </a>
-                                <button type="submit" class="btn btn-primary px-4">
-                                    <i class="fas fa-save me-2"></i>Perbarui Pengguna
-                                </button>
-                            </div>
-                        </div>
+                    <div class="space-y-3">
+                        <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Email Instansi <span class="text-red-600">*</span></label>
+                        <input type="email" name="email" required
+                            class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all"
+                            value="<?= old('email', $user['email']) ?>">
                     </div>
-                </form>
-            </div>
+
+                    <div class="space-y-3">
+                        <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Password Baru (Opsional)</label>
+                        <input type="password" name="password"
+                            class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all"
+                            placeholder="Biarkan kosong jika tidak diubah...">
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Hak Akses / Role <span class="text-red-600">*</span></label>
+                        <select name="role" required class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none appearance-none cursor-pointer">
+                            <option value="author" <?= old('role', $user['role']) == 'author' ? 'selected' : '' ?>>Penulis (Author)</option>
+                            <option value="admin" <?= old('role', $user['role']) == 'admin' ? 'selected' : '' ?>>Administrator</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-8 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-4">
+                    <a href="<?= base_url('admin/users') ?>" class="px-8 py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-slate-200 transition-all text-center">
+                        Batal
+                    </a>
+                    <button type="submit" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
+                        <i class="fas fa-save mr-2 text-sm"></i>Perbarui Akun
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-
-<?= $this->include('layout/admin_validation_script') ?>
 
 <?= $this->endSection() ?>

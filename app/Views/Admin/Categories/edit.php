@@ -3,70 +3,62 @@
 <?= $this->section('page_title') ?>Edit Kategori<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<a href="<?= base_url('admin/categories') ?>" class="btn btn-outline-secondary btn-sm">
-    <i class="fas fa-arrow-left me-2"></i>Kembali
+<a href="<?= base_url('admin/categories') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
+    <i class="fas fa-arrow-left mr-2"></i>Kembali
 </a>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-transparent border-bottom-0 py-4">
-                <h4 class="fw-bold text-dark mb-0">
-                    <i class="fas fa-edit me-2 text-primary"></i>Edit Kategori
-                </h4>
-                <p class="text-muted mb-0 mt-2">Perbarui nama kategori.</p>
+<div class="max-w-3xl mx-auto">
+    <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
+            <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4">
+                <i class="fas fa-edit text-sm"></i>
             </div>
+            <div>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Perbarui Kategori</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">ID: #<?= $category['id'] ?> • <?= esc($category['name']) ?></p>
+            </div>
+        </div>
 
-            <div class="card-body">
-                <?= $this->include('layout/admin_errors') ?>
+        <div class="p-8 md:p-12">
+            <?= $this->include('layout/admin_errors') ?>
 
-                <form action="<?= base_url('admin/categories/' . $category['id']) ?>" method="post" class="needs-validation" novalidate>
-                    <input type="hidden" name="_method" value="PUT">
-                    <?= csrf_field() ?>
+            <form action="<?= base_url('admin/categories/' . $category['id']) ?>" method="post" class="space-y-8">
+                <input type="hidden" name="_method" value="PUT">
+                <?= csrf_field() ?>
 
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="name" class="form-label fw-semibold text-dark">Nama Kategori <span class="text-danger">*</span></label>
-                                <input type="text" name="name" class="form-control form-control-lg border-0 bg-light rounded-3 py-3"
-                                    value="<?= old('name', $category['name']) ?>" placeholder="Masukkan nama kategori..." required>
-                                <div class="invalid-feedback">Harap masukkan nama kategori.</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="parent_id" class="form-label fw-semibold text-dark">Parent</label>
-                                <select name="parent_id" id="parent_id" class="form-select form-select-lg border-0 bg-light rounded-3 py-3">
-                                    <option value="">Tidak ada</option>
-                                    <?php foreach ($categories as $cat) : ?>
-                                        <option value="<?= $cat['id'] ?>" <?= old('parent_id', $category['parent_id']) == $cat['id'] ? 'selected' : '' ?>><?= esc($cat['name']) ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-3">
+                        <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Nama Kategori <span class="text-red-600">*</span></label>
+                        <input type="text" name="name" required
+                            class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all"
+                            value="<?= old('name', $category['name']) ?>" placeholder="Nama kategori...">
                     </div>
 
-                    <div class="row mt-5">
-                        <div class="col-12">
-                            <div class="d-flex gap-3 justify-content-end border-top pt-4">
-                                <a href="<?= base_url('admin/categories') ?>" class="btn btn-outline-secondary px-4">
-                                    <i class="fas fa-times me-2"></i>Batal
-                                </a>
-                                <button type="submit" class="btn btn-primary px-4">
-                                    <i class="fas fa-save me-2"></i>Perbarui Kategori
-                                </button>
-                            </div>
-                        </div>
+                    <div class="space-y-3">
+                        <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Induk Kategori</label>
+                        <select name="parent_id" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all appearance-none cursor-pointer">
+                            <option value="">-- Tanpa Induk --</option>
+                            <?php foreach ($categories as $cat) : ?>
+                                <option value="<?= $cat['id'] ?>" <?= old('parent_id', $category['parent_id']) == $cat['id'] ? 'selected' : '' ?>><?= esc($cat['name']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <div class="pt-8 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-4">
+                    <a href="<?= base_url('admin/categories') ?>" class="px-8 py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-slate-200 transition-all text-center">
+                        Batal
+                    </a>
+                    <button type="submit" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
+                        <i class="fas fa-save mr-2 text-sm"></i>Perbarui Kategori
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-
-<?= $this->include('layout/admin_validation_script') ?>
 
 <?= $this->endSection() ?>

@@ -1,235 +1,162 @@
 <?= $this->extend('layout/admin') ?>
 
-<?= $this->section('page_title') ?>Gambaran Analitik<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Ringkasan Analitik Situs<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<div class="text-end">
-    <small class="text-muted d-block">Periode:</small>
-    <span class="badge bg-light text-dark border">
-        <i class="fas fa-calendar-alt me-1"></i>
-        All Time
-    </span>
+<div class="flex flex-col items-end">
+    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Periode Laporan</span>
+    <div class="inline-flex items-center px-3 py-1 bg-white border border-slate-200 rounded-lg shadow-sm">
+        <i class="far fa-calendar-alt text-blue-800 mr-2 text-xs"></i>
+        <span class="text-xs font-bold text-slate-700">Semua Waktu (All-Time)</span>
+    </div>
 </div>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-<div class="container-fluid">
-    <div id="analytics-content">
-        <!-- Metrics Cards -->
-        <div class="row g-3 mb-5">
-            <div class="col-xl-4 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-start">
-                            <div class="p-3 rounded-3 bg-primary me-3">
-                                <i class="fas fa-users text-white fs-4"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h3 class="fw-bold text-dark mb-1" id="total-users"><span class="placeholder-glow"><span class="placeholder col-6"></span></span></h3>
-                                <p class="text-muted mb-0">Total Pengguna</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-transparent border-0 pb-3">
-                        <div class="text-muted small">
-                            Total pengguna yang mengunjungi situs Anda sepanjang waktu.
-                        </div>
-                    </div>
-                </div>
+
+<!-- Metrics Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+    <!-- Total Pengguna -->
+    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
+        <div class="flex items-start justify-between">
+            <div class="w-12 h-12 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center group-hover:bg-blue-800 group-hover:text-white transition-all">
+                <i class="fas fa-users text-xl"></i>
             </div>
-            <div class="col-xl-4 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-start">
-                            <div class="p-3 rounded-3 bg-success me-3">
-                                <i class="fas fa-user-plus text-white fs-4"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h3 class="fw-bold text-dark mb-0" id="new-users"><span class="placeholder-glow"><span class="placeholder col-6"></span></span></h3>
-                                <p class="text-muted mb-0">Pengguna Baru</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-transparent border-0 pb-3">
-                        <div class="text-muted small">
-                            Jumlah pengguna baru yang mengunjungi situs Anda sepanjang waktu.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-start">
-                            <div class="p-3 rounded-3 bg-info me-3">
-                                <i class="fas fa-eye text-white fs-4"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h3 class="fw-bold text-dark mb-0" id="screen-page-views"><span class="placeholder-glow"><span class="placeholder col-6"></span></span></h3>
-                                <p class="text-muted mb-0">Tampilan Halaman</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-transparent border-0 pb-3">
-                        <div class="text-muted small">
-                            Jumlah total tampilan halaman di situs web Anda sepanjang waktu.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-start">
-                            <div class="p-3 rounded-3 bg-warning me-3">
-                                <i class="fas fa-chart-line text-white fs-4"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h3 class="fw-bold text-dark mb-0" id="sessions"><span class="placeholder-glow"><span class="placeholder col-6"></span></span></h3>
-                                <p class="text-muted mb-0">Sesi</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-transparent border-0 pb-3">
-                        <div class="text-muted small">
-                            Jumlah total sesi yang dimulai oleh pengguna di situs Anda.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-start">
-                            <div class="p-3 rounded-3 bg-danger me-3">
-                                <i class="fas fa-chart-pie text-white fs-4"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h3 class="fw-bold text-dark mb-0" id="bounce-rate"><span class="placeholder-glow"><span class="placeholder col-6"></span></span></h3>
-                                <p class="text-muted mb-0">Tingkat Pentalan</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-transparent border-0 pb-3">
-                        <div class="text-muted small">
-                            Persentase sesi di mana pengguna meninggalkan situs Anda setelah melihat hanya satu halaman.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-start">
-                            <div class="p-3 rounded-3 bg-secondary me-3">
-                                <i class="fas fa-clock text-white fs-4"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h3 class="fw-bold text-dark mb-0" id="average-session-duration"><span class="placeholder-glow"><span class="placeholder col-6"></span></span></h3>
-                                <p class="text-muted mb-0">Rata-rata Durasi Sesi</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-transparent border-0 pb-3">
-                        <div class="text-muted small">
-                            Rata-rata durasi sesi pengguna di situs Anda.
-                        </div>
-                    </div>
-                </div>
+            <div class="text-right">
+                <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="total-users">...</h3>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Total Pengguna</p>
             </div>
         </div>
+        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Akumulasi pengunjung yang tercatat pada sistem analitik.</p>
+    </div>
 
-        <div class="row g-3 mb-5">
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-transparent border-bottom py-4">
-                        <div class="d-flex justify-content-between">
-                            <h5 class="fw-bold text-dark mb-0">
-                                <i class="fas fa-eye me-2"></i>Laporan Tampilan
-                            </h5>
-                            <a href="<?= base_url('admin/analytics/monthly-report') ?>" id="monthly-report-link" class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-file-alt me-2"></i> Lihat Laporan Lengkap
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div id="monthly-post-chart-spinner" class="d-flex justify-content-center align-items-center py-5">
-                            <div class="text-center">
-                                <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <p class="text-muted">Memuat data...</p>
-                            </div>
-                        </div>
-                        <canvas id="monthly-post-chart" class="d-none"></canvas>
-                    </div>
-                </div>
+    <!-- Pengguna Baru -->
+    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
+        <div class="flex items-start justify-between">
+            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                <i class="fas fa-user-plus text-xl"></i>
             </div>
-            <div class="col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-transparent border-bottom py-4">
-                        <h5 class="fw-bold text-dark mb-0">
-                            <i class="fas fa-users me-2"></i>Laporan Pengguna
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div id="monthly-user-chart-spinner" class="d-flex justify-content-center align-items-center py-5">
-                            <div class="text-center">
-                                <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <p class="text-muted">Memuat data...</p>
-                            </div>
-                        </div>
-                        <canvas id="monthly-user-chart" class="d-none"></canvas>
-                    </div>
-                </div>
+            <div class="text-right">
+                <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="new-users">...</h3>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Pengguna Baru</p>
             </div>
         </div>
+        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Pengunjung unik yang pertama kali mengakses portal informasi.</p>
+    </div>
 
-        <!-- Quick Actions -->
-        <div class="row mb-5">
-            <div class="col-12">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-transparent border-bottom py-4">
-                        <h5 class="fw-bold text-dark mb-0">
-                            <i class="fas fa-chart-bar me-2"></i>Laporan Lanjutan
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-lg-3 col-md-6">
-                                <a href="<?= base_url('admin/analytics/top-pages') ?>" class="btn btn-primary w-100 d-flex flex-column align-items-center py-3 text-white text-decoration-none">
-                                    <i class="fas fa-file-alt fs-2 mb-2"></i>
-                                    <span>Halaman Teratas</span>
-                                    <small class="text-light opacity-75 mt-1">Lihat halaman yang paling banyak dikunjungi</small>
-                                </a>
-                            </div>
-                            <div class="col-lg-3 col-md-6">
-                                <a href="<?= base_url('admin/analytics/traffic-sources') ?>" class="btn btn-success w-100 d-flex flex-column align-items-center py-3 text-white text-decoration-none">
-                                    <i class="fas fa-globe fs-2 mb-2"></i>
-                                    <span>Sumber Lalu Lintas</span>
-                                    <small class="text-light opacity-75 mt-1">Analisis dari mana pengunjung Anda berasal</small>
-                                </a>
-                            </div>
-                            <div class="col-lg-3 col-md-6">
-                                <a href="<?= base_url('admin/analytics/geo') ?>" class="btn btn-info w-100 d-flex flex-column align-items-center py-3 text-white text-decoration-none">
-                                    <i class="fas fa-map-marker-alt fs-2 mb-2"></i>
-                                    <span>Geografis</span>
-                                    <small class="text-light opacity-75 mt-1">Pahami lokasi geografis pengunjung Anda</small>
-                                </a>
-                            </div>
-                            <div class="col-lg-3 col-md-6">
-                                <a href="<?= base_url('admin/analytics/device-category') ?>" class="btn btn-warning w-100 d-flex flex-column align-items-center py-3 text-white text-decoration-none">
-                                    <i class="fas fa-desktop fs-2 mb-2"></i>
-                                    <span>Kategori Perangkat</span>
-                                    <small class="text-light opacity-75 mt-1">Identifikasi perangkat yang digunakan pengunjung</small>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Tampilan Halaman -->
+    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
+        <div class="flex items-start justify-between">
+            <div class="w-12 h-12 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center group-hover:bg-sky-600 group-hover:text-white transition-all">
+                <i class="fas fa-eye text-xl"></i>
             </div>
+            <div class="text-right">
+                <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="screen-page-views">...</h3>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Tampilan Halaman</p>
+            </div>
+        </div>
+        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Total intensitas konten yang dibaca oleh seluruh pengunjung.</p>
+    </div>
+
+    <!-- Sesi -->
+    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
+        <div class="flex items-start justify-between">
+            <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-all">
+                <i class="fas fa-chart-line text-xl"></i>
+            </div>
+            <div class="text-right">
+                <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="sessions">...</h3>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Total Sesi</p>
+            </div>
+        </div>
+        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Jumlah interaksi aktif yang terjadi dalam satu periode kunjungan.</p>
+    </div>
+
+    <!-- Bounce Rate -->
+    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
+        <div class="flex items-start justify-between">
+            <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center group-hover:bg-rose-600 group-hover:text-white transition-all">
+                <i class="fas fa-chart-pie text-xl"></i>
+            </div>
+            <div class="text-right">
+                <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="bounce-rate">...</h3>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Bounce Rate</p>
+            </div>
+        </div>
+        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Persentase kunjungan singkat (hanya satu halaman).</p>
+    </div>
+
+    <!-- Avg duration -->
+    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
+        <div class="flex items-start justify-between">
+            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                <i class="fas fa-clock text-xl"></i>
+            </div>
+            <div class="text-right">
+                <h3 class="text-xl font-black text-slate-900 tracking-tight" id="average-session-duration">...</h3>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Rata-rata Durasi</p>
+            </div>
+        </div>
+        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Lama waktu rata-rata pengunjung berada di dalam portal.</p>
+    </div>
+</div>
+
+<!-- Charts Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-10">
+    <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-10 border-b border-slate-50 pb-6">
+            <h4 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
+                <i class="fas fa-chart-bar mr-3 text-blue-800"></i>Grafik Kunjungan Konten
+            </h4>
+            <a href="<?= base_url('admin/analytics/monthly-report') ?>" class="text-[10px] font-black text-blue-800 uppercase tracking-widest hover:underline">Detail Laporan</a>
+        </div>
+        <div id="monthly-post-chart-spinner" class="h-64 flex flex-col items-center justify-center space-y-4">
+            <div class="w-10 h-10 border-4 border-slate-100 border-t-blue-800 rounded-full animate-spin"></div>
+            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinkronisasi Data...</span>
+        </div>
+        <canvas id="monthly-post-chart" class="hidden h-64"></canvas>
+    </div>
+
+    <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-10 border-b border-slate-50 pb-6">
+            <h4 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
+                <i class="fas fa-user-friends mr-3 text-blue-800"></i>Tren Pertumbuhan User
+            </h4>
+        </div>
+        <div id="monthly-user-chart-spinner" class="h-64 flex flex-col items-center justify-center space-y-4">
+            <div class="w-10 h-10 border-4 border-slate-100 border-t-emerald-600 rounded-full animate-spin"></div>
+            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sinkronisasi Data...</span>
+        </div>
+        <canvas id="monthly-user-chart" class="hidden h-64"></canvas>
+    </div>
+</div>
+
+<!-- Advanced Reports -->
+<div class="bg-slate-900 rounded-[3rem] p-10 md:p-16 border border-slate-800 shadow-2xl relative overflow-hidden">
+    <div class="absolute top-0 right-0 p-16 text-white opacity-5">
+        <i class="fas fa-rocket text-9xl"></i>
+    </div>
+    <div class="relative z-10">
+        <h4 class="text-xs font-black text-blue-500 uppercase tracking-[0.4em] mb-4">Analisa Strategis</h4>
+        <h2 class="text-2xl md:text-4xl font-black text-white mb-12 tracking-tight">Modul Laporan Lanjutan</h2>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <a href="<?= base_url('admin/analytics/top-pages') ?>" class="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-blue-800 transition-all text-center">
+                <i class="fas fa-file-alt text-3xl text-blue-500 group-hover:text-white mb-4 transition-colors"></i>
+                <p class="text-[10px] font-black text-white uppercase tracking-widest">Konten Populer</p>
+            </a>
+            <a href="<?= base_url('admin/analytics/traffic-sources') ?>" class="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-emerald-600 transition-all text-center">
+                <i class="fas fa-globe text-3xl text-emerald-500 group-hover:text-white mb-4 transition-colors"></i>
+                <p class="text-[10px] font-black text-white uppercase tracking-widest">Sumber Trafik</p>
+            </a>
+            <a href="<?= base_url('admin/analytics/geo') ?>" class="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-sky-600 transition-all text-center">
+                <i class="fas fa-map-marker-alt text-3xl text-sky-500 group-hover:text-white mb-4 transition-colors"></i>
+                <p class="text-[10px] font-black text-white uppercase tracking-widest">Sebaran Lokasi</p>
+            </a>
+            <a href="<?= base_url('admin/analytics/device-category') ?>" class="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-amber-500 transition-all text-center">
+                <i class="fas fa-desktop text-3xl text-amber-500 group-hover:text-white mb-4 transition-colors"></i>
+                <p class="text-[10px] font-black text-white uppercase tracking-widest">Device Stat</p>
+            </a>
         </div>
     </div>
 </div>
@@ -244,121 +171,54 @@
         fetch('<?= base_url('api/analytics/overview') ?>')
             .then(response => response.json())
             .then(data => {
-                const {
-                    totalUsers,
-                    newUsers,
-                    sessions,
-                    screenPageViews,
-                    bounceRate,
-                    averageSessionDuration
-                } = data[0];
-
-                document.getElementById('total-users').innerHTML = totalUsers;
-                document.getElementById('new-users').innerHTML = newUsers;
-                document.getElementById('sessions').innerHTML = sessions;
-                document.getElementById('screen-page-views').innerHTML = screenPageViews;
+                const { totalUsers, newUsers, sessions, screenPageViews, bounceRate, averageSessionDuration } = data[0];
+                document.getElementById('total-users').innerHTML = totalUsers.toLocaleString();
+                document.getElementById('new-users').innerHTML = newUsers.toLocaleString();
+                document.getElementById('sessions').innerHTML = sessions.toLocaleString();
+                document.getElementById('screen-page-views').innerHTML = screenPageViews.toLocaleString();
                 document.getElementById('bounce-rate').innerHTML = `${(bounceRate * 100).toFixed(1)}%`;
 
-                // conditional format for average session duration (detik, menit, jam)
                 if (averageSessionDuration < 60) {
-                    document.getElementById('average-session-duration').innerHTML = `${(averageSessionDuration % 60).toFixed(0)} detik`;
-                } else if (averageSessionDuration < 3600) {
+                    document.getElementById('average-session-duration').innerHTML = `${(averageSessionDuration % 60).toFixed(0)}s`;
+                } else {
                     const minutes = Math.floor(averageSessionDuration / 60);
                     const seconds = (averageSessionDuration % 60).toFixed(0);
-                    document.getElementById('average-session-duration').innerHTML = `${minutes} menit ${seconds} detik`;
-                } else {
-                    const hours = Math.floor(averageSessionDuration / 3600);
-                    const minutes = Math.floor((averageSessionDuration % 3600) / 60);
-                    const seconds = (averageSessionDuration % 60).toFixed(0);
-                    document.getElementById('average-session-duration').innerHTML = `${hours}jam ${minutes}menit ${seconds}detik`;
+                    document.getElementById('average-session-duration').innerHTML = `${minutes}m ${seconds}s`;
                 }
             })
-            .catch(error => {
-                console.error('Error fetching analytics data:', error);
-                // Fallback data jika API gagal
-                document.getElementById('total-users').textContent = 'N/A';
-                document.getElementById('new-users').textContent = 'N/A';
-                document.getElementById('sessions').textContent = 'N/A';
-                document.getElementById('screen-page-views').textContent = 'N/A';
-                document.getElementById('bounce-rate').textContent = 'N/A';
-                document.getElementById('average-session-duration').textContent = 'N/A';
+            .catch(() => {
+                ['total-users','new-users','sessions','screen-page-views','bounce-rate','average-session-duration'].forEach(id => document.getElementById(id).textContent = 'ERR');
             });
 
         fetch('<?= base_url('api/analytics/monthly-post-stats') ?>')
             .then(response => response.json())
             .then(data => {
-                monthlyPostChartSpinner.classList.add('d-none');
-                monthlyPostChart.classList.remove('d-none');
-
-                const reversedData = data.slice().sort((a, b) => {
-                    if (a.year !== b.year) {
-                        return a.year - b.year;
-                    }
-                    return a.month - b.month;
-                });
-
-                const labels = reversedData.map(item => item.formatted_date);
-                const values = reversedData.map(item => item.screenPageViews);
-
-                const ctx = document.getElementById('monthly-post-chart').getContext('2d');
-                new Chart(ctx, {
+                monthlyPostChartSpinner.classList.add('hidden');
+                monthlyPostChart.classList.remove('hidden');
+                const sorted = data.sort((a,b) => a.year - b.year || a.month - b.month);
+                new Chart(document.getElementById('monthly-post-chart').getContext('2d'), {
                     type: 'bar',
                     data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Total Tampilan',
-                            data: values,
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
-                        }]
+                        labels: sorted.map(i => i.formatted_date),
+                        datasets: [{ label: 'Page Views', data: sorted.map(i => i.screenPageViews), backgroundColor: '#1e40af', borderRadius: 8 }]
                     },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { display: false } }, x: { grid: { display: false } } } }
                 });
             });
 
         fetch('<?= base_url('api/analytics/monthly-user-stats') ?>')
             .then(response => response.json())
             .then(data => {
-                monthlyUserChartSpinner.classList.add('d-none');
-                monthlyUserChart.classList.remove('d-none');
-
-                const reversedData = data.slice().sort((a, b) => {
-                    if (a.year !== b.year) {
-                        return a.year - b.year;
-                    }
-                    return a.month - b.month;
-                });
-
-                const labels = reversedData.map(item => item.formatted_date);
-                const values = reversedData.map(item => item.totalUsers);
-
-                const ctx = document.getElementById('monthly-user-chart').getContext('2d');
-                new Chart(ctx, {
+                monthlyUserChartSpinner.classList.add('hidden');
+                monthlyUserChart.classList.remove('hidden');
+                const sorted = data.sort((a,b) => a.year - b.year || a.month - b.month);
+                new Chart(document.getElementById('monthly-user-chart').getContext('2d'), {
                     type: 'line',
                     data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Total Pengguna',
-                            data: values,
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            borderWidth: 1
-                        }]
+                        labels: sorted.map(i => i.formatted_date),
+                        datasets: [{ label: 'Users', data: sorted.map(i => i.totalUsers), borderColor: '#059669', backgroundColor: 'rgba(5, 150, 105, 0.1)', fill: true, tension: 0.4 }]
                     },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { display: false } }, x: { grid: { display: false } } } }
                 });
             });
     });

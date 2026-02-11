@@ -1,163 +1,141 @@
 <?= $this->extend('layout/admin') ?>
 
-<?= $this->section('page_title') ?>Tambah Berita Baru<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Buat Berita Baru<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<a href="<?= base_url('admin/posts') ?>" class="btn btn-outline-secondary btn-sm">
-    <i class="fas fa-arrow-left me-2"></i>Kembali
+<a href="<?= base_url('admin/posts') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
+    <i class="fas fa-arrow-left mr-2"></i>Kembali
 </a>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
-<div class="row justify-content-center">
-    <div class="col-lg-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-transparent border-bottom-0 py-4">
-                <h4 class="fw-bold text-dark mb-0">
-                    <i class="fas fa-plus-circle me-2 text-primary"></i>Tambah Berita Baru
-                </h4>
-                <p class="text-muted mb-0 mt-2">Isi form berikut untuk membuat berita baru</p>
+<div class="max-w-5xl mx-auto">
+    <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
+            <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4">
+                <i class="fas fa-pen-nib text-sm"></i>
             </div>
+            <div>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Editor Informasi</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Input konten informasi publik terbaru</p>
+            </div>
+        </div>
 
-            <div class="card-body">
-                <form action="<?= base_url('admin/posts') ?>" method="post" enctype="multipart/form-data">
-                    <?= csrf_field() ?>
+        <div class="p-8 md:p-12">
+            <form action="<?= base_url('admin/posts') ?>" method="post" enctype="multipart/form-data" class="space-y-10">
+                <?= csrf_field() ?>
 
-                    <div class="row g-3">
-                        <!-- Judul -->
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="title" class="form-label fw-semibold text-dark">Judul Berita <span class="text-danger">*</span></label>
-                                <input type="text" name="title" id="title" class="form-control form-control-lg border-0 bg-light rounded-3 py-3 <?= (isset(session('errors')['title'])) ? 'is-invalid' : '' ?>"
-                                    value="<?= old('title') ?>" placeholder="Masukkan judul berita...">
-                                <?php if (isset(session('errors')['title'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['title'] ?>
+                <!-- Title Section -->
+                <div class="space-y-4">
+                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Judul Berita <span class="text-red-600">*</span></label>
+                    <input type="text" name="title" id="title" required
+                        class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-xl font-bold text-slate-900 placeholder-slate-300 focus:border-blue-800 focus:bg-white outline-none transition-all <?= (isset(session('errors')['title'])) ? 'border-red-500' : '' ?>"
+                        value="<?= old('title') ?>" placeholder="Tuliskan judul berita yang menarik dan informatif...">
+                    <?php if (isset(session('errors')['title'])) : ?>
+                        <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['title'] ?></p>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Content Section -->
+                <div class="space-y-4">
+                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Konten Informasi <span class="text-red-600">*</span></label>
+                    <div class="<?= (isset(session('errors')['content'])) ? 'ring-2 ring-red-500 rounded-2xl overflow-hidden' : '' ?>">
+                        <textarea name="content" id="content" rows="20" class="w-full"><?= old('content') ?></textarea>
+                    </div>
+                    <?php if (isset(session('errors')['content'])) : ?>
+                        <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['content'] ?></p>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Media & Meta Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Media Upload -->
+                    <div class="space-y-6">
+                        <div class="space-y-4">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Thumbnail Utama <span class="text-red-600">*</span></label>
+                            <div class="flex items-center space-x-2">
+                                <label class="flex-1 cursor-pointer">
+                                    <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
+                                        <i class="fas fa-image text-slate-400 mr-3"></i>
+                                        <span class="text-sm font-bold text-slate-500 truncate" id="file-name">Pilih atau Seret Gambar</span>
+                                        <input type="file" name="thumbnail" id="thumbnail" class="hidden" accept="image/*" onchange="previewImage(); document.getElementById('file-name').innerText = this.files[0].name;">
                                     </div>
-                                <?php endif; ?>
+                                </label>
+                                <button type="button" id="paste-thumbnail-btn" class="p-3 bg-slate-100 text-slate-600 rounded-xl hover:bg-blue-800 hover:text-white transition-all shadow-sm" title="Paste dari clipboard">
+                                    <i class="fas fa-paste"></i>
+                                </button>
+                            </div>
+                            <input type="hidden" name="pasted_thumbnail" id="pasted_thumbnail">
+                            <p class="text-[10px] text-slate-400 font-medium">Format: JPG, PNG, WEBP. Maksimal 2MB.</p>
+                            
+                            <div id="thumbnail-preview-container" class="mt-4 hidden ring-4 ring-slate-50 rounded-2xl overflow-hidden shadow-xl border border-slate-200">
+                                <img id="thumbnail-preview" class="w-full h-auto">
                             </div>
                         </div>
 
-                        <!-- Konten -->
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="content" class="form-label fw-semibold text-dark">Konten <span class="text-danger">*</span></label>
-                                <textarea name="content" id="content" class="form-control border-0 bg-light rounded-3 <?= (isset(session('errors')['content'])) ? 'is-invalid' : '' ?>" rows="12"
-                                    placeholder="Tulis konten berita di sini..."><?= old('content') ?></textarea>
-                                <?php if (isset(session('errors')['content'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['content'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
+                        <div class="space-y-4">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Keterangan Gambar</label>
+                            <input type="text" name="thumbnail_caption" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Contoh: Dokumentasi Humas Sinjai">
                         </div>
+                    </div>
 
-                        <!-- Thumbnail -->
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="thumbnail" class="form-label fw-semibold text-dark">Gambar <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="file" name="thumbnail" id="thumbnail" class="form-control <?= (isset(session('errors')['thumbnail'])) ? 'is-invalid' : '' ?>" onchange="previewImage()">
-                                    <input type="hidden" name="pasted_thumbnail" id="pasted_thumbnail">
-                                    <button type="button" id="paste-thumbnail-btn" class="btn btn-outline-secondary">
-                                        <i class="fas fa-paste"></i>
-                                    </button>
-                                </div>
-                                <small class="text-muted">Tipe file yang diizinkan: jpg, jpeg, png, webp. Ukuran maksimal: 2MB.</small>
-                                <?php if (isset(session('errors')['thumbnail'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['thumbnail'] ?>
-                                    </div>
-                                <?php endif; ?>
-                                <img id="thumbnail-preview" class="img-fluid rounded mt-2" style="max-height: 200px; display: none;">
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="thumbnail_caption" class="form-label fw-semibold text-dark">Keterangan Gambar</label>
-                                <input type="text" name="thumbnail_caption" id="thumbnail_caption" class="form-control">
-                            </div>
-                        </div>
-
-                        <!-- Kategori & Tags -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label fw-semibold text-dark">Kategori <span class="text-danger">*</span></label>
-                                <div id="category-list" class="checkbox-group-container form-control p-3 <?= (isset(session('errors')['categories'])) ? 'is-invalid' : '' ?>" style="height: 200px; overflow-y: auto;">
-                                    <?php foreach ($categories as $category) : ?>
-                                        <h6 class="fw-bold"><?= esc($category['name']) ?></h6>
+                    <!-- Category & Tags -->
+                    <div class="space-y-8">
+                        <div class="space-y-4">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kategori <span class="text-red-600">*</span></label>
+                            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 h-48 overflow-y-auto space-y-4 scrollbar-thin">
+                                <?php foreach ($categories as $category) : ?>
+                                    <div>
+                                        <h6 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2"><?= esc($category['name']) ?></h6>
                                         <?php if (!empty($category['children'])) : ?>
-                                            <div class="ms-3">
+                                            <div class="grid grid-cols-1 gap-2">
                                                 <?php foreach ($category['children'] as $child) : ?>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" name="categories[]" value="<?= $child['id'] ?>" id="cat_<?= $child['id'] ?>" <?= in_array($child['id'], old('categories', [])) ? 'checked' : '' ?>>
-                                                        <label class="form-check-label" for="cat_<?= $child['id'] ?>">
-                                                            <?= esc($child['name']) ?>
-                                                        </label>
-                                                    </div>
+                                                    <label class="flex items-center group cursor-pointer">
+                                                        <input type="checkbox" name="categories[]" value="<?= $child['id'] ?>" class="w-4 h-4 text-blue-800 rounded border-slate-300 focus:ring-blue-800" <?= in_array($child['id'], old('categories', [])) ? 'checked' : '' ?>>
+                                                        <span class="ml-3 text-sm font-bold text-slate-600 group-hover:text-blue-800 transition-colors"><?= esc($child['name']) ?></span>
+                                                    </label>
                                                 <?php endforeach; ?>
                                             </div>
                                         <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </div>
-                                <small class="text-muted">Pilih satu atau lebih kategori.</small>
-                                <?php if (isset(session('errors')['categories'])) : ?>
-                                    <div class="invalid-feedback d-block">
-                                        <?= session('errors')['categories'] ?>
                                     </div>
-                                <?php endif; ?>
+                                <?php endforeach; ?>
                             </div>
+                            <?php if (isset(session('errors')['categories'])) : ?>
+                                <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['categories'] ?></p>
+                            <?php endif; ?>
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label fw-semibold text-dark">Tag <span class="text-danger">*</span></label>
-                                <div id="tag-container" class="form-control" style="min-height: 100px;"></div>
-                                <input type="hidden" name="tags" id="tags-input">
-                                <small class="text-muted">Klik pada tag untuk menghapusnya.</small>
-                                <?php if (isset(session('errors')['tags'])) : ?>
-                                    <div class="invalid-feedback d-block">
-                                        <?= session('errors')['tags'] ?>
-                                    </div>
-                                <?php endif; ?>
+                        <div class="space-y-4">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Label / Tags <span class="text-red-600">*</span></label>
+                            <div id="tag-container" class="bg-slate-50 border border-slate-200 rounded-2xl p-4 min-h-[100px] flex flex-wrap gap-2">
+                                <!-- Tags will appear here -->
                             </div>
-                            <div class="form-group mt-3 d-flex gap-2">
-                                <button type="button" id="suggest-tags-btn" class="btn btn-outline-primary btn-sm">
-                                    <i class="fas fa-wand-magic-sparkles me-2"></i>Sarankan Tag
-                                </button>
-                                <div class="input-group input-group-sm" style="max-width: 300px;">
-                                    <input type="text" id="manual-tag-input" class="form-control" placeholder="Tambah tag manual...">
-                                    <button class="btn btn-outline-secondary" type="button" id="add-manual-tag-btn">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
+                            <input type="hidden" name="tags" id="tags-input">
+                            
+                            <div class="flex gap-2">
+                                <input type="text" id="manual-tag-input" class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-800" placeholder="Tambah tag manual...">
+                                <button type="button" id="add-manual-tag-btn" class="p-2 bg-slate-800 text-white rounded-xl hover:bg-slate-950 transition-all"><i class="fas fa-plus"></i></button>
                             </div>
-                        </div>
-
-                        <!-- Status -->
-                        <input type="hidden" name="status" id="status" value="published">
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="row mt-5">
-                        <div class="col-12">
-                            <div class="d-flex gap-3 justify-content-end border-top pt-4">
-                                <a href="<?= base_url('admin/posts') ?>" class="btn btn-outline-secondary px-4">
-                                    <i class="fas fa-times me-2"></i>Batal
-                                </a>
-                                <button type="submit" name="status" value="draft" class="btn btn-outline-primary px-4">
-                                    <i class="fas fa-save me-2"></i>Draft
-                                </button>
-                                <button type="submit" name="status" value="published" class="btn btn-primary px-4">
-                                    <i class="fas fa-paper-plane me-2"></i>Publish
-                                </button>
-                            </div>
+                            <button type="button" id="suggest-tags-btn" class="w-full py-3 bg-blue-50 text-blue-800 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-100 transition-all border border-blue-100">
+                                <i class="fas fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Tag via AI
+                            </button>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <input type="hidden" name="status" id="post-status" value="published">
+
+                <!-- Submit Section -->
+                <div class="pt-10 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-4">
+                    <button type="submit" onclick="document.getElementById('post-status').value='draft'" class="px-8 py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-slate-200 transition-all">
+                        <i class="fas fa-save mr-2 text-sm"></i>Simpan Draft
+                    </button>
+                    <button type="submit" onclick="document.getElementById('post-status').value='published'" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
+                        <i class="fas fa-paper-plane mr-2 text-sm"></i>Publikasikan Berita
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -165,152 +143,71 @@
 <?= $this->include('layout/admin_validation_script') ?>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const pasteBtn = document.getElementById('paste-thumbnail-btn');
-
-        pasteBtn.addEventListener('click', async function() {
-            try {
-                const clipboardItems = await navigator.clipboard.read();
-                for (const item of clipboardItems) {
-                    const isJpg = item.types.includes('image/jpeg');
-                    const isPng = item.types.includes('image/png');
-                    const isWebp = item.types.includes('image/webp');
-
-                    if (isJpg || isPng || isWebp) {
-                        const blob = await item.getType(item.types.find(type => type.startsWith('image/')));
-                        const reader = new FileReader();
-                        reader.onload = function(event) {
-                            document.getElementById('pasted_thumbnail').value = event.target.result;
-                            document.getElementById('thumbnail-preview').src = event.target.result;
-                            document.getElementById('thumbnail-preview').style.display = 'block';
-                        };
-                        reader.readAsDataURL(blob);
-                    }
+    // Clipboard paste logic
+    document.getElementById('paste-thumbnail-btn').addEventListener('click', async () => {
+        try {
+            const items = await navigator.clipboard.read();
+            for (const item of items) {
+                const types = item.types.filter(t => t.startsWith('image/'));
+                if (types.length) {
+                    const blob = await item.getType(types[0]);
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        document.getElementById('pasted_thumbnail').value = e.target.result;
+                        document.getElementById('thumbnail-preview').src = e.target.result;
+                        document.getElementById('thumbnail-preview-container').classList.remove('hidden');
+                        document.getElementById('file-name').innerText = "Gambar dari Clipboard";
+                    };
+                    reader.readAsDataURL(blob);
                 }
-            } catch (err) {
-                console.error('Failed to read clipboard contents: ', err);
-                alert('Gagal menempel gambar dari clipboard. Pastikan Anda telah menyalin gambar.');
             }
-        });
+        } catch (e) { alert('Gagal menempel gambar.'); }
     });
-</script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const suggestBtn = document.getElementById('suggest-tags-btn');
-        const suggestedTagsContainer = document.getElementById('suggested-tags');
-        const tagContainer = document.getElementById('tag-container');
-        const tagsInput = document.getElementById('tags-input');
-        const titleInput = document.getElementById('title');
-        const manualTagInput = document.getElementById('manual-tag-input');
-        const addManualTagBtn = document.getElementById('add-manual-tag-btn');
+    // Tag logic
+    const tagContainer = document.getElementById('tag-container');
+    const tagsInput = document.getElementById('tags-input');
+    const manualTagInput = document.getElementById('manual-tag-input');
+    
+    function updateTagsInput() {
+        const tags = Array.from(tagContainer.querySelectorAll('.tag-badge')).map(b => b.dataset.tag);
+        tagsInput.value = tags.join(',');
+    }
 
-        function updateTagsInput() {
-            const tags = [];
-            tagContainer.querySelectorAll('.tag-badge').forEach(badge => {
-                tags.push(badge.textContent.slice(0, -1).trim());
-            });
-            tagsInput.value = tags.join(',');
-        }
+    function addTag(tag) {
+        if (!tag || Array.from(tagContainer.querySelectorAll('.tag-badge')).some(b => b.dataset.tag.toLowerCase() === tag.toLowerCase())) return;
+        const badge = document.createElement('div');
+        badge.className = 'tag-badge inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-800 text-[10px] font-black uppercase tracking-widest rounded-lg border border-blue-200';
+        badge.dataset.tag = tag;
+        badge.innerHTML = `${tag} <button type="button" class="ml-2 hover:text-red-600"><i class="fas fa-times-circle"></i></button>`;
+        badge.querySelector('button').onclick = () => { badge.remove(); updateTagsInput(); };
+        tagContainer.appendChild(badge);
+        updateTagsInput();
+    }
 
-        function createTag(tag) {
-            // Check if tag already exists
-            let exists = false;
-            tagContainer.querySelectorAll('.tag-badge').forEach(badge => {
-                if (badge.textContent.slice(0, -1).trim().toLowerCase() === tag.toLowerCase()) {
-                    exists = true;
-                }
-            });
+    document.getElementById('add-manual-tag-btn').onclick = () => { addTag(manualTagInput.value.trim()); manualTagInput.value = ''; };
+    manualTagInput.onkeypress = (e) => { if(e.key==='Enter') { e.preventDefault(); document.getElementById('add-manual-tag-btn').click(); } };
 
-            if (exists) {
-                return;
-            }
-
-            const badge = document.createElement('span');
-            badge.className = 'tag-badge badge bg-primary me-1 mb-1';
-            badge.innerHTML = `${tag} <i class="fas fa-times-circle ms-1" style="cursor: pointer;"></i>`;
-
-            badge.querySelector('i').addEventListener('click', function() {
-                badge.remove();
-                updateTagsInput();
-            });
-
-            tagContainer.appendChild(badge);
-            updateTagsInput();
-        }
-
-        function addManualTag() {
-            const tag = manualTagInput.value.trim();
-            if (tag) {
-                createTag(tag);
-                manualTagInput.value = '';
-            }
-        }
-
-        addManualTagBtn.addEventListener('click', addManualTag);
-
-        manualTagInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault(); // Prevent form submission
-                addManualTag();
-            }
+    // Suggest logic
+    document.getElementById('suggest-tags-btn').onclick = function() {
+        const title = document.getElementById('title').value;
+        const content = tinymce.get('content').getContent();
+        if(!title || !content) return alert('Isi judul dan konten dahulu.');
+        
+        this.disabled = true;
+        this.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i>Menganalisa...';
+        
+        fetch('<?= base_url('api/tags/suggest') ?>', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
+            body: new URLSearchParams({ '<?= csrf_token() ?>': '<?= csrf_hash() ?>', title, content })
+        })
+        .then(r => r.json()).then(data => data.forEach(addTag))
+        .finally(() => { 
+            this.disabled = false; 
+            this.innerHTML = '<i class="fas fa-wand-magic-sparkles mr-2"></i>Sarankan Tag via AI'; 
         });
-
-        suggestBtn.addEventListener('click', function() {
-            try {
-                const contentInput = tinymce.get('content');
-                if (!contentInput) {
-                    alert('Editor is not ready yet.');
-                    return;
-                }
-
-                const title = titleInput.value;
-                const content = contentInput.getContent();
-
-                if (!title || !content) {
-                    alert('Judul dan konten harus diisi untuk menyarankan tag.');
-                    return;
-                }
-
-                suggestBtn.disabled = true;
-                suggestBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Menyarankan...';
-
-                fetch('<?= base_url('api/tags/suggest') ?>', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            'X-Requested-With': 'XMLHttpRequest'
-                        },
-                        body: new URLSearchParams({
-                            '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
-                            'title': title,
-                            'content': content
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.length > 0) {
-                            data.forEach(tag => {
-                                createTag(tag);
-                            });
-                        } else {
-                            alert('Tidak ada tag yang disarankan.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        suggestedTagsContainer.innerHTML = '<p class="text-danger small">Gagal menyarankan tag.</p>';
-                    })
-                    .finally(() => {
-                        suggestBtn.disabled = false;
-                        suggestBtn.innerHTML = '<i class="fas fa-wand-magic-sparkles me-2"></i>Sarankan Tag';
-                    });
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred while getting the editor content.');
-            }
-        });
-    });
+    };
 </script>
 
 <?= $this->endSection() ?>

@@ -3,159 +3,107 @@
 <?= $this->section('page_title') ?>Tambah Profil Baru<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<a href="<?= base_url('admin/profiles') ?>" class="btn btn-outline-secondary btn-sm">
-    <i class="fas fa-arrow-left me-2"></i>Kembali
+<a href="<?= base_url('admin/profiles') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
+    <i class="fas fa-arrow-left mr-2"></i>Kembali
 </a>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
-<div class="row justify-content-center">
-    <div class="col-lg-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-transparent border-bottom-0 py-4">
-                <h4 class="fw-bold text-dark mb-0">
-                    <i class="fas fa-plus-circle me-2 text-primary"></i>Tambah Profil Baru
-                </h4>
-                <p class="text-muted mb-0 mt-2">Isi form berikut untuk membuat profil baru</p>
+<div class="max-w-5xl mx-auto">
+    <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
+            <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4">
+                <i class="fas fa-user-plus text-sm"></i>
             </div>
+            <div>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Data Pejabat</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Input identitas pejabat daerah terbaru</p>
+            </div>
+        </div>
 
-            <div class="card-body">
-                <form action="<?= base_url('admin/profiles') ?>" method="post" enctype="multipart/form-data">
-                    <?= csrf_field() ?>
+        <div class="p-8 md:p-12">
+            <form action="<?= base_url('admin/profiles') ?>" method="post" enctype="multipart/form-data" class="space-y-10">
+                <?= csrf_field() ?>
 
-                    <div class="row g-3">
-                        <!-- Foto -->
-                        <div class="col-12" id="image-container">
-                            <div class="form-group">
-                                <label for="image" class="form-label fw-semibold text-dark">Foto Profil</label>
-                                <div class="input-group">
-                                    <input type="file" name="image" id="image" class="form-control <?= (isset(session('errors')['image'])) ? 'is-invalid' : '' ?>" onchange="previewImage('image', 'image-preview')">
-                                    <input type="hidden" name="pasted_image" id="pasted_image">
-                                    <button type="button" id="paste-image-btn" class="btn btn-outline-secondary">
-                                        <i class="fas fa-paste"></i>
-                                    </button>
-                                </div>
-                                <small class="text-muted">Tipe file yang diizinkan: jpg, jpeg, png, webp. Ukuran maksimal: 2MB.</small>
-                                <?php if (isset(session('errors')['image'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['image'] ?>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Column 1 -->
+                    <div class="space-y-8">
+                        <div id="image-container" class="space-y-4">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Foto Profil</label>
+                            <div class="flex items-center space-x-2">
+                                <label class="flex-1 cursor-pointer">
+                                    <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
+                                        <i class="fas fa-camera text-slate-400 mr-3"></i>
+                                        <span class="text-sm font-bold text-slate-500 truncate" id="file-name">Pilih Foto Pejabat</span>
+                                        <input type="file" name="image" id="image" class="hidden" accept="image/*" onchange="previewImage('image', 'image-preview'); document.getElementById('file-name').innerText = this.files[0].name;">
                                     </div>
-                                <?php endif; ?>
-                                <img id="image-preview" class="img-fluid rounded mt-2 shadow-sm" style="max-height: 200px; display: none;">
-                            </div>
-                        </div>
-
-                        <!-- Nama -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="name" class="form-label fw-semibold text-dark">Nama Lengkap</label>
-                                <input type="text" name="name" id="name" class="form-control form-control-lg border-0 bg-light rounded-3 py-3 <?= (isset(session('errors')['name'])) ? 'is-invalid' : '' ?>"
-                                    value="<?= old('name') ?>" placeholder="Nama Lengkap...">
-                                <?php if (isset(session('errors')['name'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['name'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-
-                        <!-- Posisi -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="position" class="form-label fw-semibold text-dark">Jabatan</label>
-                                <input type="text" name="position" id="position" class="form-control form-control-lg border-0 bg-light rounded-3 py-3 <?= (isset(session('errors')['position'])) ? 'is-invalid' : '' ?>"
-                                    value="<?= old('position') ?>" placeholder="Contoh: Bupati Sinjai, Anggota DPRD...">
-                                <?php if (isset(session('errors')['position'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['position'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-
-                        <!-- Institusi -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="institution" class="form-label fw-semibold text-dark">Instansi</label>
-                                <input type="text" name="institution" id="institution" class="form-control form-control-lg border-0 bg-light rounded-3 py-3 <?= (isset(session('errors')['institution'])) ? 'is-invalid' : '' ?>"
-                                    value="<?= old('institution') ?>" placeholder="Contoh: Polres Sinjai, Kejari Sinjai...">
-                                <?php if (isset(session('errors')['institution'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['institution'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-
-                        <!-- Tipe -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="type" class="form-label fw-semibold text-dark">Tipe Profil <span class="text-danger">*</span></label>
-                                <select name="type" id="type" class="form-select form-select-lg border-0 bg-light rounded-3 py-3 <?= (isset(session('errors')['type'])) ? 'is-invalid' : '' ?>">
-                                    <option value="" disabled selected>Pilih Tipe...</option>
-                                    <option value="bupati" <?= old('type') == 'bupati' ? 'selected' : '' ?>>Bupati</option>
-                                    <option value="wakil-bupati" <?= old('type') == 'wakil-bupati' ? 'selected' : '' ?>>Wakil Bupati</option>
-                                    <option value="sekda" <?= old('type') == 'sekda' ? 'selected' : '' ?>>Sekda</option>
-                                    <option value="forkopimda" <?= old('type') == 'forkopimda' ? 'selected' : '' ?>>Forkopimda</option>
-                                    <option value="eselon-ii" <?= old('type') == 'eselon-ii' ? 'selected' : '' ?>>Eselon II</option>
-                                    <option value="eselon-iii" <?= old('type') == 'eselon-iii' ? 'selected' : '' ?>>Eselon III</option>
-                                    <option value="eselon-iv" <?= old('type') == 'eselon-iv' ? 'selected' : '' ?>>Eselon IV</option>
-                                    <option value="kepala-desa" <?= old('type') == 'kepala-desa' ? 'selected' : '' ?>>Kepala Desa</option>
-                                </select>
-                                <?php if (isset(session('errors')['type'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['type'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-
-                        <!-- Urutan -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="order" class="form-label fw-semibold text-dark">Urutan Tampil</label>
-                                <input type="number" name="order" id="order" class="form-control form-control-lg border-0 bg-light rounded-3 py-3 <?= (isset(session('errors')['order'])) ? 'is-invalid' : '' ?>"
-                                    value="<?= old('order', 0) ?>" placeholder="0">
-                                <small class="text-muted">Semakin kecil angka, semakin awal ditampilkan.</small>
-                                <?php if (isset(session('errors')['order'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['order'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-
-                        <!-- Bio -->
-                        <div class="col-12" id="bio-container">
-                            <div class="form-group">
-                                <label for="bio" class="form-label fw-semibold text-dark">Biografi Singkat</label>
-                                <textarea name="bio" id="bio" class="form-control border-0 bg-light rounded-3 <?= (isset(session('errors')['bio'])) ? 'is-invalid' : '' ?>" rows="6"
-                                    placeholder="Tulis biografi singkat..."><?= old('bio') ?></textarea>
-                                <?php if (isset(session('errors')['bio'])) : ?>
-                                    <div class="invalid-feedback">
-                                        <?= session('errors')['bio'] ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="row mt-5">
-                        <div class="col-12">
-                            <div class="d-flex gap-3 justify-content-end border-top pt-4">
-                                <a href="<?= base_url('admin/profiles') ?>" class="btn btn-outline-secondary px-4">
-                                    <i class="fas fa-times me-2"></i>Batal
-                                </a>
-                                <button type="submit" class="btn btn-primary px-4">
-                                    <i class="fas fa-save me-2"></i>Simpan
+                                </label>
+                                <button type="button" id="paste-image-btn" class="p-3 bg-slate-100 text-slate-600 rounded-xl hover:bg-blue-800 hover:text-white transition-all shadow-sm">
+                                    <i class="fas fa-paste"></i>
                                 </button>
                             </div>
+                            <input type="hidden" name="pasted_image" id="pasted_image">
+                            
+                            <div id="image-preview-container" class="mt-4 hidden ring-4 ring-slate-50 rounded-2xl overflow-hidden shadow-xl border border-slate-200 inline-block">
+                                <img id="image-preview" class="h-64 w-auto object-cover">
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Nama Lengkap</label>
+                            <input type="text" name="name" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('name') ?>" placeholder="Nama Lengkap & Gelar...">
+                        </div>
+
+                        <div class="space-y-4">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Jabatan</label>
+                            <input type="text" name="position" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('position') ?>" placeholder="Contoh: Kepala Dinas...">
                         </div>
                     </div>
-                </form>
-            </div>
+
+                    <!-- Column 2 -->
+                    <div class="space-y-8">
+                        <div class="space-y-4">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Instansi / OPD</label>
+                            <input type="text" name="institution" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('institution') ?>" placeholder="Contoh: Sekretariat Daerah...">
+                        </div>
+
+                        <div class="space-y-4">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tipe Klasifikasi <span class="text-red-600">*</span></label>
+                            <select name="type" id="type" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer">
+                                <option value="" disabled selected>Pilih Tipe...</option>
+                                <option value="bupati" <?= old('type') == 'bupati' ? 'selected' : '' ?>>Bupati</option>
+                                <option value="wakil-bupati" <?= old('type') == 'wakil-bupati' ? 'selected' : '' ?>>Wakil Bupati</option>
+                                <option value="sekda" <?= old('type') == 'sekda' ? 'selected' : '' ?>>Sekda</option>
+                                <option value="forkopimda" <?= old('type') == 'forkopimda' ? 'selected' : '' ?>>Forkopimda</option>
+                                <option value="eselon-ii" <?= old('type') == 'eselon-ii' ? 'selected' : '' ?>>Eselon II</option>
+                                <option value="eselon-iii" <?= old('type') == 'eselon-iii' ? 'selected' : '' ?>>Eselon III</option>
+                                <option value="eselon-iv" <?= old('type') == 'eselon-iv' ? 'selected' : '' ?>>Eselon IV</option>
+                                <option value="kepala-desa" <?= old('type') == 'kepala-desa' ? 'selected' : '' ?>>Kepala Desa</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-4">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Urutan Tampil</label>
+                            <input type="number" name="order" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('order', 0) ?>" placeholder="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bio-container" class="space-y-4">
+                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Biografi Singkat</label>
+                    <textarea name="bio" id="bio" rows="10" class="w-full"><?= old('bio') ?></textarea>
+                </div>
+
+                <div class="pt-10 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-4">
+                    <a href="<?= base_url('admin/profiles') ?>" class="px-8 py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-slate-200 transition-all text-center">
+                        Batal
+                    </a>
+                    <button type="submit" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
+                        <i class="fas fa-save mr-2 text-sm"></i>Simpan Profil
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -169,62 +117,46 @@
         const imageContainer = document.getElementById('image-container');
 
         function toggleFields() {
-            const selectedType = typeSelect.value;
             const hideList = ['forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa'];
-
-            if (hideList.includes(selectedType)) {
-                bioContainer.style.display = 'none';
-                imageContainer.style.display = 'none';
-            } else {
-                bioContainer.style.display = 'block';
-                imageContainer.style.display = 'block';
-            }
+            const isHidden = hideList.includes(typeSelect.value);
+            bioContainer.style.display = isHidden ? 'none' : 'block';
+            imageContainer.style.display = isHidden ? 'none' : 'block';
         }
 
         typeSelect.addEventListener('change', toggleFields);
-        toggleFields(); // Run on load
+        toggleFields();
 
-        const pasteBtn = document.getElementById('paste-image-btn');
-
-        pasteBtn.addEventListener('click', async function() {
+        document.getElementById('paste-image-btn').onclick = async () => {
             try {
-                const clipboardItems = await navigator.clipboard.read();
-                for (const item of clipboardItems) {
-                    const isJpg = item.types.includes('image/jpeg');
-                    const isPng = item.types.includes('image/png');
-                    const isWebp = item.types.includes('image/webp');
-
-                    if (isJpg || isPng || isWebp) {
-                        const blob = await item.getType(item.types.find(type => type.startsWith('image/')));
+                const items = await navigator.clipboard.read();
+                for (const item of items) {
+                    const type = item.types.find(t => t.startsWith('image/'));
+                    if (type) {
+                        const blob = await item.getType(type);
                         const reader = new FileReader();
-                        reader.onload = function(event) {
-                            document.getElementById('pasted_image').value = event.target.result;
+                        reader.onload = (e) => {
+                            document.getElementById('pasted_image').value = e.target.result;
                             const preview = document.getElementById('image-preview');
-                            preview.src = event.target.result;
-                            preview.style.display = 'block';
+                            preview.src = e.target.result;
+                            preview.parentElement.classList.remove('hidden');
+                            document.getElementById('file-name').innerText = "Gambar Clipboard";
                         };
                         reader.readAsDataURL(blob);
                     }
                 }
-            } catch (err) {
-                console.error('Failed to read clipboard contents: ', err);
-                alert('Gagal menempel gambar dari clipboard. Pastikan Anda telah menyalin gambar.');
-            }
-        });
+            } catch (e) { alert('Gagal menempel gambar.'); }
+        };
     });
 
     function previewImage(inputId, previewId) {
         const input = document.getElementById(inputId);
         const preview = document.getElementById(previewId);
-
         if (input.files && input.files[0]) {
             const reader = new FileReader();
-
-            reader.onload = function(e) {
+            reader.onload = (e) => {
                 preview.src = e.target.result;
-                preview.style.display = 'block';
+                preview.parentElement.classList.remove('hidden');
             }
-
             reader.readAsDataURL(input.files[0]);
         }
     }

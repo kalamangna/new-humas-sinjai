@@ -1,264 +1,196 @@
 <?= $this->extend('layout/admin') ?>
 
-<?= $this->section('page_title') ?>Kelola Berita<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Manajemen Berita<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<a href="<?= base_url('admin/posts/new') ?>" class="btn btn-primary">
-    <i class="fas fa-plus-circle me-2"></i>Tambah Berita
+<a href="<?= base_url('admin/posts/new') ?>" class="inline-flex items-center px-4 py-2 bg-blue-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
+    <i class="fas fa-plus-circle mr-2"></i>Tambah Berita
 </a>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
-<!-- Search and Filter -->
-<div class="card border-0 shadow-sm mb-4">
-    <div class="card-body">
-        <form action="<?= base_url('admin/posts') ?>" method="get">
-            <div class="row g-3">
-                <div class="col-md-4 col-lg-3">
-                    <input type="text" name="search" class="form-control" placeholder="Cari judul berita..." value="<?= esc($filters['search'] ?? '') ?>">
-                </div>
-                <div class="col-md-4 col-lg-3">
-                    <select name="category" class="form-select">
-                        <option value="">Semua Kategori</option>
-                        <?php foreach ($categories as $category) : ?>
-                            <option value="<?= $category['id'] ?>" <?= ($filters['category'] ?? '') == $category['id'] ? 'selected' : '' ?>><?= esc($category['name']) ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="col-md-4 col-lg-3">
-                    <select name="author" class="form-select">
-                        <option value="">Semua Penulis</option>
-                        <?php foreach ($users as $user) : ?>
-                            <option value="<?= $user['id'] ?>" <?= ($filters['author'] ?? '') == $user['id'] ? 'selected' : '' ?>><?= esc($user['name']) ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="col-md-4 col-lg-3">
-                    <select name="status" class="form-select">
-                        <option value="">Semua Status</option>
-                        <option value="published" <?= ($filters['status'] ?? '') == 'published' ? 'selected' : '' ?>>Published</option>
-                        <option value="draft" <?= ($filters['status'] ?? '') == 'draft' ? 'selected' : '' ?>>Draft</option>
-                    </select>
-                </div>
-                <div class="col-md-4 col-lg-3">
-                    <div class="d-grid d-md-flex gap-2">
-                        <button type="submit" class="btn btn-primary w-100">Filter</button>
-                        <a href="<?= base_url('admin/posts') ?>" class="btn btn-outline-secondary w-100">Reset</a>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
+<!-- Filters -->
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
+    <form action="<?= base_url('admin/posts') ?>" method="get" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Cari Judul</label>
+            <input type="text" name="search" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Kata kunci..." value="<?= esc($filters['search'] ?? '') ?>">
+        </div>
+        <div>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Kategori</label>
+            <select name="category" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none">
+                <option value="">Semua</option>
+                <?php foreach ($categories as $category) : ?>
+                    <option value="<?= $category['id'] ?>" <?= ($filters['category'] ?? '') == $category['id'] ? 'selected' : '' ?>><?= esc($category['name']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Penulis</label>
+            <select name="author" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none">
+                <option value="">Semua</option>
+                <?php foreach ($users as $user) : ?>
+                    <option value="<?= $user['id'] ?>" <?= ($filters['author'] ?? '') == $user['id'] ? 'selected' : '' ?>><?= esc($user['name']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Status</label>
+            <select name="status" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none">
+                <option value="">Semua</option>
+                <option value="published" <?= ($filters['status'] ?? '') == 'published' ? 'selected' : '' ?>>Published</option>
+                <option value="draft" <?= ($filters['status'] ?? '') == 'draft' ? 'selected' : '' ?>>Draft</option>
+            </select>
+        </div>
+        <div class="flex items-end space-x-2">
+            <button type="submit" class="flex-1 px-4 py-2 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all">Filter</button>
+            <a href="<?= base_url('admin/posts') ?>" class="px-4 py-2 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200 text-center">Reset</a>
+        </div>
+    </form>
 </div>
 
-<!-- Stats Overview -->
-<div class="row g-3 mb-4">
-    <div class="col-xl-3 col-md-6">
-        <div class="card border-0 bg-primary text-white">
-            <div class="card-body p-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h4 class="fw-bold mb-0"><?= $total_posts ?? '0' ?></h4>
-                        <small>Total Berita</small>
-                    </div>
-                    <i class="fas fa-newspaper fa-2x opacity-75"></i>
-                </div>
+<!-- Stats -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-blue-800 p-6 rounded-2xl shadow-lg shadow-blue-900/20 text-white">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Total Berita</p>
+                <h3 class="text-3xl font-black mt-1"><?= $total_posts ?? '0' ?></h3>
             </div>
+            <i class="fas fa-newspaper text-3xl opacity-30"></i>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card border-0 bg-success text-white">
-            <div class="card-body p-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h4 class="fw-bold mb-0"><?= $published_posts ?? '0' ?></h4>
-                        <small>Published</small>
-                    </div>
-                    <i class="fas fa-check-circle fa-2x opacity-75"></i>
-                </div>
+    <div class="bg-emerald-600 p-6 rounded-2xl shadow-lg shadow-emerald-900/20 text-white">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Published</p>
+                <h3 class="text-3xl font-black mt-1"><?= $published_posts ?? '0' ?></h3>
             </div>
+            <i class="fas fa-check-circle text-3xl opacity-30"></i>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card border-0 bg-warning text-white">
-            <div class="card-body p-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h4 class="fw-bold mb-0"><?= $draft_posts ?? '0' ?></h4>
-                        <small>Draft</small>
-                    </div>
-                    <i class="fas fa-edit fa-2x opacity-75"></i>
-                </div>
+    <div class="bg-amber-500 p-6 rounded-2xl shadow-lg shadow-amber-900/20 text-white">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Draft</p>
+                <h3 class="text-3xl font-black mt-1"><?= $draft_posts ?? '0' ?></h3>
             </div>
+            <i class="fas fa-edit text-3xl opacity-30"></i>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card border-0 bg-info text-white">
-            <div class="card-body p-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h4 class="fw-bold mb-0"><?= $today_posts ?? '0' ?></h4>
-                        <small>Hari Ini</small>
-                    </div>
-                    <i class="fas fa-calendar-day fa-2x opacity-75"></i>
-                </div>
+    <div class="bg-sky-600 p-6 rounded-2xl shadow-lg shadow-sky-900/20 text-white">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Hari Ini</p>
+                <h3 class="text-3xl font-black mt-1"><?= $today_posts ?? '0' ?></h3>
             </div>
+            <i class="fas fa-calendar-day text-3xl opacity-30"></i>
         </div>
     </div>
 </div>
 
-<!-- Posts Table -->
-<div class="card border-0 shadow-sm">
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead class="bg-light">
-                    <tr>
-                        <th class="border-0 ps-4">Gambar</th>
-                        <th class="border-0">Judul Berita</th>
-                        <th class="border-0">Kategori</th>
-                        <th class="border-0 text-center">Tag</th>
-                        <th class="border-0">Status</th>
-                        <th class="border-0">Penulis</th>
-                        <th class="border-0">Tanggal Dibuat</th>
-                        <th class="border-0">Tanggal Publikasi</th>
-                        <th class="border-0">Dilihat</th>
-                        <th class="border-0 text-end pe-4">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($posts)) : ?>
-                        <?php foreach ($posts as $post) : ?>
-                            <tr>
-                                <td class="ps-4">
-                                    <?php if (!empty($post['thumbnail'])) : ?>
-                                        <img src="<?= esc($post['thumbnail']) ?>" alt="<?= esc($post['title']) ?>" class="rounded" style="width: 100px; height: 60px; object-fit: cover;">
-                                    <?php else : ?>
-                                        <div class="bg-secondary rounded d-flex align-items-center justify-content-center" style="width: 100px; height: 60px;">
-                                            <i class="fas fa-newspaper text-white"></i>
-                                        </div>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <h6 class="fw-bold mb-1 text-dark"><?= esc($post['title']) ?></h6>
-                                    <small class="text-muted">/<?= esc($post['slug']) ?></small>
-                                </td>
-                                <td>
-                                    <?php if (!empty($post['category_name'])) : ?>
-                                        <?php
-                                        $cat_names = explode(',', $post['category_name']);
-                                        foreach ($cat_names as $name) : ?>
-                                            <span class="badge bg-primary me-1"><?= esc($name) ?></span>
-                                        <?php endforeach; ?>
-                                    <?php else : ?>
-                                        <span class="badge bg-secondary">Uncategorized</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td class="text-center">
-                                    <span class="badge bg-info"><?= $post['tag_count'] ?></span>
-                                </td>
-                                <td>
-                                    <?php if ($post['status'] === 'published') : ?>
-                                        <span class="badge bg-success">
-                                            <i class="fas fa-check-circle me-1"></i>Published
-                                        </span>
-                                    <?php elseif ($post['status'] === 'draft') : ?>
-                                        <span class="badge bg-warning">
-                                            <i class="fas fa-edit me-1"></i>Draft
-                                        </span>
-                                    <?php else : ?>
-                                        <span class="badge bg-secondary"><?= esc($post['status']) ?></span>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <small class="text-muted"><?= esc($post['author_name'] ?? 'Admin') ?></small>
-                                </td>
-                                <td>
-                                    <small class="text-muted">
-                                        <?= format_date($post['created_at']) ?>
-                                    </small>
-                                </td>
-                                <td>
-                                    <small class="text-muted">
-                                        <?= $post['published_at'] ? format_date($post['published_at']) : '-' ?>
-                                    </small>
-                                </td>
-                                <td>
-                                    <span class="badge bg-secondary"><?= $post['views'] ?? '0' ?></span>
-                                </td>
-                                <td class="text-end pe-4">
-                                    <div class="btn-group" role="group">
-                                        <?php if ($post['status'] === 'published') : ?>
-                                            <a href="<?= base_url('post/' . esc($post['slug'])) ?>" target="_blank" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Lihat">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
+<!-- Table -->
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                    <th class="px-6 py-4">Informasi Berita</th>
+                    <th class="px-6 py-4">Kategori & Label</th>
+                    <th class="px-6 py-4">Status</th>
+                    <th class="px-6 py-4">Metrik</th>
+                    <th class="px-6 py-4 text-right">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                <?php if (!empty($posts)) : ?>
+                    <?php foreach ($posts as $post) : ?>
+                        <tr class="hover:bg-slate-50 transition-colors group">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center">
+                                    <div class="w-20 h-12 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0 border border-slate-200">
+                                        <?php if (!empty($post['thumbnail'])) : ?>
+                                            <img src="<?= esc($post['thumbnail']) ?>" class="w-full h-full object-cover">
+                                        <?php else : ?>
+                                            <div class="w-full h-full flex items-center justify-center"><i class="fas fa-image text-slate-300"></i></div>
                                         <?php endif; ?>
-                                        <a href="<?= base_url('admin/posts/' . $post['id'] . '/edit') ?>" class="btn btn-sm btn-outline-warning" data-bs-toggle="tooltip" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <form action="<?= base_url('admin/posts/' . $post['id']) ?>" method="post" class="d-inline">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <?= csrf_field() ?>
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus berita ini?')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
                                     </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="10" class="text-center py-5">
-                                <?php if (!empty($filters['search']) || !empty($filters['category']) || !empty($filters['author']) || !empty($filters['status'])) : ?>
-                                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
-                                    <h5 class="text-muted">Tidak ada berita ditemukan</h5>
-                                    <p class="text-muted">Tidak ada berita yang sesuai dengan kriteria pencarian Anda.</p>
-                                    <a href="<?= base_url('admin/posts') ?>" class="btn btn-primary mt-3">
-                                        <i class="fas fa-sync-alt me-2"></i>Reset Filter
-                                    </a>
+                                    <div class="ml-4 min-w-0">
+                                        <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors truncate max-w-xs"><?= esc($post['title']) ?></div>
+                                        <div class="text-[10px] text-slate-400 mt-1 font-bold uppercase tracking-tighter"><?= esc($post['author_name'] ?? 'Admin') ?> • <?= format_date($post['created_at']) ?></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-wrap gap-1 mb-1">
+                                    <?php if (!empty($post['category_name'])) : ?>
+                                        <?php foreach (explode(',', $post['category_name']) as $name) : ?>
+                                            <span class="px-2 py-0.5 bg-blue-50 text-blue-800 text-[9px] font-black rounded uppercase"><?= esc(trim($name)) ?></span>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="text-[9px] text-slate-400 font-bold uppercase tracking-widest"><i class="fas fa-tags mr-1"></i><?= $post['tag_count'] ?> Tags</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <?php if ($post['status'] === 'published') : ?>
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800">
+                                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5"></span>Published
+                                    </span>
                                 <?php else : ?>
-                                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-                                    <h5 class="text-muted">Belum ada berita</h5>
-                                    <p class="text-muted">Mulai dengan membuat berita pertama Anda.</p>
-                                    <a href="<?= base_url('admin/posts/new') ?>" class="btn btn-primary">
-                                        <i class="fas fa-plus-circle me-2"></i>Tambah Berita Pertama
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-amber-100 text-amber-800">
+                                        <span class="w-1.5 h-1.5 bg-amber-500 rounded-full mr-1.5"></span>Draft
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="px-6 py-4 text-xs font-bold text-slate-500">
+                                <div class="flex items-center"><i class="far fa-eye w-4 text-slate-400"></i><?= number_format($post['views'] ?? 0) ?> Views</div>
+                                <div class="flex items-center mt-1"><i class="far fa-calendar-check w-4 text-slate-400"></i><?= $post['published_at'] ? date('d/m/y', strtotime($post['published_at'])) : '-' ?></div>
+                            </td>
+                            <td class="px-6 py-4 text-right space-x-1 whitespace-nowrap">
+                                <a href="<?= base_url('admin/posts/' . $post['id'] . '/edit') ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="<?= base_url('admin/posts/' . $post['id']) ?>" method="post" class="inline">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <?= csrf_field() ?>
+                                    <button type="submit" class="p-2 bg-slate-100 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all" onclick="return confirm('Hapus berita ini?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                                <?php if ($post['status'] === 'published') : ?>
+                                    <a href="<?= base_url('post/' . esc($post['slug'])) ?>" target="_blank" class="inline-flex items-center p-2 bg-slate-100 text-sky-600 rounded-lg hover:bg-sky-600 hover:text-white transition-all">
+                                        <i class="fas fa-external-link-alt"></i>
                                     </a>
                                 <?php endif; ?>
                             </td>
                         </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="5" class="px-6 py-20 text-center">
+                            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-300">
+                                <i class="fas fa-inbox text-2xl"></i>
+                            </div>
+                            <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tidak ada data ditemukan</p>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
     </div>
 </div>
 
 <!-- Pagination -->
 <?php if (isset($pager) && $pager->getPageCount('posts') > 1) : ?>
-    <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center justify-content-lg-between mt-4">
-        <div class="text-muted small mb-2 mb-lg-0">
-            <?php
-            $from = ($pager->getCurrentPage('posts') - 1) * $pager->getPerPage('posts') + 1;
-            $to = $from + count($posts) - 1;
-            ?>
-            Menampilkan <?= $from ?>-<?= $to ?> dari <?= $pager->getTotal('posts') ?> berita
+    <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            Total Record: <span class="text-slate-900"><?= number_format($pager->getTotal('posts')) ?></span> Berita
         </div>
-        <div class="d-flex align-items-text-center">
+        <div>
             <?= $pager->only(['search', 'category', 'author'])->links('posts', 'custom_bootstrap') ?>
         </div>
     </div>
 <?php endif; ?>
-
-<script>
-    // Initialize tooltips
-    document.addEventListener('DOMContentLoaded', function() {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
-    });
-</script>
 
 <?= $this->endSection() ?>

@@ -13,6 +13,11 @@ class Login extends BaseController
         return view('auth/login');
     }
 
+    public function login()
+    {
+        return $this->attemptLogin();
+    }
+
     public function attemptLogin()
     {
         // handle login attempt

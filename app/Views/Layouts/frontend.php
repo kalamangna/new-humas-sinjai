@@ -38,13 +38,6 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QEW3BM9KJ7"></script>
     <script>
-        // Initialize theme before page load to avoid flicker
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-
         window.dataLayer = window.dataLayer || [];
 
         function gtag() {
@@ -55,7 +48,7 @@
     </script>
 </head>
 
-<body class="bg-slate-50 text-slate-900 font-sans antialiased dark:bg-slate-900 dark:text-slate-100 transition-colors duration-200">
+<body class="bg-slate-50 text-slate-900 font-sans antialiased">
     <!-- Navbar -->
     <nav class="bg-blue-900 text-white shadow-xl sticky top-0 z-50 border-b border-blue-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -130,11 +123,7 @@
                     </div>
                 </div>
 
-                <div class="hidden xl:flex items-center space-x-4">
-                    <button id="theme-toggle" type="button" class="text-blue-200 hover:text-white focus:outline-none p-2 rounded-lg hover:bg-blue-800 transition-colors">
-                        <i id="theme-toggle-dark-icon" class="hidden fas fa-moon"></i>
-                        <i id="theme-toggle-light-icon" class="hidden fas fa-sun"></i>
-                    </button>
+                <div class="hidden xl:flex items-center">
                     <form action="<?= base_url('search') ?>" method="get" class="relative">
                         <input type="text" name="q" placeholder="Cari Berita..." required
                             class="bg-blue-950 text-white placeholder-blue-400 text-xs font-bold uppercase tracking-wider rounded-xl border-none focus:ring-2 focus:ring-sky-500 pl-5 pr-12 py-3 w-72 shadow-inner transition-all">
@@ -210,7 +199,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-950 text-slate-400 mt-12 border-t-8 border-blue-900 dark:bg-black">
+    <footer class="bg-slate-950 text-slate-400 mt-12 border-t-8 border-blue-900">
         <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 items-start">
                 <!-- Info -->
@@ -327,43 +316,6 @@
                 top: 0,
                 behavior: 'smooth'
             });
-        });
-
-        // Theme Toggle Logic
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const darkIcon = document.getElementById('theme-toggle-dark-icon');
-        const lightIcon = document.getElementById('theme-toggle-light-icon');
-
-        // Update Icons on Load
-        if (document.documentElement.classList.contains('dark')) {
-            lightIcon.classList.remove('hidden');
-        } else {
-            darkIcon.classList.remove('hidden');
-        }
-
-        themeToggleBtn.addEventListener('click', function() {
-            // toggle icons
-            darkIcon.classList.toggle('hidden');
-            lightIcon.classList.toggle('hidden');
-
-            // if set via local storage previously
-            if (localStorage.getItem('theme')) {
-                if (localStorage.getItem('theme') === 'light') {
-                    document.documentElement.classList.add('dark');
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.setItem('theme', 'light');
-                }
-            } else {
-                if (document.documentElement.classList.contains('dark')) {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    document.documentElement.classList.add('dark');
-                    localStorage.setItem('theme', 'dark');
-                }
-            }
         });
     </script>
     <script src="https://cdn.userway.org/widget.js" data-account="S41ThPrHz4"></script>

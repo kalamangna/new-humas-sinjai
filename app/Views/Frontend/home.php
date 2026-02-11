@@ -34,30 +34,30 @@
 </section>
 
 <!-- Featured News Grid -->
-<section class="py-4 md:py-8 bg-slate-50 dark:bg-slate-900 transition-colors duration-200">
+<section class="py-4 md:py-8 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="text-center mb-8">
-            <p class="text-[11px] font-black text-blue-900 uppercase tracking-[0.5em] mb-4 dark:text-blue-400">Warta Terkini</p>
-            <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase dark:text-slate-100">
+            <p class="text-[11px] font-black text-blue-900 uppercase tracking-[0.5em] mb-4">Warta Terkini</p>
+            <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase">
                 Berita Terbaru
             </h1>
-            <div class="mt-8 w-24 h-2 bg-blue-900 mx-auto rounded-full shadow-lg shadow-blue-900/20 dark:bg-blue-600"></div>
+            <div class="mt-8 w-24 h-2 bg-blue-900 mx-auto rounded-full shadow-lg shadow-blue-900/20"></div>
         </div>        
                 <?php if (!empty($posts)): ?>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                         <?php foreach ($posts as $index => $post): ?>
                             <?php if ($index < 6): ?>
-                                <article class="group bg-white rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:hover:border-blue-800">
+                                <article class="group bg-white rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col border border-slate-200">
                                     <!-- Image Container -->
-                                    <div class="relative h-64 overflow-hidden bg-slate-100 dark:bg-slate-900">
+                                    <div class="relative h-64 overflow-hidden bg-slate-100">
                                         <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="block h-full">
                                             <?php if (!empty($post['thumbnail'])) : ?>
                                                 <img src="<?= esc($post['thumbnail']) ?>" alt="<?= esc($post['title']) ?>" 
                                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                             <?php else: ?>
                                                 <div class="w-full h-full flex items-center justify-center">
-                                                    <i class="fas fa-fw fa-image text-slate-300 text-6xl dark:text-slate-700"></i>
+                                                    <i class="fas fa-fw fa-image text-slate-300 text-6xl"></i>
                                                 </div>
                                             <?php endif; ?>
                                         </a>
@@ -67,7 +67,7 @@
                                             <div class="absolute top-6 left-6 flex flex-wrap gap-2">
                                                 <?php foreach ($post['categories'] as $category) : ?>
                                                     <a href="<?= base_url('category/' . esc($category['slug'])) ?>" 
-                                                        class="px-4 py-1.5 bg-blue-900 text-white text-[9px] font-black uppercase tracking-widest rounded-lg backdrop-blur-sm hover:bg-blue-950 transition-all shadow-xl dark:bg-blue-800">
+                                                        class="px-4 py-1.5 bg-blue-900 text-white text-[9px] font-black uppercase tracking-widest rounded-lg backdrop-blur-sm hover:bg-blue-950 transition-all shadow-xl">
                                                         <?= esc($category['name']) ?>
                                                     </a>
                                                 <?php endforeach; ?>
@@ -77,17 +77,17 @@
         
                                     <!-- Content -->
                                     <div class="p-10 flex flex-col flex-1">
-                                        <h2 class="text-xl font-bold text-slate-900 mb-5 line-clamp-2 leading-tight group-hover:text-blue-900 transition-colors tracking-tight dark:text-slate-100 dark:group-hover:text-blue-400">
+                                        <h2 class="text-xl font-bold text-slate-900 mb-5 line-clamp-2 leading-tight group-hover:text-blue-900 transition-colors tracking-tight">
                                             <a href="<?= base_url('post/' . esc($post['slug'])) ?>">
                                                 <?= esc($post['title']) ?>
                                             </a>
                                         </h2>
                                         
-                                        <p class="text-slate-600 text-sm mb-10 line-clamp-3 leading-relaxed font-medium dark:text-slate-400">
+                                        <p class="text-slate-600 text-sm mb-10 line-clamp-3 leading-relaxed font-medium">
                                             <?= word_limiter(strip_tags($post['content']), 22) ?>
                                         </p>
         
-                                        <div class="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-black uppercase tracking-[0.2em] dark:border-slate-700">
+                                        <div class="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">
                                             <span class="flex items-center">
                                                 <i class="far fa-fw fa-calendar-alt mr-2 text-blue-900"></i>
                                                 <?php
@@ -115,13 +115,13 @@
                     </div>
         
                 <?php else: ?>
-                    <div class="bg-white rounded-[3rem] p-20 text-center shadow-sm border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-                        <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200 dark:bg-slate-900 dark:text-slate-700">
+                    <div class="bg-white rounded-[3rem] p-20 text-center shadow-sm border border-slate-200">
+                        <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200">
                             <i class="fas fa-fw fa-inbox text-5xl"></i>
                         </div>
-                        <h2 class="text-3xl font-black text-slate-900 mb-4 tracking-tight uppercase dark:text-slate-100">Belum Ada Informasi</h2>
-                        <p class="text-slate-500 mb-8 max-w-md mx-auto leading-relaxed font-medium dark:text-slate-400">Saat ini belum ada pembaruan berita yang tersedia. Silakan periksa kembali dalam beberapa saat.</p>
-                        <a href="<?= base_url() ?>" class="text-blue-900 font-black uppercase tracking-widest text-xs hover:underline flex items-center justify-center dark:text-blue-400">
+                        <h2 class="text-3xl font-black text-slate-900 mb-4 tracking-tight uppercase">Belum Ada Informasi</h2>
+                        <p class="text-slate-500 mb-8 max-w-md mx-auto leading-relaxed font-medium">Saat ini belum ada pembaruan berita yang tersedia. Silakan periksa kembali dalam beberapa saat.</p>
+                        <a href="<?= base_url() ?>" class="text-blue-900 font-black uppercase tracking-widest text-xs hover:underline flex items-center justify-center">
                             <i class="fas fa-fw fa-sync-alt mr-3"></i> Muat Ulang Halaman
                         </a>
                     </div>

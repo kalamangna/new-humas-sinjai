@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-slate-100 dark:bg-slate-900 transition-colors duration-200">
+<html lang="id" class="h-full bg-slate-100">
 
 <head>
     <meta charset="UTF-8">
@@ -18,13 +18,6 @@
     <script src="<?= base_url('assets/tinymce/tinymce/tinymce.min.js') ?>" referrerpolicy="origin" crossorigin="anonymous"></script>
     
     <script>
-        // Initialize theme before page load to avoid flicker
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-
         tinymce.init({
             selector: 'textarea#content, textarea#bio',
             plugins: 'code table lists image',
@@ -50,10 +43,10 @@
     </script>
 </head>
 
-<body class="h-full font-sans antialiased text-slate-900 bg-slate-100 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-200">
+<body class="h-full font-sans antialiased text-slate-900 bg-slate-100">
     <div class="min-h-screen flex overflow-hidden">
         <!-- Sidebar -->
-        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-300 transition-transform duration-300 transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0 border-r border-slate-800 flex-shrink-0 dark:bg-black dark:border-slate-900">
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-300 transition-transform duration-300 transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0 border-r border-slate-800 flex-shrink-0">
             <div class="flex flex-col h-full">
                 <!-- Brand -->
                 <div class="flex items-center justify-between h-20 px-6 bg-slate-950 border-b border-slate-800">
@@ -124,25 +117,21 @@
             <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-slate-900/60 hidden transition-opacity lg:hidden"></div>
 
             <!-- Topbar -->
-            <header class="flex items-center justify-between h-20 px-6 bg-white border-b border-slate-200 sticky top-0 z-30 flex-shrink-0 dark:bg-slate-900 dark:border-slate-800">
+            <header class="flex items-center justify-between h-20 px-6 bg-white border-b border-slate-200 sticky top-0 z-30 flex-shrink-0">
                 <div class="flex items-center">
                     <button id="open-sidebar" class="text-slate-500 hover:text-slate-900 lg:hidden p-2 mr-4">
                         <i class="fas fa-fw fa-bars text-xl"></i>
                     </button>
                     <div>
-                        <h1 class="text-lg font-bold text-slate-800 leading-none truncate max-w-[200px] sm:max-w-md dark:text-slate-200">
+                        <h1 class="text-lg font-bold text-slate-800 leading-none truncate max-w-[200px] sm:max-w-md">
                             <?= $this->renderSection('page_title') ?? 'Dasbor' ?>
                         </h1>
-                        <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mt-1 dark:text-slate-400">Administrator Humas Sinjai</p>
+                        <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mt-1">Administrator Humas Sinjai</p>
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-3 sm:space-x-6">
-                    <button id="theme-toggle" type="button" class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none rounded-lg p-2.5 transition-colors">
-                        <i id="theme-toggle-dark-icon" class="hidden fas fa-moon"></i>
-                        <i id="theme-toggle-light-icon" class="hidden fas fa-sun"></i>
-                    </button>
-                    <a href="<?= base_url('/') ?>" target="_blank" class="hidden sm:flex items-center px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                    <a href="<?= base_url('/') ?>" target="_blank" class="hidden sm:flex items-center px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors">
                         <i class="fas fa-fw fa-external-link-alt mr-2"></i>Kunjungi Situs
                     </a>
 
@@ -153,22 +142,22 @@
                                 <?= substr(session()->get('name') ?? 'A', 0, 1) ?>
                             </div>
                             <div class="hidden md:block text-left">
-                                <p class="text-xs font-bold text-slate-900 leading-none dark:text-slate-200"><?= session()->get('name') ?? 'Administrator' ?></p>
-                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mt-1 dark:text-slate-400"><?= ucfirst(session()->get('role') ?? 'staf') ?></p>
+                                <p class="text-xs font-bold text-slate-900 leading-none"><?= session()->get('name') ?? 'Administrator' ?></p>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mt-1"><?= ucfirst(session()->get('role') ?? 'staf') ?></p>
                             </div>
                             <i class="fas fa-fw fa-chevron-down text-[10px] text-slate-400"></i>
                         </button>
                         <!-- Dropdown Menu -->
-                        <div class="absolute right-0 w-56 mt-0 bg-white rounded-xl shadow-2xl ring-1 ring-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-1 transition-all duration-200 z-50 dark:bg-slate-800 dark:ring-slate-700">
+                        <div class="absolute right-0 w-56 mt-0 bg-white rounded-xl shadow-2xl ring-1 ring-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-1 transition-all duration-200 z-50">
                             <div class="py-2">
-                                <a href="<?= base_url('admin/profile') ?>" class="flex items-center px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-700/50">
+                                <a href="<?= base_url('admin/profile') ?>" class="flex items-center px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">
                                     <i class="fas fa-fw fa-user-circle w-5 text-slate-400"></i>Profil Saya
                                 </a>
-                                <a href="<?= base_url('admin/settings') ?>" class="flex items-center px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-700/50">
+                                <a href="<?= base_url('admin/settings') ?>" class="flex items-center px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">
                                     <i class="fas fa-fw fa-cog w-5 text-slate-400"></i>Pengaturan Akun
                                 </a>
-                                <div class="border-t border-slate-100 my-1 dark:border-slate-700"></div>
-                                <a href="<?= base_url('logout') ?>" class="flex items-center px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10">
+                                <div class="border-t border-slate-100 my-1"></div>
+                                <a href="<?= base_url('logout') ?>" class="flex items-center px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50">
                                     <i class="fas fa-fw fa-sign-out-alt w-5"></i>Keluar Sistem
                                 </a>
                             </div>
@@ -183,7 +172,7 @@
                     <!-- Page Actions -->
                     <div class="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <h1 class="text-2xl font-black text-slate-900 tracking-tight sm:hidden dark:text-slate-100"><?= $this->renderSection('page_title') ?? 'Dasbor' ?></h1>
+                            <h1 class="text-2xl font-black text-slate-900 tracking-tight sm:hidden"><?= $this->renderSection('page_title') ?? 'Dasbor' ?></h1>
                         </div>
                         <div class="flex items-center space-x-3">
                             <?= $this->renderSection('page_actions') ?>

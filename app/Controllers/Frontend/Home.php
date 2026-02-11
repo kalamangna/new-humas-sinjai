@@ -139,6 +139,124 @@ class Home extends BaseController
         return view('Frontend/posts', $data);
     }
 
-    // Remaining methods like categories(), tags(), rss(), sitemap() ...
-    // I'll keep them for now but they could also benefit from Services.
+    public function categories()
+    {
+        $categoryModel = new CategoryModel();
+        $allCategories = $categoryModel
+            ->select('categories.*, COUNT(post_categories.post_id) as post_count')
+            ->join('post_categories', 'post_categories.category_id = categories.id', 'left')
+            ->groupBy('categories.id')
+            ->orderBy('categories.name', 'ASC')
+            ->findAll();
+
+        $categories = [];
+        $subCategories = [];
+
+        foreach ($allCategories as $category) {
+            if ($category['parent_id'] === null) {
+                $categories[] = $category;
+            } else {
+                $subCategories[$category['parent_id']][] = $category;
+            }
+        }
+
+        $data = [
+            'categories' => $categories,
+            'subCategories' => $subCategories,
+            'title' => 'Semua Kategori',
+            'description' => 'Telusuri semua kategori berita di Humas Sinjai.',
+            'keywords' => 'kategori, berita, humas sinjai, sinjai',
+        ];
+
+        return view('Frontend/categories', $data);
+    }
+
+    public function tags()
+    {
+        $tagModel = new TagModel();
+        $data = [
+            'tags' => $tagModel
+                ->select('tags.*, COUNT(post_tags.post_id) as post_count')
+                ->join('post_tags', 'post_tags.tag_id = tags.id', 'left')
+                ->groupBy('tags.id')
+                ->orderBy('tags.name', 'ASC')
+                ->findAll(),
+            'title' => 'Semua Tag',
+            'description' => 'Telusuri semua tag berita di Humas Sinjai.',
+            'keywords' => 'tag, berita, humas sinjai, sinjai',
+        ];
+
+        return view('Frontend/tags', $data);
+    }
+
+    public function rss()
+    {
+        $postModel = new \App\Models\PostModel();
+        $posts = $postModel->where('status', 'published')->orderBy('published_at', 'DESC')->limit(20)->findAll();
+
+        $this->response->setHeader('Content-Type', 'application/rss+xml');
+
+        $data = [
+            'posts' => $posts,
+        ];
+
+        return view('Frontend/rss', $data);
+    }
+
+    public function sitemap()
+    {
+        $postModel = new \App\Models\PostModel();
+        $categoryModel = new CategoryModel();
+        $tagModel = new TagModel();
+
+        $data = [
+            'posts' => $postModel->where('status', 'published')->orderBy('published_at', 'DESC')->findAll(),
+            'categories' => $categoryModel->findAll(),
+            'tags' => $tagModel->findAll(),
+        ];
+
+        $this->response->setHeader('Content-Type', 'application/xml');
+        return view('Frontend/sitemap', $data);
+    }
+
+    public function programPrioritas()
+    {
+        $categoryModel = new CategoryModel();
+        $parentCategory = $categoryModel->where('slug', 'program-prioritas')->first();
+
+        if (empty($parentCategory)) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the category: program-prioritas');
+        }
+
+        $childCategories = $categoryModel->where('parent_id', $parentCategory['id'])->findAll();
+        $childCategoryIds = array_column($childCategories, 'id');
+
+        $postModel = new \App\Models\PostModel();
+        $data['posts'] = [];
+        $data['pager'] = null;
+
+        if (!empty($childCategoryIds)) {
+            $postCategoryModel = new PostCategoryModel();
+            $postIds = array_column($postCategoryModel->whereIn('category_id', $childCategoryIds)->findAll(), 'post_id');
+
+            if (!empty($postIds)) {
+                $posts = $postModel->whereIn('posts.id', $postIds)->getPosts(false, true);
+                $data['posts'] = $postModel->withCategoriesAndTags($posts);
+                $data['pager'] = $postModel->pager;
+            }
+        }
+
+        $data['title'] = 'Program Prioritas';
+        $data['description'] = 'Program prioritas Pemerintah Kabupaten Sinjai.';
+        $data['keywords'] = 'program prioritas, sinjai, pemerintah kabupaten sinjai';
+
+        return view('Frontend/program_prioritas', $data);
+    }
+
+    public function error404()
+    {
+        $this->response->setStatusCode(404);
+        $data['title'] = 'Halaman Tidak Ditemukan';
+        return view('errors/html/error_404_frontend', $data);
+    }
 }

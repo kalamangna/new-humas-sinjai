@@ -121,16 +121,35 @@ class Posts extends BaseController
         $postModel = new \App\Models\PostModel();
         $existingPost = $postModel->find($id);
 
+        if (!$existingPost) {
+            return redirect()->to(base_url('admin/posts'))->with('error', 'Berita tidak ditemukan.');
+        }
+
         if (!$this->validate($this->getValidationRules(true))) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $thumbnail = $existingPost['thumbnail'];
-        $newThumbnailSource = $this->request->getPost('pasted_thumbnail') ?: $this->request->getFile('thumbnail');
+        $pastedThumbnail = $this->request->getPost('pasted_thumbnail');
+        $thumbnailFile = $this->request->getFile('thumbnail');
+        
+        // Check for upload errors if a file was actually selected
+        if ($thumbnailFile && $thumbnailFile->getName() !== '' && !$thumbnailFile->isValid()) {
+            return redirect()->back()->withInput()->with('error', 'Gagal mengunggah gambar: ' . $thumbnailFile->getErrorString());
+        }
 
-        if ($newThumbnailSource && ($newThumbnailSource instanceof \CodeIgniter\HTTP\FileUpload ? $newThumbnailSource->getName() !== '' : true)) {
-            $this->mediaService->deleteImage($existingPost['thumbnail']);
-            $thumbnail = $this->mediaService->saveImage($newThumbnailSource, 'thumbnails');
+        $hasNewThumbnail = !empty($pastedThumbnail) || ($thumbnailFile && $thumbnailFile->isValid() && !$thumbnailFile->hasMoved());
+
+        if ($hasNewThumbnail) {
+            $newThumbnailSource = !empty($pastedThumbnail) ? $pastedThumbnail : $thumbnailFile;
+            $newThumbnail = $this->mediaService->saveImage($newThumbnailSource, 'thumbnails');
+            
+            if ($newThumbnail) {
+                $this->mediaService->deleteImage($existingPost['thumbnail']);
+                $thumbnail = $newThumbnail;
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Gagal memproses gambar thumbnail. Pastikan format dan ukuran file sesuai.');
+            }
         }
 
         $postData = [
@@ -138,7 +157,7 @@ class Posts extends BaseController
             'slug'              => url_title($this->request->getPost('title'), '-', true),
             'content'           => $this->request->getPost('content'),
             'status'            => $this->request->getPost('status'),
-            'user_id'           => session()->get('user_id'),
+            'published_at'      => $this->request->getPost('published_at') ?: null,
             'thumbnail'         => $thumbnail,
             'thumbnail_caption' => $this->request->getPost('thumbnail_caption'),
         ];

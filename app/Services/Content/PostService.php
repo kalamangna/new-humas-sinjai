@@ -133,8 +133,9 @@ class PostService
             if (!$post) throw new \RuntimeException('Post not found');
 
             if ($data['status'] === 'published') {
-                if (empty($post['published_at']) && empty($data['published_at'])) {
-                    $data['published_at'] = date('Y-m-d H:i:s');
+                // Priority: 1. Provided value, 2. Existing value, 3. Current time
+                if (empty($data['published_at'])) {
+                    $data['published_at'] = $post['published_at'] ?: date('Y-m-d H:i:s');
                 }
             } else {
                 $data['published_at'] = null;

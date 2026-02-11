@@ -39,7 +39,16 @@ class MediaService
         }
 
         if (file_exists($tempPath)) {
-            if (rename($tempPath, $destPath)) {
+            $moved = @rename($tempPath, $destPath);
+            
+            if (!$moved) {
+                if (@copy($tempPath, $destPath)) {
+                    @unlink($tempPath);
+                    $moved = true;
+                }
+            }
+
+            if ($moved) {
                 return base_url('uploads/' . $folder . '/' . $fileName);
             }
             @unlink($tempPath);

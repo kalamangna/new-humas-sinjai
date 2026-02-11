@@ -174,8 +174,8 @@
                     const blob = await item.getType(types[0]);
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        document.getElementById('pasted_thumbnail').value = event.target.result;
-                        document.getElementById('thumbnail-preview').src = event.target.result;
+                        document.getElementById('pasted_thumbnail').value = e.target.result;
+                        document.getElementById('thumbnail-preview').src = e.target.result;
                         document.getElementById('thumbnail-preview-container').classList.remove('hidden');
                         document.getElementById('file-name').innerText = "Gambar Clipboard";
                     };

@@ -198,6 +198,22 @@
                         </div>
                     <?php endif; ?>
 
+                    <?php if (session()->getFlashdata('errors')) : ?>
+                        <div class="bg-red-50 border-l-4 border-red-500 p-6 mb-8 rounded-r-xl shadow-sm animate-in fade-in slide-in-from-top-2 duration-300">
+                            <div class="flex items-center mb-3">
+                                <div class="bg-red-500 rounded-full p-1.5 mr-4">
+                                    <i class="fas fa-exclamation-triangle text-white text-xs"></i>
+                                </div>
+                                <span class="text-sm font-black text-red-900 uppercase tracking-widest">Terjadi Kesalahan Validasi</span>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 ml-10">
+                                <?php foreach (session()->getFlashdata('errors') as $error) : ?>
+                                    <li class="text-xs font-bold text-red-800"><?= esc($error) ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+
                     <!-- Render Section Content -->
                     <div class="animate-in fade-in duration-500">
                         <?= $this->renderSection('content') ?>

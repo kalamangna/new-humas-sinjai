@@ -23,7 +23,6 @@
         </div>
 
         <div class="p-8 md:p-12">
-            <?= $this->include('layout/admin_errors') ?>
 
             <form action="<?= base_url('admin/users/' . $user['id']) ?>" method="post" class="space-y-8">
                 <input type="hidden" name="_method" value="PUT">

@@ -14,7 +14,7 @@
             <li>
                 <div class="flex items-center">
                     <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <span class="text-slate-400">Kategori Informasi</span>
+                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Kategori Informasi</span>
                 </div>
             </li>
         </ol>

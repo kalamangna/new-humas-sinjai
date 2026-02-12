@@ -63,9 +63,9 @@
                                 <table class="w-full text-left border-collapse table-auto">
                                     <thead>
                                         <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-black text-slate-500 uppercase tracking-widest">
-                                            <th class="px-8 py-5">Nama Pejabat</th>
-                                            <th class="px-8 py-5">Jabatan</th>
-                                            <th class="px-8 py-5">
+                                            <th class="px-8 py-5 whitespace-nowrap">Nama Pejabat</th>
+                                            <th class="px-8 py-5 whitespace-nowrap">Jabatan</th>
+                                            <th class="px-8 py-5 whitespace-nowrap">
                                                 <?php
                                                 if (strpos($groupName, 'Eselon') !== false) echo 'OPD';
                                                 elseif ($groupName == 'Kepala Desa') echo 'Desa';
@@ -87,12 +87,12 @@
                                                             <img src="<?= $imgSrc ?>" class="w-full h-full object-cover">
                                                         </div>
                                                     <?php endif; ?>
-                                                    <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors"><?= $profile['name'] ? esc($profile['name']) : '-' ?></div>
+                                                    <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors whitespace-nowrap"><?= $profile['name'] ? esc($profile['name']) : '-' ?></div>
                                                 </td>
                                                 <td class="px-8 py-6 text-sm text-slate-600 font-medium leading-relaxed">
                                                     <?= esc($profile['position'] ?? '-') ?>
                                                 </td>
-                                                <td class="px-8 py-6 text-sm text-slate-600 font-medium">
+                                                <td class="px-8 py-6 text-sm text-slate-600 font-medium whitespace-nowrap">
                                                     <span class="px-3 py-1 bg-slate-100 rounded-lg text-xs border border-slate-200">
                                                         <?= esc($profile['institution'] ?? '-') ?>
                                                     </span>

@@ -71,8 +71,10 @@
                             <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>Biografi & Profil Lengkap
                         </h2>
                         
-                        <div class="prose prose-slate lg:prose-xl max-w-none prose-headings:text-slate-900 prose-headings:font-black prose-p:leading-relaxed prose-p:text-slate-600">
-                            <?= $profile['bio'] ?>
+                        <div class="overflow-x-auto">
+                            <div class="prose prose-slate lg:prose-xl max-w-none prose-headings:text-slate-900 prose-headings:font-black prose-p:leading-relaxed prose-p:text-slate-600">
+                                <?= $profile['bio'] ?>
+                            </div>
                         </div>
                     </div>
                 </div>

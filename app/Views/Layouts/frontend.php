@@ -46,6 +46,11 @@
         gtag('js', new Date());
         gtag('config', 'G-QEW3BM9KJ7');
     </script>
+    <style>
+        .prose table td, .prose table th {
+            white-space: nowrap;
+        }
+    </style>
 </head>
 
 <body class="bg-slate-50 text-slate-900 font-sans antialiased">

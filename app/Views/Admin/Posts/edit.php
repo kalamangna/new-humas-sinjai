@@ -175,8 +175,10 @@
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         document.getElementById('pasted_thumbnail').value = e.target.result;
-                        document.getElementById('thumbnail-preview').src = e.target.result;
-                        document.getElementById('thumbnail-preview-container').classList.remove('hidden');
+                        const preview = document.getElementById('thumbnail-preview');
+                        const container = document.getElementById('thumbnail-preview-container');
+                        preview.src = e.target.result;
+                        if (container) container.classList.remove('hidden');
                         document.getElementById('file-name').innerText = "Gambar Clipboard";
                     };
                     reader.readAsDataURL(blob);

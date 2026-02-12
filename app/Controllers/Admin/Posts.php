@@ -66,6 +66,10 @@ class Posts extends BaseController
             'thumbnails'
         );
 
+        if (!$thumbnail && ($this->request->getFile('thumbnail')->getName() !== '' || !empty($this->request->getPost('pasted_thumbnail')))) {
+            return redirect()->back()->withInput()->with('error', 'Gagal memproses gambar thumbnail. Pastikan format dan ukuran file sesuai (Maks 2MB).');
+        }
+
         $postData = [
             'title'             => $this->request->getPost('title'),
             'slug'              => url_title($this->request->getPost('title'), '-', true),
@@ -142,13 +146,16 @@ class Posts extends BaseController
 
         if ($hasNewThumbnail) {
             $newThumbnailSource = !empty($pastedThumbnail) ? $pastedThumbnail : $thumbnailFile;
+            log_message('debug', '[Posts::update] Processing new thumbnail from ' . (is_string($newThumbnailSource) ? 'base64' : 'file'));
+            
             $newThumbnail = $this->mediaService->saveImage($newThumbnailSource, 'thumbnails');
             
             if ($newThumbnail) {
                 $this->mediaService->deleteImage($existingPost['thumbnail']);
                 $thumbnail = $newThumbnail;
             } else {
-                return redirect()->back()->withInput()->with('error', 'Gagal memproses gambar thumbnail. Pastikan format dan ukuran file sesuai.');
+                log_message('error', '[Posts::update] MediaService::saveImage returned null');
+                return redirect()->back()->withInput()->with('error', 'Gagal memproses gambar thumbnail. Pastikan format dan ukuran file sesuai (Maks 2MB).');
             }
         }
 

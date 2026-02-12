@@ -3,6 +3,11 @@
 if (!function_exists('processImage')) {
     function processImage($file, $fit = true)
     {
+        if (empty($file) || !file_exists($file)) {
+            log_message('error', '[processImage] Input file does not exist: ' . ($file ?: 'null'));
+            return $file;
+        }
+
         try {
             $image = \Config\Services::image()
                 ->withFile($file);

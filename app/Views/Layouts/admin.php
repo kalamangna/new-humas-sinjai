@@ -31,12 +31,15 @@
         function previewImage() {
             const thumbnail = document.querySelector('#thumbnail');
             const thumbnailPreview = document.querySelector('#thumbnail-preview');
+            const container = document.querySelector('#thumbnail-preview-container');
+            
             if (thumbnail.files && thumbnail.files[0]) {
-                thumbnailPreview.style.display = 'block';
                 const oFReader = new FileReader();
                 oFReader.readAsDataURL(thumbnail.files[0]);
                 oFReader.onload = function(oFREvent) {
                     thumbnailPreview.src = oFREvent.target.result;
+                    if (container) container.classList.remove('hidden');
+                    thumbnailPreview.style.display = 'block';
                 }
             }
         }

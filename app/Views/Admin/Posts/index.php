@@ -149,7 +149,7 @@
                                     </span>
                                 <?php endif; ?>
                             </td>
-                            <td class="px-6 py-4 text-xs font-bold text-slate-500">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-500 whitespace-nowrap">
                                 <div class="flex items-center"><i class="far fa-fw fa-eye w-4 text-slate-400"></i><?= number_format($post['views'] ?? 0) ?> Dilihat</div>
                                 <div class="flex items-center mt-1"><i class="far fa-fw fa-calendar-check w-4 text-slate-400"></i><?= $post['published_at'] ? date('d/m/y', strtotime($post['published_at'])) : '-' ?></div>
                             </td>

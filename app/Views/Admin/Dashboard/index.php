@@ -195,7 +195,7 @@
                     row.className = 'hover:bg-slate-50 transition-colors group';
                     row.innerHTML = `
                         <td class="px-8 py-5 text-xs font-bold text-slate-700 truncate max-w-xs group-hover:text-blue-800 transition-colors">${item.title}</td>
-                        <td class="px-8 py-5 text-right">
+                        <td class="px-8 py-5 text-right whitespace-nowrap">
                             <span class="px-3 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">
                                 ${item.views.toLocaleString()} Hits
                             </span>

@@ -74,10 +74,14 @@
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tipe Klasifikasi <span class="text-red-600">*</span></label>
                             <select name="type" id="type" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer">
-                                <?php $types = ['bupati', 'wakil-bupati', 'sekda', 'forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa']; ?>
-                                <?php foreach($types as $t): ?>
-                                    <option value="<?= $t ?>" <?= old('type', $profile['type']) == $t ? 'selected' : '' ?>><?= ucfirst(str_replace('-', ' ', $t)) ?></option>
-                                <?php endforeach; ?>
+                                <option value="bupati" <?= old('type', $profile['type']) == 'bupati' ? 'selected' : '' ?>>Bupati</option>
+                                <option value="wakil-bupati" <?= old('type', $profile['type']) == 'wakil-bupati' ? 'selected' : '' ?>>Wakil Bupati</option>
+                                <option value="sekda" <?= old('type', $profile['type']) == 'sekda' ? 'selected' : '' ?>>Sekda</option>
+                                <option value="forkopimda" <?= old('type', $profile['type']) == 'forkopimda' ? 'selected' : '' ?>>Forkopimda</option>
+                                <option value="eselon-ii" <?= old('type', $profile['type']) == 'eselon-ii' ? 'selected' : '' ?>>Eselon II</option>
+                                <option value="eselon-iii" <?= old('type', $profile['type']) == 'eselon-iii' ? 'selected' : '' ?>>Eselon III</option>
+                                <option value="eselon-iv" <?= old('type', $profile['type']) == 'eselon-iv' ? 'selected' : '' ?>>Eselon IV</option>
+                                <option value="kepala-desa" <?= old('type', $profile['type']) == 'kepala-desa' ? 'selected' : '' ?>>Kepala Desa</option>
                             </select>
                         </div>
 

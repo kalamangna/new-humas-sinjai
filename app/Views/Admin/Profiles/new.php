@@ -69,22 +69,16 @@
                     </div>
                 </div>
 
-                <!-- Foto Profil Section (Moved to Bottom) -->
+                <!-- Foto Profil Section -->
                 <div id="image-container" class="space-y-4 pt-10 border-t border-slate-100">
                     <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Foto Profil</label>
-                    <div class="flex items-center space-x-2">
-                        <label class="flex-1 cursor-pointer">
-                            <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
-                                <i class="fas fa-fw fa-camera text-slate-400 mr-3"></i>
-                                <span class="text-sm font-bold text-slate-500 truncate" id="file-name">Pilih Foto Pejabat</span>
-                                <input type="file" name="image" id="image" class="hidden" accept="image/*" onchange="previewImage('image', 'image-preview', 'image-preview-container'); document.getElementById('file-name').innerText = this.files[0].name;">
-                            </div>
-                        </label>
-                        <button type="button" id="paste-image-btn" class="p-3 bg-slate-100 text-slate-600 rounded-xl hover:bg-blue-800 hover:text-white transition-all shadow-sm" title="Tempel dari Clipboard">
-                            <i class="fas fa-fw fa-paste"></i>
-                        </button>
-                    </div>
-                    <input type="hidden" name="pasted_image" id="pasted_image">
+                    <label class="block cursor-pointer">
+                        <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
+                            <i class="fas fa-fw fa-camera text-slate-400 mr-3"></i>
+                            <span class="text-sm font-bold text-slate-500 truncate" id="file-name">Pilih Foto Pejabat</span>
+                            <input type="file" name="image" id="image" class="hidden" accept="image/*" onchange="previewImage('image', 'image-preview', 'image-preview-container'); document.getElementById('file-name').innerText = this.files[0].name;">
+                        </div>
+                    </label>
                     
                     <div id="image-preview-container" class="mt-4 hidden ring-4 ring-slate-50 rounded-2xl overflow-hidden shadow-xl border border-slate-200 inline-block">
                         <img id="image-preview" class="h-64 w-auto object-cover">
@@ -126,28 +120,6 @@
 
         typeSelect.addEventListener('change', toggleFields);
         toggleFields();
-
-        document.getElementById('paste-image-btn').onclick = async () => {
-            try {
-                const items = await navigator.clipboard.read();
-                for (const item of items) {
-                    const type = item.types.find(t => t.startsWith('image/'));
-                    if (type) {
-                        const blob = await item.getType(type);
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            document.getElementById('pasted_image').value = e.target.result;
-                            const preview = document.getElementById('image-preview');
-                            const container = document.getElementById('image-preview-container');
-                            preview.src = e.target.result;
-                            if (container) container.classList.remove('hidden');
-                            document.getElementById('file-name').innerText = "Gambar Clipboard";
-                        };
-                        reader.readAsDataURL(blob);
-                    }
-                }
-            } catch (e) { alert('Gagal menempel gambar.'); }
-        };
     });
 </script>
 

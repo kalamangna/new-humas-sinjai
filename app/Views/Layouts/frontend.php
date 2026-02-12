@@ -195,7 +195,7 @@
 
     <!-- Main Content -->
     <main class="min-h-screen">
-        <div class="<?= url_is('/') ? '' : 'pb-12 md:pb-20 pt-4 md:pt-8' ?>">
+        <div class="<?= url_is('/') ? '' : 'pb-12 md:pb-20 pt-2 md:pt-4' ?>">
             <?= $this->renderSection('content') ?>
         </div>
     </main>

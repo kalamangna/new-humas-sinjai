@@ -28,18 +28,22 @@
             license_key: 'gpl'
         });
 
-        function previewImage() {
-            const thumbnail = document.querySelector('#thumbnail');
-            const thumbnailPreview = document.querySelector('#thumbnail-preview');
-            const container = document.querySelector('#thumbnail-preview-container');
+        function previewImage(inputId = 'thumbnail', previewId = 'thumbnail-preview', containerId = 'thumbnail-preview-container') {
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+            const container = document.getElementById(containerId);
             
-            if (thumbnail.files && thumbnail.files[0]) {
-                const oFReader = new FileReader();
-                oFReader.readAsDataURL(thumbnail.files[0]);
-                oFReader.onload = function(oFREvent) {
-                    thumbnailPreview.src = oFREvent.target.result;
-                    if (container) container.classList.remove('hidden');
-                    thumbnailPreview.style.display = 'block';
+            if (input && input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.readAsDataURL(input.files[0]);
+                reader.onload = function(e) {
+                    if (preview) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    }
+                    if (container) {
+                        container.classList.remove('hidden');
+                    }
                 }
             }
         }

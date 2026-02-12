@@ -59,7 +59,7 @@
                                     <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
                                         <i class="fas fa-fw fa-image text-slate-400 mr-3"></i>
                                         <span class="text-sm font-bold text-slate-500 truncate" id="file-name">Pilih atau Seret Gambar</span>
-                                        <input type="file" name="thumbnail" id="thumbnail" class="hidden" accept="image/*" onchange="previewImage(); document.getElementById('file-name').innerText = this.files[0].name;">
+                                        <input type="file" name="thumbnail" id="thumbnail" class="hidden" accept="image/*" onchange="previewImage('thumbnail', 'thumbnail-preview', 'thumbnail-preview-container'); document.getElementById('file-name').innerText = this.files[0].name;">
                                     </div>
                                 </label>
                                 <button type="button" id="paste-thumbnail-btn" class="p-3 bg-slate-100 text-slate-600 rounded-xl hover:bg-blue-800 hover:text-white transition-all shadow-sm" title="Tempel dari clipboard">

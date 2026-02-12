@@ -33,12 +33,16 @@
                         <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl hover:border-blue-800 hover:bg-slate-100 transition-all cursor-pointer">
                             <i class="fas fa-fw fa-cloud-upload-alt text-slate-400 mr-4"></i>
                             <span class="text-sm font-bold text-slate-500" id="file-name">Pilih gambar baru untuk mengganti...</span>
-                            <input type="file" name="image" class="hidden" onchange="previewImage(); document.getElementById('file-name').innerText = this.files[0].name;">
+                            <input type="file" name="image" id="carousel_image" class="hidden" onchange="previewImage('carousel_image', 'image-preview', 'image-preview-container'); document.getElementById('file-name').innerText = this.files[0].name;">
                         </div>
                     </label>
                     
                     <div id="image-preview-container" class="mt-6 ring-4 ring-slate-50 rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
-                        <img id="image-preview" src="<?= esc($slide['image_path']) ?>" class="w-full h-auto">
+                        <?php 
+                            $slidePath = $slide['image_path'] ?? '';
+                            $slideSrc = filter_var($slidePath, FILTER_VALIDATE_URL) ? $slidePath : (!empty($slidePath) ? base_url($slidePath) : '');
+                        ?>
+                        <img id="image-preview" src="<?= $slideSrc ?>" class="w-full h-auto">
                     </div>
                 </div>
 
@@ -59,17 +63,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    function previewImage() {
-        const input = document.querySelector('input[name="image"]');
-        const preview = document.querySelector('#image-preview');
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (e) => preview.src = e.target.result;
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-</script>
 
 <?= $this->endSection() ?>

@@ -36,7 +36,7 @@
                                     <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
                                         <i class="fas fa-fw fa-camera text-slate-400 mr-3"></i>
                                         <span class="text-sm font-bold text-slate-500 truncate" id="file-name">Pilih Foto Pejabat</span>
-                                        <input type="file" name="image" id="image" class="hidden" accept="image/*" onchange="previewImage('image', 'image-preview'); document.getElementById('file-name').innerText = this.files[0].name;">
+                                        <input type="file" name="image" id="image" class="hidden" accept="image/*" onchange="previewImage('image', 'image-preview', 'image-preview-container'); document.getElementById('file-name').innerText = this.files[0].name;">
                                     </div>
                                 </label>
                                 <button type="button" id="paste-image-btn" class="p-3 bg-slate-100 text-slate-600 rounded-xl hover:bg-blue-800 hover:text-white transition-all shadow-sm">
@@ -137,8 +137,9 @@
                         reader.onload = (e) => {
                             document.getElementById('pasted_image').value = e.target.result;
                             const preview = document.getElementById('image-preview');
+                            const container = document.getElementById('image-preview-container');
                             preview.src = e.target.result;
-                            preview.parentElement.classList.remove('hidden');
+                            if (container) container.classList.remove('hidden');
                             document.getElementById('file-name').innerText = "Gambar Clipboard";
                         };
                         reader.readAsDataURL(blob);
@@ -147,19 +148,6 @@
             } catch (e) { alert('Gagal menempel gambar.'); }
         };
     });
-
-    function previewImage(inputId, previewId) {
-        const input = document.getElementById(inputId);
-        const preview = document.getElementById(previewId);
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                preview.src = e.target.result;
-                preview.parentElement.classList.remove('hidden');
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
 </script>
 
 <?= $this->endSection() ?>

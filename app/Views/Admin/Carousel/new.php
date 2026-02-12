@@ -32,7 +32,7 @@
                         <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl hover:border-blue-800 hover:bg-slate-100 transition-all cursor-pointer">
                             <i class="fas fa-fw fa-image text-slate-400 mr-4"></i>
                             <span class="text-sm font-bold text-slate-500" id="file-name">Klik untuk memilih file...</span>
-                            <input type="file" name="image" required class="hidden" onchange="previewImage(); document.getElementById('file-name').innerText = this.files[0].name;">
+                            <input type="file" name="image" id="carousel_image" required class="hidden" onchange="previewImage('carousel_image', 'image-preview', 'image-preview-container'); document.getElementById('file-name').innerText = this.files[0].name;">
                         </div>
                     </label>
                     <p class="text-[10px] text-slate-400 font-medium">Rekomendasi ukuran: 1920x800 px. Maks: 2MB.</p>
@@ -59,21 +59,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    function previewImage() {
-        const input = document.querySelector('input[name="image"]');
-        const preview = document.querySelector('#image-preview');
-        const container = document.querySelector('#image-preview-container');
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                preview.src = e.target.result;
-                container.classList.remove('hidden');
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-</script>
 
 <?= $this->endSection() ?>

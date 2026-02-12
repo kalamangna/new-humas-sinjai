@@ -60,7 +60,7 @@
                                     <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
                                         <i class="fas fa-fw fa-image text-slate-400 mr-3"></i>
                                         <span class="text-sm font-bold text-slate-500 truncate" id="file-name"><?= $post['thumbnail'] ? 'Ganti Gambar Utama' : 'Pilih Gambar' ?></span>
-                                        <input type="file" name="thumbnail" id="thumbnail" class="hidden" accept="image/*" onchange="previewImage(); document.getElementById('file-name').innerText = this.files[0].name;">
+                                        <input type="file" name="thumbnail" id="thumbnail" class="hidden" accept="image/*" onchange="previewImage('thumbnail', 'thumbnail-preview', 'thumbnail-preview-container'); document.getElementById('file-name').innerText = this.files[0].name;">
                                     </div>
                                 </label>
                                 <button type="button" id="paste-thumbnail-btn" class="p-3 bg-slate-100 text-slate-600 rounded-xl hover:bg-blue-800 hover:text-white transition-all shadow-sm">
@@ -70,7 +70,11 @@
                             <input type="hidden" name="pasted_thumbnail" id="pasted_thumbnail">
                             
                             <div id="thumbnail-preview-container" class="mt-4 ring-4 ring-slate-50 rounded-2xl overflow-hidden shadow-xl border border-slate-200 <?= empty($post['thumbnail']) ? 'hidden' : '' ?>">
-                                <img id="thumbnail-preview" src="<?= !empty($post['thumbnail']) ? $post['thumbnail'] : '' ?>" class="w-full h-auto">
+                                <?php 
+                                    $thumbPath = $post['thumbnail'] ?? '';
+                                    $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
+                                ?>
+                                <img id="thumbnail-preview" src="<?= $thumbSrc ?>" class="w-full h-auto">
                             </div>
                         </div>
 

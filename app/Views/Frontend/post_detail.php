@@ -89,39 +89,39 @@
                         <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] mb-6 flex items-center">
                             <i class="fas fa-fw fa-share-alt mr-3 text-blue-800"></i>Bagikan Berita
                         </h2>
-                        <div class="flex flex-wrap gap-4">
+                        <div class="flex flex-wrap gap-3">
                             <?php 
                                 $share_url = current_url(); 
                                 $share_title = esc($post['title']);
                             ?>
                             
-                            <!-- Native Share (Mobile Only) -->
-                            <button id="native-share-btn" onclick="shareNative('<?= $share_title ?>', '<?= $share_url ?>')"
-                                class="hidden items-center px-6 py-3 bg-blue-800 text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
-                                <i class="fas fa-fw fa-share-nodes mr-2 text-base"></i>Bagikan Ke...
-                            </button>
-
                             <!-- WhatsApp -->
-                            <a href="https://api.whatsapp.com/send?text=<?= urlencode($share_title . ' - ' . $share_url) ?>" target="_blank"
-                                class="inline-flex items-center px-6 py-3 bg-green-600 text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-green-700 transition-all shadow-lg shadow-green-900/10">
-                                <i class="fab fa-fw fa-whatsapp mr-2 text-base"></i>WhatsApp
+                            <a href="https://api.whatsapp.com/send?text=<?= urlencode($share_title . ' ' . $share_url) ?>" target="_blank"
+                                class="inline-flex items-center px-5 py-2.5 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
+                                <i class="fab fa-fw fa-whatsapp mr-2 text-sm"></i>WhatsApp
                             </a>
 
                             <!-- Facebook -->
-                            <button onclick="shareToFacebook('<?= $share_url ?>')"
-                                class="inline-flex items-center px-6 py-3 bg-[#1877F2] text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-lg shadow-blue-900/10">
-                                <i class="fab fa-fw fa-facebook mr-2 text-base"></i>Facebook
-                            </button>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($share_url) ?>" target="_blank"
+                                class="inline-flex items-center px-5 py-2.5 bg-[#1877F2] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
+                                <i class="fab fa-fw fa-facebook mr-2 text-sm"></i>Facebook
+                            </a>
 
                             <!-- Twitter/X -->
                             <a href="https://twitter.com/intent/tweet?text=<?= urlencode($share_title) ?>&url=<?= urlencode($share_url) ?>" target="_blank"
-                                class="inline-flex items-center px-6 py-3 bg-slate-950 text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-black transition-all shadow-lg">
-                                <i class="fab fa-fw fa-x-twitter mr-2 text-base"></i>Twitter
+                                class="inline-flex items-center px-5 py-2.5 bg-slate-950 text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:bg-black transition-all shadow-sm">
+                                <i class="fab fa-fw fa-x-twitter mr-2 text-sm"></i>Twitter
+                            </a>
+
+                            <!-- Telegram -->
+                            <a href="https://t.me/share/url?url=<?= urlencode($share_url) ?>&text=<?= urlencode($share_title) ?>" target="_blank"
+                                class="inline-flex items-center px-5 py-2.5 bg-[#0088cc] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
+                                <i class="fab fa-fw fa-telegram mr-2 text-sm"></i>Telegram
                             </a>
 
                             <!-- Copy Link -->
                             <button onclick="copyToClipboard(this)"
-                                class="inline-flex items-center px-6 py-3 bg-slate-100 text-slate-700 font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-slate-200 transition-all border border-slate-200">
+                                class="inline-flex items-center px-5 py-2.5 bg-slate-100 text-slate-700 font-bold text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-200 transition-all border border-slate-200 shadow-sm">
                                 <i class="fas fa-fw fa-link mr-2"></i>Salin Tautan
                             </button>
                         </div>
@@ -259,28 +259,6 @@
 </div>
 
 <script>
-    // Show native share button if supported
-    document.addEventListener('DOMContentLoaded', () => {
-        if (navigator.share) {
-            document.getElementById('native-share-btn').classList.replace('hidden', 'inline-flex');
-        }
-    });
-
-    function shareNative(title, url) {
-        if (navigator.share) {
-            navigator.share({
-                title: title,
-                text: title,
-                url: url
-            }).catch(console.error);
-        }
-    }
-
-    function shareToFacebook(url) {
-        const fbUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
-        window.open(fbUrl, '_blank', 'width=600,height=400');
-    }
-
     function copyToClipboard(btn) {
         const url = window.location.href;
         navigator.clipboard.writeText(url).then(() => {

@@ -195,11 +195,13 @@
 
     <!-- Main Content -->
     <main class="min-h-screen">
-        <?= $this->renderSection('content') ?>
+        <div class="<?= url_is('/') ? '' : 'py-12 md:py-20' ?>">
+            <?= $this->renderSection('content') ?>
+        </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-950 text-slate-400 mt-12 border-t-8 border-blue-900">
+    <footer class="bg-slate-950 text-slate-400 mt-20 border-t-8 border-blue-900">
         <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 items-start">
                 <!-- Info -->

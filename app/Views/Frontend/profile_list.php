@@ -89,7 +89,7 @@
                                                     <?php endif; ?>
                                                     <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors whitespace-nowrap"><?= $profile['name'] ? esc($profile['name']) : '-' ?></div>
                                                 </td>
-                                                <td class="px-8 py-6 text-sm text-slate-600 font-medium leading-relaxed">
+                                                <td class="px-8 py-6 text-sm text-slate-600 font-medium leading-relaxed whitespace-nowrap">
                                                     <?= esc($profile['position'] ?? '-') ?>
                                                 </td>
                                                 <td class="px-8 py-6 text-sm text-slate-600 font-medium whitespace-nowrap">

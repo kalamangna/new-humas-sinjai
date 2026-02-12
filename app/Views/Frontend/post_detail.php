@@ -90,19 +90,36 @@
                             <i class="fas fa-fw fa-share-alt mr-3 text-blue-800"></i>Bagikan Berita
                         </h2>
                         <div class="flex flex-wrap gap-4">
-                            <?php $share_url = current_url(); ?>
-                            <a href="https://api.whatsapp.com/send?text=<?= urlencode($share_url) ?>" target="_blank"
+                            <?php 
+                                $share_url = current_url(); 
+                                $share_title = esc($post['title']);
+                            ?>
+                            
+                            <!-- Native Share (Mobile Only) -->
+                            <button id="native-share-btn" onclick="shareNative('<?= $share_title ?>', '<?= $share_url ?>')"
+                                class="hidden items-center px-6 py-3 bg-blue-800 text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
+                                <i class="fas fa-fw fa-share-nodes mr-2 text-base"></i>Bagikan Ke...
+                            </button>
+
+                            <!-- WhatsApp -->
+                            <a href="https://api.whatsapp.com/send?text=<?= urlencode($share_title . ' - ' . $share_url) ?>" target="_blank"
                                 class="inline-flex items-center px-6 py-3 bg-green-600 text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-green-700 transition-all shadow-lg shadow-green-900/10">
                                 <i class="fab fa-fw fa-whatsapp mr-2 text-base"></i>WhatsApp
                             </a>
+
+                            <!-- Facebook -->
                             <button onclick="shareToFacebook('<?= $share_url ?>')"
-                                class="inline-flex items-center px-6 py-3 bg-blue-700 text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-blue-800 transition-all shadow-lg shadow-blue-900/10">
+                                class="inline-flex items-center px-6 py-3 bg-[#1877F2] text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-lg shadow-blue-900/10">
                                 <i class="fab fa-fw fa-facebook mr-2 text-base"></i>Facebook
                             </button>
-                            <a href="https://twitter.com/intent/tweet?url=<?= urlencode($share_url) ?>" target="_blank"
+
+                            <!-- Twitter/X -->
+                            <a href="https://twitter.com/intent/tweet?text=<?= urlencode($share_title) ?>&url=<?= urlencode($share_url) ?>" target="_blank"
                                 class="inline-flex items-center px-6 py-3 bg-slate-950 text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-black transition-all shadow-lg">
                                 <i class="fab fa-fw fa-x-twitter mr-2 text-base"></i>Twitter
                             </a>
+
+                            <!-- Copy Link -->
                             <button onclick="copyToClipboard(this)"
                                 class="inline-flex items-center px-6 py-3 bg-slate-100 text-slate-700 font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-slate-200 transition-all border border-slate-200">
                                 <i class="fas fa-fw fa-link mr-2"></i>Salin Tautan
@@ -242,17 +259,26 @@
 </div>
 
 <script>
-    function shareToFacebook(url) {
-        if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            navigator.share({
-                title: '<?= esc($post['title']) ?>',
-                url: url
-            }).catch(() => {
-                window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=600,height=400');
-            });
-        } else {
-            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=600,height=400');
+    // Show native share button if supported
+    document.addEventListener('DOMContentLoaded', () => {
+        if (navigator.share) {
+            document.getElementById('native-share-btn').classList.replace('hidden', 'inline-flex');
         }
+    });
+
+    function shareNative(title, url) {
+        if (navigator.share) {
+            navigator.share({
+                title: title,
+                text: title,
+                url: url
+            }).catch(console.error);
+        }
+    }
+
+    function shareToFacebook(url) {
+        const fbUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+        window.open(fbUrl, '_blank', 'width=600,height=400');
     }
 
     function copyToClipboard(btn) {

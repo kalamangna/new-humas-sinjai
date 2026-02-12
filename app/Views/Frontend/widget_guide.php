@@ -81,7 +81,7 @@
 &lt;div id="humas-widget-light"&gt;&lt;/div&gt;
 
 &lt;!-- Inisialisasi Script --&gt;
-&lt;script src="https://humas.sinjaikab.go.id/v2/rss-widget/widget.js"
+&lt;script src="https://humas.sinjaikab.go.id/v2/rss-widget/loader.js"
     data-container="humas-widget-light"
     data-limit="5"
     data-theme="light"
@@ -102,7 +102,7 @@
 &lt;div id="humas-widget-dark"&gt;&lt;/div&gt;
 
 &lt;!-- Inisialisasi Script --&gt;
-&lt;script src="https://humas.sinjaikab.go.id/v2/rss-widget/widget.js"
+&lt;script src="https://humas.sinjaikab.go.id/v2/rss-widget/loader.js"
     data-container="humas-widget-dark"
     data-limit="5"
     data-theme="dark"
@@ -175,12 +175,12 @@
 
 <!-- Assets & Live Preview Logic -->
 <link rel="stylesheet" href="<?= base_url('rss-widget/style.css') ?>">
-<script src="<?= base_url('rss-widget/widget.js') ?>"
+<script src="<?= base_url('rss-widget/loader.js') ?>"
     data-container="rss-widget-preview-light"
     data-limit="5"
     data-theme="light">
 </script>
-<script src="<?= base_url('rss-widget/widget.js') ?>"
+<script src="<?= base_url('rss-widget/loader.js') ?>"
     data-container="rss-widget-preview-dark"
     data-limit="5"
     data-theme="dark">
@@ -209,8 +209,4 @@
     });
 </script>
 
-<?= $this->endSection() ?>
-
-<?= $this->section('scripts') ?>
-<!-- UserWay disabled on this page to prevent conflict with RSS widget previews -->
 <?= $this->endSection() ?>

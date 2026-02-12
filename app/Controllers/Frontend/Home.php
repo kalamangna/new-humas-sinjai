@@ -38,7 +38,9 @@ class Home extends BaseController
             'title'         => $post['title'],
             'description'   => substr(strip_tags($post['content']), 0, 160),
             'keywords'      => implode(', ', array_column($post['tags'], 'name')),
-            'image'         => !empty($post['thumbnail']) ? $post['thumbnail'] : base_url('meta.png'),
+            'image'         => !empty($post['thumbnail']) 
+                                ? (filter_var($post['thumbnail'], FILTER_VALIDATE_URL) ? $post['thumbnail'] : base_url($post['thumbnail'])) 
+                                : base_url('meta.png'),
             'tags'          => $post['tags'],
             'recent_posts'  => $this->postService->getRecentPosts(5),
             'popular_posts' => $this->postService->getPopularPosts(5),

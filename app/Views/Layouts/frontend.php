@@ -320,7 +320,10 @@
     </script>
     
     <?= $this->renderSection('scripts') ?>
-    <!-- <script src="https://cdn.userway.org/widget.js" data-account="S41ThPrHz4" data-position="5"></script> -->
+    
+    <?php if (!isset($this->sections['scripts'])) : ?>
+        <script src="https://cdn.userway.org/widget.js" data-account="S41ThPrHz4" data-position="5"></script>
+    <?php endif; ?>
 </body>
 
 </html>

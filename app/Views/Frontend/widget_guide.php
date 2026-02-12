@@ -210,3 +210,7 @@
 </script>
 
 <?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
+<!-- UserWay disabled on this page to prevent conflict with RSS widget previews -->
+<?= $this->endSection() ?>

@@ -1,17 +1,17 @@
-# Humas Sinjai - Portal Warta Resmi Pemerintah Kabupaten Sinjai
+# Humas Sinjai - Portal Berita Resmi Pemerintah Kabupaten Sinjai
 
-Aplikasi web portal warta dan informasi publik untuk Humas Sinjai, dibangun dengan arsitektur modern menggunakan framework CodeIgniter 4 dan Tailwind CSS. Platform ini dirancang untuk desiminasi informasi pembangunan, agenda pemerintah, dan pelayanan publik secara cepat dan transparan.
+Aplikasi web portal berita dan informasi publik untuk Humas Sinjai, dibangun dengan arsitektur modern menggunakan framework CodeIgniter 4 dan Tailwind CSS. Platform ini dirancang untuk desiminasi informasi pembangunan, agenda pemerintah, dan pelayanan publik secara cepat dan transparan.
 
 ## Fitur Utama
 
 ### 🌐 Portal Publik (Front-end)
 
-- **Beranda Informatif:** Menampilkan **Warta Terkini**, **Topik Populer**, dan Carousel Banner visual tinggi.
-- **Indeks Warta:** Manajemen konten berita dengan kategorisasi sistematis dan sistem label (Tag).
+- **Beranda Informatif:** Menampilkan **Berita Terkini**, **Topik Populer**, dan Carousel Banner visual tinggi.
+- **Indeks Berita:** Manajemen konten berita dengan kategorisasi sistematis dan sistem label (Tag).
 - **Profil Pimpinan & Pejabat:** Halaman khusus biografi pejabat daerah yang dikelompokkan (Forkopimda, Eselon II-IV, hingga Kepala Desa).
 - **Agenda Pembangunan:** Halaman khusus untuk mensosialisasikan **Program Prioritas** pemerintah kabupaten.
 - **Pencarian Cerdas:** Fitur penelusuran informasi publik yang cepat dan akurat.
-- **Layanan Integrasi (Widget):** Widget RSS yang dapat dipasang pada situs web eksternal (OPD/Instansi lain) untuk sinkronisasi warta otomatis.
+- **Layanan Integrasi (Widget):** Widget RSS yang dapat dipasang pada situs web eksternal (OPD/Instansi lain) untuk sinkronisasi berita otomatis.
 - **SEO & Distribusi:** Optimasi otomatis via Sitemap.xml, RSS Feed, Canonical Tags, dan meta tag dinamis untuk media sosial.
 - **Aksesibilitas:** Integrasi widget aksesibilitas untuk kemudahan navigasi bagi semua kalangan.
 
@@ -23,8 +23,8 @@ Aplikasi web portal warta dan informasi publik untuk Humas Sinjai, dibangun deng
   - Analisis Sumber Trafik dan Demografi Pengunjung.
   - **Ekspor Laporan PDF:** Cetak laporan statistik kunjungan bulanan secara otomatis.
 - **Manajemen Konten (CMS):**
-  - **Editor Warta Modern:** Editor teks kaya (TinyMCE) dengan kemampuan unggah gambar otomatis dan fitur *paste* langsung dari clipboard.
-  - **AI SEO Assistant:** Integrasi **Gemini AI** untuk menyarankan Label (Tag) SEO secara otomatis berdasarkan konten warta.
+  - **Editor Berita Modern:** Editor teks kaya (TinyMCE) dengan kemampuan unggah gambar otomatis dan fitur *paste* langsung dari clipboard.
+  - **AI SEO Assistant:** Integrasi **Gemini AI** untuk menyarankan Label (Tag) SEO secara otomatis berdasarkan konten berita.
   - **Manajemen Media:** Pengaturan Banner Utama (Carousel) dan galeri unggahan.
 - **Manajemen Taksonomi:** Pengelolaan Kategori Informasi dan Topik (Tag) secara dinamis.
 - **Manajemen Pejabat:** Pengelolaan data pimpinan daerah lengkap dengan foto dan biografi terformat.
@@ -89,4 +89,4 @@ Aplikasi web portal warta dan informasi publik untuk Humas Sinjai, dibangun deng
 - `app/Controllers`: Handler permintaan (Thin Controllers).
 - `app/Models`: Definisi entitas data.
 - `app/Views`: Template UI berbasis komponen.
-- `public/uploads`: Penyimpanan media publik (Warta, Profil, Carousel).
+- `public/uploads`: Penyimpanan media publik (Berita, Profil, Carousel).

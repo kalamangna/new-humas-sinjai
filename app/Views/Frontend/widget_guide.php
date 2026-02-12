@@ -210,7 +210,3 @@
 </script>
 
 <?= $this->endSection() ?>
-
-<?= $this->section('scripts') ?>
-<script src="https://cdn.userway.org/widget.js" data-account="S41ThPrHz4" data-position="1"></script>
-<?= $this->endSection() ?>

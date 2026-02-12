@@ -96,7 +96,7 @@
                             ?>
                             
                             <!-- WhatsApp -->
-                            <a href="https://api.whatsapp.com/send?text=<?= urlencode($share_title . ' ' . $share_url) ?>" target="_blank"
+                            <a href="https://api.whatsapp.com/send?text=<?= urlencode($share_url) ?>" target="_blank"
                                 class="inline-flex items-center px-5 py-2.5 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
                                 <i class="fab fa-fw fa-whatsapp mr-2 text-sm"></i>WhatsApp
                             </a>
@@ -108,13 +108,13 @@
                             </a>
 
                             <!-- Twitter/X -->
-                            <a href="https://twitter.com/intent/tweet?text=<?= urlencode($share_title) ?>&url=<?= urlencode($share_url) ?>" target="_blank"
+                            <a href="https://twitter.com/intent/tweet?url=<?= urlencode($share_url) ?>" target="_blank"
                                 class="inline-flex items-center px-5 py-2.5 bg-slate-950 text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:bg-black transition-all shadow-sm">
                                 <i class="fab fa-fw fa-x-twitter mr-2 text-sm"></i>Twitter
                             </a>
 
                             <!-- Telegram -->
-                            <a href="https://t.me/share/url?url=<?= urlencode($share_url) ?>&text=<?= urlencode($share_title) ?>" target="_blank"
+                            <a href="https://t.me/share/url?url=<?= urlencode($share_url) ?>" target="_blank"
                                 class="inline-flex items-center px-5 py-2.5 bg-[#0088cc] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
                                 <i class="fab fa-fw fa-telegram mr-2 text-sm"></i>Telegram
                             </a>

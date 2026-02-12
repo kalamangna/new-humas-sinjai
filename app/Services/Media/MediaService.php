@@ -2,7 +2,7 @@
 
 namespace App\Services\Media;
 
-use CodeIgniter\HTTP\FileUpload;
+use CodeIgniter\HTTP\Files\UploadedFile;
 
 class MediaService
 {
@@ -25,7 +25,7 @@ class MediaService
 
             $tempPath = null;
 
-            if ($source instanceof FileUpload) {
+            if ($source instanceof UploadedFile) {
                 if (!$source->isValid()) {
                     log_message('error', '[MediaService] Upload invalid: ' . $source->getErrorString() . ' (' . $source->getError() . ')');
                     return null;
@@ -56,7 +56,7 @@ class MediaService
                 }
                 $tempPath = $processedPath;
             } else {
-                log_message('error', '[MediaService] Source is neither FileUpload nor data:image string');
+                log_message('error', '[MediaService] Source is neither UploadedFile nor data:image string. Type: ' . (is_object($source) ? get_class($source) : gettype($source)));
                 return null;
             }
 
@@ -72,7 +72,7 @@ class MediaService
                 }
 
                 if ($moved) {
-                    return base_url('uploads/' . $folder . '/' . $fileName);
+                    return 'uploads/' . $folder . '/' . $fileName;
                 }
                 
                 log_message('error', "[MediaService] Failed to move file to destination: $destPath");
@@ -109,16 +109,16 @@ class MediaService
     /**
      * Handle generic image upload (e.g. from editor)
      */
-    public function uploadImage(FileUpload $file, string $folder = 'posts'): ?string
+    public function uploadImage($file, string $folder = 'posts'): ?string
     {
-        if ($file->isValid() && !$file->hasMoved()) {
+        if ($file instanceof UploadedFile && $file->isValid() && !$file->hasMoved()) {
             $newName = $file->getRandomName();
             $destDir = FCPATH . 'uploads/' . $folder;
             if (!is_dir($destDir)) {
                 mkdir($destDir, 0755, true);
             }
             if ($file->move($destDir, $newName)) {
-                return base_url('uploads/' . $folder . '/' . $newName);
+                return 'uploads/' . $folder . '/' . $newName;
             }
         }
         return null;

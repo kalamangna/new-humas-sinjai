@@ -75,13 +75,13 @@
                         <div class="relative group">
                             <button class="copy-btn absolute top-4 right-4 px-4 py-2 bg-blue-800 text-white text-[10px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-all shadow-lg" data-target="code-light">Salin Kode</button>
                             <pre id="code-light" class="bg-slate-50 border border-slate-200 rounded-2xl p-6 overflow-x-auto text-xs font-mono text-slate-700 leading-relaxed shadow-inner"><code>&lt;!-- Gaya Visual Widget --&gt;
-&lt;link rel="stylesheet" href="https://humas.sinjaikab.go.id/v2/rss-widget/style.css"&gt;
+&lt;link rel="stylesheet" href="https://humas.sinjaikab.go.id/v1/rss-widget/style.css"&gt;
 
 &lt;!-- Kontainer Tampilan --&gt;
 &lt;div id="humas-widget-light"&gt;&lt;/div&gt;
 
 &lt;!-- Inisialisasi Script --&gt;
-&lt;script src="https://humas.sinjaikab.go.id/v2/rss-widget/loader.js"
+&lt;script src="https://humas.sinjaikab.go.id/v1/rss-widget/loader.js"
     data-container="humas-widget-light"
     data-limit="5"
     data-theme="light"
@@ -96,13 +96,13 @@
                         <div class="relative group">
                             <button class="copy-btn absolute top-4 right-4 px-4 py-2 bg-blue-800 text-white text-[10px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-all shadow-lg" data-target="code-dark">Salin Kode</button>
                             <pre id="code-dark" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 overflow-x-auto text-xs font-mono text-slate-400 leading-relaxed shadow-inner"><code>&lt;!-- Gaya Visual Widget --&gt;
-&lt;link rel="stylesheet" href="https://humas.sinjaikab.go.id/v2/rss-widget/style.css"&gt;
+&lt;link rel="stylesheet" href="https://humas.sinjaikab.go.id/v1/rss-widget/style.css"&gt;
 
 &lt;!-- Kontainer Tampilan --&gt;
 &lt;div id="humas-widget-dark"&gt;&lt;/div&gt;
 
 &lt;!-- Inisialisasi Script --&gt;
-&lt;script src="https://humas.sinjaikab.go.id/v2/rss-widget/loader.js"
+&lt;script src="https://humas.sinjaikab.go.id/v1/rss-widget/loader.js"
     data-container="humas-widget-dark"
     data-limit="5"
     data-theme="dark"

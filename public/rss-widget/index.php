@@ -2,7 +2,7 @@
 header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Origin: *');
 
-$rss_url = 'https://humas.sinjaikab.go.id/v2/rss';
+$rss_url = 'https://humas.sinjaikab.go.id/v1/rss';
 
 function load_rss($url)
 {

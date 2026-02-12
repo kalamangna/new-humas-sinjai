@@ -104,7 +104,7 @@
             <?php if ($isAdmin) : ?>
                 <a href="<?= base_url('admin/users/new') ?>" class="flex flex-col items-center justify-center p-8 bg-slate-800 rounded-3xl text-white hover:bg-slate-950 transition-all group shadow-lg shadow-slate-900/20">
                     <i class="fas fa-fw fa-user-plus text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
-                    <span class="font-black text-[10px] uppercase tracking-widest text-center">Tambah Staf</span>
+                    <span class="font-black text-[10px] uppercase tracking-widest text-center">Tambah Pengguna</span>
                 </a>
             <?php endif; ?>
         </div>

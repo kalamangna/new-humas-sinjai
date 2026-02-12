@@ -31,7 +31,7 @@
                     </div>
                     <input type="email" name="email" required
                         class="block w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-sm font-bold text-slate-900 placeholder-slate-300 focus:border-blue-800 focus:bg-white outline-none transition-all"
-                        placeholder="staf@sinjaikab.go.id" value="<?= old('email') ?>">
+                        placeholder="humas@sinjaikab.go.id" value="<?= old('email') ?>">
                 </div>
             </div>
 

@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Humas Sinjai</title>
     <link rel="icon" href="<?= base_url('logo.png') ?>" type="image/png">
-    
+
     <!-- Tailwind CSS -->
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- Third Party Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="<?= base_url('assets/tinymce/tinymce/tinymce.min.js') ?>" referrerpolicy="origin" crossorigin="anonymous"></script>
-    
+
     <script>
         tinymce.init({
             selector: 'textarea#content, textarea#bio',
@@ -89,7 +89,7 @@
                         <i class="fas fa-fw fa-chart-line w-6 opacity-75"></i>
                         <span class="ml-3 font-medium text-sm">Analitik Situs</span>
                     </a>
-                    
+
                     <?php if (session()->get('role') === 'admin') : ?>
                         <div class="pt-6 mt-6 border-t border-slate-800">
                             <h3 class="px-4 mb-3 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Konfigurasi Sistem</h3>
@@ -143,7 +143,7 @@
                             </div>
                             <div class="hidden md:block text-left">
                                 <p class="text-xs font-bold text-slate-900 leading-none"><?= session()->get('name') ?? 'Administrator' ?></p>
-                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mt-1"><?= ucfirst(session()->get('role') ?? 'staf') ?></p>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mt-1"><?= ucfirst(session()->get('role') ?? 'pengguna') ?></p>
                             </div>
                             <i class="fas fa-fw fa-chevron-down text-[10px] text-slate-400"></i>
                         </button>
@@ -231,7 +231,7 @@
         const overlay = document.getElementById('sidebar-overlay');
 
         function toggleSidebar(show) {
-            if(show) {
+            if (show) {
                 sidebar.classList.remove('-translate-x-full');
                 overlay.classList.remove('hidden');
                 document.body.classList.add('overflow-hidden');
@@ -242,9 +242,9 @@
             }
         }
 
-        if(openBtn) openBtn.addEventListener('click', () => toggleSidebar(true));
-        if(closeBtn) closeBtn.addEventListener('click', () => toggleSidebar(false));
-        if(overlay) overlay.addEventListener('click', () => toggleSidebar(false));
+        if (openBtn) openBtn.addEventListener('click', () => toggleSidebar(true));
+        if (closeBtn) closeBtn.addEventListener('click', () => toggleSidebar(false));
+        if (overlay) overlay.addEventListener('click', () => toggleSidebar(false));
 
         // Auto-dismiss alerts
         document.querySelectorAll('.bg-emerald-50, .bg-red-50').forEach(alert => {
@@ -256,4 +256,5 @@
     </script>
     <script src="https://cdn.userway.org/widget.js" data-account="S41ThPrHz4"></script>
 </body>
+
 </html>

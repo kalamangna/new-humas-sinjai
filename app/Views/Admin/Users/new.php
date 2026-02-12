@@ -18,7 +18,7 @@
             </div>
             <div>
                 <h2 class="text-lg font-black text-slate-900 tracking-tight">Akun Pengguna Baru</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Berikan akses sistem kepada staf baru</p>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Berikan akses sistem kepada pengguna baru</p>
             </div>
         </div>
 

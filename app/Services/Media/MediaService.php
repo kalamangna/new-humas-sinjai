@@ -11,47 +11,77 @@ class MediaService
      */
     public function saveImage($source, string $folder, bool $fit = true): ?string
     {
-        $fileName = uniqid() . '.webp';
-        $destDir = FCPATH . 'uploads/' . $folder;
-        $destPath = $destDir . '/' . $fileName;
+        try {
+            $fileName = uniqid() . '.webp';
+            $destDir = FCPATH . 'uploads/' . $folder;
+            $destPath = $destDir . '/' . $fileName;
 
-        if (!is_dir($destDir)) {
-            mkdir($destDir, 0755, true);
-        }
-
-        if ($source instanceof FileUpload) {
-            if (!$source->isValid() || $source->hasMoved()) {
-                return null;
-            }
-            $tempPath = processImage($source->getRealPath(), $fit);
-        } elseif (is_string($source) && strpos($source, 'data:image') === 0) {
-            // Handle base64 pasted image
-            list($type, $data) = explode(';', $source);
-            list(, $data)      = explode(',', $data);
-            $data = base64_decode($data);
-            $tempPath = WRITEPATH . 'uploads/' . uniqid() . '.webp';
-            file_put_contents($tempPath, $data);
-            $processedPath = processImage($tempPath, $fit);
-            unlink($tempPath);
-            $tempPath = $processedPath;
-        } else {
-            return null;
-        }
-
-        if (file_exists($tempPath)) {
-            $moved = @rename($tempPath, $destPath);
-            
-            if (!$moved) {
-                if (@copy($tempPath, $destPath)) {
-                    @unlink($tempPath);
-                    $moved = true;
+            if (!is_dir($destDir)) {
+                if (!mkdir($destDir, 0755, true)) {
+                    log_message('error', "[MediaService] Failed to create directory: $destDir");
+                    return null;
                 }
             }
 
-            if ($moved) {
-                return base_url('uploads/' . $folder . '/' . $fileName);
+            $tempPath = null;
+
+            if ($source instanceof FileUpload) {
+                if (!$source->isValid()) {
+                    log_message('error', '[MediaService] Upload invalid: ' . $source->getErrorString() . ' (' . $source->getError() . ')');
+                    return null;
+                }
+                if ($source->hasMoved()) {
+                    log_message('error', '[MediaService] Upload already moved');
+                    return null;
+                }
+                $tempPath = processImage($source->getRealPath(), $fit);
+            } elseif (is_string($source) && strpos($source, 'data:image') === 0) {
+                // Handle base64 pasted image
+                $parts = explode(',', $source);
+                if (count($parts) < 2) {
+                    log_message('error', '[MediaService] Invalid base64 format');
+                    return null;
+                }
+                $data = base64_decode($parts[1]);
+                
+                $tempPath = WRITEPATH . 'uploads/' . uniqid() . '.webp';
+                if (file_put_contents($tempPath, $data) === false) {
+                    log_message('error', '[MediaService] Failed to write base64 data to temp file: ' . $tempPath);
+                    return null;
+                }
+                
+                $processedPath = processImage($tempPath, $fit);
+                if ($processedPath !== $tempPath) {
+                    @unlink($tempPath);
+                }
+                $tempPath = $processedPath;
+            } else {
+                log_message('error', '[MediaService] Source is neither FileUpload nor data:image string');
+                return null;
             }
-            @unlink($tempPath);
+
+            if ($tempPath && file_exists($tempPath)) {
+                $moved = @rename($tempPath, $destPath);
+                
+                if (!$moved) {
+                    log_message('debug', "[MediaService] Rename failed, trying copy for $tempPath to $destPath");
+                    if (@copy($tempPath, $destPath)) {
+                        @unlink($tempPath);
+                        $moved = true;
+                    }
+                }
+
+                if ($moved) {
+                    return base_url('uploads/' . $folder . '/' . $fileName);
+                }
+                
+                log_message('error', "[MediaService] Failed to move file to destination: $destPath");
+                @unlink($tempPath);
+            } else {
+                log_message('error', '[MediaService] processImage return path does not exist: ' . ($tempPath ?: 'null'));
+            }
+        } catch (\Exception $e) {
+            log_message('error', '[MediaService] Exception: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
 
         return null;
@@ -64,9 +94,15 @@ class MediaService
     {
         if (empty($url)) return;
 
-        $path = FCPATH . ltrim(parse_url($url, PHP_URL_PATH), '/');
-        if (file_exists($path)) {
-            @unlink($path);
+        // Strip base_url if present
+        $path = $url;
+        if (strpos($url, 'http') === 0) {
+            $path = ltrim(parse_url($url, PHP_URL_PATH), '/');
+        }
+        
+        $fullPath = FCPATH . $path;
+        if (file_exists($fullPath) && is_file($fullPath)) {
+            @unlink($fullPath);
         }
     }
 
@@ -81,8 +117,9 @@ class MediaService
             if (!is_dir($destDir)) {
                 mkdir($destDir, 0755, true);
             }
-            $file->move($destDir, $newName);
-            return base_url('uploads/' . $folder . '/' . $newName);
+            if ($file->move($destDir, $newName)) {
+                return base_url('uploads/' . $folder . '/' . $newName);
+            }
         }
         return null;
     }

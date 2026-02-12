@@ -78,9 +78,13 @@
                                         <?php foreach ($profiles as $profile) : ?>
                                             <tr class="hover:bg-slate-50 transition-colors group">
                                                 <td class="px-8 py-6">
-                                                    <?php if (!empty($profile['image'])) : ?>
+                                                    <?php 
+                                                        $imgPath = $profile['image'] ?? '';
+                                                        $imgSrc = filter_var($imgPath, FILTER_VALIDATE_URL) ? $imgPath : (!empty($imgPath) ? base_url($imgPath) : '');
+                                                    ?>
+                                                    <?php if (!empty($imgSrc)) : ?>
                                                         <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-100 mb-2">
-                                                            <img src="<?= filter_var($profile['image'], FILTER_VALIDATE_URL) ? $profile['image'] : base_url($profile['image']) ?>" class="w-full h-full object-cover">
+                                                            <img src="<?= $imgSrc ?>" class="w-full h-full object-cover">
                                                         </div>
                                                     <?php endif; ?>
                                                     <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors whitespace-nowrap"><?= $profile['name'] ? esc($profile['name']) : '-' ?></div>

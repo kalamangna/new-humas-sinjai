@@ -34,11 +34,15 @@
             <?php foreach ($posts as $post): ?>
                 <article class="group bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col border border-slate-200">
                                                             <div class="relative h-64 overflow-hidden">
-                                                                <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="block h-full">
-                                                                    <?php if (!empty($post['thumbnail'])) : ?>
-                                                                        <img src="<?= filter_var($post['thumbnail'], FILTER_VALIDATE_URL) ? $post['thumbnail'] : base_url($post['thumbnail']) ?>" alt="<?= esc($post['title']) ?>" 
-                                                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                                                                    <?php else: ?>                                <div class="w-full h-full bg-slate-50 flex items-center justify-center">
+                                                                                                                                <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="block h-full">
+                                                                                                                                        <?php 
+                                                                                                                                            $thumbPath = $post['thumbnail'] ?? '';
+                                                                                                                                            $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
+                                                                                                                                        ?>
+                                                                                                                                        <?php if (!empty($thumbSrc)) : ?>
+                                                                                                                                                <img src="<?= $thumbSrc ?>" alt="<?= esc($post['title']) ?>" 
+                                                                                                                                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                                                                                                                        <?php else: ?>                                <div class="w-full h-full bg-slate-50 flex items-center justify-center">
                                     <i class="fas fa-fw fa-bullseye text-slate-200 text-6xl"></i>
                                 </div>
                             <?php endif; ?>

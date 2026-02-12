@@ -29,7 +29,11 @@
                             </td>
                             <td class="px-8 py-6">
                                 <div class="w-48 h-24 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm">
-                                    <img src="<?= filter_var($slide['image_path'], FILTER_VALIDATE_URL) ? $slide['image_path'] : base_url($slide['image_path']) ?>" class="w-full h-full object-cover">
+                                    <?php 
+                                        $slidePath = $slide['image_path'] ?? '';
+                                        $slideSrc = filter_var($slidePath, FILTER_VALIDATE_URL) ? $slidePath : (!empty($slidePath) ? base_url($slidePath) : '');
+                                    ?>
+                                    <img src="<?= $slideSrc ?>" class="w-full h-full object-cover">
                                 </div>
                             </td>
                             <td class="px-8 py-6 text-right space-x-1 whitespace-nowrap w-1">

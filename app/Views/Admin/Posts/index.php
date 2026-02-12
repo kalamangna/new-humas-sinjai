@@ -112,8 +112,12 @@
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
                                     <div class="w-20 h-12 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0 border border-slate-200">
-                                        <?php if (!empty($post['thumbnail'])) : ?>
-                                            <img src="<?= filter_var($post['thumbnail'], FILTER_VALIDATE_URL) ? $post['thumbnail'] : base_url($post['thumbnail']) ?>" class="w-full h-full object-cover">
+                                        <?php 
+                                            $thumbPath = $post['thumbnail'] ?? '';
+                                            $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
+                                        ?>
+                                        <?php if (!empty($thumbSrc)) : ?>
+                                            <img src="<?= $thumbSrc ?>" class="w-full h-full object-cover">
                                         <?php else : ?>
                                             <div class="w-full h-full flex items-center justify-center"><i class="fas fa-fw fa-image text-slate-300"></i></div>
                                         <?php endif; ?>

@@ -116,7 +116,7 @@
                                     <a href="<?= base_url('profil/wakil-bupati') ?>" class="block px-4 py-3 text-xs font-black text-slate-700 hover:bg-blue-50 hover:text-blue-900 uppercase tracking-widest">Wakil Bupati</a>
                                     <a href="<?= base_url('profil/sekda') ?>" class="block px-4 py-3 text-xs font-black text-slate-700 hover:bg-blue-50 hover:text-blue-900 uppercase tracking-widest">Sekretaris Daerah</a>
                                     <div class="border-t border-slate-100 my-1"></div>
-                                    <a href="<?= base_url('profil/forkopimda') ?>" class="block px-4 py-3 text-xs font-black text-slate-700 hover:bg-blue-50 hover:text-blue-900 uppercase tracking-widest">Forkopimda</a>
+                                    <a href="<?= base_url('profil/pejabat-daerah') ?>" class="block px-4 py-3 text-xs font-black text-slate-700 hover:bg-blue-50 hover:text-blue-900 uppercase tracking-widest">Pejabat Daerah</a>
                                 </div>
                             </div>
                         </div>
@@ -170,7 +170,7 @@
                     <a href="<?= base_url('profil/bupati') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Bupati</a>
                     <a href="<?= base_url('profil/wakil-bupati') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Wakil Bupati</a>
                     <a href="<?= base_url('profil/sekda') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Sekda</a>
-                    <a href="<?= base_url('profil/forkopimda') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Forkopimda</a>
+                    <a href="<?= base_url('profil/pejabat-daerah') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Pejabat Daerah</a>
                 </div>
             </div>
 

@@ -28,12 +28,18 @@ class Page extends BaseController
     {
         $model = new ProfileModel();
         
+        // Handle "pejabat-daerah" alias for "forkopimda"
+        $originalType = $type;
+        if ($type === 'pejabat-daerah') {
+            $type = 'forkopimda';
+        }
+
         // Check if it's a valid type
         $validTypes = ['bupati', 'wakil-bupati', 'sekda', 'forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa'];
         
         if (!in_array($type, $validTypes)) {
              // Fallback: check if it's a slug for a specific profile
-             $profile = $model->where('slug', $type)->first();
+             $profile = $model->where('slug', $originalType)->first();
              if ($profile) {
                  $data['title'] = $profile['name'] ?: ($profile['position'] ?: 'Profil');
                  $data['profile'] = $profile;
@@ -42,17 +48,17 @@ class Page extends BaseController
              throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
-        $data['title'] = ucwords(str_replace('-', ' ', $type));
+        $data['title'] = $type === 'forkopimda' ? 'Pejabat Daerah' : ucwords(str_replace('-', ' ', $type));
         $data['type'] = $type;
 
         if ($type == 'forkopimda') {
             $officials = $model->whereIn('type', ['forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa'])
-                               ->orderBy('type', 'ASC') // Simple sort, maybe better custom order?
+                               ->orderBy('type', 'ASC')
                                ->orderBy('order', 'ASC')
                                ->findAll();
             
             $data['groupedProfiles'] = [
-                'Forkopimda' => [],
+                'Pejabat Daerah' => [],
                 'Eselon II' => [],
                 'Eselon III' => [],
                 'Eselon IV' => [],
@@ -60,7 +66,7 @@ class Page extends BaseController
             ];
 
             foreach ($officials as $official) {
-                if ($official['type'] == 'forkopimda') $data['groupedProfiles']['Forkopimda'][] = $official;
+                if ($official['type'] == 'forkopimda') $data['groupedProfiles']['Pejabat Daerah'][] = $official;
                 elseif ($official['type'] == 'eselon-ii') $data['groupedProfiles']['Eselon II'][] = $official;
                 elseif ($official['type'] == 'eselon-iii') $data['groupedProfiles']['Eselon III'][] = $official;
                 elseif ($official['type'] == 'eselon-iv') $data['groupedProfiles']['Eselon IV'][] = $official;

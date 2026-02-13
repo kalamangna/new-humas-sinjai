@@ -39,7 +39,7 @@ class Login extends BaseController
                 'isLoggedIn' => true,
             ]);
             // Redirect to admin dashboard
-            return redirect()->to('admin');
+            return redirect()->to(base_url('admin'));
         }
 
         // Redirect back with error

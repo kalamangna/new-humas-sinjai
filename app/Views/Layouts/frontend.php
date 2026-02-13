@@ -124,6 +124,10 @@
                         <!-- Dropdown Live -->
                         <div class="relative group">
                             <button class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition-all inline-flex items-center">
+                                <span class="relative flex h-2 w-2 mr-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                </span>
                                 Live
                                 <i class="fas fa-fw fa-chevron-down ml-2 text-[10px] opacity-50"></i>
                             </button>
@@ -200,7 +204,13 @@
             <a href="<?= base_url('program-prioritas') ?>" class="block px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest <?= url_is('program-prioritas') ? 'bg-blue-800 text-white shadow-lg' : 'text-blue-200 hover:bg-blue-900 hover:text-white' ?>">Program</a>
 
             <div class="py-2">
-                <p class="px-4 text-[10px] font-black text-blue-500 uppercase tracking-[0.3em] mb-2">Live Streaming</p>
+                <p class="px-4 text-[10px] font-black text-blue-500 uppercase tracking-[0.3em] mb-2 flex items-center">
+                    <span class="relative flex h-2 w-2 mr-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </span>
+                    Live Streaming
+                </p>
                 <div class="grid grid-cols-2 gap-2">
                     <a href="<?= base_url('live/radio') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Radio</a>
                     <a href="<?= base_url('live/tv') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Sinjai TV</a>

@@ -53,7 +53,7 @@
 
                 <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 mb-10">
                     <audio controls class="w-full">
-                        <source src="http://103.155.105.10:8000/stream" type="audio/mpeg">
+                        <source src="<?= $stream_url ?>" type="audio/mpeg">
                         Browser anda tidak mendukung pemutar audio.
                     </audio>
                 </div>

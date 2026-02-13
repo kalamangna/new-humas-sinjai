@@ -47,7 +47,7 @@
         <div class="bg-white rounded-[3rem] shadow-2xl border border-slate-200 overflow-hidden mb-12">
             <div class="aspect-video bg-black relative">
                 <!-- Facebook Live Embed -->
-                <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fsinjaikab%2Flive&show_text=0&width=560" 
+                <iframe src="<?= $stream_url ?>" 
                     class="absolute inset-0 w-full h-full border-none"
                     style="border:none;overflow:hidden" 
                     scrolling="no" frameborder="0" 

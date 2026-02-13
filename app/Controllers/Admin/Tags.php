@@ -3,27 +3,25 @@
 namespace App\Controllers\Admin;
 
 use App\Services\Content\TagService;
+use App\Models\TagModel;
 
 class Tags extends BaseController
 {
     protected $tagService;
+    protected $tagModel;
 
     public function __construct()
     {
         $this->tagService = new TagService();
+        $this->tagModel = new TagModel();
     }
 
     public function index()
     {
-        $filters = ['search' => $this->request->getGet('search')];
-        $result = $this->tagService->getAdminTags($filters);
-
-        $data = array_merge($result, [
-            'filters'    => $filters,
-            'total_tags' => $this->data['total_tags'],
-            'total_posts' => $this->data['total_posts'],
-        ]);
-
+        $data = [
+            'tags' => $this->tagModel->orderBy('name', 'ASC')->paginate(20),
+            'pager' => $this->tagModel->pager,
+        ];
         return $this->render('Admin/Tags/index', $data);
     }
 
@@ -34,35 +32,47 @@ class Tags extends BaseController
 
     public function create()
     {
-        if ($this->tagService->createTag($this->request->getPost())) {
-            return redirect()->to(base_url('admin/tags'))->with('success', 'Tag berhasil dibuat.');
+        $data = $this->request->getPost();
+        
+        if (!$this->tagService->validate($data, $this->tagService->getValidationRules())) {
+            return redirect()->back()->withInput()->with('errors', $this->tagService->getErrors());
         }
-        return redirect()->back()->withInput()->with('errors', 'Failed to create tag.');
+
+        if ($this->tagService->saveTag($data)) {
+            return redirect()->to(base_url('admin/tags'))->with('success', 'Label berhasil dibuat.');
+        }
+
+        return redirect()->back()->withInput()->with('error', 'Gagal membuat label.');
     }
 
     public function edit($id = null)
     {
-        $tag = (new \App\Models\TagModel())->find($id);
-        if (!$tag) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the tag: ' . $id);
-        }
+        $tag = $this->tagModel->find($id);
+        if (!$tag) throw new \CodeIgniter\Exceptions\PageNotFoundException();
 
         return $this->render('Admin/Tags/edit', ['tag' => $tag]);
     }
 
     public function update($id = null)
     {
-        if ($this->tagService->updateTag((int)$id, $this->request->getPost())) {
-            return redirect()->to(base_url('admin/tags'))->with('success', 'Tag berhasil diperbarui.');
+        $data = $this->request->getPost();
+        
+        if (!$this->tagService->validate($data, $this->tagService->getValidationRules((int)$id))) {
+            return redirect()->back()->withInput()->with('errors', $this->tagService->getErrors());
         }
-        return redirect()->back()->withInput()->with('errors', 'Failed to update tag.');
+
+        if ($this->tagService->saveTag($data, (int)$id)) {
+            return redirect()->to(base_url('admin/tags'))->with('success', 'Label berhasil diperbarui.');
+        }
+
+        return redirect()->back()->withInput()->with('error', 'Gagal memperbarui label.');
     }
 
     public function delete($id = null)
     {
         if ($this->tagService->deleteTag((int)$id)) {
-            return redirect()->to(base_url('admin/tags'))->with('success', 'Tag berhasil dihapus.');
+            return redirect()->to(base_url('admin/tags'))->with('success', 'Label berhasil dihapus.');
         }
-        return redirect()->to(base_url('admin/tags'))->with('error', 'Error deleting tag.');
+        return redirect()->to(base_url('admin/tags'))->with('error', 'Gagal menghapus label.');
     }
 }

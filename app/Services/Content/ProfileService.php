@@ -2,54 +2,66 @@
 
 namespace App\Services\Content;
 
+use App\Services\BaseService;
+use App\Services\Media\MediaService;
 use App\Models\ProfileModel;
 
-class ProfileService
+class ProfileService extends BaseService
 {
     protected $profileModel;
+    protected $mediaService;
 
     public function __construct()
     {
         $this->profileModel = new ProfileModel();
+        $this->mediaService = new MediaService();
     }
 
-    public function getAllProfiles()
+    public function getValidationRules(bool $isUpdate = false): array
     {
-        return $this->profileModel->orderBy('order', 'ASC')->orderBy('created_at', 'DESC')->findAll();
+        $rules = [
+            'name'      => 'required|min_length[3]|max_length[255]',
+            'position'  => 'required',
+            'category'  => 'required',
+            'bio'       => 'required',
+            'sort_order' => 'required|numeric'
+        ];
+
+        if (!$isUpdate) {
+            $rules['photo'] = 'uploaded[photo]|max_size[photo,2048]|is_image[photo]';
+        }
+
+        return $rules;
     }
 
-    public function getProfileById(int $id)
+    public function saveProfile(array $data, $photoFile, ?int $id = null): bool
     {
-        return $this->profileModel->find($id);
-    }
-
-    public function createProfile(array $data)
-    {
-        if (empty($data['slug'])) {
-            $slugSource = $data['name'] ?: ($data['position'] ?: $data['type']);
-            $slug = url_title($slugSource, '-', true);
-            
-            if (empty($slug) || $this->profileModel->where('slug', $slug)->first()) {
-                $slug = ($slug ?: 'profile') . '-' . uniqid();
+        if ($photoFile && $photoFile->isValid() && !$photoFile->hasMoved()) {
+            $photoPath = $this->mediaService->saveImage($photoFile, 'profiles', false); // No fit for profile photos usually
+            if ($photoPath) {
+                // Delete old if updating
+                if ($id) {
+                    $old = $this->profileModel->find($id);
+                    $this->mediaService->deleteImage($old['photo_url']);
+                }
+                $data['photo_url'] = $photoPath;
             }
-            $data['slug'] = $slug;
+        }
+
+        if ($id) {
+            return $this->profileModel->update($id, $data);
         }
 
         return $this->profileModel->save($data);
     }
 
-    public function updateProfile(int $id, array $data)
+    public function deleteProfile(int $id): bool
     {
-        return $this->profileModel->update($id, $data);
-    }
-
-    public function deleteProfile(int $id)
-    {
-        return $this->profileModel->delete($id);
-    }
-
-    public function errors()
-    {
-        return $this->profileModel->errors();
+        $profile = $this->profileModel->find($id);
+        if ($profile) {
+            $this->mediaService->deleteImage($profile['photo_url']);
+            return $this->profileModel->delete($id);
+        }
+        return false;
     }
 }

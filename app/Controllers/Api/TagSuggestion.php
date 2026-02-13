@@ -3,10 +3,17 @@
 namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
-use App\Libraries\GeminiService;
+use App\Services\Content\TagService;
 
 class TagSuggestion extends ResourceController
 {
+    protected $tagService;
+
+    public function __construct()
+    {
+        $this->tagService = new TagService();
+    }
+
     public function suggest()
     {
         $title = $this->request->getPost('title');
@@ -16,8 +23,7 @@ class TagSuggestion extends ResourceController
             return $this->fail('Title and content are required.', 400);
         }
 
-        $geminiService = new GeminiService();
-        $suggestedTags = $geminiService->suggestTags($title, $content);
+        $suggestedTags = $this->tagService->suggestTags($title, $content);
 
         return $this->respond($suggestedTags);
     }

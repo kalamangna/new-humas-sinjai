@@ -3,25 +3,24 @@
 namespace App\Controllers\Admin;
 
 use App\Services\Content\ProfileService;
-use App\Services\Media\MediaService;
+use App\Models\ProfileModel;
 
 class Profiles extends BaseController
 {
     protected $profileService;
-    protected $mediaService;
+    protected $profileModel;
 
     public function __construct()
     {
         $this->profileService = new ProfileService();
-        $this->mediaService = new MediaService();
+        $this->profileModel = new ProfileModel();
     }
 
     public function index()
     {
         $data = [
-            'profiles' => $this->profileService->getAllProfiles(),
+            'profiles' => $this->profileModel->orderBy('category', 'ASC')->orderBy('sort_order', 'ASC')->findAll(),
         ];
-
         return $this->render('Admin/Profiles/index', $data);
     }
 
@@ -32,130 +31,47 @@ class Profiles extends BaseController
 
     public function create()
     {
-        if (!$this->validate($this->getValidationRules())) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        $data = $this->request->getPost();
+        
+        if (!$this->profileService->validate($data, $this->profileService->getValidationRules())) {
+            return redirect()->back()->withInput()->with('errors', $this->profileService->getErrors());
         }
 
-        $selectedType = $this->request->getPost('type');
-        $isTableType = in_array($selectedType, ['forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa']);
-
-        $image = null;
-        if (!$isTableType) {
-            $image = $this->mediaService->saveImage(
-                $this->request->getPost('pasted_image') ?: $this->request->getFile('image'),
-                'profiles',
-                false // fit = false for profiles
-            );
+        if ($this->profileService->saveProfile($data, $this->request->getFile('photo'))) {
+            return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil disimpan.');
         }
 
-        $data = [
-            'name'        => $this->request->getPost('name'),
-            'position'    => $this->request->getPost('position'),
-            'institution' => $this->request->getPost('institution'),
-            'type'        => $this->request->getPost('type'),
-            'bio'         => $this->request->getPost('bio'),
-            'image'       => $image,
-            'order'       => (int)($this->request->getPost('order') ?? 0),
-        ];
-
-        if ($this->profileService->createProfile($data)) {
-            return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil dibuat.');
-        }
-
-        return redirect()->back()->withInput()->with('errors', $this->profileService->errors() ?: ['error' => 'Gagal menyimpan profil.']);
+        return redirect()->back()->withInput()->with('error', 'Gagal menyimpan profil.');
     }
 
     public function edit($id = null)
     {
-        $profile = $this->profileService->getProfileById((int)$id);
-        if (!$profile) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the profile: ' . $id);
-        }
+        $profile = $this->profileModel->find($id);
+        if (!$profile) throw new \CodeIgniter\Exceptions\PageNotFoundException();
 
         return $this->render('Admin/Profiles/edit', ['profile' => $profile]);
     }
 
     public function update($id = null)
     {
-        $profile = $this->profileService->getProfileById((int)$id);
-        if (!$profile) {
-            return redirect()->to(base_url('admin/profiles'))->with('error', 'Profil tidak ditemukan.');
+        $data = $this->request->getPost();
+        
+        if (!$this->profileService->validate($data, $this->profileService->getValidationRules(true))) {
+            return redirect()->back()->withInput()->with('errors', $this->profileService->getErrors());
         }
 
-        if (!$this->validate($this->getValidationRules(true))) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        if ($this->profileService->saveProfile($data, $this->request->getFile('photo'), (int)$id)) {
+            return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil diperbarui.');
         }
 
-        $selectedType = $this->request->getPost('type');
-        $isTableType = in_array($selectedType, ['forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa']);
-
-        $image = $profile['image'];
-        if (!$isTableType) {
-            $newImageSource = $this->request->getPost('pasted_image') ?: $this->request->getFile('image');
-            if ($newImageSource && ($newImageSource instanceof \CodeIgniter\HTTP\FileUpload ? $newImageSource->getName() !== '' : true)) {
-                $newImage = $this->mediaService->saveImage($newImageSource, 'profiles', false);
-                if ($newImage) {
-                    $this->mediaService->deleteImage($profile['image']);
-                    $image = $newImage;
-                }
-            }
-        } else {
-            // If it becomes a table type, we might want to clear the image
-            // $image = null; 
-        }
-
-        $name = $this->request->getPost('name');
-        $data = [
-            'name'        => $name,
-            'position'    => $this->request->getPost('position'),
-            'institution' => $this->request->getPost('institution'),
-            'type'        => $this->request->getPost('type'),
-            'bio'         => $this->request->getPost('bio'),
-            'image'       => $image,
-            'order'       => (int)($this->request->getPost('order') ?? 0),
-        ];
-
-        // Update slug if name changed
-        if (!empty($name) && $name !== $profile['name']) {
-            $data['slug'] = url_title($name, '-', true);
-        }
-
-        try {
-            if ($this->profileService->updateProfile((int)$id, $data)) {
-                return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil diperbarui.');
-            }
-            
-            $errors = $this->profileService->errors();
-            return redirect()->back()->withInput()->with('errors', $errors ?: ['error' => 'Gagal memperbarui profil.']);
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', $e->getMessage());
-        }
+        return redirect()->back()->withInput()->with('error', 'Gagal memperbarui profil.');
     }
 
     public function delete($id = null)
     {
-        $profile = $this->profileService->getProfileById((int)$id);
-        if ($profile && $this->profileService->deleteProfile((int)$id)) {
-            $this->mediaService->deleteImage($profile['image']);
+        if ($this->profileService->deleteProfile((int)$id)) {
             return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil dihapus.');
         }
-        return redirect()->to(base_url('admin/profiles'))->with('error', 'Error deleting profile.');
-    }
-
-    protected function getValidationRules(bool $isUpdate = false): array
-    {
-        $rules = [
-            'name' => 'permit_empty|max_length[255]',
-            'type' => 'required|in_list[bupati,wakil-bupati,sekda,forkopimda,eselon-ii,eselon-iii,eselon-iv,kepala-desa]',
-        ];
-
-        $selectedType = $this->request->getPost('type');
-        $isTableType = in_array($selectedType, ['forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa']);
-
-        if (!$isUpdate && !$isTableType && empty($this->request->getPost('pasted_image'))) {
-            $rules['image'] = 'uploaded[image]|max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png,image/webp]';
-        }
-
-        return $rules;
+        return redirect()->to(base_url('admin/profiles'))->with('error', 'Gagal menghapus profil.');
     }
 }

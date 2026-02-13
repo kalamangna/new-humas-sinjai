@@ -2,9 +2,10 @@
 
 namespace App\Services\Content;
 
+use App\Services\BaseService;
 use App\Models\CategoryModel;
 
-class CategoryService
+class CategoryService extends BaseService
 {
     protected $categoryModel;
 
@@ -13,47 +14,35 @@ class CategoryService
         $this->categoryModel = new CategoryModel();
     }
 
-    public function getAdminCategories(array $filters = [], int $perPage = 10)
+    public function getValidationRules(int $id = null): array
     {
-        $builder = $this->categoryModel
-            ->select('categories.*, parent.name as parent_name, COUNT(post_categories.post_id) as post_count')
-            ->join('post_categories', 'post_categories.category_id = categories.id', 'left')
-            ->join('categories as parent', 'parent.id = categories.parent_id', 'left')
-            ->groupBy('categories.id');
-
-        if (!empty($filters['search'])) {
-            $builder->like('categories.name', $filters['search']);
-        }
-
         return [
-            'categories' => $builder->orderBy('categories.name', 'ASC')->paginate($perPage),
-            'pager'      => $this->categoryModel->pager
+            'name' => 'required|min_length[3]|max_length[255]',
+            'slug' => 'permit_empty|alpha_dash|is_unique[categories.slug,id,' . ($id ?? '0') . ']',
         ];
     }
 
-    public function getAllCategories()
+    public function saveCategory(array $data, ?int $id = null): bool
     {
-        return $this->categoryModel->orderBy('name', 'ASC')->findAll();
-    }
+        if (empty($data['slug'])) {
+            $data['slug'] = url_title($data['name'], '-', true);
+        }
 
-    public function createCategory(array $data)
-    {
-        $data['slug'] = url_title($data['name'], '-', true);
-        if (empty($data['parent_id'])) $data['parent_id'] = null;
+        if ($id) {
+            return $this->categoryModel->update($id, $data);
+        }
 
         return $this->categoryModel->save($data);
     }
 
-    public function updateCategory(int $id, array $data)
+    public function deleteCategory(int $id): bool
     {
-        $data['slug'] = url_title($data['name'], '-', true);
-        if (empty($data['parent_id'])) $data['parent_id'] = null;
-
-        return $this->categoryModel->update($id, $data);
+        // Add business logic: check if category has posts before deleting if required
+        return $this->categoryModel->delete($id);
     }
 
-    public function deleteCategory(int $id)
+    public function getHierarchical(): array
     {
-        return $this->categoryModel->delete($id);
+        return $this->categoryModel->getHierarchical();
     }
 }

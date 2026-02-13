@@ -3,25 +3,24 @@
 namespace App\Controllers\Admin;
 
 use App\Services\Content\CarouselService;
-use App\Services\Media\MediaService;
+use App\Models\CarouselSlideModel;
 
 class Carousel extends BaseController
 {
     protected $carouselService;
-    protected $mediaService;
+    protected $carouselModel;
 
     public function __construct()
     {
         $this->carouselService = new CarouselService();
-        $this->mediaService = new MediaService();
+        $this->carouselModel = new CarouselSlideModel();
     }
 
     public function index()
     {
         $data = [
-            'slides' => $this->carouselService->getAllSlides(),
+            'slides' => $this->carouselModel->orderBy('slide_order', 'ASC')->findAll(),
         ];
-
         return $this->render('Admin/Carousel/index', $data);
     }
 
@@ -32,78 +31,47 @@ class Carousel extends BaseController
 
     public function create()
     {
-        $validationRules = [
-            'image' => 'uploaded[image]|max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png,image/webp]',
-            'slide_order' => 'is_natural_no_zero',
-        ];
-
-        if (!$this->validate($validationRules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        $data = $this->request->getPost();
+        
+        if (!$this->carouselService->validate($data, $this->carouselService->getValidationRules())) {
+            return redirect()->back()->withInput()->with('errors', $this->carouselService->getErrors());
         }
 
-        $imagePath = $this->mediaService->saveImage($this->request->getFile('image'), 'carousel', false);
-
-        if ($imagePath) {
-            $this->carouselService->createSlide([
-                'image_path' => $imagePath,
-                'slide_order' => $this->request->getPost('slide_order'),
-            ]);
-
-            return redirect()->to(base_url('/admin/carousel'))->with('success', 'Slide berhasil dibuat.');
+        if ($this->carouselService->saveSlide($data, $this->request->getFile('image'))) {
+            return redirect()->to(base_url('admin/carousel'))->with('success', 'Slide banner berhasil ditambahkan.');
         }
 
-        return redirect()->back()->withInput()->with('error', 'Gagal mengunggah gambar.');
+        return redirect()->back()->withInput()->with('error', 'Gagal menambahkan slide.');
     }
 
     public function edit($id = null)
     {
-        $slide = $this->carouselService->getSlideById((int)$id);
-        if (!$slide) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the slide: ' . $id);
-        }
+        $slide = $this->carouselModel->find($id);
+        if (!$slide) throw new \CodeIgniter\Exceptions\PageNotFoundException();
 
         return $this->render('Admin/Carousel/edit', ['slide' => $slide]);
     }
 
     public function update($id = null)
     {
-        $validationRules = [
-            'image' => 'max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png,image/webp]',
-            'slide_order' => 'is_natural_no_zero',
-        ];
-
-        if (!$this->validate($validationRules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        $data = $this->request->getPost();
+        
+        if (!$this->carouselService->validate($data, $this->carouselService->getValidationRules(true))) {
+            return redirect()->back()->withInput()->with('errors', $this->carouselService->getErrors());
         }
 
-        $slide = $this->carouselService->getSlideById((int)$id);
-        if (!$slide) {
-            return redirect()->back()->with('error', 'Slide not found.');
+        if ($this->carouselService->saveSlide($data, $this->request->getFile('image'), (int)$id)) {
+            return redirect()->to(base_url('admin/carousel'))->with('success', 'Slide banner berhasil diperbarui.');
         }
 
-        $data = [
-            'slide_order' => $this->request->getPost('slide_order'),
-        ];
-
-        $newImage = $this->request->getFile('image');
-        if ($newImage && $newImage->isValid() && !$newImage->hasMoved()) {
-            $this->mediaService->deleteImage($slide['image_path']);
-            $data['image_path'] = $this->mediaService->saveImage($newImage, 'carousel', false);
-        }
-
-        $this->carouselService->updateSlide((int)$id, $data);
-
-        return redirect()->to(base_url('/admin/carousel'))->with('success', 'Slide berhasil diperbarui.');
+        return redirect()->back()->withInput()->with('error', 'Gagal memperbarui slide.');
     }
 
     public function delete($id = null)
     {
-        $slide = $this->carouselService->getSlideById((int)$id);
-        if ($slide && $this->carouselService->deleteSlide((int)$id)) {
-            $this->mediaService->deleteImage($slide['image_path']);
-            return redirect()->to(base_url('/admin/carousel'))->with('success', 'Slide berhasil dihapus.');
+        if ($this->carouselService->deleteSlide((int)$id)) {
+            return redirect()->to(base_url('admin/carousel'))->with('success', 'Slide banner berhasil dihapus.');
         }
-
-        return redirect()->to(base_url('/admin/carousel'))->with('error', 'Error deleting slide.');
+        return redirect()->to(base_url('admin/carousel'))->with('error', 'Gagal menghapus slide.');
     }
 }

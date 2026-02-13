@@ -7,7 +7,6 @@ use App\Services\Media\MediaService;
 use App\Models\CategoryModel;
 use App\Models\TagModel;
 use App\Models\UserModel;
-use App\Models\PostCategoryModel;
 
 class Posts extends BaseController
 {
@@ -22,12 +21,7 @@ class Posts extends BaseController
 
     public function index()
     {
-        $filters = [
-            'search'   => $this->request->getGet('search'),
-            'category' => $this->request->getGet('category'),
-            'author'   => $this->request->getGet('author'),
-            'status'   => $this->request->getGet('status'),
-        ];
+        $filters = $this->request->getGet(['search', 'category', 'author', 'status']);
 
         $result = $this->postService->getAdminPosts($filters);
         
@@ -43,12 +37,9 @@ class Posts extends BaseController
 
     public function new()
     {
-        $categoryModel = new CategoryModel();
-        $tagModel = new TagModel();
-
         $data = [
-            'categories'      => $categoryModel->getHierarchical(),
-            'tags'            => $tagModel->orderBy('name', 'ASC')->findAll(),
+            'categories'      => (new CategoryModel())->getHierarchical(),
+            'tags'            => (new TagModel())->orderBy('name', 'ASC')->findAll(),
             'post_categories' => []
         ];
 
@@ -57,22 +48,22 @@ class Posts extends BaseController
 
     public function create()
     {
-        if (!$this->validate($this->getValidationRules())) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        $pastedThumbnail = $this->request->getPost('pasted_thumbnail');
+        
+        if (!$this->postService->validate($this->request->getPost(), $this->postService->getValidationRules(false, !empty($pastedThumbnail)))) {
+            return redirect()->back()->withInput()->with('errors', $this->postService->getErrors());
         }
 
-        $thumbnail = $this->mediaService->saveImage(
-            $this->request->getPost('pasted_thumbnail') ?: $this->request->getFile('thumbnail'),
-            'thumbnails'
-        );
+        // Handle Image
+        $thumbnailSource = $pastedThumbnail ?: $this->request->getFile('thumbnail');
+        $thumbnail = $this->mediaService->saveImage($thumbnailSource, 'thumbnails');
 
-        if (!$thumbnail && ($this->request->getFile('thumbnail')->getName() !== '' || !empty($this->request->getPost('pasted_thumbnail')))) {
-            return redirect()->back()->withInput()->with('error', 'Gagal memproses gambar thumbnail. Pastikan format dan ukuran file sesuai (Maks 2MB).');
+        if (!$thumbnail && ($this->request->getFile('thumbnail')->getName() !== '' || !empty($pastedThumbnail))) {
+            return redirect()->back()->withInput()->with('error', 'Gagal memproses gambar thumbnail.');
         }
 
-        $postData = [
+        $data = [
             'title'             => $this->request->getPost('title'),
-            'slug'              => url_title($this->request->getPost('title'), '-', true),
             'content'           => $this->request->getPost('content'),
             'status'            => $this->request->getPost('status'),
             'user_id'           => session()->get('user_id'),
@@ -80,32 +71,26 @@ class Posts extends BaseController
             'thumbnail_caption' => $this->request->getPost('thumbnail_caption'),
         ];
 
-        try {
-            $this->postService->createPost(
-                $postData,
-                $this->request->getPost('categories') ?? [],
-                $this->request->getPost('tags') ?? ''
-            );
-            return redirect()->to(base_url('admin/posts'))->with('success', 'Berita berhasil dibuat.');
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        if ($this->postService->savePost($data, [
+            'categories' => $this->request->getPost('categories') ?? [],
+            'tags'       => $this->request->getPost('tags') ?? ''
+        ])) {
+            return redirect()->to(base_url('admin/posts'))->with('success', 'Berita berhasil diterbitkan.');
         }
+
+        return redirect()->back()->withInput()->with('error', $this->postService->getError());
     }
 
     public function edit($id = null)
     {
-        $postModel = new \App\Models\PostModel();
         $post = $this->postService->getPostBySlug((string)$id);
         
         if (!$post) {
-            $post = $postModel->find($id);
-            if ($post) {
-                $post = $postModel->withCategoriesAndTags([$post])[0];
-            }
-        }
-        
-        if (!$post) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the post: ' . $id);
+            // Fallback try find by ID if slug fails (legacy support)
+            // But getPostBySlug in service basically wraps getPosts($slug) which usually handles ID/Slug in model
+            // If strictly ID is passed, model usually handles it. 
+            // Let's rely on service returning null if not found.
+             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the post: ' . $id);
         }
 
         $data = [
@@ -122,46 +107,34 @@ class Posts extends BaseController
 
     public function update($id = null)
     {
-        $postModel = new \App\Models\PostModel();
-        $existingPost = $postModel->find($id);
-
-        if (!$existingPost) {
+        $post = $this->postService->getPostBySlug((string)$id);
+        if (!$post) {
             return redirect()->to(base_url('admin/posts'))->with('error', 'Berita tidak ditemukan.');
         }
 
-        if (!$this->validate($this->getValidationRules(true))) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        if (!$this->postService->validate($this->request->getPost(), $this->postService->getValidationRules(true))) {
+            return redirect()->back()->withInput()->with('errors', $this->postService->getErrors());
         }
 
-        $thumbnail = $existingPost['thumbnail'];
+        // Handle Image
+        $thumbnail = $post['thumbnail'];
         $pastedThumbnail = $this->request->getPost('pasted_thumbnail');
         $thumbnailFile = $this->request->getFile('thumbnail');
         
-        // Check for upload errors if a file was actually selected
-        if ($thumbnailFile && $thumbnailFile->getName() !== '' && !$thumbnailFile->isValid()) {
-            return redirect()->back()->withInput()->with('error', 'Gagal mengunggah gambar: ' . $thumbnailFile->getErrorString());
-        }
-
         $hasNewThumbnail = !empty($pastedThumbnail) || ($thumbnailFile && $thumbnailFile->isValid() && !$thumbnailFile->hasMoved());
 
         if ($hasNewThumbnail) {
-            $newThumbnailSource = !empty($pastedThumbnail) ? $pastedThumbnail : $thumbnailFile;
-            log_message('debug', '[Posts::update] Processing new thumbnail from ' . (is_string($newThumbnailSource) ? 'base64' : 'file'));
-            
-            $newThumbnail = $this->mediaService->saveImage($newThumbnailSource, 'thumbnails');
-            
+            $newThumbnail = $this->mediaService->saveImage($pastedThumbnail ?: $thumbnailFile, 'thumbnails');
             if ($newThumbnail) {
-                $this->mediaService->deleteImage($existingPost['thumbnail']);
+                $this->mediaService->deleteImage($post['thumbnail']);
                 $thumbnail = $newThumbnail;
             } else {
-                log_message('error', '[Posts::update] MediaService::saveImage returned null');
-                return redirect()->back()->withInput()->with('error', 'Gagal memproses gambar thumbnail. Pastikan format dan ukuran file sesuai (Maks 2MB).');
+                return redirect()->back()->withInput()->with('error', 'Gagal memproses gambar baru.');
             }
         }
 
-        $postData = [
+        $data = [
             'title'             => $this->request->getPost('title'),
-            'slug'              => url_title($this->request->getPost('title'), '-', true),
             'content'           => $this->request->getPost('content'),
             'status'            => $this->request->getPost('status'),
             'published_at'      => $this->request->getPost('published_at') ?: null,
@@ -169,25 +142,25 @@ class Posts extends BaseController
             'thumbnail_caption' => $this->request->getPost('thumbnail_caption'),
         ];
 
-        try {
-            $this->postService->updatePost(
-                (int)$id,
-                $postData,
-                $this->request->getPost('categories') ?? [],
-                $this->request->getPost('tags') ?? ''
-            );
+        if ($this->postService->savePost($data, [
+            'categories' => $this->request->getPost('categories') ?? [],
+            'tags'       => $this->request->getPost('tags') ?? ''
+        ], (int)$id)) {
             return redirect()->to(base_url('admin/posts'))->with('success', 'Berita berhasil diperbarui.');
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', $e->getMessage());
         }
+
+        return redirect()->back()->withInput()->with('error', $this->postService->getError());
     }
 
     public function delete($id = null)
     {
-        if ($this->postService->deletePost((int)$id)) {
+        // Get post to delete image first
+        $post = $this->postService->getPostBySlug((string)$id);
+        if ($post && $this->postService->deletePost((int)$id)) {
+            $this->mediaService->deleteImage($post['thumbnail']);
             return redirect()->to(base_url('admin/posts'))->with('success', 'Berita berhasil dihapus.');
         }
-        return redirect()->to(base_url('admin/posts'))->with('error', 'Error deleting post.');
+        return redirect()->to(base_url('admin/posts'))->with('error', 'Gagal menghapus berita.');
     }
 
     public function upload_image()
@@ -196,25 +169,8 @@ class Posts extends BaseController
         $url = $this->mediaService->uploadImage($file);
 
         if ($url) {
-            return $this->response->setJSON(['location' => $url]);
+            return $this->response->setJSON(['location' => base_url($url)]);
         }
         return $this->response->setStatusCode(500, 'Image upload failed.');
-    }
-
-    protected function getValidationRules(bool $isUpdate = false): array
-    {
-        $rules = [
-            'title'      => 'required|min_length[3]|max_length[255]',
-            'content'    => 'required',
-            'categories' => 'required',
-            'status'     => 'required',
-            'tags'       => 'required'
-        ];
-
-        if (!$isUpdate && empty($this->request->getPost('pasted_thumbnail'))) {
-            $rules['thumbnail'] = 'uploaded[thumbnail]|max_size[thumbnail,2048]|is_image[thumbnail]|mime_in[thumbnail,image/jpg,image/jpeg,image/png,image/webp]';
-        }
-
-        return $rules;
     }
 }

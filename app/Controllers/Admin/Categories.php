@@ -3,65 +3,75 @@
 namespace App\Controllers\Admin;
 
 use App\Services\Content\CategoryService;
+use App\Models\CategoryModel;
 
 class Categories extends BaseController
 {
     protected $categoryService;
+    protected $categoryModel;
 
     public function __construct()
     {
         $this->categoryService = new CategoryService();
+        $this->categoryModel = new CategoryModel();
     }
 
     public function index()
     {
-        $filters = ['search' => $this->request->getGet('search')];
-        $result = $this->categoryService->getAdminCategories($filters);
-
-        $data = array_merge($result, [
-            'filters'           => $filters,
-            'total_categories'  => $this->data['total_categories'],
-            'total_posts'       => $this->data['total_posts'],
-        ]);
-
+        $data = [
+            'categories' => $this->categoryModel->getHierarchical(),
+        ];
         return $this->render('Admin/Categories/index', $data);
     }
 
     public function new()
     {
-        $data['categories'] = $this->categoryService->getAllCategories();
+        $data = [
+            'categories' => $this->categoryModel->where('parent_id', null)->findAll(),
+        ];
         return $this->render('Admin/Categories/new', $data);
     }
 
     public function create()
     {
-        if ($this->categoryService->createCategory($this->request->getPost())) {
+        $data = $this->request->getPost();
+        
+        if (!$this->categoryService->validate($data, $this->categoryService->getValidationRules())) {
+            return redirect()->back()->withInput()->with('errors', $this->categoryService->getErrors());
+        }
+
+        if ($this->categoryService->saveCategory($data)) {
             return redirect()->to(base_url('admin/categories'))->with('success', 'Kategori berhasil dibuat.');
         }
-        return redirect()->back()->withInput()->with('errors', 'Failed to create category.');
+
+        return redirect()->back()->withInput()->with('error', 'Gagal membuat kategori.');
     }
 
     public function edit($id = null)
     {
-        $category = (new \App\Models\CategoryModel())->find($id);
-        if (!$category) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the category: ' . $id);
-        }
+        $category = $this->categoryModel->find($id);
+        if (!$category) throw new \CodeIgniter\Exceptions\PageNotFoundException();
 
         $data = [
-            'category'   => $category,
-            'categories' => $this->categoryService->getAllCategories()
+            'category' => $category,
+            'categories' => $this->categoryModel->where('parent_id', null)->where('id !=', $id)->findAll(),
         ];
-
         return $this->render('Admin/Categories/edit', $data);
     }
 
     public function update($id = null)
     {
-        if ($this->categoryService->updateCategory((int)$id, $this->request->getPost())) {
+        $data = $this->request->getPost();
+        
+        if (!$this->categoryService->validate($data, $this->categoryService->getValidationRules((int)$id))) {
+            return redirect()->back()->withInput()->with('errors', $this->categoryService->getErrors());
+        }
+
+        if ($this->categoryService->saveCategory($data, (int)$id)) {
             return redirect()->to(base_url('admin/categories'))->with('success', 'Kategori berhasil diperbarui.');
         }
-        return redirect()->back()->withInput()->with('errors', 'Failed to update category.');
+
+        return redirect()->back()->withInput()->with('error', 'Gagal memperbarui kategori.');
     }
 
     public function delete($id = null)
@@ -69,6 +79,6 @@ class Categories extends BaseController
         if ($this->categoryService->deleteCategory((int)$id)) {
             return redirect()->to(base_url('admin/categories'))->with('success', 'Kategori berhasil dihapus.');
         }
-        return redirect()->to(base_url('admin/categories'))->with('error', 'Error deleting category.');
+        return redirect()->to(base_url('admin/categories'))->with('error', 'Gagal menghapus kategori.');
     }
 }

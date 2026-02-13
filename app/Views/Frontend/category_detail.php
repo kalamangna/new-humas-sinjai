@@ -42,50 +42,7 @@
     <?php if (!empty($posts)) : ?>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             <?php foreach ($posts as $post) : ?>
-                <article class="group bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col border border-slate-200">
-                    <div class="relative h-60 overflow-hidden">
-                        <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="block h-full">
-                            <?php 
-                                $thumbPath = $post['thumbnail'] ?? '';
-                                $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
-                            ?>
-                            <?php if (!empty($thumbSrc)) : ?>
-                                <img src="<?= $thumbSrc ?>" alt="<?= esc($post['title']) ?>" 
-                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            <?php else: ?>
-                                <div class="w-full h-full bg-slate-50 flex items-center justify-center">
-                                    <i class="fas fa-fw fa-newspaper text-slate-200 text-6xl"></i>
-                                </div>
-                            <?php endif; ?>
-                        </a>
-                    </div>
-
-                    <div class="p-8 flex flex-col flex-1">
-                        <h2 class="text-xl font-bold text-slate-900 mb-4 line-clamp-2 leading-tight group-hover:text-blue-800 transition-colors tracking-tight">
-                            <a href="<?= base_url('post/' . esc($post['slug'])) ?>">
-                                <?= esc($post['title']) ?>
-                            </a>
-                        </h2>
-                        
-                        <p class="text-slate-600 text-sm mb-8 line-clamp-3 leading-relaxed font-medium">
-                            <?= word_limiter(strip_tags($post['content']), 22) ?>
-                        </p>
-
-                        <div class="mt-auto pt-5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-bold uppercase tracking-wider">
-                            <span class="flex items-center">
-                                <i class="far fa-fw fa-calendar-alt mr-2 text-blue-700"></i>
-                                <?php
-                                    $dateField = $post['published_at'] ?: ($post['created_at'] ?: date('Y-m-d'));
-                                    echo format_date($dateField, 'date_only');
-                                ?>
-                            </span>
-                            <span class="flex items-center">
-                                <i class="far fa-fw fa-user mr-2 text-blue-700"></i>
-                                <?= esc($post['author_name'] ?? 'Admin') ?>
-                            </span>
-                        </div>
-                    </div>
-                </article>
+                <?= view('Components/post_card', ['post' => $post]) ?>
             <?php endforeach; ?>
         </div>
 

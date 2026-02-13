@@ -2,6 +2,7 @@
 
 namespace App\Services\Content;
 
+use App\Services\BaseService;
 use App\Models\PostModel;
 use App\Models\PostCategoryModel;
 use App\Models\PostTagModel;
@@ -10,7 +11,7 @@ use App\Models\CategoryModel;
 use App\Models\GoogleAnalyticsModel;
 use App\Models\UserModel;
 
-class PostService
+class PostService extends BaseService
 {
     protected $postModel;
     protected $postCategoryModel;
@@ -32,8 +33,138 @@ class PostService
     }
 
     /**
-     * Get list of posts with filters for Admin
+     * Get validation rules for posts
      */
+    public function getValidationRules(bool $isUpdate = false, bool $hasPastedThumbnail = false): array
+    {
+        $rules = [
+            'title'      => 'required|min_length[3]|max_length[255]',
+            'content'    => 'required',
+            'categories' => 'required',
+            'status'     => 'required',
+            'tags'       => 'required'
+        ];
+
+        // Only require thumbnail upload if it's a new post AND no pasted thumbnail provided
+        if (!$isUpdate && !$hasPastedThumbnail) {
+            $rules['thumbnail'] = 'uploaded[thumbnail]|max_size[thumbnail,2048]|is_image[thumbnail]|mime_in[thumbnail,image/jpg,image/jpeg,image/png,image/webp]';
+        }
+
+        return $rules;
+    }
+
+    /**
+     * Unified Save (Create or Update)
+     */
+    public function savePost(array $data, array $relations, ?int $id = null): bool
+    {
+        $this->postModel->db->transStart();
+
+        try {
+            $data['slug'] = url_title($data['title'], '-', true);
+            
+            // Handle publish date logic
+            if ($data['status'] === 'published') {
+                if (empty($data['published_at'])) {
+                    // Keep existing date if updating, or use current time
+                    if ($id) {
+                        $existing = $this->postModel->find($id);
+                        $data['published_at'] = $existing['published_at'] ?: date('Y-m-d H:i:s');
+                    } else {
+                        $data['published_at'] = date('Y-m-d H:i:s');
+                    }
+                }
+            } else {
+                $data['published_at'] = null;
+            }
+
+            if ($id) {
+                if (!$this->postModel->update($id, $data)) {
+                    throw new \RuntimeException('Failed to update post database record.');
+                }
+                $postId = $id;
+            } else {
+                if (!$this->postModel->save($data)) {
+                    throw new \RuntimeException('Failed to create post database record.');
+                }
+                $postId = $this->postModel->getInsertID();
+            }
+
+            // Sync Relations
+            $this->syncCategories($postId, $relations['categories'] ?? []);
+            $this->syncTags($postId, $relations['tags'] ?? '');
+
+            $this->postModel->db->transComplete();
+            return true;
+
+        } catch (\Exception $e) {
+            $this->postModel->db->transRollback();
+            $this->setError($e->getMessage());
+            return false;
+        }
+    }
+
+    // --- Relation Helpers ---
+
+    protected function syncCategories(int $postId, array $categoryIds)
+    {
+        // For updates, clear existing first
+        $this->postCategoryModel->where('post_id', $postId)->delete();
+
+        if (!empty($categoryIds)) {
+            $catsToInsert = array_map(fn($catId) => [
+                'post_id' => $postId, 
+                'category_id' => $catId
+            ], $categoryIds);
+            $this->postCategoryModel->insertBatch($catsToInsert);
+        }
+    }
+
+    protected function syncTags(int $postId, string $tagsString)
+    {
+        // For updates, clear existing first
+        $this->postTagModel->where('post_id', $postId)->delete();
+
+        $tagNames = array_filter(array_map('trim', explode(',', $tagsString)));
+        if (empty($tagNames)) return;
+
+        $tagIds = [];
+        foreach ($tagNames as $name) {
+            $slug = url_title($name, '-', true);
+            $tag = $this->tagModel->where('slug', $slug)->first();
+            
+            if (!$tag) {
+                // Determine ID manually if not auto-increment (unlikely but safe) or just insert
+                $tagId = $this->tagModel->insert(['name' => $name, 'slug' => $slug]);
+                $tagIds[] = $tagId;
+            } else {
+                $tagIds[] = $tag['id'];
+            }
+        }
+
+        if (!empty($tagIds)) {
+            $tagsToInsert = array_map(fn($tagId) => [
+                'post_id' => $postId, 
+                'tag_id' => $tagId
+            ], $tagIds);
+            $this->postTagModel->insertBatch($tagsToInsert);
+        }
+    }
+
+    /**
+     * Delete a post
+     */
+    public function deletePost(int $id): bool
+    {
+        if ($this->postModel->delete($id)) {
+            return true;
+        }
+        $this->setError('Failed to delete post.');
+        return false;
+    }
+
+    // --- Retrieval Methods (Admin & Frontend) ---
+
     public function getAdminPosts(array $filters = [], int $perPage = 10)
     {
         $builder = $this->postModel
@@ -70,9 +201,6 @@ class PostService
         ];
     }
 
-    /**
-     * Get stats for admin dashboard cards
-     */
     public function getPostStats()
     {
         return [
@@ -83,144 +211,22 @@ class PostService
         ];
     }
 
-    /**
-     * Create a new post with relations
-     */
-    public function createPost(array $data, array $categoryIds, string $tagsString)
-    {
-        $this->postModel->db->transStart();
-
-        try {
-            if ($data['status'] === 'published' && empty($data['published_at'])) {
-                $data['published_at'] = date('Y-m-d H:i:s');
-            }
-
-            if (!$this->postModel->save($data)) {
-                throw new \RuntimeException('Failed to save post');
-            }
-
-            $postId = $this->postModel->getInsertID();
-
-            // Sync categories
-            if (!empty($categoryIds)) {
-                $catsToInsert = array_map(fn($catId) => [
-                    'post_id' => $postId, 
-                    'category_id' => $catId
-                ], $categoryIds);
-                $this->postCategoryModel->insertBatch($catsToInsert);
-            }
-
-            // Sync tags
-            $this->syncTags($postId, $tagsString);
-
-            $this->postModel->db->transComplete();
-            return $postId;
-        } catch (\Exception $e) {
-            $this->postModel->db->transRollback();
-            throw $e;
-        }
-    }
-
-    /**
-     * Update an existing post with relations
-     */
-    public function updatePost(int $id, array $data, array $categoryIds, string $tagsString)
-    {
-        $this->postModel->db->transStart();
-
-        try {
-            $post = $this->postModel->find($id);
-            if (!$post) throw new \RuntimeException('Post not found');
-
-            if ($data['status'] === 'published') {
-                // Priority: 1. Provided value, 2. Existing value, 3. Current time
-                if (empty($data['published_at'])) {
-                    $data['published_at'] = $post['published_at'] ?: date('Y-m-d H:i:s');
-                }
-            } else {
-                $data['published_at'] = null;
-            }
-
-            if (!$this->postModel->update($id, $data)) {
-                throw new \RuntimeException('Failed to update post');
-            }
-
-            // Sync categories
-            $this->postModel->db->table('post_categories')->where('post_id', $id)->delete();
-            if (!empty($categoryIds)) {
-                $catsToInsert = array_map(fn($catId) => [
-                    'post_id' => $id, 
-                    'category_id' => $catId
-                ], $categoryIds);
-                $this->postCategoryModel->insertBatch($catsToInsert);
-            }
-
-            // Sync tags
-            $this->postModel->db->table('post_tags')->where('post_id', $id)->delete();
-            $this->syncTags($id, $tagsString);
-
-            $this->postModel->db->transComplete();
-            return true;
-        } catch (\Exception $e) {
-            $this->postModel->db->transRollback();
-            throw $e;
-        }
-    }
-
-    /**
-     * Delete a post
-     */
-    public function deletePost(int $id)
-    {
-        return $this->postModel->delete($id);
-    }
-
-    /**
-     * Internal helper to sync tags from comma separated string
-     */
-    protected function syncTags(int $postId, string $tagsString)
-    {
-        $tagNames = array_filter(array_map('trim', explode(',', $tagsString)));
-        if (empty($tagNames)) return;
-
-        $tagIds = [];
-        foreach ($tagNames as $name) {
-            $slug = url_title($name, '-', true);
-            $tag = $this->tagModel->where('slug', $slug)->first();
-            
-            if (!$tag) {
-                $tagId = $this->tagModel->insert(['name' => $name, 'slug' => $slug]);
-                $tagIds[] = $tagId;
-            } else {
-                $tagIds[] = $tag['id'];
-            }
-        }
-
-        if (!empty($tagIds)) {
-            $tagsToInsert = array_map(fn($tagId) => [
-                'post_id' => $postId, 
-                'tag_id' => $tagId
-            ], $tagIds);
-            $this->postTagModel->insertBatch($tagsToInsert);
-        }
-    }
-
-    /**
-     * Add GA data to posts array
-     */
     private function addGADataToPosts(array $posts): array
     {
         if (empty($posts)) return $posts;
         $slugs = array_column($posts, 'slug');
-        $viewsData = $this->gaModel->getViewsBySlug($slugs);
+        // Handle GA Model gracefully if service is unavailable
+        try {
+            $viewsData = $this->gaModel->getViewsBySlug($slugs);
+        } catch (\Exception $e) {
+            $viewsData = [];
+        }
 
         foreach ($posts as &$post) {
             $post['views'] = $viewsData[$post['slug']] ?? 0;
         }
         return $posts;
     }
-
-    // --- Frontend Methods ---
 
     public function getPostBySlug(string $slug)
     {
@@ -248,12 +254,6 @@ class PostService
     public function getPopularPosts(int $limit = 5)
     {
         return $this->postModel->getPopularPosts($limit);
-    }
-
-    public function getRelatedPosts(array $post, int $limit = 6)
-    {
-        $related = $this->postModel->getRelatedPosts($post, $limit);
-        return $this->postModel->withCategoriesAndTags($related);
     }
 
     public function searchPosts(string $query)

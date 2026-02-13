@@ -2,9 +2,10 @@
 
 namespace App\Services\Content;
 
+use App\Services\BaseService;
 use App\Models\TagModel;
 
-class TagService
+class TagService extends BaseService
 {
     protected $tagModel;
 
@@ -13,37 +14,35 @@ class TagService
         $this->tagModel = new TagModel();
     }
 
-    public function getAdminTags(array $filters = [], int $perPage = 10)
+    public function getValidationRules(int $id = null): array
     {
-        $builder = $this->tagModel
-            ->select('tags.*, COUNT(post_tags.post_id) as post_count')
-            ->join('post_tags', 'post_tags.tag_id = tags.id', 'left')
-            ->groupBy('tags.id');
-
-        if (!empty($filters['search'])) {
-            $builder->like('tags.name', $filters['search']);
-        }
-
         return [
-            'tags'  => $builder->orderBy('tags.name', 'ASC')->paginate($perPage),
-            'pager' => $this->tagModel->pager
+            'name' => 'required|min_length[2]|max_length[255]',
+            'slug' => 'permit_empty|alpha_dash|is_unique[tags.slug,id,' . ($id ?? '0') . ']',
         ];
     }
 
-    public function createTag(array $data)
+    public function saveTag(array $data, ?int $id = null): bool
     {
-        $data['slug'] = url_title($data['name'], '-', true);
+        if (empty($data['slug'])) {
+            $data['slug'] = url_title($data['name'], '-', true);
+        }
+
+        if ($id) {
+            return $this->tagModel->update($id, $data);
+        }
+
         return $this->tagModel->save($data);
     }
 
-    public function updateTag(int $id, array $data)
-    {
-        $data['slug'] = url_title($data['name'], '-', true);
-        return $this->tagModel->update($id, $data);
-    }
-
-    public function deleteTag(int $id)
+    public function deleteTag(int $id): bool
     {
         return $this->tagModel->delete($id);
+    }
+
+    public function suggestTags(string $title, string $content): array
+    {
+        $geminiService = new \App\Libraries\GeminiService();
+        return $geminiService->suggestTags($title, $content);
     }
 }

@@ -2,17 +2,15 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\GoogleAnalyticsModel;
+use App\Services\Analytics\AnalyticsService;
 
 class Analytics extends BaseController
 {
-    protected $gaModel;
+    protected $analyticsService;
 
     public function __construct()
     {
-        helper('date');
-        helper('text'); // Load text helper for word_limiter
-        $this->gaModel = new GoogleAnalyticsModel();
+        $this->analyticsService = new AnalyticsService();
     }
 
     public function overviewView()
@@ -43,8 +41,7 @@ class Analytics extends BaseController
     public function overview()
     {
         try {
-            $data = $this->gaModel->getOverview();
-            return $this->response->setJSON($data);
+            return $this->response->setJSON($this->analyticsService->getOverviewData());
         } catch (\Exception $e) {
             return $this->handleError($e);
         }
@@ -53,8 +50,7 @@ class Analytics extends BaseController
     public function topPages()
     {
         try {
-            $data = $this->gaModel->getTopPages(10);
-            return $this->response->setJSON($data);
+            return $this->response->setJSON($this->analyticsService->getTopPagesData(10));
         } catch (\Exception $e) {
             return $this->handleError($e);
         }
@@ -63,8 +59,7 @@ class Analytics extends BaseController
     public function trafficSources()
     {
         try {
-            $data = $this->gaModel->getTrafficSources();
-            return $this->response->setJSON($data);
+            return $this->response->setJSON($this->analyticsService->getTrafficSourcesData());
         } catch (\Exception $e) {
             return $this->handleError($e);
         }
@@ -73,8 +68,7 @@ class Analytics extends BaseController
     public function geo()
     {
         try {
-            $data = $this->gaModel->getGeoData();
-            return $this->response->setJSON($data);
+            return $this->response->setJSON($this->analyticsService->getGeoData());
         } catch (\Exception $e) {
             return $this->handleError($e);
         }
@@ -83,8 +77,7 @@ class Analytics extends BaseController
     public function deviceCategory()
     {
         try {
-            $data = $this->gaModel->getDeviceData();
-            return $this->response->setJSON($data);
+            return $this->response->setJSON($this->analyticsService->getDeviceData());
         } catch (\Exception $e) {
             return $this->handleError($e);
         }
@@ -93,8 +86,7 @@ class Analytics extends BaseController
     public function popularPosts()
     {
         try {
-            $data = $this->gaModel->getPopularPosts();
-            return $this->response->setJSON($data);
+            return $this->response->setJSON($this->analyticsService->getPopularPostsData());
         } catch (\Exception $e) {
             return $this->handleError($e);
         }
@@ -103,13 +95,7 @@ class Analytics extends BaseController
     public function monthlyPostStats()
     {
         try {
-            $data = $this->gaModel->getMonthlyPostStats();
-
-            foreach ($data as &$item) {
-                $item['formatted_date'] = format_date($item['year'] . '-' . $item['month'] . '-01', 'month_year');
-            }
-
-            return $this->response->setJSON($data);
+            return $this->response->setJSON($this->analyticsService->getMonthlyPostStatsData());
         } catch (\Exception $e) {
             return $this->handleError($e);
         }
@@ -118,13 +104,7 @@ class Analytics extends BaseController
     public function monthlyUserStats()
     {
         try {
-            $data = $this->gaModel->getMonthlyUserStats();
-
-            foreach ($data as &$item) {
-                $item['formatted_date'] = format_date($item['year'] . '-' . $item['month'] . '-01', 'month_year');
-            }
-
-            return $this->response->setJSON($data);
+            return $this->response->setJSON($this->analyticsService->getMonthlyUserStatsData());
         } catch (\Exception $e) {
             return $this->handleError($e);
         }
@@ -132,15 +112,13 @@ class Analytics extends BaseController
 
     public function monthlyReport($year = null, $month = null)
     {
-        $postModel = new \App\Models\PostModel();
-
         if ($year === null || $month === null) {
             $year = date('Y');
             $month = date('m');
             return redirect()->to(base_url("admin/analytics/monthly-report/{$year}/{$month}"));
         }
 
-        $data['posts'] = $postModel->getPostsByMonthYear($month, $year);
+        $data['posts'] = $this->analyticsService->getPostsByMonthYear($month, $year);
         $data['year'] = $year;
         $data['month'] = $month;
         $data['months'] = [];
@@ -156,31 +134,16 @@ class Analytics extends BaseController
 
     public function downloadMonthlyReportPdf($year, $month)
     {
-        $postModel = new \App\Models\PostModel();
-        $data['posts'] = $postModel->getPostsByMonthYear($month, $year);
+        try {
+            $pdfContent = $this->analyticsService->generateMonthlyReportPdf($year, $month);
+            $filename = 'Laporan-Bulanan-' . $year . '-' . $month . '.pdf';
 
-        // Calculate totals
-        $data['total_posts'] = count($data['posts']);
-        $data['total_views'] = 0;
-        foreach ($data['posts'] as $p) {
-            $data['total_views'] += $p['views'];
+            return $this->response->setHeader('Content-Type', 'application/pdf')
+                ->setBody($pdfContent)
+                ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghasilkan PDF: ' . $e->getMessage());
         }
-
-        $data['year'] = $year;
-        $data['month'] = $month;
-
-        $html = view('Admin/Analytics/monthly_report_print', $data);
-
-        $dompdf = new \Dompdf\Dompdf();
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'landscape');
-        $dompdf->render();
-
-        $filename = 'Laporan-Bulanan-' . $year . '-' . $month . '.pdf';
-
-        return $this->response->setHeader('Content-Type', 'application/pdf')
-            ->setBody($dompdf->output())
-            ->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
 
     protected function handleError(\Exception $e)

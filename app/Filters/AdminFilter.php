@@ -36,40 +36,21 @@ class AdminFilter implements FilterInterface
         if ($role === 'streamer') {
             $isAllowed = false;
             
-            // Allow if URI is exactly 'admin' or starts with 'admin/'
-            if ($uri === 'admin' || strpos($uri, 'admin/') === 0) {
-                // Now check for disallowed sub-segments within admin
-                $disallowedSegments = [
-                    'admin/posts',
-                    'admin/categories',
-                    'admin/tags',
-                    'admin/profiles',
-                    'admin/carousel',
-                    'admin/users',
-                    'admin/analytics'
-                ];
-
-                $isAllowed = true; // Default allow 'admin/*'
-                foreach ($disallowedSegments as $segment) {
-                    if (strpos($uri, $segment) === 0) {
-                        // Special exceptions within disallowed segments: profile and settings
-                        if ($uri === 'admin/profile' || $uri === 'admin/settings' || $uri === 'admin/users/update_settings') {
-                            $isAllowed = true;
-                        } else {
-                            $isAllowed = false;
-                        }
-                        break;
-                    }
-                }
-                
-                // Explicitly allow live-streams
-                if (strpos($uri, 'admin/live-streams') === 0) {
-                    $isAllowed = true;
-                }
+            // 1. Explicitly allow the dashboard (exact match or empty if filtered at group level)
+            if ($uri === 'admin' || $uri === 'admin/') {
+                $isAllowed = true;
+            }
+            // 2. Explicitly allow live-streams
+            elseif (strpos($uri, 'admin/live-streams') === 0) {
+                $isAllowed = true;
+            }
+            // 3. Allow profile and settings
+            elseif ($uri === 'admin/profile' || $uri === 'admin/settings' || $uri === 'admin/users/update_settings') {
+                $isAllowed = true;
             }
 
             if (!$isAllowed) {
-                return redirect()->to(base_url('admin/live-streams'))->with('error', 'Anda hanya memiliki akses untuk mengelola Live Streaming.');
+                return redirect()->to(base_url('admin'))->with('error', 'Anda hanya memiliki akses untuk Dashboard dan Live Streaming.');
             }
         }
     }

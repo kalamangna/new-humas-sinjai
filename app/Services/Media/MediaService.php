@@ -2,125 +2,91 @@
 
 namespace App\Services\Media;
 
+use App\Services\BaseService;
 use CodeIgniter\HTTP\Files\UploadedFile;
 
-class MediaService
+class MediaService extends BaseService
 {
     /**
-     * Process and save an image from a FileUpload object or base64 string
+     * Store image and return strictly the relative path for DB.
+     * Path format: uploads/{domain}/YYYY/MM/{random}.webp
      */
-    public function saveImage($source, string $folder, bool $fit = true): ?string
+    public function saveImage($source, string $domain = 'posts', bool $fit = true): ?string
     {
-        try {
-            $fileName = uniqid() . '.webp';
-            $destDir = FCPATH . 'uploads/' . $folder;
-            $destPath = $destDir . '/' . $fileName;
+        if (empty($source)) return null;
 
-            if (!is_dir($destDir)) {
-                if (!mkdir($destDir, 0755, true)) {
-                    log_message('error', "[MediaService] Failed to create directory: $destDir");
-                    return null;
-                }
+        try {
+            // 1. Path Generation (Relative for DB, Absolute for FS)
+            $subFolder = $domain . '/' . date('Y') . '/' . date('m');
+            $relativeDir = 'uploads/' . $subFolder;
+            $absoluteDir = FCPATH . $relativeDir;
+
+            if (!is_dir($absoluteDir)) {
+                mkdir($absoluteDir, 0755, true);
             }
 
-            $tempPath = null;
+            // 2. Secure Random Naming
+            $fileName = bin2hex(random_bytes(10)) . '.webp';
+            $absolutePath = $absoluteDir . '/' . $fileName;
+            $relativePath = $relativeDir . '/' . $fileName;
 
+            // 3. Process Logic
+            $tempPath = null;
             if ($source instanceof UploadedFile) {
                 if (!$source->isValid()) {
-                    log_message('error', '[MediaService] Upload invalid: ' . $source->getErrorString() . ' (' . $source->getError() . ')');
-                    return null;
+                    throw new \RuntimeException($source->getErrorString());
                 }
-                if ($source->hasMoved()) {
-                    log_message('error', '[MediaService] Upload already moved');
-                    return null;
-                }
+                // Use the existing processImage helper (should return a temp path to a webp file)
                 $tempPath = processImage($source->getRealPath(), $fit);
             } elseif (is_string($source) && strpos($source, 'data:image') === 0) {
-                // Handle base64 pasted image
+                // Handle Base64 pasted images
                 $parts = explode(',', $source);
-                if (count($parts) < 2) {
-                    log_message('error', '[MediaService] Invalid base64 format');
-                    return null;
-                }
                 $data = base64_decode($parts[1]);
+                $tempPath = WRITEPATH . 'cache/' . uniqid() . '.webp';
+                file_put_contents($tempPath, $data);
                 
-                $tempPath = WRITEPATH . 'uploads/' . uniqid() . '.webp';
-                if (file_put_contents($tempPath, $data) === false) {
-                    log_message('error', '[MediaService] Failed to write base64 data to temp file: ' . $tempPath);
-                    return null;
-                }
-                
-                $processedPath = processImage($tempPath, $fit);
-                if ($processedPath !== $tempPath) {
+                // Process the temp file to ensure it's valid webp/resized
+                $processed = processImage($tempPath, $fit);
+                if ($processed !== $tempPath) {
                     @unlink($tempPath);
+                    $tempPath = $processed;
                 }
-                $tempPath = $processedPath;
-            } else {
-                log_message('error', '[MediaService] Source is neither UploadedFile nor data:image string. Type: ' . (is_object($source) ? get_class($source) : gettype($source)));
-                return null;
             }
 
+            // 4. Final Move
             if ($tempPath && file_exists($tempPath)) {
-                $moved = @rename($tempPath, $destPath);
-                
-                if (!$moved) {
-                    log_message('debug', "[MediaService] Rename failed, trying copy for $tempPath to $destPath");
-                    if (@copy($tempPath, $destPath)) {
-                        @unlink($tempPath);
-                        $moved = true;
-                    }
+                if (rename($tempPath, $absolutePath)) {
+                    return $relativePath; // e.g. "uploads/posts/2026/02/abcd.webp"
                 }
-
-                if ($moved) {
-                    return 'uploads/' . $folder . '/' . $fileName;
-                }
-                
-                log_message('error', "[MediaService] Failed to move file to destination: $destPath");
                 @unlink($tempPath);
-            } else {
-                log_message('error', '[MediaService] processImage return path does not exist: ' . ($tempPath ?: 'null'));
             }
+
         } catch (\Exception $e) {
-            log_message('error', '[MediaService] Exception: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+            log_message('error', '[MediaService] ' . $e->getMessage());
+            $this->setError("Gagal memproses gambar: " . $e->getMessage());
         }
 
         return null;
     }
 
     /**
-     * Delete an existing image file
+     * Delete image from filesystem using relative path
      */
-    public function deleteImage(?string $url)
+    public function deleteImage(?string $relativePath): void
     {
-        if (empty($url)) return;
+        if (empty($relativePath)) return;
 
-        // Strip base_url if present
-        $path = $url;
-        if (strpos($url, 'http') === 0) {
-            $path = ltrim(parse_url($url, PHP_URL_PATH), '/');
+        // Ensure we only have the relative path (strip base_url if accidentally passed)
+        $cleanPath = $relativePath;
+        if (strpos($relativePath, 'http') === 0) {
+            $cleanPath = ltrim(parse_url($relativePath, PHP_URL_PATH), '/');
+            // If the app is in a subfolder, we might need more logic here, 
+            // but since we aim to store relative paths, this is a safety fallback.
         }
-        
-        $fullPath = FCPATH . $path;
+
+        $fullPath = FCPATH . $cleanPath;
         if (file_exists($fullPath) && is_file($fullPath)) {
             @unlink($fullPath);
         }
-    }
-
-    /**
-     * Handle generic image upload (e.g. from editor)
-     */
-    public function uploadImage($file, string $folder = 'posts'): ?string
-    {
-        if ($file instanceof UploadedFile && $file->isValid() && !$file->hasMoved()) {
-            $newName = $file->getRandomName();
-            $destDir = FCPATH . 'uploads/' . $folder;
-            if (!is_dir($destDir)) {
-                mkdir($destDir, 0755, true);
-            }
-            if ($file->move($destDir, $newName)) {
-                return 'uploads/' . $folder . '/' . $newName;
-            }
-        }
-        return null;
     }
 }

@@ -37,9 +37,8 @@ class ProfileService extends BaseService
     public function saveProfile(array $data, $photoFile, ?int $id = null): bool
     {
         if ($photoFile && $photoFile->isValid() && !$photoFile->hasMoved()) {
-            $photoPath = $this->mediaService->saveImage($photoFile, 'profiles', false); // No fit for profile photos usually
+            $photoPath = $this->mediaService->saveImage($photoFile, 'profiles', false);
             if ($photoPath) {
-                // Delete old if updating
                 if ($id) {
                     $old = $this->profileModel->find($id);
                     $this->mediaService->deleteImage($old['photo_url']);

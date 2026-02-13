@@ -19,7 +19,7 @@ class Profiles extends BaseController
     public function index()
     {
         $data = [
-            'profiles' => $this->profileModel->orderBy('category', 'ASC')->orderBy('sort_order', 'ASC')->findAll(),
+            'profiles' => $this->profileModel->orderBy('type', 'ASC')->orderBy('order', 'ASC')->findAll(),
         ];
         return $this->render('Admin/Profiles/index', $data);
     }
@@ -37,7 +37,7 @@ class Profiles extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->profileService->getErrors());
         }
 
-        if ($this->profileService->saveProfile($data, $this->request->getFile('photo'))) {
+        if ($this->profileService->saveProfile($data, $this->request->getFile('image'))) {
             return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil disimpan.');
         }
 
@@ -60,7 +60,7 @@ class Profiles extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->profileService->getErrors());
         }
 
-        if ($this->profileService->saveProfile($data, $this->request->getFile('photo'), (int)$id)) {
+        if ($this->profileService->saveProfile($data, $this->request->getFile('image'), (int)$id)) {
             return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil diperbarui.');
         }
 

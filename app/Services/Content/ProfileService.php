@@ -20,15 +20,17 @@ class ProfileService extends BaseService
     public function getValidationRules(bool $isUpdate = false): array
     {
         $rules = [
-            'name'      => 'required|min_length[3]|max_length[255]',
+            'name'      => 'permit_empty|max_length[255]',
             'position'  => 'required',
-            'category'  => 'required',
-            'bio'       => 'required',
-            'sort_order' => 'required|numeric'
+            'type'      => 'required',
+            'bio'       => 'permit_empty',
+            'order'     => 'required|numeric'
         ];
 
         if (!$isUpdate) {
-            $rules['photo'] = 'uploaded[photo]|max_size[photo,2048]|is_image[photo]';
+            $rules['image'] = 'uploaded[image]|max_size[image,2048]|is_image[image]';
+        } else {
+            $rules['image'] = 'permit_empty|max_size[image,2048]|is_image[image]';
         }
 
         return $rules;
@@ -41,9 +43,11 @@ class ProfileService extends BaseService
             if ($photoPath) {
                 if ($id) {
                     $old = $this->profileModel->find($id);
-                    $this->mediaService->deleteImage($old['photo_url']);
+                    if (!empty($old['image'])) {
+                        $this->mediaService->deleteImage($old['image']);
+                    }
                 }
-                $data['photo_url'] = $photoPath;
+                $data['image'] = $photoPath;
             }
         }
 
@@ -58,7 +62,9 @@ class ProfileService extends BaseService
     {
         $profile = $this->profileModel->find($id);
         if ($profile) {
-            $this->mediaService->deleteImage($profile['photo_url']);
+            if (!empty($profile['image'])) {
+                $this->mediaService->deleteImage($profile['image']);
+            }
             return $this->profileModel->delete($id);
         }
         return false;

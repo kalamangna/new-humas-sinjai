@@ -24,7 +24,7 @@ class Live extends BaseController
         
         $ctx = stream_context_create([
             'http' => [
-                'timeout' => 10,
+                'timeout' => 5,
                 'header' => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36\r\n"
             ]
         ]);
@@ -35,10 +35,16 @@ class Live extends BaseController
             return $this->response->setStatusCode(404)->setBody('Stream not available');
         }
 
+        // Close session to prevent locking other requests from the same user
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_write_close();
+        }
+
         // Set headers for audio stream
         header('Content-Type: audio/mpeg');
-        header('Cache-Control: no-cache');
+        header('Cache-Control: no-cache, no-store, must-revalidate');
         header('Pragma: no-cache');
+        header('Expires: 0');
         header('Connection: close');
 
         // Pass through the stream
@@ -48,31 +54,29 @@ class Live extends BaseController
 
     public function tv()
     {
-        // Get URL from env or hardcoded fallback
-        $url = env('stream.tv.url', 'https://www.facebook.com/watch/live/?v=123456789'); // Placeholder or last known good URL
-        
-        // Convert mobile links to desktop links
-        $url = str_replace(['m.facebook.com', 'mobile.facebook.com', 'fb.watch'], 'www.facebook.com', $url);
-        
-        // If it's a watch or live URL, ensure we only keep the video ID parameter
-        if (strpos($url, 'facebook.com/watch') !== false || strpos($url, 'facebook.com/video.php') !== false) {
-            if (preg_match('/v=(\d+)/', $url, $matches)) {
-                $url = 'https://www.facebook.com/video.php?v=' . $matches[1];
-            }
-        }
+        $cacheKey = 'fb_live_video_id';
+        $videoId = cache($cacheKey);
 
-        $activeStream = [
-            'title' => 'Sinjai TV',
-            'live_url' => $url
-        ];
+        if ($videoId === null) {
+            $fbService = new \App\Services\Content\FacebookService();
+            $videoId = $fbService->getLiveVideoId();
+            
+            // Cache result for 60 seconds (store 'none' if offline to avoid frequent API hits)
+            $cachedValue = $videoId ?: 'none';
+            cache()->save($cacheKey, $cachedValue, 60);
+            $videoId = ($cachedValue === 'none') ? null : $cachedValue;
+        } else {
+            $videoId = ($videoId === 'none') ? null : $videoId;
+        }
 
         $data = [
             'title'         => 'Sinjai TV',
             'description'   => 'Streaming Sinjai TV - Saluran Informasi Pembangunan Daerah.',
             'keywords'      => 'sinjai tv, streaming tv sinjai, live streaming sinjai',
-            'active_stream' => $activeStream,
-            'stream_url'    => $url
+            'video_id'      => $videoId,
+            'is_live'       => !empty($videoId)
         ];
+
         return view('Frontend/live/tv', $data);
     }
 }

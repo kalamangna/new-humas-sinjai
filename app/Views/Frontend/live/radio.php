@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 mb-6">
-                    <audio controls class="w-full">
+                    <audio controls class="w-full" preload="none">
                         <source src="<?= $stream_url ?>" type="audio/mpeg">
                         Browser anda tidak mendukung pemutar audio.
                     </audio>

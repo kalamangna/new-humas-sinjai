@@ -36,6 +36,8 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         'auth'          => \App\Filters\Auth::class,
         'admin'         => \App\Filters\AdminFilter::class,
+        'canonical'     => \App\Filters\CanonicalFilter::class,
+        'cachecontrol'  => \App\Filters\CacheControlFilter::class,
     ];
 
     /**
@@ -54,11 +56,13 @@ class Filters extends BaseFilters
     public array $required = [
         'before' => [
             'pagecache',  // Web Page Caching
+            'canonical',  // Enforce Canonical URLs
         ],
         'after' => [
             'pagecache',   // Web Page Caching
             'performance', // Performance Metrics
             'toolbar',     // Debug Toolbar
+            'cachecontrol', // Optimize Cache headers
         ],
     ];
 

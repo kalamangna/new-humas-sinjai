@@ -15,6 +15,7 @@ Aplikasi web portal berita dan informasi publik untuk Humas Sinjai, dibangun den
 - **Layanan Integrasi (Widget):** Widget RSS yang dapat dipasang pada situs web eksternal (OPD/Instansi lain) untuk sinkronisasi berita otomatis.
 - **SEO & Distribusi:** Optimasi otomatis via Sitemap.xml, RSS Feed, Canonical Tags, dan meta tag dinamis untuk media sosial.
 - **Aksesibilitas:** Integrasi widget aksesibilitas untuk kemudahan navigasi bagi semua kalangan.
+- **Optimasi UI/UX:** Navigasi mobile yang responsif dengan menu collapsible dan footer informatif dengan penempatan branding yang proporsional.
 
 ### 🛠 Dashboard Admin (Back-end)
 

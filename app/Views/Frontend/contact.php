@@ -40,7 +40,7 @@
                 <div>
                     <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Alamat Kantor</h2>
                     <p class="text-slate-900 font-bold leading-relaxed tracking-tight text-lg">
-                        Jl. Persatuan Raya No. 101, Balangnipa, Kec. Sinjai Utara, Kab. Sinjai
+                        Jl. Persatuan Raya No. 101, Balangnipa, Sinjai Utara, Sinjai, Sulawesi Selatan 92612
                     </p>
                 </div>
             </div>

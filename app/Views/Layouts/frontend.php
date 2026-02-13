@@ -164,22 +164,14 @@
         <div id="mobile-menu" class="hidden xl:hidden bg-blue-950 px-4 pt-4 pb-8 space-y-2 border-t border-blue-800 max-h-[calc(100vh-5rem)] overflow-y-auto">
             <a href="<?= base_url('/') ?>" class="block px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest <?= url_is('/') ? 'bg-blue-800 text-white shadow-lg' : 'text-blue-200 hover:bg-blue-900 hover:text-white' ?>">Beranda</a>
 
-            <div class="py-2">
-                <p class="px-4 text-[10px] font-black text-blue-500 uppercase tracking-[0.3em] mb-2">Profil</p>
-                <div class="grid grid-cols-2 gap-2">
-                    <a href="<?= base_url('profil/bupati') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Bupati</a>
-                    <a href="<?= base_url('profil/wakil-bupati') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Wakil Bupati</a>
-                    <a href="<?= base_url('profil/sekda') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Sekda</a>
-                    <a href="<?= base_url('profil/pejabat-daerah') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Pejabat Daerah</a>
-                </div>
-            </div>
-
             <a href="<?= base_url('posts') ?>" class="block px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest <?= url_is('posts') ? 'bg-blue-800 text-white shadow-lg' : 'text-blue-200 hover:bg-blue-900 hover:text-white' ?>">Berita</a>
-            
+
+            <a href="<?= base_url('program-prioritas') ?>" class="block px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest <?= url_is('program-prioritas') ? 'bg-blue-800 text-white shadow-lg' : 'text-blue-200 hover:bg-blue-900 hover:text-white' ?>">Program</a>
+
             <!-- Mobile Kategori Collapsible -->
             <div class="py-2">
                 <button type="button" id="mobile-categories-button" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
-                    <span>Kategori Berita</span>
+                    <span>Kategori</span>
                     <i class="fas fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-categories-arrow"></i>
                 </button>
                 <div id="mobile-categories-menu" class="hidden pl-4 pr-2 mt-2 space-y-4 border-l-2 border-blue-800 ml-4">
@@ -201,25 +193,46 @@
                 </div>
             </div>
 
-            <a href="<?= base_url('program-prioritas') ?>" class="block px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest <?= url_is('program-prioritas') ? 'bg-blue-800 text-white shadow-lg' : 'text-blue-200 hover:bg-blue-900 hover:text-white' ?>">Program</a>
-
+            <!-- Mobile Profil Collapsible -->
             <div class="py-2">
-                <p class="px-4 text-[10px] font-black text-blue-500 uppercase tracking-[0.3em] mb-2 flex items-center">
-                    <span class="relative flex h-2 w-2 mr-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                    </span>
-                    Live Streaming
-                </p>
-                <div class="grid grid-cols-2 gap-2">
-                    <a href="<?= base_url('live/radio') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Radio</a>
-                    <a href="<?= base_url('live/tv') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Sinjai TV</a>
+                <button type="button" id="mobile-profile-button" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
+                    <span>Profil</span>
+                    <i class="fas fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-profile-arrow"></i>
+                </button>
+                <div id="mobile-profile-menu" class="hidden pl-4 pr-2 mt-2 space-y-1 border-l-2 border-blue-800 ml-4">
+                    <a href="<?= base_url('profil/bupati') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Bupati Sinjai</a>
+                    <a href="<?= base_url('profil/wakil-bupati') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Wakil Bupati</a>
+                    <a href="<?= base_url('profil/sekda') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Sekretaris Daerah</a>
+                    <div class="border-t border-blue-900/50 my-2"></div>
+                    <a href="<?= base_url('profil/pejabat-daerah') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Pejabat Daerah</a>
                 </div>
             </div>
 
-            <div class="pt-4 mt-4 border-t border-blue-900">
-                <form action="<?= base_url('search') ?>" method="get">
-                    <input type="text" name="q" placeholder="Cari Berita..." class="w-full bg-blue-900 text-white text-sm font-bold uppercase tracking-widest rounded-xl border-none px-5 py-4 focus:ring-2 focus:ring-sky-500">
+            <!-- Mobile Live Collapsible -->
+            <div class="py-2">
+                <button type="button" id="mobile-live-button" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
+                    <span class="flex items-center">
+                        <span class="relative flex h-2 w-2 mr-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                        </span>
+                        Live
+                    </span>
+                    <i class="fas fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-live-arrow"></i>
+                </button>
+                <div id="mobile-live-menu" class="hidden pl-4 pr-2 mt-2 space-y-1 border-l-2 border-blue-800 ml-4">
+                    <a href="<?= base_url('live/radio') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Suara Bersatu FM</a>
+                    <a href="<?= base_url('live/tv') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Sinjai TV</a>
+                </div>
+            </div>
+
+            <div class="pt-6">
+                <form action="<?= base_url('search') ?>" method="get" class="relative">
+                    <input type="text" name="q" placeholder="Cari Berita..." required
+                        class="bg-blue-900 text-white placeholder-blue-400 text-xs font-bold uppercase tracking-wider rounded-xl border-none focus:ring-2 focus:ring-sky-500 pl-5 pr-12 py-4 w-full shadow-inner transition-all">
+                    <button type="submit" class="absolute right-0 top-0 h-full px-4 text-blue-400 hover:text-white transition-colors">
+                        <i class="fas fa-fw fa-search"></i>
+                    </button>
                 </form>
             </div>
         </div>
@@ -237,14 +250,14 @@
         <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 items-start">
                 <!-- Info -->
-                <div class="space-y-8 text-center sm:text-left">
-                    <div>
-                        <img src="<?= base_url('humas.png') ?>" alt="Humas Sinjai" class="h-14 w-auto mx-auto sm:mx-0">
-                        <div class="mt-4 inline-flex items-center px-3 py-1 bg-blue-900/50 text-sky-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-blue-800">
+                <div class="space-y-6 text-center sm:text-left">
+                    <img src="<?= base_url('humas.png') ?>" alt="Humas Sinjai" class="h-14 w-auto mx-auto sm:mx-0">
+                    <div class="space-y-3">
+                        <p class="text-sm leading-relaxed font-medium">Portal Berita Resmi Pemerintah Kabupaten Sinjai.</p>
+                        <div class="inline-flex items-center px-3 py-1 bg-blue-900/50 text-sky-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-blue-800">
                             #samasamaki
                         </div>
                     </div>
-                    <p class="text-sm leading-relaxed font-medium">Portal Berita Resmi Pemerintah Kabupaten Sinjai. Menyajikan informasi pembangunan dan pelayanan publik yang transparan, akuntabel, dan inspiratif.</p>
                     <div class="flex justify-center sm:justify-start space-x-6">
                         <a href="https://www.facebook.com/FP.KabupatenSinjai" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fab fa-fw fa-facebook-f text-xl"></i></a>
                         <a href="https://www.instagram.com/sinjaikab" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fab fa-fw fa-instagram text-xl"></i></a>
@@ -276,7 +289,7 @@
                     <ul class="space-y-6 text-sm font-medium">
                         <li class="flex items-center justify-center sm:justify-start">
                             <div class="bg-blue-900/50 p-2 rounded-lg mr-4 mt-1 flex-shrink-0"><i class="fas fa-fw fa-map-marker-alt text-sky-500"></i></div>
-                            <span class="leading-relaxed text-xs">Jl. Persatuan Raya No. 101, Balangnipa, Sinjai Utara, Sinjai</span>
+                            <span class="leading-relaxed text-xs">Jl. Persatuan Raya No. 101, Balangnipa, Sinjai Utara, Sinjai, Sulawesi Selatan 92612</span>
                         </li>
                         <li class="flex items-center justify-center sm:justify-start">
                             <div class="bg-blue-900/50 p-2 rounded-lg mr-4 flex-shrink-0"><i class="fas fa-fw fa-envelope text-sky-500"></i></div>
@@ -299,6 +312,7 @@
 
             <div class="border-t border-slate-900 mt-20 pt-10 flex flex-col md:flex-row justify-between items-center text-[10px] tracking-[0.2em] uppercase font-black">
                 <p class="text-slate-600">&copy; <?= date('Y') ?> Humas Sinjai.</p>
+                <p class="text-slate-600 mt-4 md:mt-0">Dikembangkan oleh Aptika Dev.</p>
             </div>
         </div>
     </footer>
@@ -334,6 +348,28 @@
             });
         }
 
+        // Mobile Profile Toggle
+        const profileBtn = document.getElementById('mobile-profile-button');
+        const profileMenu = document.getElementById('mobile-profile-menu');
+        const profileArrow = document.getElementById('mobile-profile-arrow');
+        if (profileBtn && profileMenu) {
+            profileBtn.addEventListener('click', () => {
+                profileMenu.classList.toggle('hidden');
+                profileArrow.classList.toggle('rotate-180');
+            });
+        }
+
+        // Mobile Live Toggle
+        const liveBtn = document.getElementById('mobile-live-button');
+        const liveMenu = document.getElementById('mobile-live-menu');
+        const liveArrow = document.getElementById('mobile-live-arrow');
+        if (liveBtn && liveMenu) {
+            liveBtn.addEventListener('click', () => {
+                liveMenu.classList.toggle('hidden');
+                liveArrow.classList.toggle('rotate-180');
+            });
+        }
+
         // Scroll to Top
         const scrollTopBtn = document.getElementById('scroll-top');
         window.addEventListener('scroll', () => {
@@ -352,7 +388,7 @@
             });
         });
     </script>
-    
+
     <?= $this->renderSection('scripts') ?>
     <script src="https://cdn.userway.org/widget.js" data-account="S41ThPrHz4" data-position="5"></script>
 </body>

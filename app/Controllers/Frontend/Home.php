@@ -44,7 +44,12 @@ class Home extends BaseController
             'tags'          => $post['tags'],
             'recent_posts'  => $this->postService->getRecentPosts(5),
             'popular_posts' => $this->postService->getPopularPosts(5),
-            'related_posts' => $this->postService->getRelatedPosts($post, 6)
+            'related_posts' => (new \App\Models\PostModel())->getRelatedNewsOptimized(
+                $post['id'], 
+                array_column($post['categories'], 'id'), 
+                $post['title'], 
+                4
+            )
         ];
 
         return view('Frontend/post_detail', $data);

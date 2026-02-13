@@ -35,12 +35,10 @@ class PostModel extends Model
     public function withCategoriesAndTags(array $posts)
     {
         foreach ($posts as &$post) {
-            // Pastikan post memiliki id sebelum memanggil method terkait
             if (isset($post['id'])) {
                 $post['categories'] = $this->getPostCategories($post['id']);
                 $post['tags'] = $this->getPostTags($post['id']);
             } else {
-                // Fallback jika id tidak ada
                 $post['categories'] = [];
                 $post['tags'] = [];
             }
@@ -62,13 +60,11 @@ class PostModel extends Model
                 ? $builder->orderBy('posts.published_at', 'DESC')->paginate(10)
                 : $builder->orderBy('posts.published_at', 'DESC')->findAll();
 
-            // Tambahkan data views dari Google Analytics
             return $this->addGAData($posts);
         }
 
         $post = $builder->where(['posts.slug' => $slug])->first();
 
-        // Tambahkan data views dari Google Analytics untuk single post
         if ($post) {
             $postsWithGA = $this->addGAData([$post]);
             return $postsWithGA[0] ?? $post;
@@ -77,23 +73,16 @@ class PostModel extends Model
         return $post;
     }
 
-    /**
-     * Menambahkan data views dari Google Analytics ke array posts
-     */
     private function addGAData(array $posts): array
     {
         if (empty($posts)) {
             return $posts;
         }
 
-        // Ambil semua slug dari posts
         $slugs = array_column($posts, 'slug');
-
-        // Dapatkan views dari Google Analytics
         $gaModel = new \App\Models\GoogleAnalyticsModel();
         $viewsData = $gaModel->getViewsBySlug($slugs);
 
-        // Tambahkan views data ke setiap post
         foreach ($posts as &$post) {
             $post['views'] = $viewsData[$post['slug']] ?? 0;
         }
@@ -101,32 +90,26 @@ class PostModel extends Model
         return $posts;
     }
 
-    // Method untuk mendapatkan popular posts dengan GA views
     public function getPopularPosts()
     {
-        // Ambil semua posts yang published
         $posts = $this->where('status', 'published')
             ->orderBy('published_at', 'DESC')
             ->findAll();
 
-        // Tambahkan data GA views
         $postsWithGA = $this->addGAData($posts);
 
-        // Urutkan berdasarkan views dari GA (descending)
         usort($postsWithGA, function ($a, $b) {
             return ($b['views'] ?? 0) - ($a['views'] ?? 0);
         });
 
-        // Ambil 5 data teratas
         return array_slice($postsWithGA, 0, 5);
     }
 
-    // Method untuk mendapatkan recent posts dengan GA views
     public function getRecentPosts()
     {
         $posts = $this->where('status', 'published')
             ->orderBy('published_at', 'DESC')
-            ->findAll(5); // Ambil 5 post terbaru
+            ->findAll(5);
 
         return $this->addGAData($posts);
     }
@@ -161,125 +144,126 @@ class PostModel extends Model
     }
 
     /**
-     * Get related posts based on Tags, Categories, and Title/Content Similarity
-     * 
-     * @param array $currentPost The current post data (including tags/categories if available)
-     * @param int $limit Number of related posts to return
+     * Optimized Related News Feature
+     * Priority: 1. Tags matching count, 2. Same category, 3. Fulltext similarity, 4. Latest fallback
+     *
+     * @param int $currentId ID of the news to exclude
+     * @param array $categoryIds Array of category IDs from the current news
+     * @param string $title Title of the current news for fulltext fallback
+     * @param int $limit Number of results (default 4)
      * @return array
+     */
+    public function getRelatedNewsOptimized(int $currentId, array $categoryIds, string $title, int $limit = 4)
+    {
+        // Use cache to save resources if same news is accessed frequently
+        $cacheKey = "related_news_{$currentId}";
+        if ($cached = cache($cacheKey)) {
+            return $cached;
+        }
+
+        $relatedIds = [];
+
+        // --- PHASE 1: TAG-BASED (Primary) ---
+        // Fetch tag IDs for current post
+        $tagIds = array_column($this->getPostTags($currentId), 'id');
+        
+        if (!empty($tagIds)) {
+            $tagMatches = $this->db->table('post_tags')
+                ->select('post_id, COUNT(*) as match_count')
+                ->whereIn('tag_id', $tagIds)
+                ->where('post_id !=', $currentId)
+                ->join('posts', 'posts.id = post_tags.post_id')
+                ->where('posts.status', 'published')
+                ->groupBy('post_id')
+                ->orderBy('match_count', 'DESC')
+                ->orderBy('posts.published_at', 'DESC')
+                ->limit($limit)
+                ->get()
+                ->getResultArray();
+            
+            $relatedIds = array_column($tagMatches, 'post_id');
+        }
+
+        // --- PHASE 2: CATEGORY-BASED (Secondary) ---
+        if (count($relatedIds) < $limit && !empty($categoryIds)) {
+            $catMatches = $this->db->table('post_categories')
+                ->select('post_id')
+                ->whereIn('category_id', $categoryIds)
+                ->where('post_id !=', $currentId);
+            
+            if (!empty($relatedIds)) {
+                $catMatches->whereNotIn('post_id', $relatedIds);
+            }
+
+            $catMatches->join('posts', 'posts.id = post_categories.post_id')
+                ->where('posts.status', 'published')
+                ->orderBy('posts.published_at', 'DESC')
+                ->limit($limit - count($relatedIds));
+            
+            $catIds = array_column($catMatches->get()->getResultArray(), 'post_id');
+            $relatedIds = array_merge($relatedIds, $catIds);
+        }
+
+        // --- PHASE 3: FULLTEXT SEARCH (Third Fallback) ---
+        if (count($relatedIds) < $limit && !empty($title)) {
+            // Clean title for cleaner search
+            $cleanTitle = $this->db->escapeString($title);
+            
+            $ftMatches = $this->select('id')
+                ->where('id !=', $currentId)
+                ->where('status', 'published');
+            
+            if (!empty($relatedIds)) {
+                $ftMatches->whereNotIn('id', $relatedIds);
+            }
+
+            // Using raw query for FULLTEXT MATCH
+            $ftMatches->where("MATCH(title, content) AGAINST('$cleanTitle')")
+                ->orderBy("MATCH(title, content) AGAINST('$cleanTitle')", 'DESC')
+                ->limit($limit - count($relatedIds));
+            
+            $ftIds = array_column($ftMatches->findAll(), 'id');
+            $relatedIds = array_merge($relatedIds, $ftIds);
+        }
+
+        // --- PHASE 4: LATEST NEWS (Final Fallback) ---
+        if (count($relatedIds) < $limit) {
+            $latestMatches = $this->select('id')
+                ->where('id !=', $currentId)
+                ->where('status', 'published');
+            
+            if (!empty($relatedIds)) {
+                $latestMatches->whereNotIn('id', $relatedIds);
+            }
+
+            $latestMatches->orderBy('published_at', 'DESC')
+                ->limit($limit - count($relatedIds));
+            
+            $latestIds = array_column($latestMatches->findAll(), 'id');
+            $relatedIds = array_merge($relatedIds, $latestIds);
+        }
+
+        // Fetch complete data only for the finalized IDs
+        if (empty($relatedIds)) {
+            return [];
+        }
+
+        $finalResults = $this->whereIn('id', $relatedIds)
+            ->orderBy('FIELD(id, ' . implode(',', $relatedIds) . ')') // Maintain priority order
+            ->findAll();
+
+        // Save to cache for 1 hour
+        cache()->save($cacheKey, $finalResults, 3600);
+
+        return $finalResults;
+    }
+
+    /**
+     * LEGACY - Keeping for compatibility if needed elsewhere
      */
     public function getRelatedPosts(array $currentPost, int $limit = 6)
     {
-        $currentPostId = $currentPost['id'];
-        
-        // 1. Prepare IDs
-        $tagIds = [];
-        if (!empty($currentPost['tags'])) {
-            $tagIds = array_column($currentPost['tags'], 'id');
-        }
-
-        $categoryIds = [];
-        if (!empty($currentPost['categories'])) {
-            $categoryIds = array_column($currentPost['categories'], 'id');
-        }
-        
-        // 2. Extract keywords from title for Full-Text Search
-        $title = $currentPost['title'];
-        // Simple stopword removal (Bahasa Indonesia + Common English)
-        $stopwords = [
-            'dan', 'di', 'ke', 'dari', 'yang', 'untuk', 'pada', 'dengan', 'ini', 'itu', 'adalah', 
-            'sebagai', 'dalam', 'atas', 'oleh', 'kepada', 'bisa', 'akan', 'atau', 'kami', 'kita',
-            'mereka', 'dia', 'ia', 'juga', 'sudah', 'telah', 'bagi', 'namun', 'tetapi', 'sedangkan',
-            'the', 'of', 'and', 'to', 'in', 'is', 'for', 'on', 'that', 'by', 'at', 'with'
-        ];
-        
-        // Clean title: lowercase, alphanumeric + spaces only
-        $cleanTitle = preg_replace('/[^a-z0-9\s]/', '', strtolower($title));
-        $words = explode(' ', $cleanTitle);
-        $keywords = array_diff($words, $stopwords);
-        $keywords = array_filter($keywords, function($w) { return strlen($w) > 2; }); // Filter very short words
-        $searchString = implode(' ', $keywords);
-        $searchStringEscaped = $this->db->escapeString($searchString);
-        
-        // 3. Check if we have any criteria to search for
-        if (empty($searchString) && empty($tagIds) && empty($categoryIds)) {
-             // No criteria to match, just return recent posts excluding current
-             return $this->where('posts.id !=', $currentPostId)
-                         ->where('posts.status', 'published')
-                         ->orderBy('published_at', 'DESC')
-                         ->limit($limit)
-                         ->findAll();
-        }
-
-        // 4. Build Query
-        $builder = $this->select('posts.*');
-        
-        // --- Scoring Columns ---
-        
-        // Content Score (Full-Text) -> Weight: 1.5
-        if (!empty($searchString)) {
-            $builder->select("(MATCH(title, content) AGAINST('$searchStringEscaped')) * 1.5 AS content_score");
-        } else {
-            $builder->select("0 AS content_score");
-        }
-
-        // Tag Score -> Weight: 2 per matching tag
-        if (!empty($tagIds)) {
-            $tagIdsStr = implode(',', array_map('intval', $tagIds));
-            $builder->select("(SELECT COUNT(*) FROM post_tags WHERE post_tags.post_id = posts.id AND post_tags.tag_id IN ($tagIdsStr)) * 2 AS tag_score");
-        } else {
-            $builder->select("0 AS tag_score");
-        }
-
-        // Category Score -> Weight: 1 per matching category
-        if (!empty($categoryIds)) {
-            $catIdsStr = implode(',', array_map('intval', $categoryIds));
-            $builder->select("(SELECT COUNT(*) FROM post_categories WHERE post_categories.post_id = posts.id AND post_categories.category_id IN ($catIdsStr)) AS cat_score");
-        } else {
-            $builder->select("0 AS cat_score");
-        }
-
-        // --- Filtering ---
-        $builder->where('posts.id !=', $currentPostId)
-                ->where('posts.status', 'published');
-        
-        // Optimization: Only select posts that have SOME relevance
-        $builder->groupStart();
-            if (!empty($searchString)) {
-                $builder->orWhere("MATCH(title, content) AGAINST('$searchStringEscaped') > 0");
-            }
-            if (!empty($tagIds)) {
-                 $builder->orWhere("EXISTS (SELECT 1 FROM post_tags WHERE post_tags.post_id = posts.id AND post_tags.tag_id IN ($tagIdsStr))");
-            }
-            if (!empty($categoryIds)) {
-                $builder->orWhere("EXISTS (SELECT 1 FROM post_categories WHERE post_categories.post_id = posts.id AND post_categories.category_id IN ($catIdsStr))");
-            }
-        $builder->groupEnd();
-        
-        // --- Ordering ---
-        // Order by total score DESC, then recency
-        $builder->orderBy('(content_score + tag_score + cat_score)', 'DESC');
-        $builder->orderBy('published_at', 'DESC');
-        
-        $results = $builder->limit($limit)->findAll();
-        
-        // --- Fallback ---
-        // If we don't have enough related posts, fill with recent posts
-        if (count($results) < $limit) {
-            $needed = $limit - count($results);
-            $excludeIds = array_column($results, 'id');
-            $excludeIds[] = $currentPostId;
-            
-            $fallbackBuilder = $this->db->table($this->table)
-                                  ->select('posts.*, 0 AS content_score, 0 AS tag_score, 0 AS cat_score') // Align columns
-                                  ->whereNotIn('id', $excludeIds)
-                                  ->where('status', 'published')
-                                  ->orderBy('published_at', 'DESC')
-                                  ->limit($needed);
-            
-            $fallbackPosts = $fallbackBuilder->get()->getResultArray();             
-            $results = array_merge($results, $fallbackPosts);
-        }
-        
-        return $results;
+        $catIds = array_column($currentPost['categories'] ?? [], 'id');
+        return $this->getRelatedNewsOptimized($currentPost['id'], $catIds, $currentPost['title'], $limit);
     }
 }

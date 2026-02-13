@@ -217,9 +217,9 @@ class PostModel extends Model
                 $ftMatches->whereNotIn('id', $relatedIds);
             }
 
-            // Using raw query for FULLTEXT MATCH
-            $ftMatches->where("MATCH(title, content) AGAINST('$cleanTitle')")
-                ->orderBy("MATCH(title, content) AGAINST('$cleanTitle')", 'DESC')
+            // Using raw query for FULLTEXT MATCH with escape prevention
+            $ftMatches->where("MATCH(title, content) AGAINST('$cleanTitle' IN NATURAL LANGUAGE MODE)", null, false)
+                ->orderBy("MATCH(title, content) AGAINST('$cleanTitle' IN NATURAL LANGUAGE MODE)", 'DESC', false)
                 ->limit($limit - count($relatedIds));
             
             $ftIds = array_column($ftMatches->findAll(), 'id');

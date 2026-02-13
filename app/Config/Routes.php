@@ -23,6 +23,12 @@ $routes->get('rss', 'Frontend\Home::rss');
 $routes->get('sitemap.xml', 'Frontend\Home::sitemap');
 $routes->get('program-prioritas', 'Frontend\Home::programPrioritas');
 
+// Live Streaming
+$routes->group('live', function($routes) {
+    $routes->get('radio', 'Frontend\Live::radio');
+    $routes->get('tv', 'Frontend\Live::tv');
+});
+
 // Auth Routes
 $routes->get('login', 'Auth\Login::index');
 $routes->post('login', 'Auth\Login::attemptLogin');

@@ -120,6 +120,20 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Dropdown Live -->
+                        <div class="relative group">
+                            <button class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition-all inline-flex items-center">
+                                Live
+                                <i class="fas fa-fw fa-chevron-down ml-2 text-[10px] opacity-50"></i>
+                            </button>
+                            <div class="absolute left-0 mt-0 w-56 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-1 transition-all duration-200 z-50">
+                                <div class="py-2">
+                                    <a href="<?= base_url('live/radio') ?>" class="block px-4 py-3 text-xs font-black text-slate-700 hover:bg-blue-50 hover:text-blue-900 uppercase tracking-widest">Suara Bersatu FM</a>
+                                    <a href="<?= base_url('live/tv') ?>" class="block px-4 py-3 text-xs font-black text-slate-700 hover:bg-blue-50 hover:text-blue-900 uppercase tracking-widest">Sinjai TV</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -184,6 +198,14 @@
             </div>
 
             <a href="<?= base_url('program-prioritas') ?>" class="block px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest <?= url_is('program-prioritas') ? 'bg-blue-800 text-white shadow-lg' : 'text-blue-200 hover:bg-blue-900 hover:text-white' ?>">Program</a>
+
+            <div class="py-2">
+                <p class="px-4 text-[10px] font-black text-blue-500 uppercase tracking-[0.3em] mb-2">Live Streaming</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <a href="<?= base_url('live/radio') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Radio</a>
+                    <a href="<?= base_url('live/tv') ?>" class="px-4 py-2 text-xs font-bold text-blue-100 hover:text-white">Sinjai TV</a>
+                </div>
+            </div>
 
             <div class="pt-4 mt-4 border-t border-blue-900">
                 <form action="<?= base_url('search') ?>" method="get">

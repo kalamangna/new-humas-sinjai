@@ -26,6 +26,7 @@ $routes->get('program-prioritas', 'Frontend\Home::programPrioritas');
 // Live Streaming
 $routes->group('live', function($routes) {
     $routes->get('radio', 'Frontend\Live::radio');
+    $routes->get('radio-proxy', 'Frontend\Live::radioProxy');
     $routes->get('tv', 'Frontend\Live::tv');
 });
 

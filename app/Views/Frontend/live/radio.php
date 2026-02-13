@@ -51,11 +51,17 @@
                     <i class="fas fa-fw fa-tower-broadcast text-blue-800 text-4xl"></i>
                 </div>
 
-                <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 mb-10">
+                <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 mb-6">
                     <audio controls class="w-full">
                         <source src="<?= $stream_url ?>" type="audio/mpeg">
                         Browser anda tidak mendukung pemutar audio.
                     </audio>
+                </div>
+
+                <div class="mb-10">
+                    <a href="<?= env('stream.radio.url') ?>" target="_blank" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest hover:text-blue-800 transition-colors">
+                        <i class="fas fa-fw fa-external-link-alt mr-2"></i>Buka di Pemutar Eksternal (Winamp/VLC)
+                    </a>
                 </div>
 
                 <p class="text-slate-500 text-sm font-medium leading-relaxed max-w-md mx-auto">

@@ -15,7 +15,7 @@ class AdminFilter implements FilterInterface
 
         // Basic check: must be admin or author
         if (!in_array($role, ['admin', 'author'])) {
-            return redirect()->to('/login')->with('error', 'You do not have permission to access this page.');
+            return redirect()->to(base_url('login'))->with('error', 'You do not have permission to access this page.');
         }
 
         // Restrict 'author' role

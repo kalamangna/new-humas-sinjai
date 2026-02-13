@@ -63,7 +63,16 @@ class PostModel extends Model
             return $this->addGAData($posts);
         }
 
-        $post = $builder->where(['posts.slug' => $slug])->first();
+        if (is_numeric($slug)) {
+            $builder->groupStart()
+                ->where('posts.slug', (string)$slug)
+                ->orWhere('posts.id', (int)$slug)
+            ->groupEnd();
+        } else {
+            $builder->where('posts.slug', $slug);
+        }
+
+        $post = $builder->first();
 
         if ($post) {
             $postsWithGA = $this->addGAData([$post]);

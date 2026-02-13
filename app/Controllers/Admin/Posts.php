@@ -83,7 +83,7 @@ class Posts extends BaseController
 
     public function edit($id = null)
     {
-        $post = $this->postService->getPostBySlug((string)$id);
+        $post = $this->postService->getPostBySlug((string)$id, false);
         
         if (!$post) {
             // Fallback try find by ID if slug fails (legacy support)
@@ -107,7 +107,7 @@ class Posts extends BaseController
 
     public function update($id = null)
     {
-        $post = $this->postService->getPostBySlug((string)$id);
+        $post = $this->postService->getPostBySlug((string)$id, false);
         if (!$post) {
             return redirect()->to(base_url('admin/posts'))->with('error', 'Berita tidak ditemukan.');
         }
@@ -155,7 +155,7 @@ class Posts extends BaseController
     public function delete($id = null)
     {
         // Get post to delete image first
-        $post = $this->postService->getPostBySlug((string)$id);
+        $post = $this->postService->getPostBySlug((string)$id, false);
         if ($post && $this->postService->deletePost((int)$id)) {
             $this->mediaService->deleteImage($post['thumbnail']);
             return redirect()->to(base_url('admin/posts'))->with('success', 'Berita berhasil dihapus.');

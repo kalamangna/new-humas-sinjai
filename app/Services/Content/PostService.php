@@ -262,9 +262,9 @@ class PostService extends BaseService
         return $posts;
     }
 
-    public function getPostBySlug(string $slug)
+    public function getPostBySlug(string $slug, bool $publishedOnly = true)
     {
-        $post = $this->postModel->getPosts($slug);
+        $post = $this->postModel->getPosts($slug, false, $publishedOnly);
         if (!$post) return null;
 
         $enriched = $this->postModel->withCategoriesAndTags([$post]);

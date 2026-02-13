@@ -11,56 +11,84 @@
 <?= $this->section('content') ?>
 
 <!-- Stats Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-    <?php $isAdmin = session()->get('role') === 'admin'; ?>
+<?php 
+    $role = session()->get('role');
+    $isAdmin = $role === 'admin'; 
+    $isAuthor = $role === 'author';
+    $isStreamer = $role === 'streamer';
 
-    <!-- Posts Card -->
-    <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col group hover:border-blue-800 transition-all">
-        <div class="flex items-center mb-6">
-            <div class="p-4 bg-blue-50 text-blue-800 rounded-2xl group-hover:bg-blue-800 group-hover:text-white transition-all">
-                <i class="fas fa-fw fa-newspaper text-xl"></i>
+    $gridCols = 'lg:grid-cols-4';
+    if ($isAuthor) $gridCols = 'lg:grid-cols-3';
+    if ($isStreamer) $gridCols = 'lg:grid-cols-1';
+?>
+<div class="grid grid-cols-1 md:grid-cols-2 <?= $gridCols ?> gap-6 mb-10">
+    <?php if ($isAdmin || $isAuthor) : ?>
+        <!-- Posts Card -->
+        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col group hover:border-blue-800 transition-all">
+            <div class="flex items-center mb-6">
+                <div class="p-4 bg-blue-50 text-blue-800 rounded-2xl group-hover:bg-blue-800 group-hover:text-white transition-all">
+                    <i class="fas fa-fw fa-newspaper text-xl"></i>
+                </div>
+                <div class="ml-5">
+                    <h3 class="text-3xl font-black text-slate-900 tracking-tighter"><?= $postCount ?? '0' ?></h3>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Total Berita</p>
+                </div>
             </div>
-            <div class="ml-5">
-                <h3 class="text-3xl font-black text-slate-900 tracking-tighter"><?= $postCount ?? '0' ?></h3>
-                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Total Berita</p>
-            </div>
+            <a href="<?= base_url('admin/posts') ?>" class="mt-auto pt-4 border-t border-slate-50 text-[10px] font-black text-blue-800 hover:text-blue-900 uppercase tracking-[0.2em] flex items-center">
+                Kelola Berita <i class="fas fa-fw fa-chevron-right ml-2 opacity-50"></i>
+            </a>
         </div>
-        <a href="<?= base_url('admin/posts') ?>" class="mt-auto pt-4 border-t border-slate-50 text-[10px] font-black text-blue-800 hover:text-blue-900 uppercase tracking-[0.2em] flex items-center">
-            Kelola Berita <i class="fas fa-fw fa-chevron-right ml-2 opacity-50"></i>
-        </a>
-    </div>
 
-    <!-- Categories Card -->
-    <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col group hover:border-emerald-600 transition-all">
-        <div class="flex items-center mb-6">
-            <div class="p-4 bg-emerald-50 text-emerald-600 rounded-2xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
-                <i class="fas fa-fw fa-folder text-xl"></i>
+        <!-- Categories Card -->
+        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col group hover:border-emerald-600 transition-all">
+            <div class="flex items-center mb-6">
+                <div class="p-4 bg-emerald-50 text-emerald-600 rounded-2xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                    <i class="fas fa-fw fa-folder text-xl"></i>
+                </div>
+                <div class="ml-5">
+                    <h3 class="text-3xl font-black text-slate-900 tracking-tighter"><?= $categoryCount ?? '0' ?></h3>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Kategori Berita</p>
+                </div>
             </div>
-            <div class="ml-5">
-                <h3 class="text-3xl font-black text-slate-900 tracking-tighter"><?= $categoryCount ?? '0' ?></h3>
-                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Kategori Berita</p>
-            </div>
+            <a href="<?= base_url('admin/categories') ?>" class="mt-auto pt-4 border-t border-slate-50 text-[10px] font-black text-emerald-600 hover:text-emerald-700 uppercase tracking-[0.2em] flex items-center">
+                Kelola Kategori <i class="fas fa-fw fa-chevron-right ml-2 opacity-50"></i>
+            </a>
         </div>
-        <a href="<?= base_url('admin/categories') ?>" class="mt-auto pt-4 border-t border-slate-50 text-[10px] font-black text-emerald-600 hover:text-emerald-700 uppercase tracking-[0.2em] flex items-center">
-            Kelola Kategori <i class="fas fa-fw fa-chevron-right ml-2 opacity-50"></i>
-        </a>
-    </div>
 
-    <!-- Tags Card -->
-    <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col group hover:border-purple-600 transition-all">
-        <div class="flex items-center mb-6">
-            <div class="p-4 bg-purple-50 text-purple-600 rounded-2xl group-hover:bg-purple-600 group-hover:text-white transition-all">
-                <i class="fas fa-fw fa-tags text-xl"></i>
+        <!-- Tags Card -->
+        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col group hover:border-purple-600 transition-all">
+            <div class="flex items-center mb-6">
+                <div class="p-4 bg-purple-50 text-purple-600 rounded-2xl group-hover:bg-purple-600 group-hover:text-white transition-all">
+                    <i class="fas fa-fw fa-tags text-xl"></i>
+                </div>
+                <div class="ml-5">
+                    <h3 class="text-3xl font-black text-slate-900 tracking-tighter"><?= $tagCount ?? '0' ?></h3>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Total Label</p>
+                </div>
             </div>
-            <div class="ml-5">
-                <h3 class="text-3xl font-black text-slate-900 tracking-tighter"><?= $tagCount ?? '0' ?></h3>
-                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Total Label</p>
-            </div>
+            <a href="<?= base_url('admin/tags') ?>" class="mt-auto pt-4 border-t border-slate-50 text-[10px] font-black text-purple-600 hover:text-purple-700 uppercase tracking-[0.2em] flex items-center">
+                Kelola Label <i class="fas fa-fw fa-chevron-right ml-2 opacity-50"></i>
+            </a>
         </div>
-        <a href="<?= base_url('admin/tags') ?>" class="mt-auto pt-4 border-t border-slate-50 text-[10px] font-black text-purple-600 hover:text-purple-700 uppercase tracking-[0.2em] flex items-center">
-            Kelola Label <i class="fas fa-fw fa-chevron-right ml-2 opacity-50"></i>
-        </a>
-    </div>
+    <?php endif; ?>
+
+    <?php if ($isStreamer) : ?>
+        <!-- Live Streaming Card -->
+        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col group hover:border-red-600 transition-all">
+            <div class="flex items-center mb-6">
+                <div class="p-4 bg-red-50 text-red-600 rounded-2xl group-hover:bg-red-600 group-hover:text-white transition-all">
+                    <i class="fas fa-fw fa-tv text-xl"></i>
+                </div>
+                <div class="ml-5">
+                    <h3 class="text-3xl font-black text-slate-900 tracking-tighter">Live</h3>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Streaming Tv</p>
+                </div>
+            </div>
+            <a href="<?= base_url('admin/live-streams') ?>" class="mt-auto pt-4 border-t border-slate-50 text-[10px] font-black text-red-600 hover:text-red-700 uppercase tracking-[0.2em] flex items-center">
+                Kelola Live <i class="fas fa-fw fa-chevron-right ml-2 opacity-50"></i>
+            </a>
+        </div>
+    <?php endif; ?>
 
     <?php if ($isAdmin) : ?>
         <!-- Users Card -->
@@ -88,19 +116,41 @@
         <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">Aksi Pintar Sistem</h2>
     </div>
     <div class="p-8">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            <a href="<?= base_url('admin/posts/new') ?>" class="flex flex-col items-center justify-center p-8 bg-blue-800 rounded-3xl text-white hover:bg-blue-900 transition-all group shadow-lg shadow-blue-900/20">
-                <i class="fas fa-fw fa-plus-circle text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
-                <span class="font-black text-[10px] uppercase tracking-widest text-center">Buat Berita</span>
-            </a>
-            <a href="<?= base_url('admin/categories/new') ?>" class="flex flex-col items-center justify-center p-8 bg-emerald-600 rounded-3xl text-white hover:bg-emerald-700 transition-all group shadow-lg shadow-emerald-900/20">
-                <i class="fas fa-fw fa-folder-plus text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
-                <span class="font-black text-[10px] uppercase tracking-widest text-center">Tambah Kategori</span>
-            </a>
-            <a href="<?= base_url('admin/tags/new') ?>" class="flex flex-col items-center justify-center p-8 bg-purple-600 rounded-3xl text-white hover:bg-purple-700 transition-all group shadow-lg shadow-purple-900/20">
-                <i class="fas fa-fw fa-tag text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
-                <span class="font-black text-[10px] uppercase tracking-widest text-center">Tambah Label</span>
-            </a>
+        <?php
+            $actionCols = 'lg:grid-cols-4';
+            if ($isAuthor) $actionCols = 'lg:grid-cols-3';
+            if ($isStreamer) $actionCols = 'lg:grid-cols-1';
+        ?>
+        <div class="grid grid-cols-2 <?= $actionCols ?> gap-6">
+            <?php if ($isAdmin || $isAuthor) : ?>
+                <a href="<?= base_url('admin/posts/new') ?>" class="flex flex-col items-center justify-center p-8 bg-blue-800 rounded-3xl text-white hover:bg-blue-900 transition-all group shadow-lg shadow-blue-900/20">
+                    <i class="fas fa-fw fa-plus-circle text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-black text-[10px] uppercase tracking-widest text-center">Buat Berita</span>
+                </a>
+                <a href="<?= base_url('admin/categories/new') ?>" class="flex flex-col items-center justify-center p-8 bg-emerald-600 rounded-3xl text-white hover:bg-emerald-700 transition-all group shadow-lg shadow-emerald-900/20">
+                    <i class="fas fa-fw fa-folder-plus text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-black text-[10px] uppercase tracking-widest text-center">Tambah Kategori</span>
+                </a>
+                <a href="<?= base_url('admin/tags/new') ?>" class="flex flex-col items-center justify-center p-8 bg-purple-600 rounded-3xl text-white hover:bg-purple-700 transition-all group shadow-lg shadow-purple-900/20">
+                    <i class="fas fa-fw fa-tag text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+                    <span class="font-black text-[10px] uppercase tracking-widest text-center">Tambah Label</span>
+                </a>
+            <?php endif; ?>
+
+            <?php if ($isStreamer) : ?>
+                <?php if (($live_stream_count ?? 0) === 0) : ?>
+                    <a href="<?= base_url('admin/live-streams/new') ?>" class="flex flex-col items-center justify-center p-8 bg-red-600 rounded-3xl text-white hover:bg-red-700 transition-all group shadow-lg shadow-red-900/20">
+                        <i class="fas fa-fw fa-tv text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-black text-[10px] uppercase tracking-widest text-center">Tambah Live Stream</span>
+                    </a>
+                <?php else : ?>
+                    <a href="<?= base_url('admin/live-streams') ?>" class="flex flex-col items-center justify-center p-8 bg-red-600 rounded-3xl text-white hover:bg-red-700 transition-all group shadow-lg shadow-red-900/20">
+                        <i class="fas fa-fw fa-tv text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
+                        <span class="font-black text-[10px] uppercase tracking-widest text-center">Kelola Live Stream</span>
+                    </a>
+                <?php endif; ?>
+            <?php endif; ?>
+
             <?php if ($isAdmin) : ?>
                 <a href="<?= base_url('admin/users/new') ?>" class="flex flex-col items-center justify-center p-8 bg-slate-800 rounded-3xl text-white hover:bg-slate-950 transition-all group shadow-lg shadow-slate-900/20">
                     <i class="fas fa-fw fa-user-plus text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
@@ -112,6 +162,7 @@
 </div>
 
 <!-- Data Tables -->
+<?php if (!$isStreamer) : ?>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
     <!-- Popular Posts -->
     <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
@@ -177,6 +228,7 @@
         </div>
     </div>
 </div>
+<?php endif; ?>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

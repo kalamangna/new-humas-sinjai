@@ -72,30 +72,43 @@
                         <i class="fas fa-fw fa-tachometer-alt w-6 opacity-75"></i>
                         <span class="ml-3 font-medium text-sm">Dasbor</span>
                     </a>
-                    <a href="<?= base_url('admin/posts') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/posts*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fas fa-fw fa-newspaper w-6 opacity-75"></i>
-                        <span class="ml-3 font-medium text-sm">Kelola Berita</span>
-                    </a>
-                    <a href="<?= base_url('admin/categories') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/categories*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fas fa-fw fa-folder w-6 opacity-75"></i>
-                        <span class="ml-3 font-medium text-sm">Kelola Kategori</span>
-                    </a>
-                    <a href="<?= base_url('admin/tags') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/tags*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fas fa-fw fa-tags w-6 opacity-75"></i>
-                        <span class="ml-3 font-medium text-sm">Kelola Label</span>
-                    </a>
-                    <a href="<?= base_url('admin/carousel') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/carousel*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fas fa-fw fa-images w-6 opacity-75"></i>
-                        <span class="ml-3 font-medium text-sm">Media Banner</span>
-                    </a>
-                    <a href="<?= base_url('admin/profiles') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/profiles*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fas fa-fw fa-user-tie w-6 opacity-75"></i>
-                        <span class="ml-3 font-medium text-sm">Profil Pejabat</span>
-                    </a>
-                    <a href="<?= base_url('admin/analytics/overview') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/analytics*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fas fa-fw fa-chart-line w-6 opacity-75"></i>
-                        <span class="ml-3 font-medium text-sm">Analitik Situs</span>
-                    </a>
+
+                    <?php if (in_array(session()->get('role'), ['admin', 'author'])) : ?>
+                        <a href="<?= base_url('admin/posts') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/posts*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
+                            <i class="fas fa-fw fa-newspaper w-6 opacity-75"></i>
+                            <span class="ml-3 font-medium text-sm">Kelola Berita</span>
+                        </a>
+                        <a href="<?= base_url('admin/categories') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/categories*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
+                            <i class="fas fa-fw fa-folder w-6 opacity-75"></i>
+                            <span class="ml-3 font-medium text-sm">Kelola Kategori</span>
+                        </a>
+                        <a href="<?= base_url('admin/tags') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/tags*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
+                            <i class="fas fa-fw fa-tags w-6 opacity-75"></i>
+                            <span class="ml-3 font-medium text-sm">Kelola Label</span>
+                        </a>
+                        <a href="<?= base_url('admin/carousel') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/carousel*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
+                            <i class="fas fa-fw fa-images w-6 opacity-75"></i>
+                            <span class="ml-3 font-medium text-sm">Media Banner</span>
+                        </a>
+                        <a href="<?= base_url('admin/profiles') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/profiles*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
+                            <i class="fas fa-fw fa-user-tie w-6 opacity-75"></i>
+                            <span class="ml-3 font-medium text-sm">Profil Pejabat</span>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if (in_array(session()->get('role'), ['admin', 'streamer'])) : ?>
+                        <a href="<?= base_url('admin/live-streams') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/live-streams*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
+                            <i class="fas fa-fw fa-tv w-6 opacity-75"></i>
+                            <span class="ml-3 font-medium text-sm">Kelola Live</span>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if (in_array(session()->get('role'), ['admin', 'author'])) : ?>
+                        <a href="<?= base_url('admin/analytics/overview') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/analytics*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
+                            <i class="fas fa-fw fa-chart-line w-6 opacity-75"></i>
+                            <span class="ml-3 font-medium text-sm">Analitik Situs</span>
+                        </a>
+                    <?php endif; ?>
 
                     <?php if (session()->get('role') === 'admin') : ?>
                         <div class="pt-6 mt-6 border-t border-slate-800">

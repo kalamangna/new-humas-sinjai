@@ -81,6 +81,16 @@ $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
     $routes->resource('profiles', ['controller' => 'Admin\Profiles']);
     $routes->resource('carousel', ['controller' => 'Admin\Carousel', 'except' => 'show']);
     $routes->resource('users', ['controller' => 'Admin\Users', 'placeholder' => '(:num)', 'filter' => 'admin']);
+    
+    // Live Stream Management
+    $routes->get('live-streams', 'Admin\LiveStreams::index');
+    $routes->get('live-streams/new', 'Admin\LiveStreams::new');
+    $routes->post('live-streams', 'Admin\LiveStreams::create');
+    $routes->get('live-streams/edit/(:num)', 'Admin\LiveStreams::edit/$1');
+    $routes->put('live-streams/(:num)', 'Admin\LiveStreams::update/$1');
+    $routes->delete('live-streams/(:num)', 'Admin\LiveStreams::delete/$1');
+    $routes->post('live-streams/set-active/(:num)', 'Admin\LiveStreams::setActive/$1');
+    $routes->post('live-streams/deactivate/(:num)', 'Admin\LiveStreams::deactivate/$1');
 });
 
 // Custom 404 page for the frontend

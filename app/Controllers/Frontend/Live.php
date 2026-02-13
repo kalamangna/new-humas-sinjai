@@ -48,11 +48,15 @@ class Live extends BaseController
 
     public function tv()
     {
+        $liveStreamModel = new \App\Models\LiveStreamModel();
+        $activeStream = $liveStreamModel->getActive();
+
         $data = [
-            'title'       => 'Sinjai TV',
-            'description' => 'Streaming Sinjai TV - Saluran Informasi Pembangunan Daerah.',
-            'keywords'    => 'sinjai tv, streaming tv sinjai, live streaming sinjai',
-            'stream_url'  => env('stream.tv.url', 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fsinjaikab%2Flive&show_text=0&width=560')
+            'title'         => 'Sinjai TV',
+            'description'   => 'Streaming Sinjai TV - Saluran Informasi Pembangunan Daerah.',
+            'keywords'      => 'sinjai tv, streaming tv sinjai, live streaming sinjai',
+            'active_stream' => $activeStream,
+            'stream_url'    => $activeStream ? $activeStream['live_url'] : null
         ];
         return view('Frontend/live/tv', $data);
     }

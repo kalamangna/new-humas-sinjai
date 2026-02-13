@@ -70,8 +70,7 @@ Aplikasi web portal berita dan informasi publik untuk Humas Sinjai, dibangun den
 
     # Live Streaming
     stream.radio.url = 'http://103.155.105.10:8000/stream'
-    stream.tv.url = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fsinjaikab%2Flive&show_text=0&width=560'
-    ```
+    # Facebook Live is now managed via Admin Panel    ```
 
 2.  **Instalasi & Build:**
 

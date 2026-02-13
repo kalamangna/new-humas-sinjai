@@ -96,13 +96,6 @@
                         </a>
                     <?php endif; ?>
 
-                    <?php if (in_array(session()->get('role'), ['admin', 'streamer'])) : ?>
-                        <a href="<?= base_url('admin/live-streams') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/live-streams*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                            <i class="fas fa-fw fa-tv w-6 opacity-75"></i>
-                            <span class="ml-3 font-medium text-sm">Kelola Live</span>
-                        </a>
-                    <?php endif; ?>
-
                     <?php if (in_array(session()->get('role'), ['admin', 'author'])) : ?>
                         <a href="<?= base_url('admin/analytics/overview') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/analytics*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
                             <i class="fas fa-fw fa-chart-line w-6 opacity-75"></i>

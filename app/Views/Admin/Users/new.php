@@ -55,7 +55,6 @@
                             <option value="" disabled <?= empty(old('role')) ? 'selected' : '' ?>>-- Pilih Role Akses --</option>
                             <option value="admin" <?= old('role') == 'admin' ? 'selected' : '' ?>>Administrator</option>
                             <option value="author" <?= old('role') == 'author' ? 'selected' : '' ?>>Penulis</option>
-                            <option value="streamer" <?= old('role') == 'streamer' ? 'selected' : '' ?>>Operator Live Stream</option>
                         </select>
                     </div>
                 </div>

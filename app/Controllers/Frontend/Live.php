@@ -48,31 +48,30 @@ class Live extends BaseController
 
     public function tv()
     {
-        $liveStreamModel = new \App\Models\LiveStreamModel();
-        $activeStream = $liveStreamModel->getActive();
-
-        // Normalize URL if exists
-        if ($activeStream) {
-            $url = $activeStream['live_url'];
-            // Convert mobile links to desktop links
-            $url = str_replace(['m.facebook.com', 'mobile.facebook.com', 'fb.watch'], 'www.facebook.com', $url);
-            
-            // If it's a watch or live URL, ensure we only keep the video ID parameter
-            if (strpos($url, 'facebook.com/watch') !== false) {
-                if (preg_match('/v=(\d+)/', $url, $matches)) {
-                    $url = 'https://www.facebook.com/video.php?v=' . $matches[1];
-                }
+        // Get URL from env or hardcoded fallback
+        $url = env('stream.tv.url', 'https://www.facebook.com/watch/live/?v=123456789'); // Placeholder or last known good URL
+        
+        // Convert mobile links to desktop links
+        $url = str_replace(['m.facebook.com', 'mobile.facebook.com', 'fb.watch'], 'www.facebook.com', $url);
+        
+        // If it's a watch or live URL, ensure we only keep the video ID parameter
+        if (strpos($url, 'facebook.com/watch') !== false || strpos($url, 'facebook.com/video.php') !== false) {
+            if (preg_match('/v=(\d+)/', $url, $matches)) {
+                $url = 'https://www.facebook.com/video.php?v=' . $matches[1];
             }
-            
-            $activeStream['live_url'] = $url;
         }
+
+        $activeStream = [
+            'title' => 'Sinjai TV',
+            'live_url' => $url
+        ];
 
         $data = [
             'title'         => 'Sinjai TV',
             'description'   => 'Streaming Sinjai TV - Saluran Informasi Pembangunan Daerah.',
             'keywords'      => 'sinjai tv, streaming tv sinjai, live streaming sinjai',
             'active_stream' => $activeStream,
-            'stream_url'    => $activeStream ? $activeStream['live_url'] : null
+            'stream_url'    => $url
         ];
         return view('Frontend/live/tv', $data);
     }

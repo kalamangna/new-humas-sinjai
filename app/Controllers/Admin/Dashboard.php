@@ -15,7 +15,6 @@ class Dashboard extends BaseController
         $categoryModel = new CategoryModel();
         $tagModel = new TagModel();
         $userModel = new UserModel();
-        $liveStreamModel = new \App\Models\LiveStreamModel();
 
         $lastPost = $postModel->orderBy('published_at', 'DESC')->first();
         $data = [
@@ -23,7 +22,6 @@ class Dashboard extends BaseController
             'categoryCount' => $categoryModel->countAllResults(),
             'tagCount' => $tagModel->countAllResults(),
             'userCount' => $userModel->countAllResults(),
-            'live_stream_count' => $liveStreamModel->countAllResults(),
             'recentPosts' => $postModel
                 ->select('posts.title, posts.published_at, users.name as author_name')
                 ->join('users', 'users.id = posts.user_id', 'left')

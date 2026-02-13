@@ -61,8 +61,14 @@
                         style="border:none;overflow:hidden" 
                         scrolling="no" frameborder="0" 
                         allowfullscreen="true" 
-                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                        allowtransparency="true"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share; unload">
                     </iframe>
+                </div>
+                <div class="bg-blue-50 p-4 border-b border-blue-100 flex justify-center">
+                    <a href="<?= esc($active_stream['live_url']) ?>" target="_blank" class="text-[10px] font-black text-blue-800 uppercase tracking-widest flex items-center hover:underline">
+                        <i class="fab fa-fw fa-facebook mr-2"></i>Video Terkendala? Lihat di Facebook
+                    </a>
                 </div>
             <?php else: ?>
                 <div class="aspect-video bg-slate-900 flex flex-col items-center justify-center text-center p-8">

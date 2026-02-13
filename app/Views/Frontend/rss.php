@@ -1,5 +1,5 @@
 <?= '<?xml version="1.0" encoding="UTF-8" ?>' ?>
-<rss version="2.0">
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
     <channel>
         <title>Humas Sinjai</title>
         <link><?= base_url() ?></link>
@@ -16,7 +16,12 @@
                 <description><?= esc(substr(strip_tags($post['content']), 0, 200)) ?>...</description>
                 <pubDate><?= date('r', strtotime($post['published_at'])) ?></pubDate>
                 <?php if (!empty($post['thumbnail'])): ?>
-                    <enclosure url="<?= htmlspecialchars($post['thumbnail']) ?>" type="image/webp" />
+                    <?php 
+                        $image_url = filter_var($post['thumbnail'], FILTER_VALIDATE_URL) ? $post['thumbnail'] : base_url($post['thumbnail']);
+                    ?>
+                    <enclosure url="<?= htmlspecialchars($image_url) ?>" type="image/webp" />
+                    <media:content url="<?= htmlspecialchars($image_url) ?>" medium="image" type="image/webp" />
+                    <media:thumbnail url="<?= htmlspecialchars($image_url) ?>" />
                 <?php endif; ?>
                 <guid><?= base_url('post/' . $post['slug']) ?></guid>
             </item>

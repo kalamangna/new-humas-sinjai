@@ -29,6 +29,8 @@ foreach ($rss->channel->item as $item) {
         $thumbnail = (string)$item->enclosure['url'];
     } elseif (isset($item->children('media', true)->thumbnail)) {
         $thumbnail = (string)$item->children('media', true)->thumbnail->attributes()->url;
+    } elseif (isset($item->children('media', true)->content)) {
+        $thumbnail = (string)$item->children('media', true)->content->attributes()->url;
     }
 
     $items[] = [

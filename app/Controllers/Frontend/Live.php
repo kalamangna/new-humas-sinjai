@@ -51,6 +51,22 @@ class Live extends BaseController
         $liveStreamModel = new \App\Models\LiveStreamModel();
         $activeStream = $liveStreamModel->getActive();
 
+        // Normalize URL if exists
+        if ($activeStream) {
+            $url = $activeStream['live_url'];
+            // Convert mobile links to desktop links
+            $url = str_replace(['m.facebook.com', 'mobile.facebook.com', 'fb.watch'], 'www.facebook.com', $url);
+            
+            // If it's a watch or live URL, ensure we only keep the video ID parameter
+            if (strpos($url, 'facebook.com/watch') !== false) {
+                if (preg_match('/v=(\d+)/', $url, $matches)) {
+                    $url = 'https://www.facebook.com/video.php?v=' . $matches[1];
+                }
+            }
+            
+            $activeStream['live_url'] = $url;
+        }
+
         $data = [
             'title'         => 'Sinjai TV',
             'description'   => 'Streaming Sinjai TV - Saluran Informasi Pembangunan Daerah.',

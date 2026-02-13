@@ -10,6 +10,7 @@ Aplikasi web portal berita dan informasi publik untuk Humas Sinjai, dibangun den
 - **Indeks Berita:** Manajemen konten berita dengan kategorisasi sistematis dan sistem label (Tag).
 - **Profil Pimpinan & Pejabat:** Halaman khusus biografi pejabat daerah yang dikelompokkan (Forkopimda, Eselon II-IV, hingga Kepala Desa).
 - **Agenda Pembangunan:** Halaman khusus untuk mensosialisasikan **Program Prioritas** pemerintah kabupaten.
+- **Live Streaming TV & Radio:** Akses siaran langsung **Sinjai TV** (Facebook Live) dan **Radio Suara Bersatu FM** secara real-time.
 - **Pencarian Cerdas:** Fitur penelusuran informasi publik yang cepat dan akurat.
 - **Layanan Integrasi (Widget):** Widget RSS yang dapat dipasang pada situs web eksternal (OPD/Instansi lain) untuk sinkronisasi berita otomatis.
 - **SEO & Distribusi:** Optimasi otomatis via Sitemap.xml, RSS Feed, Canonical Tags, dan meta tag dinamis untuk media sosial.
@@ -26,6 +27,11 @@ Aplikasi web portal berita dan informasi publik untuk Humas Sinjai, dibangun den
   - **Editor Berita Modern:** Editor teks kaya (TinyMCE) dengan kemampuan unggah gambar otomatis dan fitur *paste* langsung dari clipboard.
   - **AI SEO Assistant:** Integrasi **Gemini AI** untuk menyarankan Label (Tag) SEO secara otomatis berdasarkan konten berita.
   - **Manajemen Media:** Pengaturan Banner Utama (Carousel) dan galeri unggahan.
+- **Manajemen Live Streaming:** Pengaturan tayangan langsung Facebook Live secara manual dengan sistem validasi domain dan manajemen status aktif tunggal.
+- **Sistem Role Berbasis Akses:** 
+  - **Administrator:** Akses penuh ke seluruh sistem dan konfigurasi pengguna.
+  - **Penulis (Author):** Akses terbatas pada pengelolaan konten berita dan analitik.
+  - **Operator Live Stream (Streamer):** Akses khusus hanya untuk pengelolaan tayangan live streaming.
 - **Manajemen Taksonomi:** Pengelolaan Kategori Informasi dan Topik (Tag) secara dinamis.
 - **Manajemen Pejabat:** Pengelolaan data pimpinan daerah lengkap dengan foto dan biografi terformat.
 - **Keamanan:** Proteksi CSRF, sistem autentikasi admin, dan validasi input yang ketat.
@@ -70,7 +76,7 @@ Aplikasi web portal berita dan informasi publik untuk Humas Sinjai, dibangun den
 
     # Live Streaming
     stream.radio.url = 'http://103.155.105.10:8000/stream'
-    # Facebook Live is now managed via Admin Panel    ```
+    ```
 
 2.  **Instalasi & Build:**
 

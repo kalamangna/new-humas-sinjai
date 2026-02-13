@@ -61,7 +61,18 @@ class PostService extends BaseService
         $this->postModel->db->transStart();
 
         try {
-            $data['slug'] = url_title($data['title'], '-', true);
+            $title = $data['title'] ?? '';
+            $slug = url_title($title, '-', true);
+            
+            // Generate unique slug for new posts or if title changed
+            if (!$id) {
+                $data['slug'] = $this->generateUniqueSlug($slug);
+            } else {
+                $existing = $this->postModel->find($id);
+                if ($existing && $existing['title'] !== $title) {
+                    $data['slug'] = $this->generateUniqueSlug($slug, $id);
+                }
+            }
             
             // Handle publish date logic
             if ($data['status'] === 'published') {
@@ -101,6 +112,29 @@ class PostService extends BaseService
             $this->postModel->db->transRollback();
             $this->setError($e->getMessage());
             return false;
+        }
+    }
+
+    /**
+     * Generate a unique slug by appending counters if necessary
+     */
+    protected function generateUniqueSlug(string $slug, ?int $excludeId = null): string
+    {
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (true) {
+            $builder = $this->postModel->where('slug', $slug);
+            if ($excludeId) {
+                $builder->where('id !=', $excludeId);
+            }
+
+            if ($builder->countAllResults() === 0) {
+                return $slug;
+            }
+
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
         }
     }
 

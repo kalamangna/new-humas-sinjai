@@ -58,7 +58,7 @@ class Page extends BaseController
                                ->findAll();
             
             $data['groupedProfiles'] = [
-                'Pejabat Daerah' => [],
+                'Forkopimda' => [],
                 'Eselon II' => [],
                 'Eselon III' => [],
                 'Eselon IV' => [],
@@ -66,7 +66,7 @@ class Page extends BaseController
             ];
 
             foreach ($officials as $official) {
-                if ($official['type'] == 'forkopimda') $data['groupedProfiles']['Pejabat Daerah'][] = $official;
+                if ($official['type'] == 'forkopimda') $data['groupedProfiles']['Forkopimda'][] = $official;
                 elseif ($official['type'] == 'eselon-ii') $data['groupedProfiles']['Eselon II'][] = $official;
                 elseif ($official['type'] == 'eselon-iii') $data['groupedProfiles']['Eselon III'][] = $official;
                 elseif ($official['type'] == 'eselon-iv') $data['groupedProfiles']['Eselon IV'][] = $official;

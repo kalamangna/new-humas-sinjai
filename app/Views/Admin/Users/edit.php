@@ -53,9 +53,9 @@
                     <div class="space-y-3">
                         <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Hak Akses / Role <span class="text-red-600">*</span></label>
                         <select name="role" required class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none appearance-none cursor-pointer">
-                            <option value="streamer" <?= old('role', $user['role']) == 'streamer' ? 'selected' : '' ?>>Operator Live Stream</option>
-                            <option value="author" <?= old('role', $user['role']) == 'author' ? 'selected' : '' ?>>Penulis</option>
                             <option value="admin" <?= old('role', $user['role']) == 'admin' ? 'selected' : '' ?>>Administrator</option>
+                            <option value="author" <?= old('role', $user['role']) == 'author' ? 'selected' : '' ?>>Penulis</option>
+                            <option value="streamer" <?= old('role', $user['role']) == 'streamer' ? 'selected' : '' ?>>Operator Live Stream</option>
                         </select>
                     </div>
                 </div>

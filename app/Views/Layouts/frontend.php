@@ -312,7 +312,7 @@
 
             <div class="border-t border-slate-900 mt-20 pt-10 flex flex-col md:flex-row justify-between items-center text-[10px] tracking-[0.2em] uppercase font-black">
                 <p class="text-slate-600">&copy; <?= date('Y') ?> Humas Sinjai.</p>
-                <p class="text-slate-600 mt-4 md:mt-0">Dikembangkan oleh Aptika Dev.</p>
+                <p class="text-slate-600 mt-4 md:mt-0 text-[8px]">Dikembangkan oleh Diskominfo-SP Sinjai</p>
             </div>
         </div>
     </footer>

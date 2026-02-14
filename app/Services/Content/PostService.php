@@ -241,7 +241,7 @@ class PostService extends BaseService
             'total'     => $this->postModel->countAllResults(),
             'published' => $this->postModel->where('status', 'published')->countAllResults(),
             'draft'     => $this->postModel->where('status', 'draft')->countAllResults(),
-            'today'     => $this->postModel->where('DATE(created_at)', date('Y-m-d'))->countAllResults(),
+            'today'     => $this->postModel->where('created_at >=', date('Y-m-d 00:00:00'))->countAllResults(),
         ];
     }
 

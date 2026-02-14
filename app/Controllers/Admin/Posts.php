@@ -24,12 +24,16 @@ class Posts extends BaseController
         $filters = $this->request->getGet(['search', 'category', 'author', 'status']);
 
         $result = $this->postService->getAdminPosts($filters);
+        $stats = $this->postService->getPostStats();
         
         $data = array_merge($result, [
             'filters'         => $filters,
             'categories'      => (new CategoryModel())->findAll(),
             'users'           => (new UserModel())->findAll(),
-            'stats'           => $this->postService->getPostStats()
+            'total_posts'     => $stats['total'],
+            'published_posts' => $stats['published'],
+            'draft_posts'     => $stats['draft'],
+            'today_posts'     => $stats['today']
         ]);
 
         return $this->render('Admin/Posts/index', $data);

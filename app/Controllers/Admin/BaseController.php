@@ -14,6 +14,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 class BaseController extends AppBaseController
 {
     protected $data = [];
+    protected $db;
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {

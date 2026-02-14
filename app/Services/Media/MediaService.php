@@ -7,6 +7,11 @@ use CodeIgniter\HTTP\Files\UploadedFile;
 
 class MediaService extends BaseService
 {
+    public function __construct()
+    {
+        helper(['image']);
+    }
+
     /**
      * Store image and return strictly the relative path for DB.
      * Path format: uploads/{domain}/YYYY/MM/{random}.webp
@@ -88,5 +93,13 @@ class MediaService extends BaseService
         if (file_exists($fullPath) && is_file($fullPath)) {
             @unlink($fullPath);
         }
+    }
+
+    /**
+     * Specialized wrapper for TinyMCE uploads
+     */
+    public function uploadImage($file): ?string
+    {
+        return $this->saveImage($file, 'posts', false);
     }
 }

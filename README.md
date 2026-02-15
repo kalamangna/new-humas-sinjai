@@ -20,18 +20,60 @@ Aplikasi web portal berita dan informasi publik untuk Humas Sinjai, dibangun den
 ### 🛠 Dashboard Admin (Back-end)
 
 - **Pusat Statistik & Analitik:** Dashboard yang terintegrasi langsung dengan **Google Analytics 4** untuk memantau:
-  - Ikhtisar Kunjungan harian/bulanan.
-  - Penelusuran Halaman Terpopuler.
-  - Analisis Sumber Trafik dan Demografi Pengunjung.
-  - **Ekspor Laporan PDF:** Cetak laporan statistik kunjungan bulanan secara otomatis.
-- **Modul Laporan Khusus:** Menu dedikasi untuk arsip publikasi berita bulanan dengan filter tahun/bulan yang fleksibel.
+  - Ikhtisar Kunjungan harian/bulanan dengan filter rentang tanggal dinamis.
+  - Penelusuran Halaman Terpopuler dan Sumber Trafik.
+  - Analisis Geografis dan Statistik Perangkat pengunjung.
+- **Manajemen Laporan:** Modul khusus untuk arsip publikasi berita bulanan dengan fitur **Ekspor PDF** yang profesional untuk keperluan dokumentasi birokrasi.
+- **Manajemen Konten (CMS):** Kontrol penuh atas Berita (Posting), Kategori, Label, Profil Pejabat, dan Slide Carousel.
+- **Pengaturan Situs Terpusat:** Kelola identitas situs (Nama, Logo, Tagline), Kontak (Email, Alamat, Maps), Media Sosial, dan Informasi Lembaga (Visi & Misi) langsung dari panel admin tanpa menyentuh kode.
+- **Sistem Keamanan:** Otentikasi multi-role (Admin & Penulis) dengan manajemen profil pengguna yang aman.
 
 ### ⚙️ UI/UX & Konfigurasi Admin
 
 - **Sidebar Pintar:** Sidebar responsif dengan fitur toggle (Expand/Collapse) pada tampilan desktop untuk area kerja yang lebih luas. Status sidebar tersimpan secara otomatis di browser (*localStorage*).
-- **Standarisasi Terminologi:** Penggunaan istilah yang konsisten dan profesional (Berita, Penulis, Konsep, Terbitkan) di seluruh modul admin.
-- **Pusat Statistik & Analitik:** Dashboard yang terintegrasi langsung dengan **Google Analytics 4** untuk memantau:
-  - Ikhtisar Kunjungan harian/bulanan.
-  - Penelusuran Halaman Terpopuler.
-  - Analisis Sumber Trafik dan Demografi Pengunjung.
-- **Manajemen Konten (CMS):**
+- **Standarisasi Terminologi:** Penggunaan istilah yang konsisten dan profesional (Berita, Penulis, Konsep, Terbitkan) di seluruh modul admin untuk memudahkan operasional.
+- **Antarmuka Modern:** Desain berbasis kartu (Card-based) yang bersih dengan navigasi yang intuitif dan responsif di berbagai perangkat.
+
+## Teknologi Utama
+
+- **Framework:** CodeIgniter 4.4+ (PHP 8.1+)
+- **Styling:** Tailwind CSS 3.4
+- **Database:** MySQL/MariaDB
+- **Integrasi:** Google Analytics Data API v1, Dompdf (PDF Generation), FontAwesome 6.
+
+## Pengembangan
+
+### Prasyarat
+- PHP >= 8.1
+- Composer
+- Node.js & npm (untuk build CSS)
+
+### Instalasi
+1. Clone repositori:
+   ```bash
+   git clone https://github.com/kalamangna/humas-sinjai.git
+   ```
+2. Instal dependensi PHP:
+   ```bash
+   composer install
+   ```
+3. Instal dependensi JS:
+   ```bash
+   npm install
+   ```
+4. Konfigurasi environment:
+   Salin `env` ke `.env` dan sesuaikan pengaturan database serta API Google Analytics.
+5. Jalankan migrasi dan seeder:
+   ```bash
+   php spark migrate
+   php spark db:seed SiteSettingsSeeder
+   ```
+
+### Build CSS (Tailwind)
+Untuk melakukan build CSS produksi (minified):
+```bash
+npm run build
+```
+
+---
+&copy; 2026 Diskominfo-SP Kabupaten Sinjai. Dikembangkan untuk transparansi informasi publik.

@@ -1,6 +1,6 @@
-<?= $this->extend('Layouts/admin') ?>
+<?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Buat Berita Baru<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Tambah Berita Baru<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/posts') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -18,7 +18,7 @@
             </div>
             <div>
                 <h2 class="text-lg font-black text-slate-900 tracking-tight">Editor Berita</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Input konten informasi publik terbaru</p>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Input konten warta informasi terbaru</p>
             </div>
         </div>
 
@@ -136,13 +136,13 @@
 
                 <input type="hidden" name="status" id="post-status" value="published">
 
-                <!-- Submit Section -->
+                <!-- Simpan Section -->
                 <div class="pt-10 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-4">
                     <button type="submit" onclick="document.getElementById('post-status').value='draft'" class="px-8 py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-slate-200 transition-all">
                         <i class="fas fa-fw fa-save mr-2 text-sm"></i>Simpan Konsep
                     </button>
                     <button type="submit" onclick="document.getElementById('post-status').value='published'" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
-                        <i class="fas fa-fw fa-paper-plane mr-2 text-sm"></i>Tayangkan Berita
+                        <i class="fas fa-fw fa-paper-plane mr-2 text-sm"></i>Terbitkan Berita
                     </button>
                 </div>
             </form>
@@ -150,7 +150,7 @@
     </div>
 </div>
 
-<?= $this->include('Partials/admin_validation_script') ?>
+<?= $this->include('partials/admin_validation_script') ?>
 
 <script>
     // Clipboard paste logic
@@ -215,7 +215,7 @@
         .then(r => r.json()).then(data => data.forEach(addTag))
         .finally(() => { 
             this.disabled = false; 
-            this.innerHTML = '<i class="fas fa-fw fa-wand-magic-sparkles mr-2"></i>Sarankan Tag via AI'; 
+            this.innerHTML = '<i class="fas fa-fw fa-wand-magic-sparkles mr-2"></i>Sarankan Label via AI'; 
         });
     };
 </script>

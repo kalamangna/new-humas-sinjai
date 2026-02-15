@@ -1,4 +1,11 @@
-<?= $this->extend('Layouts/frontend') ?>
+<?= $this->extend('layouts/frontend') ?>
+
+<?= $this->section('schema') ?>
+<?= generate_schema_breadcrumb([
+    'Live' => current_url(),
+    'Radio' => current_url()
+]) ?>
+<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 

@@ -21,12 +21,12 @@ class Carousel extends BaseController
         $data = [
             'slides' => $this->carouselModel->orderBy('slide_order', 'ASC')->findAll(),
         ];
-        return $this->render('Admin/Carousel/index', $data);
+        return $this->render('admin/carousel/index', $data);
     }
 
     public function new()
     {
-        return $this->render('Admin/Carousel/new');
+        return $this->render('admin/carousel/new');
     }
 
     public function create()
@@ -49,7 +49,7 @@ class Carousel extends BaseController
         $slide = $this->carouselModel->find($id);
         if (!$slide) throw new \CodeIgniter\Exceptions\PageNotFoundException();
 
-        return $this->render('Admin/Carousel/edit', ['slide' => $slide]);
+        return $this->render('admin/carousel/edit', ['slide' => $slide]);
     }
 
     public function update($id = null)

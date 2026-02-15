@@ -1,2 +1,7 @@
 User-agent: *
-Disallow: 
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /api/
+Allow: /
+
+Sitemap: <?= base_url('sitemap.xml') ?>

@@ -1,4 +1,4 @@
-<?= $this->extend('Layouts/admin') ?>
+<?= $this->extend('layouts/admin') ?>
 
 <?= $this->section('page_title') ?>Ringkasan Analitik Lanjutan<?= $this->endSection() ?>
 

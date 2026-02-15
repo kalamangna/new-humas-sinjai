@@ -1,6 +1,6 @@
-<?= $this->extend('Layouts/admin') ?>
+<?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Kelola Profil Pejabat<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Manajemen Profil Pejabat<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/profiles/new') ?>" class="inline-flex items-center px-4 py-2 bg-blue-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
@@ -27,9 +27,9 @@
                         <tr class="hover:bg-slate-50 transition-colors group">
                             <td class="px-8 py-6 w-1">
                                 <div class="w-14 h-20 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm flex-shrink-0">
-                                    <?php 
-                                        $imgPath = $profile['image'] ?? '';
-                                        $imgSrc = filter_var($imgPath, FILTER_VALIDATE_URL) ? $imgPath : (!empty($imgPath) ? base_url($imgPath) : '');
+                                    <?php
+                                    $imgPath = $profile['image'] ?? '';
+                                    $imgSrc = filter_var($imgPath, FILTER_VALIDATE_URL) ? $imgPath : (!empty($imgPath) ? base_url($imgPath) : '');
                                     ?>
                                     <?php if (!empty($imgSrc)) : ?>
                                         <img src="<?= $imgSrc ?>" class="w-full h-full object-cover">

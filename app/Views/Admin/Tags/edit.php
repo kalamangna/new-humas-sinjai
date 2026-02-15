@@ -1,6 +1,6 @@
-<?= $this->extend('Layouts/admin') ?>
+<?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Edit Tag<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Ubah Tag<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/tags') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">

@@ -21,7 +21,7 @@ class Categories extends BaseController
         $data = [
             'categories' => $this->categoryModel->getHierarchical(),
         ];
-        return $this->render('Admin/Categories/index', $data);
+        return $this->render('admin/categories/index', $data);
     }
 
     public function new()
@@ -29,7 +29,7 @@ class Categories extends BaseController
         $data = [
             'categories' => $this->categoryModel->where('parent_id', null)->findAll(),
         ];
-        return $this->render('Admin/Categories/new', $data);
+        return $this->render('admin/categories/new', $data);
     }
 
     public function create()
@@ -56,7 +56,7 @@ class Categories extends BaseController
             'category' => $category,
             'categories' => $this->categoryModel->where('parent_id', null)->where('id !=', $id)->findAll(),
         ];
-        return $this->render('Admin/Categories/edit', $data);
+        return $this->render('admin/categories/edit', $data);
     }
 
     public function update($id = null)

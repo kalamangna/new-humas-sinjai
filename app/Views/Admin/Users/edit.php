@@ -1,4 +1,4 @@
-<?= $this->extend('Layouts/admin') ?>
+<?= $this->extend('layouts/admin') ?>
 
 <?= $this->section('page_title') ?>Perbarui Data Pengguna<?= $this->endSection() ?>
 
@@ -17,7 +17,7 @@
                 <i class="fas fa-fw fa-user-edit text-sm"></i>
             </div>
             <div>
-                <h2 class="text-lg font-black text-slate-900 tracking-tight">Edit Akun Pengguna</h2>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Ubah Akun Pengguna</h2>
                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">ID: #<?= $user['id'] ?> • <?= esc($user['name']) ?></p>
             </div>
         </div>

@@ -1,4 +1,4 @@
-<?= $this->extend('Layouts/admin') ?>
+<?= $this->extend('layouts/admin') ?>
 
 <?= $this->section('page_title') ?>Analisa Perangkat<?= $this->endSection() ?>
 
@@ -19,15 +19,15 @@
     <!-- Charts -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200">
-            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">Device Category</h3>
+            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">KATEGORI PERANGKAT</h3>
             <div id="deviceChart" class="h-48"></div>
         </div>
         <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200">
-            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">Operating System</h3>
+            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">SISTEM OPERASI</h3>
             <div id="osChart" class="h-48"></div>
         </div>
         <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200">
-            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">Web Browser</h3>
+            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">PERAMBAN (BROWSER)</h3>
             <div id="browserChart" class="h-48"></div>
         </div>
     </div>
@@ -36,16 +36,16 @@
     <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
         <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
             <i class="fas fa-fw fa-microchip mr-3 text-amber-500 opacity-50"></i>
-            <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">Rincian Teknis Kunjungan</h3>
+            <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">DETAIL TEKNIS PENGUNJUNG</h3>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">
-                        <th class="px-8 py-5">Platform / Device</th>
+                        <th class="px-8 py-5">Platform / Perangkat</th>
                         <th class="px-8 py-5 w-1">OS</th>
                         <th class="px-8 py-5 w-1">Browser</th>
-                        <th class="px-8 py-5 text-right w-1">Unique Users</th>
+                        <th class="px-8 py-5 text-right w-1">Jumlah User</th>
                     </tr>
                 </thead>
                 <tbody id="device-data" class="divide-y divide-slate-100 whitespace-nowrap"></tbody>
@@ -58,13 +58,22 @@
     document.addEventListener('DOMContentLoaded', function() {
         const deviceData = document.getElementById('device-data');
         const isDark = document.documentElement.classList.contains('dark');
+        const params = new URLSearchParams(window.location.search);
+        const url = new URL('<?= base_url('api/analytics/device-category') ?>');
+        if (params.has('start_date')) url.searchParams.set('start_date', params.get('start_date'));
+        if (params.has('end_date')) url.searchParams.set('end_date', params.get('end_date'));
 
-        fetch('<?= base_url('api/analytics/device-category') ?>')
+        fetch(url)
             .then(r => r.json())
             .then(data => {
                 document.getElementById('loading-spinner').classList.add('hidden');
                 document.getElementById('analytics-content').classList.remove('hidden');
                 
+                if (data.length === 0) {
+                    deviceData.innerHTML = '<tr><td colspan="4" class="py-20 text-center text-slate-400 italic font-medium">Tidak ada data untuk periode ini.</td></tr>';
+                    return;
+                }
+
                 const stats = { device: {}, os: {}, browser: {} };
                 data.forEach(i => {
                     stats.device[i.deviceCategory] = (stats.device[i.deviceCategory] || 0) + parseInt(i.totalUsers);
@@ -97,6 +106,7 @@
                                     },
                                     total: {
                                         show: true,
+                                        label: 'TOTAL',
                                         formatter: (w) => {
                                             return w.globals.seriesTotals.reduce((a, b) => a + b, 0).toLocaleString();
                                         }
@@ -120,14 +130,14 @@
                         <td class="px-8 py-6">
                             <div class="flex items-center">
                                 <i class="fas ${getDeviceIcon(item.deviceCategory)} mr-4 text-slate-300 group-hover:text-amber-500 transition-colors"></i>
-                                <span class="font-bold text-slate-900 text-xs uppercase tracking-tight">${item.deviceCategory || 'Unknown'}</span>
+                                <span class="font-bold text-slate-900 text-xs uppercase tracking-tight">${item.deviceCategory || 'Lainnya'}</span>
                             </div>
                         </td>
                         <td class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest">${item.operatingSystem || '-'}</td>
                         <td class="px-8 py-6 text-[10px] font-bold text-slate-400 italic">${item.browser || '-'}</td>
                         <td class="px-8 py-6 text-right">
                             <span class="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-black rounded-lg border border-amber-100">
-                                ${parseInt(item.totalUsers).toLocaleString()}
+                                ${parseInt(item.totalUsers).toLocaleString()} User
                             </span>
                         </td>
                     `;

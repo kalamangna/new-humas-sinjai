@@ -7,12 +7,14 @@ class Live extends BaseController
     public function radio()
     {
         $data = [
-            'title'       => 'Suara Bersatu FM',
-            'description' => 'Streaming Radio Suara Bersatu FM - Suara Rakyat Sinjai.',
-            'keywords'    => 'radio sinjai, suara bersatu fm, streaming radio sinjai',
             'stream_url'  => base_url('live/radio-proxy')
         ];
-        return view('Frontend/live/radio', $data);
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Suara Bersatu FM';
+        $data['seo']['description'] = 'Streaming Radio Suara Bersatu FM - Suara Rakyat Sinjai.';
+        $data['seo']['keywords'] = 'radio sinjai, suara bersatu fm, streaming radio sinjai';
+
+        return view('frontend/live/radio', $data);
     }
 
     /**
@@ -70,13 +72,15 @@ class Live extends BaseController
         }
 
         $data = [
-            'title'         => 'Sinjai TV',
-            'description'   => 'Streaming Sinjai TV - Saluran Informasi Pembangunan Daerah.',
-            'keywords'      => 'sinjai tv, streaming tv sinjai, live streaming sinjai',
             'video_id'      => $videoId,
             'is_live'       => !empty($videoId)
         ];
 
-        return view('Frontend/live/tv', $data);
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Sinjai TV';
+        $data['seo']['description'] = 'Streaming Sinjai TV - Saluran Informasi Pembangunan Daerah.';
+        $data['seo']['keywords'] = 'sinjai tv, streaming tv sinjai, live streaming sinjai';
+
+        return view('frontend/live/tv', $data);
     }
 }

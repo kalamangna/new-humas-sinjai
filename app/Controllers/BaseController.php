@@ -39,7 +39,7 @@ abstract class BaseController extends Controller
      *
      * @var list<string>
      */
-    protected $helpers = ['date', 'text'];
+    protected $helpers = ['date', 'text', 'setting', 'seo'];
 
     /**
      * @var \CodeIgniter\View\View

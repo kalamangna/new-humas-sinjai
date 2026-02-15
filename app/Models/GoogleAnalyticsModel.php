@@ -14,9 +14,9 @@ class GoogleAnalyticsModel extends Model
         $this->gaService = new GoogleAnalyticsService();
     }
 
-    public function getOverview(): array
+    public function getOverview(?string $startDate = null, ?string $endDate = null): array
     {
-        $data = $this->gaService->runReport([
+        $config = [
             'metrics' => [
                 'totalUsers',
                 'newUsers',
@@ -25,7 +25,13 @@ class GoogleAnalyticsModel extends Model
                 'bounceRate',
                 'averageSessionDuration'
             ],
-        ]);
+        ];
+
+        if ($startDate && $endDate) {
+            $config['date_ranges'] = [['start_date' => $startDate, 'end_date' => $endDate]];
+        }
+
+        $data = $this->gaService->runReport($config);
 
         // Map array ke format yang diinginkan
         return array_map(function ($item) {
@@ -40,13 +46,19 @@ class GoogleAnalyticsModel extends Model
         }, $data);
     }
 
-    public function getTopPages(): array
+    public function getTopPages(int $limit = 10, ?string $startDate = null, ?string $endDate = null): array
     {
-        $data = $this->gaService->runReport([
+        $config = [
             'dimensions' => ['pageTitle', 'pagePath'],
             'metrics' => ['screenPageViews', 'totalUsers'],
             'order_bys' => [['metric' => 'screenPageViews', 'desc' => true]],
-        ]);
+        ];
+
+        if ($startDate && $endDate) {
+            $config['date_ranges'] = [['start_date' => $startDate, 'end_date' => $endDate]];
+        }
+
+        $data = $this->gaService->runReport($config);
 
         // map array ke format yang diinginkan
         $mappedData = array_map(function ($item) {
@@ -81,15 +93,21 @@ class GoogleAnalyticsModel extends Model
         });
 
         // Apply limit setelah filtering
-        return array_slice($filteredData, 0, 10);
+        return array_slice($filteredData, 0, $limit);
     }
 
-    public function getTrafficSources(): array
+    public function getTrafficSources(?string $startDate = null, ?string $endDate = null): array
     {
-        $data = $this->gaService->runReport([
+        $config = [
             'dimensions' => ['sessionSource', 'sessionMedium'],
             'metrics' => ['sessions', 'screenPageViews', 'totalUsers'],
-        ]);
+        ];
+
+        if ($startDate && $endDate) {
+            $config['date_ranges'] = [['start_date' => $startDate, 'end_date' => $endDate]];
+        }
+
+        $data = $this->gaService->runReport($config);
 
         // Map array ke format yang diinginkan
         return array_map(function ($item) {
@@ -103,12 +121,18 @@ class GoogleAnalyticsModel extends Model
         }, $data);
     }
 
-    public function getGeoData(): array
+    public function getGeoData(?string $startDate = null, ?string $endDate = null): array
     {
-        $data = $this->gaService->runReport([
+        $config = [
             'dimensions' => ['country', 'region', 'city'],
             'metrics' => ['sessions', 'totalUsers'],
-        ]);
+        ];
+
+        if ($startDate && $endDate) {
+            $config['date_ranges'] = [['start_date' => $startDate, 'end_date' => $endDate]];
+        }
+
+        $data = $this->gaService->runReport($config);
 
         // Map array ke format yang diinginkan
         return array_map(function ($item) {
@@ -122,12 +146,18 @@ class GoogleAnalyticsModel extends Model
         }, $data);
     }
 
-    public function getDeviceData(): array
+    public function getDeviceData(?string $startDate = null, ?string $endDate = null): array
     {
-        $data = $this->gaService->runReport([
+        $config = [
             'dimensions' => ['deviceCategory', 'operatingSystem', 'browser'],
             'metrics' => ['sessions', 'screenPageViews', 'totalUsers'],
-        ]);
+        ];
+
+        if ($startDate && $endDate) {
+            $config['date_ranges'] = [['start_date' => $startDate, 'end_date' => $endDate]];
+        }
+
+        $data = $this->gaService->runReport($config);
 
         // Map array ke format yang diinginkan
         return array_map(function ($item) {
@@ -142,13 +172,19 @@ class GoogleAnalyticsModel extends Model
         }, $data);
     }
 
-    public function getPopularPosts(): array
+    public function getPopularPosts(?string $startDate = null, ?string $endDate = null): array
     {
-        $data = $this->gaService->runReport([
+        $config = [
             'dimensions' => ['pageTitle', 'pagePath'],
             'metrics' => ['screenPageViews'],
             'order_bys' => [['metric' => 'screenPageViews', 'desc' => true]],
-        ]);
+        ];
+
+        if ($startDate && $endDate) {
+            $config['date_ranges'] = [['start_date' => $startDate, 'end_date' => $endDate]];
+        }
+
+        $data = $this->gaService->runReport($config);
 
         // Map array ke format yang diinginkan
         $data = array_map(function ($item) {
@@ -161,7 +197,7 @@ class GoogleAnalyticsModel extends Model
 
         // Filter hanya post dengan path /v1/post/
         $filteredData = array_filter($data, function ($item) {
-            return str_starts_with($item['path'], '/v1/post/');
+            return str_contains($item['path'], '/post/');
         });
 
         // Limit 5 data teratas
@@ -169,46 +205,91 @@ class GoogleAnalyticsModel extends Model
     }
 
 
-    public function getMonthlyPostStats(): array
+    public function getPostStats(?string $startDate = null, ?string $endDate = null): array
     {
-        $data = $this->gaService->runReport([
-            'dimensions' => ['year', 'month'],
+        $dimension = $this->determineGranularity($startDate, $endDate);
+        
+        $config = [
+            'dimensions' => [$dimension],
             'metrics' => ['screenPageViews'],
             'order_bys' => [
-                ['dimension' => 'year', 'desc' => true],
-                ['dimension' => 'month', 'desc' => true],
+                ['dimension' => $dimension, 'desc' => false],
             ],
-        ]);
+        ];
 
-        // Map array ke format yang diinginkan
-        return array_map(function ($item) {
+        if ($startDate && $endDate) {
+            $config['date_ranges'] = [['start_date' => $startDate, 'end_date' => $endDate]];
+        }
+
+        $data = $this->gaService->runReport($config);
+
+        return array_map(function ($item) use ($dimension) {
             return [
-                'year' => $item['dimensions'][0] ?? 'Unknown',
-                'month' => $item['dimensions'][1] ?? 'Unknown',
+                'period' => $item['dimensions'][0] ?? 'Unknown',
                 'screenPageViews' => (int)($item['metrics'][0] ?? 0),
+                'granularity' => $dimension
             ];
         }, $data);
     }
 
-    public function getMonthlyUserStats(): array
+    public function getUserStats(?string $startDate = null, ?string $endDate = null): array
     {
-        $data = $this->gaService->runReport([
-            'dimensions' => ['year', 'month'],
+        $dimension = $this->determineGranularity($startDate, $endDate);
+
+        $config = [
+            'dimensions' => [$dimension],
             'metrics' => ['totalUsers'],
             'order_bys' => [
-                ['dimension' => 'year', 'desc' => true],
-                ['dimension' => 'month', 'desc' => true],
+                ['dimension' => $dimension, 'desc' => false],
             ],
-        ]);
+        ];
 
-        // Map array ke format yang diinginkan
-        return array_map(function ($item) {
+        if ($startDate && $endDate) {
+            $config['date_ranges'] = [['start_date' => $startDate, 'end_date' => $endDate]];
+        }
+
+        $data = $this->gaService->runReport($config);
+
+        return array_map(function ($item) use ($dimension) {
             return [
-                'year' => $item['dimensions'][0] ?? 'Unknown',
-                'month' => $item['dimensions'][1] ?? 'Unknown',
+                'period' => $item['dimensions'][0] ?? 'Unknown',
                 'totalUsers' => (int)($item['metrics'][0] ?? 0),
+                'granularity' => $dimension
             ];
         }, $data);
+    }
+
+    private function determineGranularity(?string $startDate, ?string $endDate): string
+    {
+        if (!$startDate || $startDate === 'allTime' || $startDate === '2023-07-01') {
+            return 'yearMonth';
+        }
+
+        // If preset ranges
+        if (in_array($startDate, ['today', '7daysAgo', '30daysAgo', 'yesterday'])) {
+            return 'date';
+        }
+
+        // Calculate days if custom date
+        try {
+            $start = new \DateTime($startDate);
+            $end = new \DateTime($endDate === 'today' ? date('Y-m-d') : $endDate);
+            $diff = $start->diff($end)->days;
+
+            return ($diff <= 62) ? 'date' : 'yearMonth';
+        } catch (\Exception $e) {
+            return 'yearMonth';
+        }
+    }
+
+    public function getMonthlyPostStats(?string $startDate = null, ?string $endDate = null): array
+    {
+        return $this->getPostStats($startDate, $endDate);
+    }
+
+    public function getMonthlyUserStats(?string $startDate = null, ?string $endDate = null): array
+    {
+        return $this->getUserStats($startDate, $endDate);
     }
 
     public function getViewsBySlug(array $slugs = []): array

@@ -21,12 +21,12 @@ class Profiles extends BaseController
         $data = [
             'profiles' => $this->profileModel->orderBy('type', 'ASC')->orderBy('order', 'ASC')->findAll(),
         ];
-        return $this->render('Admin/Profiles/index', $data);
+        return $this->render('admin/profiles/index', $data);
     }
 
     public function new()
     {
-        return $this->render('Admin/Profiles/new');
+        return $this->render('admin/profiles/new');
     }
 
     public function create()
@@ -49,7 +49,7 @@ class Profiles extends BaseController
         $profile = $this->profileModel->find($id);
         if (!$profile) throw new \CodeIgniter\Exceptions\PageNotFoundException();
 
-        return $this->render('Admin/Profiles/edit', ['profile' => $profile]);
+        return $this->render('admin/profiles/edit', ['profile' => $profile]);
     }
 
     public function update($id = null)

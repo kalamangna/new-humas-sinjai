@@ -8,20 +8,23 @@ class Page extends BaseController
 {
     public function about()
     {
-        $data['title'] = 'Tentang';
-        return view('Frontend/about', $data);
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Tentang Kami';
+        return view('frontend/pages/about', $data);
     }
 
     public function contact()
     {
-        $data['title'] = 'Kontak';
-        return view('Frontend/contact', $data);
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Hubungi Kami';
+        return view('frontend/pages/contact', $data);
     }
 
     public function widget()
     {
-        $data['title'] = 'Panduan Widget';
-        return view('Frontend/widget_guide', $data);
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Panduan Widget';
+        return view('frontend/pages/widget_guide', $data);
     }
 
     public function profile($type)
@@ -41,15 +44,23 @@ class Page extends BaseController
              // Fallback: check if it's a slug for a specific profile
              $profile = $model->where('slug', $originalType)->first();
              if ($profile) {
-                 $data['title'] = $profile['name'] ?: ($profile['position'] ?: 'Profil');
                  $data['profile'] = $profile;
-                 return view('Frontend/profile_detail', $data);
+                 $data['seo'] = $this->seoData;
+                 $data['seo']['title'] = $profile['name'] ?: ($profile['position'] ?: 'Profil');
+                 $data['seo']['description'] = limit_char($profile['bio'] ?? '', 160);
+                 if (!empty($profile['image'])) {
+                     $data['seo']['image'] = base_url($profile['image']);
+                 }
+                 return view('frontend/profiles/detail', $data);
              }
              throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
-        $data['title'] = $type === 'forkopimda' ? 'Pejabat Daerah' : ucwords(str_replace('-', ' ', $type));
+        $title = $type === 'forkopimda' ? 'Pejabat Daerah' : ucwords(str_replace('-', ' ', $type));
         $data['type'] = $type;
+
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = $title;
 
         if ($type == 'forkopimda') {
             $officials = $model->whereIn('type', ['forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa'])
@@ -73,10 +84,16 @@ class Page extends BaseController
                 elseif ($official['type'] == 'kepala-desa') $data['groupedProfiles']['Kepala Desa'][] = $official;
             }
             
-            return view('Frontend/profile_list', $data);
+            return view('frontend/profiles/index', $data);
         } else {
             $data['profile'] = $model->where('type', $type)->orderBy('order', 'ASC')->orderBy('created_at', 'DESC')->first();
-            return view('Frontend/profile_detail', $data);
+            if ($data['profile']) {
+                $data['seo']['description'] = limit_char($data['profile']['bio'] ?? '', 160);
+                if (!empty($data['profile']['image'])) {
+                    $data['seo']['image'] = base_url($data['profile']['image']);
+                }
+            }
+            return view('frontend/profiles/detail', $data);
         }
     }
 }

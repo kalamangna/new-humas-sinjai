@@ -22,12 +22,12 @@ class Tags extends BaseController
             'tags' => $this->tagModel->orderBy('name', 'ASC')->paginate(20),
             'pager' => $this->tagModel->pager,
         ];
-        return $this->render('Admin/Tags/index', $data);
+        return $this->render('admin/tags/index', $data);
     }
 
     public function new()
     {
-        return $this->render('Admin/Tags/new');
+        return $this->render('admin/tags/new');
     }
 
     public function create()
@@ -50,7 +50,7 @@ class Tags extends BaseController
         $tag = $this->tagModel->find($id);
         if (!$tag) throw new \CodeIgniter\Exceptions\PageNotFoundException();
 
-        return $this->render('Admin/Tags/edit', ['tag' => $tag]);
+        return $this->render('admin/tags/edit', ['tag' => $tag]);
     }
 
     public function update($id = null)

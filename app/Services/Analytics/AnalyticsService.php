@@ -18,50 +18,70 @@ class AnalyticsService extends BaseService
         $this->postModel = new PostModel();
     }
 
-    public function getOverviewData(): array
+    public function getOverviewData(?string $startDate = null, ?string $endDate = null): array
     {
-        return $this->gaModel->getOverview();
+        return $this->gaModel->getOverview($startDate, $endDate);
     }
 
-    public function getTopPagesData(int $limit = 10): array
+    public function getTopPagesData(int $limit = 10, ?string $startDate = null, ?string $endDate = null): array
     {
-        return $this->gaModel->getTopPages($limit);
+        return $this->gaModel->getTopPages($limit, $startDate, $endDate);
     }
 
-    public function getTrafficSourcesData(): array
+    public function getTrafficSourcesData(?string $startDate = null, ?string $endDate = null): array
     {
-        return $this->gaModel->getTrafficSources();
+        return $this->gaModel->getTrafficSources($startDate, $endDate);
     }
 
-    public function getGeoData(): array
+    public function getGeoData(?string $startDate = null, ?string $endDate = null): array
     {
-        return $this->gaModel->getGeoData();
+        return $this->gaModel->getGeoData($startDate, $endDate);
     }
 
-    public function getDeviceData(): array
+    public function getDeviceData(?string $startDate = null, ?string $endDate = null): array
     {
-        return $this->gaModel->getDeviceData();
+        return $this->gaModel->getDeviceData($startDate, $endDate);
     }
 
-    public function getPopularPostsData(): array
+    public function getPopularPostsData(?string $startDate = null, ?string $endDate = null): array
     {
-        return $this->gaModel->getPopularPosts();
+        return $this->gaModel->getPopularPosts($startDate, $endDate);
     }
 
-    public function getMonthlyPostStatsData(): array
+    public function getMonthlyPostStatsData(?string $startDate = null, ?string $endDate = null): array
     {
-        $data = $this->gaModel->getMonthlyPostStats();
+        $data = $this->gaModel->getMonthlyPostStats($startDate, $endDate);
         foreach ($data as &$item) {
-            $item['formatted_date'] = format_date($item['year'] . '-' . $item['month'] . '-01', 'month_year');
+            if ($item['granularity'] === 'yearMonth') {
+                // Period is YYYYMM
+                $year = substr($item['period'], 0, 4);
+                $month = substr($item['period'], 4, 2);
+                $item['formatted_date'] = format_date($year . '-' . $month . '-01', 'month_year');
+            } else {
+                // Period is YYYYMMDD
+                $year = substr($item['period'], 0, 4);
+                $month = substr($item['period'], 4, 2);
+                $day = substr($item['period'], 6, 2);
+                $item['formatted_date'] = date('d M', strtotime("$year-$month-$day"));
+            }
         }
         return $data;
     }
 
-    public function getMonthlyUserStatsData(): array
+    public function getMonthlyUserStatsData(?string $startDate = null, ?string $endDate = null): array
     {
-        $data = $this->gaModel->getMonthlyUserStats();
+        $data = $this->gaModel->getMonthlyUserStats($startDate, $endDate);
         foreach ($data as &$item) {
-            $item['formatted_date'] = format_date($item['year'] . '-' . $item['month'] . '-01', 'month_year');
+            if ($item['granularity'] === 'yearMonth') {
+                $year = substr($item['period'], 0, 4);
+                $month = substr($item['period'], 4, 2);
+                $item['formatted_date'] = format_date($year . '-' . $month . '-01', 'month_year');
+            } else {
+                $year = substr($item['period'], 0, 4);
+                $month = substr($item['period'], 4, 2);
+                $day = substr($item['period'], 6, 2);
+                $item['formatted_date'] = date('d M', strtotime("$year-$month-$day"));
+            }
         }
         return $data;
     }
@@ -88,7 +108,7 @@ class AnalyticsService extends BaseService
             'month'       => $month
         ];
 
-        $html = view('Admin/Analytics/monthly_report_print', $data);
+        $html = view('admin/reports/print', $data);
 
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);

@@ -1,4 +1,4 @@
-<?= $this->extend('Layouts/admin') ?>
+<?= $this->extend('layouts/admin') ?>
 
 <?= $this->section('page_title') ?>Detail Pengguna<?= $this->endSection() ?>
 
@@ -39,7 +39,7 @@
 
             <div class="pt-8 border-t border-slate-100 flex items-center space-x-3">
                 <a href="<?= base_url('admin/users/' . $user['id'] . '/edit') ?>" class="inline-flex items-center px-6 py-3 bg-blue-800 text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
-                    <i class="fas fa-fw fa-edit mr-2"></i>Edit Pengguna
+                    <i class="fas fa-fw fa-edit mr-2"></i>Ubah Pengguna
                 </a>
             </div>
         </div>

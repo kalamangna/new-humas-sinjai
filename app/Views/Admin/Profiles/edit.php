@@ -1,6 +1,6 @@
-<?= $this->extend('Layouts/admin') ?>
+<?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Edit Profil Pejabat<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Ubah Profil Pejabat<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/profiles') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -107,7 +107,7 @@
     </div>
 </div>
 
-<?= $this->include('Partials/admin_validation_script') ?>
+<?= $this->include('partials/admin_validation_script') ?>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

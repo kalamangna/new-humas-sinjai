@@ -1,6 +1,6 @@
-<?= $this->extend('Layouts/admin') ?>
+<?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Kelola Kategori<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Kategori Berita<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/categories/new') ?>" class="inline-flex items-center px-4 py-2 bg-blue-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
@@ -24,7 +24,7 @@
 </div>
 
 <!-- Stats -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
     <div class="bg-blue-800 p-6 rounded-2xl shadow-lg shadow-blue-900/20 text-white">
         <div class="flex justify-between items-center">
             <div>
@@ -32,15 +32,6 @@
                 <h3 class="text-3xl font-black mt-1"><?= $total_categories ?? '0' ?></h3>
             </div>
             <i class="fas fa-fw fa-folder text-3xl opacity-30"></i>
-        </div>
-    </div>
-    <div class="bg-emerald-600 p-6 rounded-2xl shadow-lg shadow-emerald-900/20 text-white">
-        <div class="flex justify-between items-center">
-            <div>
-                <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Aktif</p>
-                <h3 class="text-3xl font-black mt-1"><?= $active_categories ?? '0' ?></h3>
-            </div>
-            <i class="fas fa-fw fa-check-circle text-3xl opacity-30"></i>
         </div>
     </div>
     <div class="bg-sky-600 p-6 rounded-2xl shadow-lg shadow-sky-900/20 text-white">

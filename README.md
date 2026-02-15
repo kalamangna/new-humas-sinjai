@@ -24,77 +24,14 @@ Aplikasi web portal berita dan informasi publik untuk Humas Sinjai, dibangun den
   - Penelusuran Halaman Terpopuler.
   - Analisis Sumber Trafik dan Demografi Pengunjung.
   - **Ekspor Laporan PDF:** Cetak laporan statistik kunjungan bulanan secara otomatis.
+- **Modul Laporan Khusus:** Menu dedikasi untuk arsip publikasi berita bulanan dengan filter tahun/bulan yang fleksibel.
+
+### ⚙️ UI/UX & Konfigurasi Admin
+
+- **Sidebar Pintar:** Sidebar responsif dengan fitur toggle (Expand/Collapse) pada tampilan desktop untuk area kerja yang lebih luas. Status sidebar tersimpan secara otomatis di browser (*localStorage*).
+- **Standarisasi Terminologi:** Penggunaan istilah yang konsisten dan profesional (Berita, Penulis, Konsep, Terbitkan) di seluruh modul admin.
+- **Pusat Statistik & Analitik:** Dashboard yang terintegrasi langsung dengan **Google Analytics 4** untuk memantau:
+  - Ikhtisar Kunjungan harian/bulanan.
+  - Penelusuran Halaman Terpopuler.
+  - Analisis Sumber Trafik dan Demografi Pengunjung.
 - **Manajemen Konten (CMS):**
-  - **Editor Berita Modern:** Editor teks kaya (TinyMCE) dengan kemampuan unggah gambar otomatis dan fitur *paste* langsung dari clipboard.
-  - **AI SEO Assistant:** Integrasi **Gemini AI** untuk menyarankan Label (Tag) SEO secara otomatis berdasarkan konten berita.
-  - **Manajemen Media:** Pengaturan Banner Utama (Carousel) dan galeri unggahan.
-- **Sistem Role Berbasis Akses:** 
-  - **Administrator:** Akses penuh ke seluruh sistem dan konfigurasi pengguna.
-  - **Penulis (Author):** Akses terbatas pada pengelolaan konten berita dan analitik.
-- **Manajemen Taksonomi:** Pengelolaan Kategori Informasi dan Topik (Tag) secara dinamis.
-- **Manajemen Pejabat:** Pengelolaan data pimpinan daerah lengkap dengan foto dan biografi terformat.
-- **Keamanan:** Proteksi CSRF, sistem autentikasi admin, dan validasi input yang ketat.
-
-### 🚀 Teknologi & Integrasi
-
-- **Framework:** CodeIgniter 4.5+ (PHP 8.1+).
-- **Frontend Engine:** Tailwind CSS 3.4 (Modern, utility-first design).
-- **Arsitektur:** Service-Oriented Layer (Lapis Layanan) untuk logika bisnis yang bersih dan *maintainable*.
-- **AI Service:** Google Gemini API (Model: `gemini-1.5-flash`).
-- **Analytics Service:** Google Analytics 4 (via Google Cloud Service Account).
-- **Libraries:** TinyMCE, FontAwesome 6, Dompdf.
-
-## Persyaratan Sistem
-
-- PHP version 8.1 atau lebih baru.
-- Ekstensi PHP: `intl`, `mbstring`, `json`, `curl`, `gd` (untuk pengolahan gambar).
-- Database MySQL/MariaDB.
-- Composer & Node.js (untuk build Tailwind).
-
-## Konfigurasi Cepat
-
-1.  **Environment:**
-    Salin file `env` menjadi `.env` dan sesuaikan parameter berikut:
-
-    ```env
-    CI_ENVIRONMENT = production
-    app.baseURL = 'https://humas.sinjaikab.go.id/'
-
-    # Konfigurasi Database
-    database.default.hostname = localhost
-    database.default.database = humas_sinjai
-    database.default.username = root
-    database.default.password = 
-
-    # Integrasi Google Cloud & Analytics
-    GOOGLE_APPLICATION_CREDENTIALS = writable/keys/google-service-account.json
-    GA_PROPERTY_ID = '123456789'
-
-    # Integrasi AI
-    GEMINI_API_KEY = 'YOUR_API_KEY'
-
-    # Live Streaming
-    stream.radio.url = 'http://103.155.105.10:8000/stream'
-    ```
-
-2.  **Instalasi & Build:**
-
-    ```bash
-    composer install
-    npm install
-    npm run build
-    ```
-
-3.  **Migrasi Database:**
-
-    ```bash
-    php spark migrate
-    ```
-
-## Struktur Arsitektur
-
-- `app/Services`: Logika bisnis inti (Content, Media, Analytics, Auth).
-- `app/Controllers`: Handler permintaan (Thin Controllers).
-- `app/Models`: Definisi entitas data.
-- `app/Views`: Template UI berbasis komponen.
-- `public/uploads`: Penyimpanan media publik (Berita, Profil, Carousel).

@@ -27,12 +27,12 @@ class Users extends BaseController
             'current_user_id' => session()->get('user_id'),
         ]);
 
-        return $this->render('Admin/Users/index', $data);
+        return $this->render('admin/users/index', $data);
     }
 
     public function new()
     {
-        return $this->render('Admin/Users/new');
+        return $this->render('admin/users/new');
     }
 
     public function create()
@@ -49,7 +49,7 @@ class Users extends BaseController
         if (!$user) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the user: ' . $id);
         }
-        return $this->render('Admin/Users/show', ['user' => $user]);
+        return $this->render('admin/users/show', ['user' => $user]);
     }
 
     public function edit($id = null)
@@ -58,7 +58,7 @@ class Users extends BaseController
         if (!$user) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the user: ' . $id);
         }
-        return $this->render('Admin/Users/edit', ['user' => $user]);
+        return $this->render('admin/users/edit', ['user' => $user]);
     }
 
     public function update($id = null)
@@ -84,7 +84,7 @@ class Users extends BaseController
         if (!$user) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the user profile.');
         }
-        return $this->render('Admin/Users/profile', ['user' => $user]);
+        return $this->render('admin/users/profile', ['user' => $user]);
     }
 
     public function settings()
@@ -94,7 +94,7 @@ class Users extends BaseController
         if (!$user) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find user settings.');
         }
-        return $this->render('Admin/Users/settings', ['user' => $user]);
+        return $this->render('admin/users/settings', ['user' => $user]);
     }
 
     public function update_settings()

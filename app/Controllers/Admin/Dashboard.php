@@ -32,6 +32,6 @@ class Dashboard extends BaseController
             'lastPostUpdate' => $lastPost ? format_date($lastPost['published_at']) : 'N/A',
         ];
 
-        return $this->render('Admin/Dashboard/index', $data);
+        return $this->render('admin/dashboard/index', $data);
     }
 }

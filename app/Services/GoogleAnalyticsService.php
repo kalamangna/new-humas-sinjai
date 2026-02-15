@@ -39,21 +39,18 @@ class GoogleAnalyticsService
 
     protected function buildDateRanges(array $dateRanges): array
     {
-        // if (empty($dateRanges)) {
-        //     $dateRanges = [['start_date' => '28daysAgo', 'end_date' => 'today']];
-        // }
+        if (empty($dateRanges)) {
+            $dateRanges = [[
+                'start_date' => '2023-07-01', // Default start date for GA4
+                'end_date' => 'today',
+            ]];
+        }
 
-        // $ranges = [];
-        // foreach ($dateRanges as $range) {
-        //     $ranges[] = new DateRange($range);
-        // }
-        // return $ranges;
-
-        // get all time range
-        return [new DateRange([
-            'start_date' => '2023-07-01', // tanggal GA4 mulai merekam data
-            'end_date' => 'today',
-        ])];
+        $ranges = [];
+        foreach ($dateRanges as $range) {
+            $ranges[] = new DateRange($range);
+        }
+        return $ranges;
     }
 
     protected function buildDimensions(array $dimensions): array
@@ -82,6 +79,13 @@ class GoogleAnalyticsService
                 $orderByObjects[] = new OrderBy([
                     'metric' => new OrderBy\MetricOrderBy([
                         'metric_name' => $orderBy['metric']
+                    ]),
+                    'desc' => $orderBy['desc'] ?? true,
+                ]);
+            } elseif (isset($orderBy['dimension'])) {
+                $orderByObjects[] = new OrderBy([
+                    'dimension' => new OrderBy\DimensionOrderBy([
+                        'dimension_name' => $orderBy['dimension']
                     ]),
                     'desc' => $orderBy['desc'] ?? true,
                 ]);

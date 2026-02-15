@@ -7,7 +7,7 @@
                 $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
             ?>
             <?php if (!empty($thumbSrc)) : ?>
-                <img src="<?= $thumbSrc ?>" alt="<?= esc($post['title']) ?>" 
+                <img loading="lazy" src="<?= $thumbSrc ?>" alt="<?= esc($post['title']) ?>" 
                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
             <?php else: ?>
                 <div class="w-full h-full flex items-center justify-center">

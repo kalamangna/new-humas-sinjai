@@ -58,8 +58,19 @@ $routes->group('api', static function ($routes) {
 $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
     $routes->get('/', 'Admin\Dashboard::index');
     $routes->get('profile', 'Admin\Users::profile');
-    $routes->get('settings', 'Admin\Users::settings');
+    $routes->get('settings', 'Admin\Users::settings'); // Account settings
     $routes->post('users/update_settings', 'Admin\Users::update_settings');
+    
+    // Site Settings
+    $routes->get('site-settings', 'Admin\Settings::index');
+    $routes->post('settings/update', 'Admin\Settings::update');
+
+    // Reports
+    $routes->group('reports', static function ($routes) {
+        $routes->get('/', 'Admin\Reports::index');
+        $routes->get('(:num)/(:num)', 'Admin\Reports::index/$1/$2');
+        $routes->get('download-pdf/(:num)/(:num)', 'Admin\Reports::downloadPdf/$1/$2');
+    });
     
     // Admin Analytics
     $routes->group('analytics', static function ($routes) {
@@ -68,9 +79,6 @@ $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
         $routes->get('traffic-sources', 'Admin\Analytics::trafficSourcesView');
         $routes->get('geo', 'Admin\Analytics::geoView');
         $routes->get('device-category', 'Admin\Analytics::deviceCategoryView');
-        $routes->get('monthly-report/(:num)/(:num)', 'Admin\Analytics::monthlyReport/$1/$2');
-        $routes->get('monthly-report', 'Admin\Analytics::monthlyReport');
-        $routes->get('download-monthly-report/(:num)/(:num)', 'Admin\Analytics::downloadMonthlyReportPdf/$1/$2');
     });
 
     // Resources

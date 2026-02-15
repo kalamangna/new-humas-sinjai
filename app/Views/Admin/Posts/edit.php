@@ -1,6 +1,6 @@
-<?= $this->extend('Layouts/admin') ?>
+<?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Edit Informasi Berita<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Ubah Informasi Berita<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/posts') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -40,7 +40,7 @@
 
                 <!-- Content Section -->
                 <div class="space-y-4">
-                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Konten Informasi <span class="text-red-600">*</span></label>
+                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Isi Berita <span class="text-red-600">*</span></label>
                     <div class="<?= (isset(session('errors')['content'])) ? 'ring-2 ring-red-500 rounded-2xl overflow-hidden' : '' ?>">
                         <textarea name="content" id="content" rows="20" class="w-full"><?= old('content', $post['content']) ?></textarea>
                     </div>
@@ -54,7 +54,7 @@
                     <!-- Media Upload -->
                     <div class="space-y-6">
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Thumbnail Berita <span class="text-red-600">*</span></label>
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Gambar Utama <span class="text-red-600">*</span></label>
                             <div class="flex items-center space-x-2">
                                 <label class="flex-1 cursor-pointer">
                                     <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
@@ -84,7 +84,7 @@
                         </div>
 
                         <div id="published_at_container" class="space-y-4" style="display: <?= old('status', $post['status']) === 'published' ? 'block' : 'none' ?>;">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tanggal Publikasi</label>
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tanggal Terbit</label>
                             <input type="datetime-local" name="published_at" id="published_at" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-800 outline-none" value="<?= old('published_at', $post['published_at'] ? date('Y-m-d\TH:i', strtotime($post['published_at'])) : '') ?>">
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                     <!-- Category & Tags -->
                     <div class="space-y-8">
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kategori <span class="text-red-600">*</span></label>
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kategori Berita <span class="text-red-600">*</span></label>
                             <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 h-48 overflow-y-auto space-y-4 scrollbar-thin">
                                 <?php foreach ($categories as $category) : ?>
                                     <div>
@@ -113,7 +113,7 @@
                         </div>
 
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Label / Tags <span class="text-red-600">*</span></label>
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Label Berita <span class="text-red-600">*</span></label>
                             <?php 
                                 $oldTags = old('tags');
                                 $displayTags = !is_null($oldTags) ? (is_array($oldTags) ? $oldTags : explode(',', $oldTags)) : $post_tag_names;
@@ -130,11 +130,11 @@
                             <input type="hidden" name="tags" id="tags-input" value="<?= esc(implode(',', $displayTags)) ?>">
                             
                             <div class="flex gap-2">
-                                <input type="text" id="manual-tag-input" class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-800" placeholder="Tambah tag manual...">
+                                <input type="text" id="manual-tag-input" class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-800" placeholder="Tambah label manual...">
                                 <button type="button" id="add-manual-tag-btn" class="p-2 bg-slate-800 text-white rounded-xl hover:bg-slate-950 transition-all"><i class="fas fa-fw fa-plus"></i></button>
                             </div>
                             <button type="button" id="suggest-tags-btn" class="w-full py-3 bg-blue-50 text-blue-800 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-100 transition-all border border-blue-100">
-                                <i class="fas fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Analisa Ulang Tag (AI)
+                                <i class="fas fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Label via AI
                             </button>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
 
                 <input type="hidden" name="status" id="post-status" value="<?= old('status', $post['status']) ?>">
 
-                <!-- Submit Section -->
+                <!-- Simpan Section -->
                 <div class="pt-10 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-4">
                     <a href="<?= base_url('admin/posts') ?>" class="px-8 py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-slate-200 transition-all text-center">
                         Batal
@@ -156,7 +156,7 @@
                             Simpan Konsep
                         </button>
                         <button type="submit" onclick="document.getElementById('post-status').value='published'" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
-                            Tayangkan Sekarang
+                            Terbitkan Sekarang
                         </button>
                     <?php endif; ?>
                 </div>
@@ -165,7 +165,7 @@
     </div>
 </div>
 
-<?= $this->include('Partials/admin_validation_script') ?>
+<?= $this->include('partials/admin_validation_script') ?>
 
 <script>
     // Paste logic
@@ -204,7 +204,7 @@
     function addTag(tag) {
         if (!tag || Array.from(tagContainer.querySelectorAll('.tag-badge')).some(b => b.dataset.tag.toLowerCase() === tag.toLowerCase())) return;
         const badge = document.createElement('div');
-        badge.className = 'tag-badge inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-800 rounded-lg border border-blue-200';
+        badge.className = 'tag-badge inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-800 text-[10px] font-black uppercase tracking-widest rounded-lg border border-blue-200';
         badge.dataset.tag = tag;
         badge.innerHTML = `${tag} <button type="button" class="ml-2 hover:text-red-600"><i class="fas fa-fw fa-times-circle"></i></button>`;
         badge.querySelector('button').onclick = () => { badge.remove(); updateTagsInput(); };
@@ -225,7 +225,8 @@
             method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
             body: new URLSearchParams({ '<?= csrf_token() ?>': '<?= csrf_hash() ?>', title, content })
         }).then(r => r.json()).then(data => data.forEach(addTag)).finally(() => { 
-            this.disabled = false; this.innerHTML = '<i class="fas fa-fw fa-wand-magic-sparkles mr-2"></i>Analisa Ulang Tag (AI)'; 
+            this.disabled = false; 
+            this.innerHTML = '<i class="fas fa-fw fa-wand-magic-sparkles mr-2"></i>Sarankan Label via AI'; 
         });
     };
 </script>

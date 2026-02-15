@@ -22,7 +22,10 @@ class Home extends BaseController
         $data['posts'] = $this->postService->getPublicPosts()['posts'];
         $data['slides'] = (new CarouselSlideModel())->orderBy('slide_order', 'ASC')->findAll();
 
-        return view('Frontend/home', $data);
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Beranda';
+
+        return view('frontend/home/index', $data);
     }
 
     public function post($slug = null)
@@ -35,12 +38,6 @@ class Home extends BaseController
 
         $data = [
             'post'          => $post,
-            'title'         => $post['title'],
-            'description'   => substr(strip_tags($post['content']), 0, 160),
-            'keywords'      => implode(', ', array_column($post['tags'], 'name')),
-            'image'         => !empty($post['thumbnail']) 
-                                ? (filter_var($post['thumbnail'], FILTER_VALIDATE_URL) ? $post['thumbnail'] : base_url($post['thumbnail'])) 
-                                : base_url('meta.png'),
             'tags'          => $post['tags'],
             'recent_posts'  => $this->postService->getRecentPosts(5),
             'popular_posts' => $this->postService->getPopularPosts(5),
@@ -52,7 +49,16 @@ class Home extends BaseController
             )
         ];
 
-        return view('Frontend/post_detail', $data);
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = $post['title'];
+        $data['seo']['description'] = substr(strip_tags($post['content']), 0, 160);
+        $data['seo']['keywords'] = implode(', ', array_column($post['tags'], 'name'));
+        $data['seo']['image'] = !empty($post['thumbnail']) 
+                                ? (filter_var($post['thumbnail'], FILTER_VALIDATE_URL) ? $post['thumbnail'] : base_url($post['thumbnail'])) 
+                                : base_url('meta.png');
+        $data['seo']['type'] = 'article';
+
+        return view('frontend/posts/detail', $data);
     }
 
     public function category($slug)
@@ -69,12 +75,13 @@ class Home extends BaseController
             'category'    => $category,
             'posts'       => $result['posts'],
             'pager'       => $result['pager'],
-            'title'       => 'Kategori: ' . $category['name'],
-            'description' => 'Telusuri semua berita dalam kategori ' . $category['name'] . ' di Humas Sinjai.',
-            'keywords'    => 'Humas Sinjai, Berita Sinjai, ' . $category['name'],
         ];
 
-        return view('Frontend/category_detail', $data);
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Kategori: ' . $category['name'];
+        $data['seo']['description'] = 'Telusuri semua berita dalam kategori ' . $category['name'] . ' di Humas Sinjai.';
+
+        return view('frontend/categories/detail', $data);
     }
 
     public function tag($slug)
@@ -85,11 +92,6 @@ class Home extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the tag: ' . $slug);
         }
 
-        // We can reuse getAdminPosts or add a specific tag filter to getAdminPosts if needed
-        // For now, let's assume getAdminPosts can handle tag filter or we add it to Service
-        // Actually I didn't add tag filter to getAdminPosts. Let's fix that in Service later if needed.
-        // For now using custom logic or updating Service.
-        
         $postTagModel = new \App\Models\PostTagModel();
         $postIds = array_column($postTagModel->where('tag_id', $tag['id'])->findAll(), 'post_id');
 
@@ -104,11 +106,11 @@ class Home extends BaseController
         }
 
         $data['tag'] = $tag;
-        $data['title'] = 'Tag: ' . $tag['name'];
-        $data['description'] = 'Telusuri semua berita dengan tag ' . $tag['name'] . ' di Humas Sinjai.';
-        $data['keywords'] = 'Humas Sinjai, Berita Sinjai, ' . $tag['name'];
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Tag: ' . $tag['name'];
+        $data['seo']['description'] = 'Telusuri semua berita dengan tag ' . $tag['name'] . ' di Humas Sinjai.';
 
-        return view('Frontend/tag_detail', $data);
+        return view('frontend/tags/detail', $data);
     }
 
     public function search()
@@ -123,12 +125,12 @@ class Home extends BaseController
         $data = [
             'posts'       => $posts,
             'query'       => $query,
-            'title'       => 'Hasil pencarian untuk: ' . $query,
-            'description' => 'Hasil pencarian untuk kata kunci ' . $query . ' di Humas Sinjai.',
-            'keywords'    => 'pencarian, ' . $query,
         ];
 
-        return view('Frontend/search_results', $data);
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Hasil pencarian untuk: ' . $query;
+
+        return view('frontend/search/results', $data);
     }
 
     public function posts()
@@ -138,12 +140,12 @@ class Home extends BaseController
         $data = [
             'posts'       => $result['posts'],
             'pager'       => $result['pager'],
-            'title'       => 'Semua Berita',
-            'description' => 'Telusuri semua berita terbaru dari Humas Sinjai.',
-            'keywords'    => 'berita, humas sinjai, sinjai, berita terbaru',
         ];
 
-        return view('Frontend/posts', $data);
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Semua Berita';
+
+        return view('frontend/posts/index', $data);
     }
 
     public function categories()
@@ -170,12 +172,12 @@ class Home extends BaseController
         $data = [
             'categories' => $categories,
             'subCategories' => $subCategories,
-            'title' => 'Semua Kategori',
-            'description' => 'Telusuri semua kategori berita di Humas Sinjai.',
-            'keywords' => 'kategori, berita, humas sinjai, sinjai',
         ];
 
-        return view('Frontend/categories', $data);
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Semua Kategori';
+
+        return view('frontend/categories/index', $data);
     }
 
     public function tags()
@@ -188,12 +190,12 @@ class Home extends BaseController
                 ->groupBy('tags.id')
                 ->orderBy('tags.name', 'ASC')
                 ->findAll(),
-            'title' => 'Semua Tag',
-            'description' => 'Telusuri semua tag berita di Humas Sinjai.',
-            'keywords' => 'tag, berita, humas sinjai, sinjai',
         ];
 
-        return view('Frontend/tags', $data);
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Semua Tag';
+
+        return view('frontend/tags/index', $data);
     }
 
     public function rss()
@@ -207,7 +209,7 @@ class Home extends BaseController
             'posts' => $posts,
         ];
 
-        return view('Frontend/rss', $data);
+        return view('frontend/rss/index', $data);
     }
 
     public function sitemap()
@@ -223,7 +225,7 @@ class Home extends BaseController
         ];
 
         $this->response->setHeader('Content-Type', 'application/xml');
-        return view('Frontend/sitemap', $data);
+        return view('frontend/sitemap/index', $data);
     }
 
     public function programPrioritas()
@@ -253,17 +255,18 @@ class Home extends BaseController
             }
         }
 
-        $data['title'] = 'Program Prioritas';
-        $data['description'] = 'Program prioritas Pemerintah Kabupaten Sinjai.';
-        $data['keywords'] = 'program prioritas, sinjai, pemerintah kabupaten sinjai';
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Program Prioritas';
+        $data['seo']['description'] = 'Program prioritas Pemerintah Kabupaten Sinjai.';
 
-        return view('Frontend/program_prioritas', $data);
+        return view('frontend/pages/program_prioritas', $data);
     }
 
     public function error404()
     {
         $this->response->setStatusCode(404);
-        $data['title'] = 'Halaman Tidak Ditemukan';
+        $data['seo'] = $this->seoData;
+        $data['seo']['title'] = 'Halaman Tidak Ditemukan';
         return view('errors/html/error_404_frontend', $data);
     }
 }

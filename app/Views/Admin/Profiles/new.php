@@ -1,4 +1,4 @@
-<?= $this->extend('Layouts/admin') ?>
+<?= $this->extend('layouts/admin') ?>
 
 <?= $this->section('page_title') ?>Tambah Profil Baru<?= $this->endSection() ?>
 
@@ -103,7 +103,7 @@
     </div>
 </div>
 
-<?= $this->include('Partials/admin_validation_script') ?>
+<?= $this->include('partials/admin_validation_script') ?>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

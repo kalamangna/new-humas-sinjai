@@ -14,7 +14,7 @@ class TagService extends BaseService
         $this->tagModel = new TagModel();
     }
 
-    public function getValidationRules(int $id = null): array
+    public function getValidationRules(?int $id = null): array
     {
         return [
             'name' => 'required|min_length[2]|max_length[255]',

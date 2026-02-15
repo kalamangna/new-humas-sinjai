@@ -62,6 +62,10 @@ if (!function_exists('format_date')) {
                 return $monthNames[$month] . ' ' . $year;
             }
 
+            if ($format === 'month_only') {
+                return $monthNames[$month];
+            }
+
             // default (full) or short: include time
             return $day . ' ' . $monthNames[$month] . ' ' . $year . ', ' . $hour . ':' . $minute;
         } catch (Exception $e) {

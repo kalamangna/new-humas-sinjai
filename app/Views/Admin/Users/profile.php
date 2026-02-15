@@ -1,4 +1,4 @@
-<?= $this->extend('Layouts/admin') ?>
+<?= $this->extend('layouts/admin') ?>
 
 <?= $this->section('page_title') ?>Profil Saya<?= $this->endSection() ?>
 
@@ -31,7 +31,7 @@
 
                 <div class="text-center">
                     <a href="<?= base_url('admin/settings') ?>" class="inline-flex items-center px-6 py-3 bg-slate-100 text-slate-700 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-800 hover:text-white hover:border-blue-900 border border-slate-200 transition-all">
-                        <i class="fas fa-fw fa-user-cog mr-3 text-sm"></i>Edit Profil & Keamanan
+                        <i class="fas fa-fw fa-user-cog mr-3 text-sm"></i>Ubah Profil & Keamanan
                     </a>
                 </div>
             </div>

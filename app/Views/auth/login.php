@@ -1,4 +1,4 @@
-<?= $this->extend('Layouts/auth') ?>
+<?= $this->extend('layouts/auth') ?>
 
 <?= $this->section('content') ?>
 
@@ -24,7 +24,7 @@
         <div class="space-y-6">
             <!-- Email -->
             <div>
-                <label for="email" class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Identitas Email</label>
+                <label for="email" class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Email</label>
                 <div class="relative group">
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-300 group-focus-within:text-blue-800 transition-colors">
                         <i class="fas fa-fw fa-envelope"></i>
@@ -37,7 +37,7 @@
 
             <!-- Password -->
             <div>
-                <label for="password" class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Kredensial Password</label>
+                <label for="password" class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Password</label>
                 <div class="relative group">
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-300 group-focus-within:text-blue-800 transition-colors">
                         <i class="fas fa-fw fa-key"></i>
@@ -55,7 +55,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center">
                 <input id="remember" name="remember" type="checkbox" class="h-4 w-4 text-blue-800 focus:ring-blue-800 border-slate-300 rounded cursor-pointer" <?= old('remember') ? 'checked' : '' ?>>
-                <label for="remember" class="ml-2 block text-xs font-bold text-slate-500 uppercase tracking-tighter cursor-pointer">Ingat Perangkat</label>
+                <label for="remember" class="ml-2 block text-xs font-bold text-slate-500 uppercase tracking-tighter cursor-pointer">Ingat</label>
             </div>
             <div class="text-xs">
                 <a href="#" class="font-black text-blue-800 uppercase tracking-tighter hover:text-blue-900">Masalah Login?</a>
@@ -64,7 +64,7 @@
 
         <div>
             <button type="submit" class="group relative w-full flex justify-center py-4 px-4 bg-blue-800 text-white text-xs font-black uppercase tracking-[0.3em] rounded-2xl hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-800 transition-all shadow-xl shadow-blue-900/20">
-                Masuk Sistem
+                Masuk
                 <span class="absolute right-6 inset-y-0 flex items-center">
                     <i class="fas fa-fw fa-chevron-right text-xs group-hover:translate-x-1 transition-transform"></i>
                 </span>

@@ -14,7 +14,7 @@ class CategoryService extends BaseService
         $this->categoryModel = new CategoryModel();
     }
 
-    public function getValidationRules(int $id = null): array
+    public function getValidationRules(?int $id = null): array
     {
         return [
             'name' => 'required|min_length[3]|max_length[255]',

@@ -36,7 +36,7 @@ class Posts extends BaseController
             'today_posts'     => $stats['today']
         ]);
 
-        return $this->render('Admin/Posts/index', $data);
+        return $this->render('admin/posts/index', $data);
     }
 
     public function new()
@@ -47,7 +47,7 @@ class Posts extends BaseController
             'post_categories' => []
         ];
 
-        return $this->render('Admin/Posts/new', $data);
+        return $this->render('admin/posts/new', $data);
     }
 
     public function create()
@@ -106,7 +106,7 @@ class Posts extends BaseController
             'post_tag_names'  => array_column($post['tags'] ?? [], 'name'),
         ];
 
-        return $this->render('Admin/Posts/edit', $data);
+        return $this->render('admin/posts/edit', $data);
     }
 
     public function update($id = null)

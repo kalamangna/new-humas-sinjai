@@ -112,9 +112,9 @@
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
                                     <div class="w-20 h-12 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0 border border-slate-200">
-                                        <?php 
-                                            $thumbPath = $post['thumbnail'] ?? '';
-                                            $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
+                                        <?php
+                                        $thumbPath = $post['thumbnail'] ?? '';
+                                        $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
                                         ?>
                                         <?php if (!empty($thumbSrc)) : ?>
                                             <img src="<?= $thumbSrc ?>" class="w-full h-full object-cover">
@@ -194,7 +194,7 @@
             Total Data: <span class="text-slate-900"><?= number_format($pager->getTotal('posts')) ?></span> Berita
         </div>
         <div>
-            <?= $pager->only(['search', 'category', 'author'])->links('posts', 'custom_bootstrap') ?>
+            <?= $pager->only(['search', 'category', 'author'])->links('posts', 'custom_pager') ?>
         </div>
     </div>
 <?php endif; ?>

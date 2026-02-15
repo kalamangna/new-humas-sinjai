@@ -127,7 +127,7 @@
             Total Data: <span class="text-slate-900"><?= number_format($pager->getTotal()) ?></span> Kategori
         </div>
         <div>
-            <?= $pager->links('default', 'custom_bootstrap') ?>
+            <?= $pager->links('default', 'custom_pager') ?>
         </div>
     </div>
 <?php endif; ?>

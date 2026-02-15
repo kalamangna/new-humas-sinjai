@@ -103,7 +103,7 @@
                     Menampilkan Arsip Berita berdasarkan Tag <span class="text-blue-800">#<?= esc($tag['name'] ?? '') ?></span>.
                 </div>
                 <div>
-                    <?= $pager->links('default', 'custom_bootstrap') ?>
+                    <?= $pager->links('default', 'custom_pager') ?>
                 </div>
             </div>
         <?php endif; ?>

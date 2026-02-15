@@ -60,7 +60,7 @@
                     Menampilkan Arsip Berita dalam kategori <span class="text-blue-800"><?= esc($category['name'] ?? '') ?></span>.
                 </div>
                 <div>
-                    <?= $pager->links('default', 'custom_bootstrap') ?>
+                    <?= $pager->links('default', 'custom_pager') ?>
                 </div>
             </div>
         <?php endif; ?>

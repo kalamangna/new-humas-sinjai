@@ -105,7 +105,7 @@
                     Menampilkan <span class="text-slate-900"><?= number_format(count($posts)) ?></span> Data Hasil Penelusuran.
                 </div>
                 <div>
-                    <?= $pager->links('default', 'custom_bootstrap') ?>
+                    <?= $pager->links('default', 'custom_pager') ?>
                 </div>
             </div>
         <?php endif; ?>

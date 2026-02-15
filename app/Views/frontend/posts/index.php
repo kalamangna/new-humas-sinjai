@@ -104,7 +104,7 @@
                     Menampilkan <span class="text-slate-900"><?= number_format($pager->getCurrentPage() * $pager->getPerPage() - ($pager->getPerPage() - 1)) ?>-<?= number_format(min($pager->getCurrentPage() * $pager->getPerPage(), $pager->getTotal())) ?></span> dari <span class="text-blue-800"><?= number_format($pager->getTotal()) ?></span> Berita
                 </div>
                 <div>
-                    <?= $pager->links('default', 'custom_bootstrap') ?>
+                    <?= $pager->links('default', 'custom_pager') ?>
                 </div>
             </div>
         <?php endif; ?>

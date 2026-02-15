@@ -123,7 +123,7 @@
             Total Data: <span class="text-slate-900"><?= number_format($pager->getTotal()) ?></span> Tag Berita
         </div>
         <div>
-            <?= $pager->links('default', 'custom_bootstrap') ?>
+            <?= $pager->links('default', 'custom_pager') ?>
         </div>
     </div>
 <?php endif; ?>

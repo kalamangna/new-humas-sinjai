@@ -99,7 +99,7 @@
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
                     <th class="px-6 py-4">Informasi Berita</th>
-                    <th class="px-6 py-4">Kategori & Label</th>
+                    <th class="px-6 py-4">Kategori & Tag</th>
                     <th class="px-6 py-4">Status</th>
                     <th class="px-6 py-4">Statistik</th>
                     <th class="px-6 py-4 text-right">Aksi</th>
@@ -136,7 +136,7 @@
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </div>
-                                <div class="text-[9px] text-slate-400 font-bold uppercase tracking-widest"><i class="fas fa-fw fa-tags mr-1"></i><?= $post['tag_count'] ?> Label</div>
+                                <div class="text-[9px] text-slate-400 font-bold uppercase tracking-widest"><i class="fas fa-fw fa-tags mr-1"></i><?= $post['tag_count'] ?> Tag</div>
                             </td>
                             <td class="px-6 py-4">
                                 <?php if ($post['status'] === 'published') : ?>

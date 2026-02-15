@@ -2,7 +2,7 @@
 
 <?= $this->section('schema') ?>
 <?= generate_schema_breadcrumb([
-    'Label' => current_url()
+    'Tag' => current_url()
 ]) ?>
 <?= $this->endSection() ?>
 
@@ -20,7 +20,7 @@
             <li>
                 <div class="flex items-center">
                     <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Indeks Topik</span>
+                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Semua Tag</span>
                 </div>
             </li>
         </ol>
@@ -28,7 +28,7 @@
 
     <!-- Header Section -->
     <div class="text-center mb-8">
-        <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Klasifikasi Berita</p>
+        <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Informasi Terkait</p>
         <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight uppercase">
             <?= esc($seo['title']) ?>
         </h1>
@@ -59,7 +59,7 @@
                 <i class="fas fa-fw fa-tags text-5xl"></i>
             </div>
             <h2 class="text-3xl font-black text-slate-900 mb-4 tracking-tight">Belum Ada Tag</h2>
-            <p class="text-slate-500 mb-8 leading-relaxed font-medium">Saat ini sistem belum memiliki label kata kunci atau tag untuk klasifikasi berita. Silakan kembali lagi nanti.</p>
+            <p class="text-slate-500 mb-8 leading-relaxed font-medium">Saat ini sistem belum memiliki kata kunci atau tag untuk klasifikasi berita. Silakan kembali lagi nanti.</p>
             <a href="<?= base_url() ?>" class="inline-flex items-center px-10 py-5 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
                 <i class="fas fa-fw fa-home mr-3 text-base"></i>Beranda Utama
             </a>

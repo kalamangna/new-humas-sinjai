@@ -90,7 +90,8 @@ class PostModel extends Model
 
         $slugs = array_column($posts, 'slug');
         $gaModel = new \App\Models\GoogleAnalyticsModel();
-        $viewsData = $gaModel->getViewsBySlug($slugs);
+        // Pass null for startDate and endDate to use the getViewsBySlug's default (all-time)
+        $viewsData = $gaModel->getViewsBySlug($slugs, null, null);
 
         foreach ($posts as &$post) {
             $post['views'] = $viewsData[$post['slug']] ?? 0;
@@ -101,17 +102,44 @@ class PostModel extends Model
 
     public function getPopularPosts()
     {
-        $posts = $this->where('status', 'published')
-            ->orderBy('published_at', 'DESC')
+        $gaModel = new \App\Models\GoogleAnalyticsModel();
+        // Get more than 5 to account for potential mismatches or unpublished posts
+        $popularGA = $gaModel->getPopularPosts('2023-07-01', 'today');
+        
+        if (empty($popularGA)) {
+            return $this->getRecentPosts();
+        }
+
+        $slugs = [];
+        $viewsMap = [];
+        foreach ($popularGA as $item) {
+            // Extract slug from path like /post/slug-name or /v1/post/slug-name
+            if (preg_match('/\/post\/([^\/\?]+)/', $item['path'], $matches)) {
+                $slug = $matches[1];
+                $slugs[] = $slug;
+                $viewsMap[$slug] = $item['views'];
+            }
+        }
+
+        if (empty($slugs)) {
+            return $this->getRecentPosts();
+        }
+
+        $posts = $this->whereIn('slug', $slugs)
+            ->where('status', 'published')
             ->findAll();
 
-        $postsWithGA = $this->addGAData($posts);
+        // Add views from our map
+        foreach ($posts as &$post) {
+            $post['views'] = $viewsMap[$post['slug']] ?? 0;
+        }
 
-        usort($postsWithGA, function ($a, $b) {
-            return ($b['views'] ?? 0) - ($a['views'] ?? 0);
+        // Re-sort by views because whereIn doesn't preserve order
+        usort($posts, function ($a, $b) {
+            return $b['views'] - $a['views'];
         });
 
-        return array_slice($postsWithGA, 0, 5);
+        return array_slice($posts, 0, 5);
     }
 
     public function getRecentPosts()

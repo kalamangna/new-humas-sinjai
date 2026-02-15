@@ -107,7 +107,7 @@
                         </div>
 
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Label Berita <span class="text-red-600">*</span></label>
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tag Berita <span class="text-red-600">*</span></label>
                             <?php 
                                 $oldTags = old('tags');
                                 $displayTags = !is_null($oldTags) ? (is_array($oldTags) ? $oldTags : explode(',', $oldTags)) : [];
@@ -124,11 +124,11 @@
                             <input type="hidden" name="tags" id="tags-input" value="<?= esc(implode(',', $displayTags)) ?>">
                             
                             <div class="flex gap-2">
-                                <input type="text" id="manual-tag-input" class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-800" placeholder="Tambah label manual...">
+                                <input type="text" id="manual-tag-input" class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-800" placeholder="Tambah tag manual...">
                                 <button type="button" id="add-manual-tag-btn" class="p-2 bg-slate-800 text-white rounded-xl hover:bg-slate-950 transition-all"><i class="fas fa-fw fa-plus"></i></button>
                             </div>
                             <button type="button" id="suggest-tags-btn" class="w-full py-3 bg-blue-50 text-blue-800 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-100 transition-all border border-blue-100">
-                                <i class="fas fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Label via AI
+                                <i class="fas fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Tag via AI
                             </button>
                         </div>
                     </div>
@@ -215,7 +215,7 @@
         .then(r => r.json()).then(data => data.forEach(addTag))
         .finally(() => { 
             this.disabled = false; 
-            this.innerHTML = '<i class="fas fa-fw fa-wand-magic-sparkles mr-2"></i>Sarankan Label via AI'; 
+            this.innerHTML = '<i class="fas fa-fw fa-wand-magic-sparkles mr-2"></i>Sarankan Tag via AI'; 
         });
     };
 </script>

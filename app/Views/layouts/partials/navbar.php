@@ -48,7 +48,7 @@
                                 <?php endif; ?>
                                 <div class="border-t border-slate-100 mt-2 pt-2">
                                     <a href="<?= base_url('categories') ?>" class="block px-4 py-3 text-xs font-black text-blue-800 hover:bg-blue-50 uppercase tracking-widest">
-                                        Seluruh Kategori
+                                        Semua Kategori
                                     </a>
                                 </div>
                             </div>

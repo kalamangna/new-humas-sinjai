@@ -180,9 +180,11 @@ class GoogleAnalyticsModel extends Model
             'order_bys' => [['metric' => 'screenPageViews', 'desc' => true]],
         ];
 
-        if ($startDate && $endDate) {
-            $config['date_ranges'] = [['start_date' => $startDate, 'end_date' => $endDate]];
-        }
+        // Default to '2023-07-01' (all time) for "Popularity" if no dates provided
+        $startDate = $startDate ?? '2023-07-01';
+        $endDate = $endDate ?? 'today';
+
+        $config['date_ranges'] = [['start_date' => $startDate, 'end_date' => $endDate]];
 
         $data = $this->gaService->runReport($config);
 
@@ -292,14 +294,17 @@ class GoogleAnalyticsModel extends Model
         return $this->getUserStats($startDate, $endDate);
     }
 
-    public function getViewsBySlug(array $slugs = []): array
+    public function getViewsBySlug(array $slugs = [], ?string $startDate = null, ?string $endDate = null): array
     {
         if (empty($slugs)) return [];
+
+        $startDate = $startDate ?? '2023-07-01';
+        $endDate = $endDate ?? 'today';
 
         $response = $this->gaService->runReport([
             'dimensions' => ['pagePath'],
             'metrics' => ['screenPageViews'],
-            'date_ranges' => [['start_date' => '30daysAgo', 'end_date' => 'today']],
+            'date_ranges' => [['start_date' => $startDate, 'end_date' => $endDate]],
         ]);
 
         $views = [];

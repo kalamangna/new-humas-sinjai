@@ -37,10 +37,10 @@
                 </h3>
                 <ul class="space-y-4 text-xs font-bold uppercase tracking-widest">
                     <li><a href="<?= base_url('/') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Beranda</a></li>
-                    <li><a href="<?= base_url('about') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Tentang</a></li>
-                    <li><a href="<?= base_url('contact') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Kontak</a></li>
-                    <li><a href="<?= base_url('widget') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Widget</a></li>
-                    <li><a href="<?= base_url('rss') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>RSS</a></li>
+                    <li><a href="<?= base_url('about') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Tentang Kami</a></li>
+                    <li><a href="<?= base_url('contact') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Hubungi Kami</a></li>
+                    <li><a href="<?= base_url('widget') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Panduan Widget</a></li>
+                    <li><a href="<?= base_url('rss') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>RSS Feed</a></li>
                 </ul>
             </div>
 
@@ -64,7 +64,7 @@
             <!-- Lapor -->
             <div class="text-center sm:text-left">
                 <h3 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-10 flex items-center justify-center sm:justify-start">
-                    <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>Pengaduan Publik
+                    <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>Pengaduan
                 </h3>
                 <a href="https://lapor.go.id/" target="_blank" class="inline-block bg-white p-4 rounded-2xl shadow-2xl hover:shadow-blue-900/20 transition-all hover:-translate-y-1">
                     <img src="<?= base_url('lapor.png') ?>" alt="Lapor" class="h-14 w-auto">

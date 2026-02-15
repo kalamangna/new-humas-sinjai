@@ -2,8 +2,7 @@
 
 <?= $this->section('schema') ?>
 <?= generate_schema_breadcrumb([
-    'Live' => current_url(),
-    'Radio' => current_url()
+    'Radio SB FM' => current_url()
 ]) ?>
 <?= $this->endSection() ?>
 
@@ -21,13 +20,7 @@
             <li>
                 <div class="flex items-center">
                     <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none uppercase">Live Streaming</span>
-                </div>
-            </li>
-            <li>
-                <div class="flex items-center">
-                    <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none uppercase">Radio</span>
+                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Suara Bersatu FM</span>
                 </div>
             </li>
         </ol>

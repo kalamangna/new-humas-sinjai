@@ -20,7 +20,7 @@
             <li>
                 <div class="flex items-center">
                     <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Panduan Integrasi</span>
+                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Panduan Widget</span>
                 </div>
             </li>
         </ol>
@@ -30,7 +30,7 @@
     <div class="text-center mb-8">
         <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Layanan Pengembang</p>
         <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight uppercase">
-            Widget Berita
+            Panduan Widget
         </h1>
         <div class="mt-4 w-24 h-2 bg-blue-800 mx-auto rounded-full shadow-lg shadow-blue-900/20"></div>
     </div>

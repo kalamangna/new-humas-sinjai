@@ -20,7 +20,7 @@
             <li>
                 <div class="flex items-center">
                     <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Pencarian Informasi</span>
+                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Hasil Pencarian</span>
                 </div>
             </li>
         </ol>
@@ -59,12 +59,12 @@
                 <article class="group bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col border border-slate-200">
                     <div class="relative h-60 overflow-hidden">
                         <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="block h-full">
-                            <?php 
-                                $thumbPath = $post['thumbnail'] ?? '';
-                                $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
+                            <?php
+                            $thumbPath = $post['thumbnail'] ?? '';
+                            $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
                             ?>
                             <?php if (!empty($thumbSrc)) : ?>
-                                <img loading="lazy" src="<?= $thumbSrc ?>" alt="<?= esc($post['title']) ?>" 
+                                <img loading="lazy" src="<?= $thumbSrc ?>" alt="<?= esc($post['title']) ?>"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <?php else: ?>
                                 <div class="w-full h-full bg-slate-50 flex items-center justify-center">
@@ -120,13 +120,13 @@
             <p class="text-slate-500 mb-8 max-w-xl mx-auto leading-relaxed font-medium">
                 Mohon maaf, sistem tidak menemukan informasi yang sesuai dengan kata kunci <span class="text-blue-800 font-black italic">"<?= esc($query) ?>"</span>. Silakan gunakan kata kunci yang lebih spesifik atau umum.
             </p>
-            
+
             <div class="flex flex-wrap gap-4 justify-center mb-10">
                 <a href="<?= base_url('/') ?>" class="inline-flex items-center px-8 py-4 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
-                    <i class="fas fa-fw fa-home mr-3 text-base"></i>Beranda Utama
+                    <i class="fas fa-fw fa-home mr-3 text-base"></i>Beranda
                 </a>
                 <a href="<?= base_url('categories') ?>" class="inline-flex items-center px-8 py-4 bg-slate-100 text-slate-700 font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-slate-200 transition-all border border-slate-200">
-                    <i class="fas fa-fw fa-folder mr-3 text-base"></i>Indeks Kategori
+                    <i class="fas fa-fw fa-folder mr-3 text-base"></i>Semua Kategori
                 </a>
             </div>
 
@@ -146,11 +146,11 @@
                     </div>
                     <div class="flex items-start space-x-4">
                         <div class="bg-blue-100 text-blue-800 p-1.5 rounded-lg flex-shrink-0 mt-0.5"><i class="fas fa-fw fa-check text-[10px]"></i></div>
-                        <p class="text-slate-600 text-sm font-medium leading-relaxed">Coba gunakan variasi kata lain atau sinonim yang berkaitan dengan topik berita.</p>
+                        <p class="text-slate-600 text-sm font-medium leading-relaxed">Coba gunakan variasi kata lain atau sinonim yang berkaitan dengan Tag berita.</p>
                     </div>
                     <div class="flex items-start space-x-4">
                         <div class="bg-blue-100 text-blue-800 p-1.5 rounded-lg flex-shrink-0 mt-0.5"><i class="fas fa-fw fa-check text-[10px]"></i></div>
-                        <p class="text-slate-600 text-sm font-medium leading-relaxed">Gunakan menu Kategori jika anda ingin mencari berita berdasarkan topik khusus.</p>
+                        <p class="text-slate-600 text-sm font-medium leading-relaxed">Gunakan menu Kategori jika anda ingin mencari berita berdasarkan Tag khusus.</p>
                     </div>
                 </div>
             </div>

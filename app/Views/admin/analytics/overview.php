@@ -38,10 +38,12 @@
             <label class="block text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 pl-1">Selesai</label>
             <input type="date" id="end-date" class="h-9 px-3 border border-slate-200 rounded-xl text-[11px] font-bold text-slate-700 focus:ring-2 focus:ring-blue-800 outline-none w-full sm:w-auto">
         </div>
-        <button type="button" onclick="applyCustomDates()" class="h-9 px-4 bg-blue-800 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20 w-full sm:w-auto">OK</button>
+        <button type="button" onclick="applyCustomDates()" id="apply-custom-btn" class="inline-flex items-center justify-center h-9 px-4 bg-blue-800 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20 w-full sm:w-auto">
+            <span id="apply-text">OK</span>
+            <div id="apply-spinner" class="hidden w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+        </button>
     </div>
 </div>
-<?= $this->endSection() ?>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -216,8 +218,8 @@
         loadAllData();
     });
 
-    function setPeriod(period, label) {
-        document.getElementById('selected-period-label').innerText = label;
+    function setPeriod(period, periodLabel) {
+        document.getElementById('selected-period-label').innerText = periodLabel;
         document.getElementById('custom-date-container').classList.add('hidden');
         
         const now = new Date();
@@ -268,12 +270,28 @@
             return;
         }
 
+        const applyBtn = document.getElementById('apply-custom-btn');
+        const applyText = document.getElementById('apply-text');
+        const applySpinner = document.getElementById('apply-spinner');
+
+        if (applyBtn) applyBtn.disabled = true;
+        if (applyText) applyText.classList.add('hidden');
+        if (applySpinner) applySpinner.classList.remove('hidden');
+
         currentStartDate = start;
         currentEndDate = end;
         document.getElementById('selected-period-label').innerText = `${start} s/d ${end}`;
         
         updateAdvancedLinks();
-        loadAllData();
+        
+        // Wrapped in loadAllData logic but we want to know when it's done to reset the button
+        loadOverview().finally(() => {
+            if (applyBtn) applyBtn.disabled = false;
+            if (applyText) applyText.classList.remove('hidden');
+            if (applySpinner) applySpinner.classList.add('hidden');
+        });
+        loadPostStats();
+        loadUserStats();
     }
 
     function updateAdvancedLinks() {
@@ -288,6 +306,21 @@
     }
 
     function loadAllData() {
+        // Reset metrics to loading state with spinners
+        const metrics = [
+            { id: 'total-users', color: 'border-t-blue-800' },
+            { id: 'new-users', color: 'border-t-emerald-600' },
+            { id: 'screen-page-views', color: 'border-t-sky-600' },
+            { id: 'sessions', color: 'border-t-amber-600' },
+            { id: 'bounce-rate', color: 'border-t-rose-600' },
+            { id: 'average-session-duration', color: 'border-t-indigo-600' }
+        ];
+
+        metrics.forEach(m => {
+            const el = document.getElementById(m.id);
+            if (el) el.innerHTML = `<div class="w-6 h-6 border-2 border-slate-100 ${m.color} rounded-full animate-spin ml-auto mb-1"></div>`;
+        });
+
         loadOverview();
         loadPostStats();
         loadUserStats();
@@ -298,7 +331,7 @@
         url.searchParams.set('start_date', currentStartDate);
         url.searchParams.set('end_date', currentEndDate);
 
-        fetch(url)
+        return fetch(url)
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'error') throw new Error(data.message);
@@ -327,7 +360,10 @@
             })
             .catch((err) => {
                 console.error(err);
-                ['total-users', 'new-users', 'sessions', 'screen-page-views', 'bounce-rate', 'average-session-duration'].forEach(id => document.getElementById(id).textContent = 'ERR');
+                ['total-users', 'new-users', 'sessions', 'screen-page-views', 'bounce-rate', 'average-session-duration'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = 'ERR';
+                });
             });
     }
 

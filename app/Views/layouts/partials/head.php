@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>?v=<?= filemtime(FCPATH . 'assets/css/app.css') ?>">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="<?= base_url('assets/fontawesome/css/all.min.css') ?>">
 
     <!-- JSON-LD Schemas -->
     <?= generate_schema_org() ?>

@@ -21,7 +21,7 @@
             <li>
                 <div class="flex items-center">
                     <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <a href="<?= base_url('categories') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">Kategori Berita</a>
+                    <a href="<?= base_url('categories') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">Semua Kategori</a>
                 </div>
             </li>
             <li>
@@ -75,10 +75,10 @@
             <p class="text-slate-500 mb-8 leading-relaxed font-medium">Maaf, saat ini belum tersedia berita dalam kategori ini. Silakan jelajahi kategori lainnya atau kembali ke beranda.</p>
             <div class="flex flex-wrap gap-4 justify-center">
                 <a href="<?= base_url('/') ?>" class="inline-flex items-center px-8 py-4 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
-                    <i class="fas fa-fw fa-home mr-3 text-base"></i>Beranda Utama
+                    <i class="fas fa-fw fa-home mr-3 text-base"></i>Beranda
                 </a>
                 <a href="<?= base_url('categories') ?>" class="inline-flex items-center px-8 py-4 bg-slate-100 text-slate-700 font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-slate-200 transition-all border border-slate-200">
-                    <i class="fas fa-fw fa-folder-tree mr-3 text-base"></i>Seluruh Kategori
+                    <i class="fas fa-fw fa-folder-tree mr-3 text-base"></i>Semua Kategori
                 </a>
             </div>
         </div>

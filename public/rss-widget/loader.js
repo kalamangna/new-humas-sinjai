@@ -24,7 +24,7 @@
       if (!document.querySelector('link[href*="font-awesome"]')) {
         const fa = document.createElement('link');
         fa.rel = 'stylesheet';
-        fa.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css';
+        fa.href = 'https://humas.sinjaikab.go.id/assets/fontawesome/css/all.min.css';
         document.head.appendChild(fa);
       }
 

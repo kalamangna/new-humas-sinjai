@@ -2,8 +2,7 @@
 
 <?= $this->section('schema') ?>
 <?= generate_schema_breadcrumb([
-    'Profil' => base_url('profil/pejabat-daerah'),
-    ($profile['name'] ?? 'Detail') => current_url()
+    $seo['title'] => current_url()
 ]) ?>
 <?= $this->endSection() ?>
 
@@ -21,13 +20,7 @@
             <li>
                 <div class="flex items-center">
                     <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Profil Pejabat</span>
-                </div>
-            </li>
-            <li>
-                <div class="flex items-center">
-                    <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none normal-case"><?= esc($seo['title']) ?></span>
+                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none"><?= esc($seo['title']) ?></span>
                 </div>
             </li>
         </ol>

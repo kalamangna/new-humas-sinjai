@@ -39,10 +39,10 @@ class Tags extends BaseController
         }
 
         if ($this->tagService->saveTag($data)) {
-            return redirect()->to(base_url('admin/tags'))->with('success', 'Label berhasil dibuat.');
+            return redirect()->to(base_url('admin/tags'))->with('success', 'Tag berhasil dibuat.');
         }
 
-        return redirect()->back()->withInput()->with('error', 'Gagal membuat label.');
+        return redirect()->back()->withInput()->with('error', 'Gagal membuat tag.');
     }
 
     public function edit($id = null)
@@ -62,17 +62,17 @@ class Tags extends BaseController
         }
 
         if ($this->tagService->saveTag($data, (int)$id)) {
-            return redirect()->to(base_url('admin/tags'))->with('success', 'Label berhasil diperbarui.');
+            return redirect()->to(base_url('admin/tags'))->with('success', 'Tag berhasil diperbarui.');
         }
 
-        return redirect()->back()->withInput()->with('error', 'Gagal memperbarui label.');
+        return redirect()->back()->withInput()->with('error', 'Gagal memperbarui tag.');
     }
 
     public function delete($id = null)
     {
         if ($this->tagService->deleteTag((int)$id)) {
-            return redirect()->to(base_url('admin/tags'))->with('success', 'Label berhasil dihapus.');
+            return redirect()->to(base_url('admin/tags'))->with('success', 'Tag berhasil dihapus.');
         }
-        return redirect()->to(base_url('admin/tags'))->with('error', 'Gagal menghapus label.');
+        return redirect()->to(base_url('admin/tags'))->with('error', 'Gagal menghapus tag.');
     }
 }

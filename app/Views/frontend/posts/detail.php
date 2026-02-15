@@ -22,7 +22,13 @@
             <li>
                 <div class="flex items-center">
                     <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none normal-case"><?= esc($post['title']) ?></span>
+                    <a href="<?= base_url('posts') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">Indeks Berita</a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none"><?= esc($post['title']) ?></span>
                 </div>
             </li>
         </ol>
@@ -71,9 +77,9 @@
                     </div>
 
                     <?php if (!empty($post['thumbnail'])) : ?>
-                        <?php 
-                            $thumbPath = $post['thumbnail'] ?? '';
-                            $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
+                        <?php
+                        $thumbPath = $post['thumbnail'] ?? '';
+                        $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
                         ?>
                         <?php if (!empty($thumbSrc)) : ?>
                             <figure class="mb-8">
@@ -98,11 +104,11 @@
                             <i class="fas fa-fw fa-share-alt mr-3 text-blue-800"></i>Bagikan Berita
                         </h2>
                         <div class="flex flex-wrap gap-3">
-                            <?php 
-                                $share_url = current_url(); 
-                                $share_title = esc($post['title']);
+                            <?php
+                            $share_url = current_url();
+                            $share_title = esc($post['title']);
                             ?>
-                            
+
                             <!-- WhatsApp -->
                             <a href="https://api.whatsapp.com/send?text=<?= urlencode($share_url) ?>" target="_blank"
                                 class="inline-flex items-center px-5 py-2.5 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
@@ -139,7 +145,7 @@
                     <?php if (!empty($tags)) : ?>
                         <div class="mt-12 pt-10 border-t border-slate-100">
                             <div class="flex items-center flex-wrap gap-3">
-                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mr-2">Topik Terkait:</span>
+                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mr-2">Tag Terkait:</span>
                                 <?php foreach ($tags as $tag) : ?>
                                     <a href="<?= base_url('tag/' . esc($tag['slug'])) ?>"
                                         class="px-4 py-1.5 bg-slate-50 text-slate-600 text-[10px] font-black uppercase tracking-widest rounded-lg border border-slate-200 hover:bg-blue-800 hover:text-white hover:border-blue-900 transition-all">
@@ -160,9 +166,9 @@
                 <?php if (!empty($related_posts)) : ?>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <?php foreach ($related_posts as $related) : ?>
-                            <?php 
-                                $relThumbPath = $related['thumbnail'] ?? '';
-                                $relThumbSrc = filter_var($relThumbPath, FILTER_VALIDATE_URL) ? $relThumbPath : (!empty($relThumbPath) ? base_url($relThumbPath) : '');
+                            <?php
+                            $relThumbPath = $related['thumbnail'] ?? '';
+                            $relThumbSrc = filter_var($relThumbPath, FILTER_VALIDATE_URL) ? $relThumbPath : (!empty($relThumbPath) ? base_url($relThumbPath) : '');
                             ?>
                             <a href="<?= base_url('post/' . esc($related['slug'])) ?>" class="group block relative rounded-2xl overflow-hidden aspect-[16/10] border border-slate-200 shadow-sm">
                                 <img loading="lazy" src="<?= $relThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Related">
@@ -194,9 +200,9 @@
                 <div class="p-8 space-y-8">
                     <?php if (!empty($recent_posts)) : ?>
                         <?php foreach ($recent_posts as $recent) : ?>
-                            <?php 
-                                $recThumbPath = $recent['thumbnail'] ?? '';
-                                $recThumbSrc = filter_var($recThumbPath, FILTER_VALIDATE_URL) ? $recThumbPath : (!empty($recThumbPath) ? base_url($recThumbPath) : '');
+                            <?php
+                            $recThumbPath = $recent['thumbnail'] ?? '';
+                            $recThumbSrc = filter_var($recThumbPath, FILTER_VALIDATE_URL) ? $recThumbPath : (!empty($recThumbPath) ? base_url($recThumbPath) : '');
                             ?>
                             <a href="<?= base_url('post/' . esc($recent['slug'])) ?>" class="group flex gap-5">
                                 <div class="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden shadow-md border border-slate-100">
@@ -234,9 +240,9 @@
                 <div class="p-8 space-y-8">
                     <?php if (!empty($popular_posts)) : ?>
                         <?php foreach ($popular_posts as $popular) : ?>
-                            <?php 
-                                $popThumbPath = $popular['thumbnail'] ?? '';
-                                $popThumbSrc = filter_var($popThumbPath, FILTER_VALIDATE_URL) ? $popThumbPath : (!empty($popThumbPath) ? base_url($popThumbPath) : '');
+                            <?php
+                            $popThumbPath = $popular['thumbnail'] ?? '';
+                            $popThumbSrc = filter_var($popThumbPath, FILTER_VALIDATE_URL) ? $popThumbPath : (!empty($popThumbPath) ? base_url($popThumbPath) : '');
                             ?>
                             <a href="<?= base_url('post/' . esc($popular['slug'])) ?>" class="group flex gap-5">
                                 <div class="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden shadow-md border border-slate-100">

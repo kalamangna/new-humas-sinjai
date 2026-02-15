@@ -28,7 +28,7 @@
                                 </a>
                                 <a href="<?= base_url('admin/tags') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/tags*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
                                     <i class="fas fa-fw fa-tags w-6 opacity-75"></i>
-                                    <span class="ml-3 font-medium text-sm sidebar-item-text">Label Berita</span>
+                                    <span class="ml-3 font-medium text-sm sidebar-item-text">Tag Berita</span>
                                 </a>
                                 <a href="<?= base_url('admin/carousel') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/carousel*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
                                     <i class="fas fa-fw fa-images w-6 opacity-75"></i>

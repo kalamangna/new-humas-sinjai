@@ -61,11 +61,11 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
                 </div>
                 <div class="ml-5">
                     <h3 class="text-3xl font-black text-slate-900 tracking-tighter"><?= $tagCount ?? '0' ?></h3>
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Total Label</p>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Total Tag</p>
                 </div>
             </div>
             <a href="<?= base_url('admin/tags') ?>" class="mt-auto pt-4 border-t border-slate-50 text-[10px] font-black text-purple-600 hover:text-purple-700 uppercase tracking-[0.2em] flex items-center">
-                Label Berita <i class="fas fa-fw fa-chevron-right ml-2 opacity-50"></i>
+                Tag Berita <i class="fas fa-fw fa-chevron-right ml-2 opacity-50"></i>
             </a>
         </div>
     <?php endif; ?>
@@ -112,7 +112,7 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
                 </a>
                 <a href="<?= base_url('admin/tags/new') ?>" class="flex flex-col items-center justify-center p-8 bg-purple-600 rounded-3xl text-white hover:bg-purple-700 transition-all group shadow-lg shadow-purple-900/20">
                     <i class="fas fa-fw fa-tag text-3xl mb-4 group-hover:scale-110 transition-transform"></i>
-                    <span class="font-black text-[10px] uppercase tracking-widest text-center">Tambah Label</span>
+                    <span class="font-black text-[10px] uppercase tracking-widest text-center">Tambah Tag</span>
                 </a>
             <?php endif; ?>
 

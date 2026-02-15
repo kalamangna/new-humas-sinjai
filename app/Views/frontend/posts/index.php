@@ -20,7 +20,7 @@
             <li>
                 <div class="flex items-center">
                     <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Indeks Berita</span>
+                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Semua Berita</span>
                 </div>
             </li>
         </ol>
@@ -41,12 +41,12 @@
                 <article class="group bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col border border-slate-200">
                     <div class="relative h-64 overflow-hidden">
                         <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="block h-full">
-                            <?php 
-                                $thumbPath = $post['thumbnail'] ?? '';
-                                $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
+                            <?php
+                            $thumbPath = $post['thumbnail'] ?? '';
+                            $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
                             ?>
                             <?php if (!empty($thumbSrc)) : ?>
-                                <img loading="lazy" src="<?= $thumbSrc ?>" alt="<?= esc($post['title']) ?>" 
+                                <img loading="lazy" src="<?= $thumbSrc ?>" alt="<?= esc($post['title']) ?>"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                             <?php else: ?>
                                 <div class="w-full h-full bg-slate-50 flex items-center justify-center">
@@ -59,7 +59,7 @@
                         <?php if (!empty($post['categories'])) : ?>
                             <div class="absolute top-6 left-6 flex flex-wrap gap-2">
                                 <?php foreach ($post['categories'] as $category) : ?>
-                                    <a href="<?= base_url('category/' . esc($category['slug'])) ?>" 
+                                    <a href="<?= base_url('category/' . esc($category['slug'])) ?>"
                                         class="px-4 py-1.5 bg-blue-800 text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl shadow-blue-900/20 hover:bg-blue-900 transition-colors">
                                         <?= esc($category['name']) ?>
                                     </a>
@@ -74,7 +74,7 @@
                                 <?= esc($post['title']) ?>
                             </a>
                         </h2>
-                        
+
                         <p class="text-slate-600 text-sm mb-10 line-clamp-3 leading-relaxed font-medium">
                             <?= word_limiter(strip_tags($post['content']), 25) ?>
                         </p>
@@ -83,8 +83,8 @@
                             <span class="flex items-center">
                                 <i class="far fa-fw fa-calendar-alt mr-2 text-blue-700"></i>
                                 <?php
-                                    $dateField = $post['published_at'] ?: ($post['created_at'] ?: date('Y-m-d'));
-                                    echo format_date($dateField, 'date_only');
+                                $dateField = $post['published_at'] ?: ($post['created_at'] ?: date('Y-m-d'));
+                                echo format_date($dateField, 'date_only');
                                 ?>
                             </span>
                             <span class="flex items-center">

@@ -20,7 +20,7 @@
             <li>
                 <div class="flex items-center">
                     <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Kategori Informasi</span>
+                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Semua Kategori</span>
                 </div>
             </li>
         </ol>
@@ -28,7 +28,7 @@
 
     <!-- Header Section -->
     <div class="text-center mb-8">
-        <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Indeks Informasi</p>
+        <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Klasifikasi Informasi</p>
         <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight uppercase">
             <?= esc($seo['title']) ?>
         </h1>
@@ -47,7 +47,7 @@
                             </div>
                             <div>
                                 <h2 class="text-2xl font-black text-slate-900 tracking-tight"><?= esc($category['name']) ?></h2>
-                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Klasifikasi Utama</p>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Kategori Utama</p>
                             </div>
                         </div>
                     </div>

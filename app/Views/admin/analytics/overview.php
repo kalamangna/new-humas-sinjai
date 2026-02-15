@@ -3,16 +3,18 @@
 <?= $this->section('page_title') ?>Analitik Situs<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<div class="flex flex-col md:flex-row items-end gap-3">
-    <div class="flex flex-col items-end">
-        <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 pr-1">Filter Periode</span>
-        <div class="relative inline-block text-left" id="period-dropdown-container">
-            <button type="button" id="period-dropdown-btn" class="inline-flex items-center h-10 px-4 bg-white border border-slate-200 rounded-xl shadow-sm text-[11px] font-bold text-slate-700 hover:bg-slate-50 transition-colors">
-                <i class="far fa-fw fa-calendar-alt text-blue-800 mr-2 text-xs"></i>
-                <span id="selected-period-label">Semua Waktu</span>
+<div class="flex flex-col sm:flex-row items-center sm:items-end gap-3 w-full sm:w-auto">
+    <div class="flex flex-col items-center sm:items-end w-full sm:w-auto">
+        <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 pr-1 hidden sm:block">Filter Periode</span>
+        <div class="relative inline-block text-left w-full sm:w-auto" id="period-dropdown-container">
+            <button type="button" id="period-dropdown-btn" class="inline-flex items-center justify-between sm:justify-start h-10 px-4 bg-white border border-slate-200 rounded-xl shadow-sm text-[11px] font-bold text-slate-700 hover:bg-slate-50 transition-colors w-full sm:w-auto">
+                <div class="flex items-center">
+                    <i class="far fa-fw fa-calendar-alt text-blue-800 mr-2 text-xs"></i>
+                    <span id="selected-period-label">Semua Waktu</span>
+                </div>
                 <i class="fas fa-fw fa-chevron-down ml-3 text-[9px] opacity-50"></i>
             </button>
-            <div id="period-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2">
+            <div id="period-dropdown-menu" class="hidden absolute right-0 mt-2 w-full sm:w-56 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2">
                 <div class="py-1">
                     <button type="button" onclick="setPeriod('today', 'Hari Ini')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">Hari Ini</button>
                     <button type="button" onclick="setPeriod('7daysAgo', '7 Hari Terakhir')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">7 Hari Terakhir</button>
@@ -27,18 +29,19 @@
     </div>
 
     <!-- Custom Date Inputs -->
-    <div id="custom-date-container" class="hidden flex flex-col md:flex-row items-end gap-3 bg-white p-3 rounded-2xl border border-blue-100 shadow-xl shadow-blue-900/5 animate-in slide-in-from-top-2">
-        <div>
+    <div id="custom-date-container" class="hidden flex flex-col sm:flex-row items-center sm:items-end gap-3 bg-white p-3 rounded-2xl border border-blue-100 shadow-xl shadow-blue-900/5 animate-in slide-in-from-top-2 w-full sm:w-auto">
+        <div class="w-full sm:w-auto">
             <label class="block text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 pl-1">Mulai</label>
-            <input type="date" id="start-date" class="h-9 px-3 border border-slate-200 rounded-xl text-[11px] font-bold text-slate-700 focus:ring-2 focus:ring-blue-800 outline-none">
+            <input type="date" id="start-date" class="h-9 px-3 border border-slate-200 rounded-xl text-[11px] font-bold text-slate-700 focus:ring-2 focus:ring-blue-800 outline-none w-full sm:w-auto">
         </div>
-        <div>
+        <div class="w-full sm:w-auto">
             <label class="block text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 pl-1">Selesai</label>
-            <input type="date" id="end-date" class="h-9 px-3 border border-slate-200 rounded-xl text-[11px] font-bold text-slate-700 focus:ring-2 focus:ring-blue-800 outline-none">
+            <input type="date" id="end-date" class="h-9 px-3 border border-slate-200 rounded-xl text-[11px] font-bold text-slate-700 focus:ring-2 focus:ring-blue-800 outline-none w-full sm:w-auto">
         </div>
-        <button type="button" onclick="applyCustomDates()" class="h-9 px-4 bg-blue-800 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">OK</button>
+        <button type="button" onclick="applyCustomDates()" class="h-9 px-4 bg-blue-800 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20 w-full sm:w-auto">OK</button>
     </div>
 </div>
+<?= $this->endSection() ?>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>

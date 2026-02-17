@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Tambah Berita Baru<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Tulis Berita<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/posts') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -17,8 +17,8 @@
                 <i class="fa-solid fa-fw fa-pen-nib text-sm"></i>
             </div>
             <div>
-                <h2 class="text-lg font-black text-slate-900 tracking-tight">Editor Berita</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Input konten warta informasi terbaru</p>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Berita</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Input konten informasi terbaru</p>
             </div>
         </div>
 
@@ -28,10 +28,10 @@
 
                 <!-- Title Section -->
                 <div class="space-y-4">
-                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Judul Berita <span class="text-red-600">*</span></label>
+                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Judul <span class="text-red-600">*</span></label>
                     <input type="text" name="title" id="title" required
                         class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-xl font-bold text-slate-900 placeholder-slate-300 focus:border-blue-800 focus:bg-white outline-none transition-all <?= (isset(session('errors')['title'])) ? 'border-red-500' : '' ?>"
-                        value="<?= old('title') ?>" placeholder="Tuliskan judul berita yang menarik dan informatif...">
+                        value="<?= old('title') ?>" placeholder="Tuliskan judul berita yang menarik...">
                     <?php if (isset(session('errors')['title'])) : ?>
                         <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['title'] ?></p>
                     <?php endif; ?>
@@ -39,7 +39,7 @@
 
                 <!-- Content Section -->
                 <div class="space-y-4">
-                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Isi Berita <span class="text-red-600">*</span></label>
+                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Isi <span class="text-red-600">*</span></label>
                     <div class="<?= (isset(session('errors')['content'])) ? 'ring-2 ring-red-500 rounded-2xl overflow-hidden' : '' ?>">
                         <textarea name="content" id="content" rows="20" class="w-full"><?= old('content') ?></textarea>
                     </div>
@@ -83,7 +83,7 @@
                     <!-- Category & Tags -->
                     <div class="space-y-8">
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kategori Berita <span class="text-red-600">*</span></label>
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kategori <span class="text-red-600">*</span></label>
                             <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 h-48 overflow-y-auto space-y-4 scrollbar-thin">
                                 <?php foreach ($categories as $category) : ?>
                                     <div>
@@ -107,7 +107,7 @@
                         </div>
 
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tag Berita <span class="text-red-600">*</span></label>
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tag <span class="text-red-600">*</span></label>
                             <?php 
                                 $oldTags = old('tags');
                                 $displayTags = !is_null($oldTags) ? (is_array($oldTags) ? $oldTags : explode(',', $oldTags)) : [];
@@ -142,7 +142,7 @@
                         <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Simpan Konsep
                     </button>
                     <button type="submit" onclick="document.getElementById('post-status').value='published'" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
-                        <i class="fa-solid fa-fw fa-paper-plane mr-2 text-sm"></i>Terbitkan Berita
+                        <i class="fa-solid fa-fw fa-paper-plane mr-2 text-sm"></i>Terbitkan
                     </button>
                 </div>
             </form>

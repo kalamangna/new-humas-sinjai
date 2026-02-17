@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Tambah Tag Baru<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Buat Tag<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/tags') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -17,7 +17,7 @@
                 <i class="fa-solid fa-fw fa-circle-plus text-sm"></i>
             </div>
             <div>
-                <h2 class="text-lg font-black text-slate-900 tracking-tight">Tag Baru</h2>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Tag</h2>
                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Tambah klasifikasi berita baru</p>
             </div>
         </div>
@@ -28,7 +28,7 @@
                 <?= csrf_field() ?>
 
                 <div class="space-y-3">
-                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Nama Tag <span class="text-red-600">*</span></label>
+                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Nama <span class="text-red-600">*</span></label>
                     <input type="text" name="name" required
                         class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all"
                         value="<?= old('name') ?>" placeholder="Contoh: Infrastruktur">
@@ -39,7 +39,7 @@
                         Batal
                     </a>
                     <button type="submit" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
-                        <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Simpan Tag
+                        <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Simpan
                     </button>
                 </div>
             </form>

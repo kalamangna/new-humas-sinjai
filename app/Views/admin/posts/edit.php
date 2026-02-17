@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Ubah Informasi Berita<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Edit Berita<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/posts') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -17,7 +17,7 @@
                 <i class="fa-solid fa-fw fa-pen-to-square text-sm"></i>
             </div>
             <div>
-                <h2 class="text-lg font-black text-slate-900 tracking-tight">Editor Berita</h2>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Berita</h2>
                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">ID: #<?= $post['id'] ?> • Terakhir diperbarui <?= date('d/m/y H:i', strtotime($post['updated_at'])) ?></p>
             </div>
         </div>
@@ -29,7 +29,7 @@
 
                 <!-- Title Section -->
                 <div class="space-y-4">
-                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Judul Berita <span class="text-red-600">*</span></label>
+                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Judul <span class="text-red-600">*</span></label>
                     <input type="text" name="title" id="title" required
                         class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-xl font-bold text-slate-900 placeholder-slate-300 focus:border-blue-800 focus:bg-white outline-none transition-all <?= (isset(session('errors')['title'])) ? 'border-red-500' : '' ?>"
                         value="<?= old('title', $post['title']) ?>" placeholder="Masukkan judul berita...">
@@ -40,7 +40,7 @@
 
                 <!-- Content Section -->
                 <div class="space-y-4">
-                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Isi Berita <span class="text-red-600">*</span></label>
+                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Isi <span class="text-red-600">*</span></label>
                     <div class="<?= (isset(session('errors')['content'])) ? 'ring-2 ring-red-500 rounded-2xl overflow-hidden' : '' ?>">
                         <textarea name="content" id="content" rows="20" class="w-full"><?= old('content', $post['content']) ?></textarea>
                     </div>
@@ -92,7 +92,7 @@
                     <!-- Category & Tags -->
                     <div class="space-y-8">
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kategori Berita <span class="text-red-600">*</span></label>
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kategori <span class="text-red-600">*</span></label>
                             <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 h-48 overflow-y-auto space-y-4 scrollbar-thin">
                                 <?php foreach ($categories as $category) : ?>
                                     <div>
@@ -113,7 +113,7 @@
                         </div>
 
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tag Berita <span class="text-red-600">*</span></label>
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tag <span class="text-red-600">*</span></label>
                             <?php 
                                 $oldTags = old('tags');
                                 $displayTags = !is_null($oldTags) ? (is_array($oldTags) ? $oldTags : explode(',', $oldTags)) : $post_tag_names;
@@ -149,7 +149,7 @@
                     </a>
                     <?php if ($post['status'] === 'published') : ?>
                         <button type="submit" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
-                            <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Simpan Perubahan
+                            <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Update
                         </button>
                     <?php else : ?>
                         <button type="submit" onclick="document.getElementById('post-status').value='draft'" class="px-8 py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-slate-200 transition-all">

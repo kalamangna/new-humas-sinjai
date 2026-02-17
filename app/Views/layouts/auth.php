@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="<?= base_url('assets/fontawesome/css/all.min.css') ?>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css">
 </head>
 
 <body class="h-full">
@@ -33,7 +33,7 @@
 
             <div class="mt-8 text-center">
                 <a href="<?= base_url('/') ?>" class="text-[10px] font-black text-slate-400 hover:text-blue-800 uppercase tracking-[0.3em] transition-colors">
-                    <i class="fas fa-fw fa-arrow-left mr-2"></i>Kembali ke Beranda Utama
+                    <i class="fa-solid fa-fw fa-arrow-left mr-2"></i>Kembali ke Beranda Utama
                 </a>
             </div>
         </div>

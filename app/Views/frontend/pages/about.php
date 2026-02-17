@@ -14,12 +14,12 @@
         <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
             <li class="inline-flex items-center">
                 <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
-                    <i class="fas fa-fw fa-home mr-2 text-blue-800"></i>Beranda
+                    <i class="fa-solid fa-fw fa-house mr-2 text-blue-800"></i>Beranda
                 </a>
             </li>
             <li>
                 <div class="flex items-center">
-                    <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <i class="fa-solid fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
                     <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Tentang Kami</span>
                 </div>
             </li>
@@ -39,10 +39,10 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-10">
         <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 relative overflow-hidden group hover:shadow-xl transition-all duration-500">
             <div class="absolute top-0 right-0 p-8 text-slate-50 opacity-10 group-hover:opacity-20 transition-opacity">
-                <i class="fas fa-fw fa-bullseye text-9xl"></i>
+                <i class="fa-solid fa-fw fa-bullseye text-9xl"></i>
             </div>
             <div class="w-16 h-16 bg-blue-800 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-900/20 mb-8">
-                <i class="fas fa-fw fa-bullseye text-2xl"></i>
+                <i class="fa-solid fa-fw fa-bullseye text-2xl"></i>
             </div>
             <h2 class="text-2xl font-black text-slate-900 mb-6 uppercase tracking-tight">Visi</h2>
             <p class="text-slate-600 leading-relaxed font-medium text-lg">
@@ -52,10 +52,10 @@
 
         <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 relative overflow-hidden group hover:shadow-xl transition-all duration-500">
             <div class="absolute top-0 right-0 p-8 text-slate-50 opacity-10 group-hover:opacity-20 transition-opacity">
-                <i class="fas fa-fw fa-tasks text-9xl"></i>
+                <i class="fa-solid fa-fw fa-list-check text-9xl"></i>
             </div>
             <div class="w-16 h-16 bg-blue-800 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-900/20 mb-8">
-                <i class="fas fa-fw fa-tasks text-2xl"></i>
+                <i class="fa-solid fa-fw fa-list-check text-2xl"></i>
             </div>
             <h2 class="text-2xl font-black text-slate-900 mb-6 uppercase tracking-tight">Misi</h2>
             <ul class="space-y-4">
@@ -63,7 +63,7 @@
                 $misis = get_setting('about_mission', []);
                 foreach ($misis as $misi): ?>
                     <li class="flex items-start text-slate-600 font-medium">
-                        <i class="fas fa-fw fa-check-circle text-blue-800 mt-1.5 mr-4 text-sm"></i>
+                        <i class="fa-solid fa-fw fa-circle-check text-blue-800 mt-1.5 mr-4 text-sm"></i>
                         <span class="leading-relaxed"><?= esc($misi) ?></span>
                     </li>
                 <?php endforeach; ?>
@@ -82,19 +82,19 @@
                 <!-- Social Connections -->
                 <div class="flex items-center justify-center lg:justify-start gap-4 mt-4">
                     <?php if ($fb = get_setting('social_facebook')): ?>
-                        <a href="<?= esc($fb) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fab fa-fw fa-facebook-f text-sm"></i></a>
+                        <a href="<?= esc($fb) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-facebook-f text-sm"></i></a>
                     <?php endif; ?>
                     <?php if ($ig = get_setting('social_instagram')): ?>
-                        <a href="<?= esc($ig) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fab fa-fw fa-instagram text-sm"></i></a>
+                        <a href="<?= esc($ig) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-instagram text-sm"></i></a>
                     <?php endif; ?>
                     <?php if ($tk = get_setting('social_tiktok')): ?>
-                        <a href="<?= esc($tk) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fab fa-fw fa-tiktok text-sm"></i></a>
+                        <a href="<?= esc($tk) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-tiktok text-sm"></i></a>
                     <?php endif; ?>
                     <?php if ($yt = get_setting('social_youtube')): ?>
-                        <a href="<?= esc($yt) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fab fa-fw fa-youtube text-sm"></i></a>
+                        <a href="<?= esc($yt) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-youtube text-sm"></i></a>
                     <?php endif; ?>
                     <?php if ($tw = get_setting('social_twitter')): ?>
-                        <a href="<?= esc($tw) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fab fa-fw fa-x-twitter text-sm"></i></a>
+                        <a href="<?= esc($tw) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-x-twitter text-sm"></i></a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -110,7 +110,7 @@
 
                 <div class="mt-16">
                     <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.3em] mb-10 flex items-center border-b border-slate-50 pb-6">
-                        <i class="fas fa-fw fa-layer-group mr-3 text-blue-800"></i>TUGAS POKOK & FUNGSI
+                        <i class="fa-solid fa-fw fa-layer-group mr-3 text-blue-800"></i>TUGAS POKOK & FUNGSI
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <?php
@@ -118,7 +118,7 @@
                         foreach ($tugas as $t): ?>
                             <div class="flex items-start group">
                                 <div class="w-10 h-10 bg-slate-100 text-blue-800 rounded-lg flex items-center justify-center flex-shrink-0 mr-5 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300">
-                                    <i class="fas fa-fw fa-check text-xs"></i>
+                                    <i class="fa-solid fa-fw fa-check text-xs"></i>
                                 </div>
                                 <div>
                                     <h4 class="font-black text-slate-900 text-sm mb-2 uppercase tracking-wide"><?= esc($t[0]) ?></h4>
@@ -145,7 +145,7 @@
         foreach ($teams as $team): ?>
             <div class="bg-white text-center p-10 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-500 group">
                 <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-8 border-2 border-slate-100 group-hover:bg-blue-800 group-hover:border-blue-900 transition-all duration-500 shadow-inner">
-                    <i class="fas fa-fw <?= esc($team[2]) ?> text-slate-300 text-3xl group-hover:text-white transition-colors duration-500"></i>
+                    <i class="fa-solid fa-fw <?= esc($team[2]) ?> text-slate-300 text-3xl group-hover:text-white transition-colors duration-500"></i>
                 </div>
                 <h3 class="text-xl font-black text-slate-900 mb-4 tracking-tight uppercase"><?= esc($team[0]) ?></h3>
                 <p class="text-slate-500 text-sm font-medium leading-relaxed"><?= esc($team[1]) ?></p>

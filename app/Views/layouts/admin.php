@@ -50,7 +50,7 @@
                     <?php if (session()->getFlashdata('success')) : ?>
                         <div class="bg-emerald-50 border-l-4 border-emerald-500 p-5 mb-8 rounded-r-xl shadow-sm flex items-center animate-in fade-in slide-in-from-top-2 duration-300">
                             <div class="bg-emerald-500 rounded-full p-1.5 mr-4">
-                                <i class="fas fa-fw fa-check text-white text-xs"></i>
+                                <i class="fa-solid fa-fw fa-check text-white text-xs"></i>
                             </div>
                             <span class="text-sm font-bold text-emerald-900"><?= session()->getFlashdata('success') ?></span>
                         </div>
@@ -59,7 +59,7 @@
                     <?php if (session()->getFlashdata('error')) : ?>
                         <div class="bg-red-50 border-l-4 border-red-500 p-5 mb-8 rounded-r-xl shadow-sm flex items-center animate-in fade-in slide-in-from-top-2 duration-300">
                             <div class="bg-red-500 rounded-full p-1.5 mr-4">
-                                <i class="fas fa-fw fa-exclamation-triangle text-white text-xs"></i>
+                                <i class="fa-solid fa-fw fa-triangle-exclamation text-white text-xs"></i>
                             </div>
                             <span class="text-sm font-bold text-red-900"><?= session()->getFlashdata('error') ?></span>
                         </div>
@@ -69,7 +69,7 @@
                         <div class="bg-red-50 border-l-4 border-red-500 p-6 mb-8 rounded-r-xl shadow-sm animate-in fade-in slide-in-from-top-2 duration-300">
                             <div class="flex items-center mb-3">
                                 <div class="bg-red-500 rounded-full p-1.5 mr-4">
-                                    <i class="fas fa-fw fa-exclamation-triangle text-white text-xs"></i>
+                                    <i class="fa-solid fa-fw fa-triangle-exclamation text-white text-xs"></i>
                                 </div>
                                 <span class="text-sm font-black text-red-900 uppercase tracking-widest">Terjadi Kesalahan Data</span>
                             </div>

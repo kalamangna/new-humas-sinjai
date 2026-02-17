@@ -16,18 +16,18 @@
         <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
             <li class="inline-flex items-center">
                 <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
-                    <i class="fas fa-fw fa-home mr-2 text-blue-800"></i>Beranda
+                    <i class="fa-solid fa-fw fa-house mr-2 text-blue-800"></i>Beranda
                 </a>
             </li>
             <li>
                 <div class="flex items-center">
-                    <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <i class="fa-solid fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
                     <a href="<?= base_url('posts') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">Indeks Berita</a>
                 </div>
             </li>
             <li>
                 <div class="flex items-center">
-                    <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <i class="fa-solid fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
                     <span class="text-slate-400 truncate max-w-[150px] md:max-w-none"><?= esc($post['title']) ?></span>
                 </div>
             </li>
@@ -47,7 +47,7 @@
                     <!-- Post Meta -->
                     <div class="flex flex-wrap items-center gap-8 text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-10 pb-10 border-b border-slate-100">
                         <div class="flex items-center">
-                            <i class="far fa-fw fa-calendar-alt mr-2 text-blue-700"></i>
+                            <i class="fa-regular fa-fw fa-calendar-days mr-2 text-blue-700"></i>
                             <span>
                                 <?php
                                 $dateField = $post['published_at'] ?: ($post['created_at'] ?: date('Y-m-d'));
@@ -58,14 +58,14 @@
 
                         <?php if (!empty($post['author_name'])) : ?>
                             <div class="flex items-center">
-                                <i class="far fa-fw fa-user mr-2 text-blue-700"></i>
+                                <i class="fa-regular fa-fw fa-user mr-2 text-blue-700"></i>
                                 <span><?= esc($post['author_name']) ?></span>
                             </div>
                         <?php endif; ?>
 
                         <?php if (!empty($post['categories'])) : ?>
                             <div class="flex items-center flex-wrap gap-2">
-                                <i class="far fa-fw fa-folder mr-2 text-blue-700"></i>
+                                <i class="fa-regular fa-fw fa-folder mr-2 text-blue-700"></i>
                                 <?php foreach ($post['categories'] as $category) : ?>
                                     <a href="<?= base_url('category/' . esc($category['slug'])) ?>"
                                         class="px-3 py-1 bg-blue-50 text-blue-800 font-black rounded-md hover:bg-blue-800 hover:text-white transition-all">
@@ -86,7 +86,7 @@
                                 <img loading="lazy" src="<?= $thumbSrc ?>" class="w-full h-auto rounded-2xl shadow-2xl border border-slate-100" alt="<?= esc($post['title']) ?>">
                                 <?php if (!empty($post['thumbnail_caption'])) : ?>
                                     <figcaption class="mt-5 text-center text-xs text-slate-500 italic font-medium">
-                                        <i class="fas fa-fw fa-camera mr-2 opacity-50"></i><?= esc($post['thumbnail_caption']) ?>
+                                        <i class="fa-solid fa-fw fa-camera mr-2 opacity-50"></i><?= esc($post['thumbnail_caption']) ?>
                                     </figcaption>
                                 <?php endif; ?>
                             </figure>
@@ -101,7 +101,7 @@
                     <!-- Share Section -->
                     <div class="mt-10 pt-10 border-t border-slate-100">
                         <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] mb-6 flex items-center">
-                            <i class="fas fa-fw fa-share-alt mr-3 text-blue-800"></i>Bagikan Berita
+                            <i class="fa-solid fa-fw fa-share-nodes mr-3 text-blue-800"></i>Bagikan Berita
                         </h2>
                         <div class="flex flex-wrap gap-3">
                             <?php
@@ -112,31 +112,31 @@
                             <!-- WhatsApp -->
                             <a href="https://api.whatsapp.com/send?text=<?= urlencode($share_url) ?>" target="_blank"
                                 class="inline-flex items-center px-5 py-2.5 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
-                                <i class="fab fa-fw fa-whatsapp mr-2 text-sm"></i>WhatsApp
+                                <i class="fa-brands fa-fw fa-whatsapp mr-2 text-sm"></i>WhatsApp
                             </a>
 
                             <!-- Facebook -->
                             <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($share_url) ?>" target="_blank"
                                 class="inline-flex items-center px-5 py-2.5 bg-[#1877F2] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
-                                <i class="fab fa-fw fa-facebook mr-2 text-sm"></i>Facebook
+                                <i class="fa-brands fa-fw fa-facebook mr-2 text-sm"></i>Facebook
                             </a>
 
                             <!-- Twitter/X -->
                             <a href="https://twitter.com/intent/tweet?url=<?= urlencode($share_url) ?>" target="_blank"
                                 class="inline-flex items-center px-5 py-2.5 bg-slate-950 text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:bg-black transition-all shadow-sm">
-                                <i class="fab fa-fw fa-x-twitter mr-2 text-sm"></i>Twitter
+                                <i class="fa-brands fa-fw fa-x-twitter mr-2 text-sm"></i>Twitter
                             </a>
 
                             <!-- Telegram -->
                             <a href="https://t.me/share/url?url=<?= urlencode($share_url) ?>" target="_blank"
                                 class="inline-flex items-center px-5 py-2.5 bg-[#0088cc] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
-                                <i class="fab fa-fw fa-telegram mr-2 text-sm"></i>Telegram
+                                <i class="fa-brands fa-fw fa-telegram mr-2 text-sm"></i>Telegram
                             </a>
 
                             <!-- Copy Link -->
                             <button onclick="copyToClipboard(this)"
                                 class="inline-flex items-center px-5 py-2.5 bg-slate-100 text-slate-700 font-bold text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-200 transition-all border border-slate-200 shadow-sm">
-                                <i class="fas fa-fw fa-link mr-2"></i>Salin Tautan
+                                <i class="fa-solid fa-fw fa-link mr-2"></i>Salin Tautan
                             </button>
                         </div>
                     </div>
@@ -175,7 +175,7 @@
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent p-6 flex flex-col justify-end">
                                     <h3 class="text-white font-bold leading-tight group-hover:text-sky-300 transition-colors tracking-tight"><?= esc($related['title']) ?></h3>
                                     <div class="mt-3 text-[10px] font-bold text-slate-300 uppercase tracking-widest flex items-center">
-                                        <i class="far fa-fw fa-calendar-alt mr-2 text-sky-400"></i>
+                                        <i class="fa-regular fa-fw fa-calendar-days mr-2 text-sky-400"></i>
                                         <?= format_date($related['published_at'] ?? $related['created_at'] ?? 'now', 'date_only') ?>
                                     </div>
                                 </div>
@@ -194,7 +194,7 @@
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
                 <div class="p-8 border-b border-slate-100 bg-slate-50/50">
                     <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
-                        <i class="fas fa-fw fa-history mr-3 text-blue-800"></i>Berita Terbaru
+                        <i class="fa-solid fa-fw fa-clock-rotate-left mr-3 text-blue-800"></i>Berita Terbaru
                     </h2>
                 </div>
                 <div class="p-8 space-y-8">
@@ -210,7 +210,7 @@
                                         <img loading="lazy" src="<?= $recThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="Recent">
                                     <?php else: ?>
                                         <div class="w-full h-full bg-slate-50 flex items-center justify-center">
-                                            <i class="fas fa-fw fa-image text-slate-200"></i>
+                                            <i class="fa-solid fa-fw fa-image text-slate-200"></i>
                                         </div>
                                     <?php endif; ?>
                                 </div>
@@ -234,7 +234,7 @@
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
                 <div class="p-8 border-b border-slate-100 bg-slate-50/50">
                     <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
-                        <i class="fas fa-fw fa-fire mr-3 text-orange-600"></i>Berita Populer
+                        <i class="fa-solid fa-fw fa-fire mr-3 text-orange-600"></i>Berita Populer
                     </h2>
                 </div>
                 <div class="p-8 space-y-8">
@@ -250,7 +250,7 @@
                                         <img loading="lazy" src="<?= $popThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="Popular">
                                     <?php else: ?>
                                         <div class="w-full h-full bg-slate-50 flex items-center justify-center">
-                                            <i class="fas fa-fw fa-image text-slate-200"></i>
+                                            <i class="fa-solid fa-fw fa-image text-slate-200"></i>
                                         </div>
                                     <?php endif; ?>
                                 </div>
@@ -260,7 +260,7 @@
                                     </h3>
                                     <div class="mt-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-between">
                                         <span><?= format_date($popular['published_at'] ?? 'now', 'date_only') ?></span>
-                                        <span class="flex items-center text-orange-600"><i class="far fa-fw fa-eye mr-1"></i><?= number_format($popular['views']) ?></span>
+                                        <span class="flex items-center text-orange-600"><i class="fa-regular fa-fw fa-eye mr-1"></i><?= number_format($popular['views']) ?></span>
                                     </div>
                                 </div>
                             </a>
@@ -277,7 +277,7 @@
         const url = window.location.href;
         navigator.clipboard.writeText(url).then(() => {
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-fw fa-check mr-2"></i>Tersalin!';
+            btn.innerHTML = '<i class="fa-solid fa-fw fa-check mr-2"></i>Tersalin!';
             btn.classList.replace('bg-slate-100', 'bg-emerald-600');
             btn.classList.add('text-white');
             btn.classList.remove('text-slate-700', 'border-slate-200');

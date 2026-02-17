@@ -8,7 +8,7 @@
     <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
         <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
             <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4">
-                <i class="fas fa-fw fa-cog text-sm"></i>
+                <i class="fa-solid fa-fw fa-gear text-sm"></i>
             </div>
             <div>
                 <h2 class="text-lg font-black text-slate-900 tracking-tight">Preferensi & Keamanan</h2>
@@ -67,7 +67,7 @@
 
                 <div class="pt-8 border-t border-slate-100">
                     <button type="submit" class="w-full py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
-                        <i class="fas fa-fw fa-save mr-2 text-sm"></i>Perbarui Pengaturan
+                        <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Perbarui Pengaturan
                     </button>
                 </div>
             </form>

@@ -14,12 +14,12 @@
         <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
             <li class="inline-flex items-center">
                 <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
-                    <i class="fas fa-fw fa-home mr-2 text-blue-800"></i>Beranda
+                    <i class="fa-solid fa-fw fa-house mr-2 text-blue-800"></i>Beranda
                 </a>
             </li>
             <li>
                 <div class="flex items-center">
-                    <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <i class="fa-solid fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
                     <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Hubungi Kami</span>
                 </div>
             </li>
@@ -41,7 +41,7 @@
             <!-- Address Card -->
             <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex items-start group hover:border-blue-800 transition-all duration-300">
                 <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center flex-shrink-0 mr-6 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300 shadow-sm">
-                    <i class="fas fa-fw fa-map-marker-alt text-xl"></i>
+                    <i class="fa-solid fa-fw fa-map-marker-alt text-xl"></i>
                 </div>
                 <div>
                     <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Alamat Kantor</h2>
@@ -54,7 +54,7 @@
             <!-- Email Card -->
             <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex items-start group hover:border-blue-800 transition-all duration-300">
                 <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center flex-shrink-0 mr-6 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300 shadow-sm">
-                    <i class="fas fa-fw fa-envelope text-xl"></i>
+                    <i class="fa-solid fa-fw fa-envelope text-xl"></i>
                 </div>
                 <div>
                     <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Email Resmi</h2>
@@ -68,25 +68,25 @@
             <!-- Social Card -->
             <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex items-start group hover:border-blue-800 transition-all duration-300">
                 <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center flex-shrink-0 mr-6 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300 shadow-sm">
-                    <i class="fas fa-fw fa-share-alt text-xl"></i>
+                    <i class="fa-solid fa-fw fa-share-nodes text-xl"></i>
                 </div>
                 <div>
                     <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Koneksi Digital</h2>
                     <div class="flex flex-wrap gap-3 mt-2">
                         <?php if ($fb = get_setting('social_facebook')): ?>
-                            <a href="<?= esc($fb) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fab fa-fw fa-facebook-f text-sm"></i></a>
+                            <a href="<?= esc($fb) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-facebook-f text-sm"></i></a>
                         <?php endif; ?>
                         <?php if ($ig = get_setting('social_instagram')): ?>
-                            <a href="<?= esc($ig) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fab fa-fw fa-instagram text-sm"></i></a>
+                            <a href="<?= esc($ig) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-instagram text-sm"></i></a>
                         <?php endif; ?>
                         <?php if ($tk = get_setting('social_tiktok')): ?>
-                            <a href="<?= esc($tk) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fab fa-fw fa-tiktok text-sm"></i></a>
+                            <a href="<?= esc($tk) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-tiktok text-sm"></i></a>
                         <?php endif; ?>
                         <?php if ($yt = get_setting('social_youtube')): ?>
-                            <a href="<?= esc($yt) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fab fa-fw fa-youtube text-sm"></i></a>
+                            <a href="<?= esc($yt) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-youtube text-sm"></i></a>
                         <?php endif; ?>
                         <?php if ($tw = get_setting('social_twitter')): ?>
-                            <a href="<?= esc($tw) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fab fa-fw fa-x-twitter text-sm"></i></a>
+                            <a href="<?= esc($tw) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-x-twitter text-sm"></i></a>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                     allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <div class="absolute bottom-6 right-6">
                     <a href="<?= get_setting('contact_map_link') ?>" target="_blank" class="px-6 py-3 bg-blue-800 text-white font-black text-[10px] uppercase tracking-widest rounded-xl shadow-xl hover:bg-blue-900 transition-all flex items-center">
-                        <i class="fas fa-fw fa-directions mr-2 text-base"></i>Buka Navigasi
+                        <i class="fa-solid fa-fw fa-directions mr-2 text-base"></i>Buka Navigasi
                     </a>
                 </div>
             </div>

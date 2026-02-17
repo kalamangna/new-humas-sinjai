@@ -18,10 +18,10 @@
 
             <!-- Controls -->
             <button id="prev-slide" class="hidden md:block absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-30 bg-blue-950/40 hover:bg-blue-900 text-white p-2 md:p-4 rounded-xl md:rounded-2xl transition-all border border-white/10 backdrop-blur-sm shadow-2xl">
-                <i class="fas fa-fw fa-chevron-left text-sm md:text-xl"></i>
+                <i class="fa-solid fa-fw fa-chevron-left text-sm md:text-xl"></i>
             </button>
             <button id="next-slide" class="hidden md:block absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-30 bg-blue-950/40 hover:bg-blue-900 text-white p-2 md:p-4 rounded-xl md:rounded-2xl transition-all border border-white/10 backdrop-blur-sm shadow-2xl">
-                <i class="fas fa-fw fa-chevron-right text-sm md:text-xl"></i>
+                <i class="fa-solid fa-fw fa-chevron-right text-sm md:text-xl"></i>
             </button>
 
             <!-- Indicators -->
@@ -58,7 +58,7 @@
             <!-- View All -->
             <div class="mt-10 text-center">
                 <a href="<?= base_url('posts') ?>" class="inline-flex items-center px-12 py-6 bg-blue-900 text-white font-black uppercase tracking-[0.3em] text-xs rounded-2xl shadow-2xl shadow-blue-900/30 hover:bg-blue-950 hover:-translate-y-1 transition-all duration-300">
-                    <i class="fas fa-fw fa-list-ul mr-4"></i>
+                    <i class="fa-solid fa-fw fa-list-ul mr-4"></i>
                     Baca Selengkapnya
                 </a>
             </div>
@@ -66,12 +66,12 @@
         <?php else: ?>
             <div class="bg-white rounded-[3rem] p-20 text-center shadow-sm border border-slate-200">
                 <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200">
-                    <i class="fas fa-fw fa-inbox text-5xl"></i>
+                    <i class="fa-solid fa-fw fa-inbox text-5xl"></i>
                 </div>
                 <h2 class="text-3xl font-black text-slate-900 mb-4 tracking-tight uppercase">Belum Ada Informasi</h2>
                 <p class="text-slate-500 mb-8 max-w-md mx-auto leading-relaxed font-medium">Saat ini belum ada pembaruan berita yang tersedia. Silakan periksa kembali dalam beberapa saat.</p>
                 <a href="<?= base_url() ?>" class="text-blue-900 font-black uppercase tracking-widest text-xs hover:underline flex items-center justify-center">
-                    <i class="fas fa-fw fa-sync-alt mr-3"></i> Muat Ulang Halaman
+                    <i class="fa-solid fa-fw fa-arrows-rotate mr-3"></i> Muat Ulang Halaman
                 </a>
             </div>
         <?php endif; ?>    

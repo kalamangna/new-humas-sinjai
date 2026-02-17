@@ -13,19 +13,19 @@
                 </div>
                 <div class="flex justify-center sm:justify-start space-x-6">
                     <?php if ($fb = get_setting('social_facebook')): ?>
-                        <a href="<?= esc($fb) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fab fa-fw fa-facebook-f text-xl"></i></a>
+                        <a href="<?= esc($fb) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-facebook-f text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($ig = get_setting('social_instagram')): ?>
-                        <a href="<?= esc($ig) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fab fa-fw fa-instagram text-xl"></i></a>
+                        <a href="<?= esc($ig) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-instagram text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($yt = get_setting('social_youtube')): ?>
-                        <a href="<?= esc($yt) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fab fa-fw fa-youtube text-xl"></i></a>
+                        <a href="<?= esc($yt) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-youtube text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($tk = get_setting('social_tiktok')): ?>
-                        <a href="<?= esc($tk) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fab fa-fw fa-tiktok text-xl"></i></a>
+                        <a href="<?= esc($tk) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-tiktok text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($tw = get_setting('social_twitter')): ?>
-                        <a href="<?= esc($tw) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fab fa-fw fa-x-twitter text-xl"></i></a>
+                        <a href="<?= esc($tw) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-x-twitter text-xl"></i></a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -36,11 +36,11 @@
                     <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>Navigasi
                 </h3>
                 <ul class="space-y-4 text-xs font-bold uppercase tracking-widest">
-                    <li><a href="<?= base_url('/') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Beranda</a></li>
-                    <li><a href="<?= base_url('about') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Tentang Kami</a></li>
-                    <li><a href="<?= base_url('contact') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Hubungi Kami</a></li>
-                    <li><a href="<?= base_url('widget') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Panduan Widget</a></li>
-                    <li><a href="<?= base_url('rss') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fas fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>RSS Feed</a></li>
+                    <li><a href="<?= base_url('/') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fa-solid fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Beranda</a></li>
+                    <li><a href="<?= base_url('about') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fa-solid fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Tentang Kami</a></li>
+                    <li><a href="<?= base_url('contact') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fa-solid fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Hubungi Kami</a></li>
+                    <li><a href="<?= base_url('widget') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fa-solid fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>Panduan Widget</a></li>
+                    <li><a href="<?= base_url('rss') ?>" class="hover:text-sky-400 flex items-center justify-center sm:justify-start transition-colors"><i class="fa-solid fa-fw fa-chevron-right text-[8px] mr-3 opacity-30 text-blue-500"></i>RSS Feed</a></li>
                 </ul>
             </div>
 
@@ -51,11 +51,11 @@
                 </h3>
                 <ul class="space-y-6 text-sm font-medium">
                     <li class="flex items-center justify-center sm:justify-start">
-                        <div class="bg-blue-900/50 p-2 rounded-lg mr-4 mt-1 flex-shrink-0"><i class="fas fa-fw fa-map-marker-alt text-sky-500"></i></div>
+                        <div class="bg-blue-900/50 p-2 rounded-lg mr-4 mt-1 flex-shrink-0"><i class="fa-solid fa-fw fa-map-marker-alt text-sky-500"></i></div>
                         <span class="leading-relaxed text-xs"><?= esc(get_setting('contact_address')) ?></span>
                     </li>
                     <li class="flex items-center justify-center sm:justify-start">
-                        <div class="bg-blue-900/50 p-2 rounded-lg mr-4 flex-shrink-0"><i class="fas fa-fw fa-envelope text-sky-500"></i></div>
+                        <div class="bg-blue-900/50 p-2 rounded-lg mr-4 flex-shrink-0"><i class="fa-solid fa-fw fa-envelope text-sky-500"></i></div>
                         <span class="text-xs"><?= esc(get_setting('contact_email')) ?></span>
                     </li>
                 </ul>

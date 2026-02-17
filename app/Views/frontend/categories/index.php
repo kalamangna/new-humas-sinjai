@@ -14,12 +14,12 @@
         <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
             <li class="inline-flex items-center">
                 <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
-                    <i class="fas fa-fw fa-home mr-2 text-blue-800"></i>Beranda
+                    <i class="fa-solid fa-fw fa-house mr-2 text-blue-800"></i>Beranda
                 </a>
             </li>
             <li>
                 <div class="flex items-center">
-                    <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <i class="fa-solid fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
                     <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Semua Kategori</span>
                 </div>
             </li>
@@ -43,7 +43,7 @@
                     <div class="px-8 py-8 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
                         <div class="flex items-center">
                             <div class="p-4 bg-blue-800 text-white rounded-2xl shadow-lg shadow-blue-900/20 mr-6">
-                                <i class="fas fa-fw fa-folder-open text-xl"></i>
+                                <i class="fa-solid fa-fw fa-folder-open text-xl"></i>
                             </div>
                             <div>
                                 <h2 class="text-2xl font-black text-slate-900 tracking-tight"><?= esc($category['name']) ?></h2>
@@ -59,7 +59,7 @@
                                     <a href="<?= base_url('category/' . esc($subCategory['slug'])) ?>"
                                         class="flex items-center justify-between p-5 bg-white border border-slate-100 rounded-2xl hover:border-blue-800 hover:shadow-xl hover:shadow-blue-900/5 transition-all group">
                                         <div class="flex items-center min-w-0">
-                                            <i class="fas fa-fw fa-folder text-slate-200 group-hover:text-blue-800 mr-4 transition-colors flex-shrink-0"></i>
+                                            <i class="fa-solid fa-fw fa-folder text-slate-200 group-hover:text-blue-800 mr-4 transition-colors flex-shrink-0"></i>
                                             <h3 class="font-bold text-slate-700 group-hover:text-slate-900 transition-colors truncate tracking-tight"><?= esc($subCategory['name']) ?></h3>
                                         </div>
                                         <div class="flex-shrink-0 ml-4 px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-black rounded-lg border border-slate-100 group-hover:bg-blue-50 group-hover:text-blue-800 group-hover:border-blue-100 transition-all">
@@ -81,12 +81,12 @@
         <!-- Empty State -->
         <div class="text-center py-24 bg-white rounded-[3rem] border border-slate-200 shadow-sm px-8 max-w-2xl mx-auto">
             <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200">
-                <i class="fas fa-fw fa-folder-minus text-5xl"></i>
+                <i class="fa-solid fa-fw fa-folder-minus text-5xl"></i>
             </div>
             <h2 class="text-3xl font-black text-slate-900 mb-4 tracking-tight">Data Tidak Ditemukan</h2>
             <p class="text-slate-500 mb-8 leading-relaxed font-medium">Saat ini belum ada kategori informasi yang dipublikasikan oleh sistem. Silakan periksa kembali dalam beberapa saat.</p>
             <a href="<?= base_url() ?>" class="inline-flex items-center px-10 py-5 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
-                <i class="fas fa-fw fa-home mr-3 text-base"></i>Beranda Utama
+                <i class="fa-solid fa-fw fa-house mr-3 text-base"></i>Beranda Utama
             </a>
         </div>
     <?php endif; ?>

@@ -6,13 +6,13 @@
             <li>
                 <a href="<?= $pager->getFirst() ?>" aria-label="<?= lang('Pager.first') ?>" 
                     class="block px-4 py-2 ml-0 leading-tight text-slate-500 bg-white border border-slate-300 rounded-l-lg hover:bg-slate-50 hover:text-blue-800 transition-colors">
-                    <span aria-hidden="true"><i class="fas fa-fw fa-angle-double-left text-[10px]"></i></span>
+                    <span aria-hidden="true"><i class="fa-solid fa-fw fa-angle-double-left text-[10px]"></i></span>
                 </a>
             </li>
             <li>
                 <a href="<?= $pager->getPrevious() ?>" aria-label="<?= lang('Pager.previous') ?>" 
                     class="block px-4 py-2 leading-tight text-slate-500 bg-white border border-slate-300 hover:bg-slate-50 hover:text-blue-800 transition-colors">
-                    <span aria-hidden="true"><i class="fas fa-fw fa-angle-left text-[10px]"></i></span>
+                    <span aria-hidden="true"><i class="fa-solid fa-fw fa-angle-left text-[10px]"></i></span>
                 </a>
             </li>
         <?php endif ?>
@@ -30,13 +30,13 @@
             <li>
                 <a href="<?= $pager->getNext() ?>" aria-label="<?= lang('Pager.next') ?>" 
                     class="block px-4 py-2 leading-tight text-slate-500 bg-white border border-slate-300 hover:bg-slate-50 hover:text-blue-800 transition-colors">
-                    <span aria-hidden="true"><i class="fas fa-fw fa-angle-right text-[10px]"></i></span>
+                    <span aria-hidden="true"><i class="fa-solid fa-fw fa-angle-right text-[10px]"></i></span>
                 </a>
             </li>
             <li>
                 <a href="<?= $pager->getLast() ?>" aria-label="<?= lang('Pager.last') ?>" 
                     class="block px-4 py-2 leading-tight text-slate-500 bg-white border border-slate-300 rounded-r-lg hover:bg-slate-50 hover:text-blue-800 transition-colors">
-                    <span aria-hidden="true"><i class="fas fa-fw fa-angle-double-right text-[10px]"></i></span>
+                    <span aria-hidden="true"><i class="fa-solid fa-fw fa-angle-double-right text-[10px]"></i></span>
                 </a>
             </li>
         <?php endif ?>

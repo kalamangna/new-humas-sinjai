@@ -14,12 +14,12 @@
         <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
             <li class="inline-flex items-center">
                 <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
-                    <i class="fas fa-fw fa-home mr-2 text-blue-800"></i>Beranda
+                    <i class="fa-solid fa-fw fa-house mr-2 text-blue-800"></i>Beranda
                 </a>
             </li>
             <li>
                 <div class="flex items-center">
-                    <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <i class="fa-solid fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
                     <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Panduan Widget</span>
                 </div>
             </li>

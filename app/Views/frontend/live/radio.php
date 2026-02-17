@@ -14,12 +14,12 @@
         <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
             <li class="inline-flex items-center">
                 <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
-                    <i class="fas fa-fw fa-home mr-2 text-blue-800"></i>Beranda
+                    <i class="fa-solid fa-fw fa-house mr-2 text-blue-800"></i>Beranda
                 </a>
             </li>
             <li>
                 <div class="flex items-center">
-                    <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <i class="fa-solid fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
                     <span class="text-slate-400 truncate max-w-[150px] md:max-w-none">Suara Bersatu FM</span>
                 </div>
             </li>
@@ -48,7 +48,7 @@
             <div class="p-8 md:p-16 text-center">
                 <!-- Radio Visualizer Placeholder -->
                 <div class="w-32 h-32 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-10 border-4 border-white shadow-xl shadow-blue-900/10">
-                    <i class="fas fa-fw fa-tower-broadcast text-blue-800 text-4xl"></i>
+                    <i class="fa-solid fa-fw fa-tower-broadcast text-blue-800 text-4xl"></i>
                 </div>
 
                 <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 mb-6">
@@ -60,7 +60,7 @@
 
                 <div class="mb-10">
                     <a href="<?= env('stream.radio.url') ?>" target="_blank" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest hover:text-blue-800 transition-colors">
-                        <i class="fas fa-fw fa-external-link-alt mr-2"></i>Buka di Pemutar Eksternal (Winamp/VLC)
+                        <i class="fa-solid fa-fw fa-up-right-from-square mr-2"></i>Buka di Pemutar Eksternal (Winamp/VLC)
                     </a>
                 </div>
 
@@ -75,11 +75,11 @@
                     <?php $share_url = current_url(); ?>
                     <a href="https://api.whatsapp.com/send?text=<?= urlencode('Sedang mendengarkan Radio Suara Bersatu FM - ' . $share_url) ?>" target="_blank"
                         class="inline-flex items-center px-5 py-2.5 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all">
-                        <i class="fab fa-fw fa-whatsapp mr-2 text-sm"></i>Bagikan ke WA
+                        <i class="fa-brands fa-fw fa-whatsapp mr-2 text-sm"></i>Bagikan ke WA
                     </a>
                     <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($share_url) ?>" target="_blank"
                         class="inline-flex items-center px-5 py-2.5 bg-[#1877F2] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all">
-                        <i class="fab fa-fw fa-facebook mr-2 text-sm"></i>Facebook
+                        <i class="fa-brands fa-fw fa-facebook mr-2 text-sm"></i>Facebook
                     </a>
                 </div>
             </div>

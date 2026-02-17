@@ -14,12 +14,12 @@
         <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
             <li class="inline-flex items-center">
                 <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
-                    <i class="fas fa-fw fa-home mr-2 text-blue-800"></i>Beranda
+                    <i class="fa-solid fa-fw fa-house mr-2 text-blue-800"></i>Beranda
                 </a>
             </li>
             <li>
                 <div class="flex items-center">
-                    <i class="fas fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
+                    <i class="fa-solid fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
                     <span class="text-slate-400 truncate max-w-[150px] md:max-w-none"><?= esc($seo['title']) ?></span>
                 </div>
             </li>
@@ -42,7 +42,7 @@
                                     class="w-64 h-auto md:w-80 rounded-3xl shadow-2xl border-8 border-slate-50 mx-auto transform hover:scale-105 transition-transform duration-500">
                             <?php else : ?>
                                 <div class="w-64 h-80 bg-slate-50 rounded-3xl shadow-inner border-4 border-dashed border-slate-200 flex items-center justify-center mx-auto">
-                                    <i class="fas fa-fw fa-user text-slate-200 text-8xl"></i>
+                                    <i class="fa-solid fa-fw fa-user text-slate-200 text-8xl"></i>
                                 </div>
                             <?php endif; ?>
                             
@@ -60,7 +60,7 @@
                         
                         <?php if (!empty($profile['institution'])) : ?>
                             <div class="inline-flex items-center px-6 py-2 bg-blue-50 text-blue-800 rounded-full text-xs font-black uppercase tracking-widest border border-blue-100">
-                                <i class="fas fa-fw fa-landmark mr-3"></i><?= esc($profile['institution']) ?>
+                                <i class="fa-solid fa-fw fa-landmark mr-3"></i><?= esc($profile['institution']) ?>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -80,7 +80,7 @@
                 <!-- Footer Card -->
                 <div class="bg-slate-50 p-8 border-t border-slate-100 text-center">
                     <button onclick="history.back()" class="inline-flex items-center text-xs font-black text-slate-500 hover:text-blue-800 uppercase tracking-widest transition-colors">
-                        <i class="fas fa-fw fa-arrow-left mr-3"></i>Kembali ke Daftar
+                        <i class="fa-solid fa-fw fa-arrow-left mr-3"></i>Kembali ke Daftar
                     </button>
                 </div>
             </article>
@@ -88,12 +88,12 @@
     <?php else : ?>
         <div class="text-center py-24 bg-white rounded-[3rem] border border-slate-200 shadow-sm px-8 max-w-2xl mx-auto">
             <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200">
-                <i class="fas fa-fw fa-user-slash text-5xl"></i>
+                <i class="fa-solid fa-fw fa-user-slash text-5xl"></i>
             </div>
             <h2 class="text-3xl font-black text-slate-900 mb-4 tracking-tight">Profil Tidak Tersedia</h2>
             <p class="text-slate-500 mb-8 leading-relaxed font-medium">Maaf, informasi detail untuk profil yang anda cari belum tersedia dalam sistem kami. Silakan kembali ke beranda utama.</p>
             <a href="<?= base_url() ?>" class="inline-flex items-center px-10 py-5 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
-                <i class="fas fa-fw fa-home mr-3 text-base"></i>Beranda Utama
+                <i class="fa-solid fa-fw fa-house mr-3 text-base"></i>Beranda Utama
             </a>
         </div>
     <?php endif; ?>

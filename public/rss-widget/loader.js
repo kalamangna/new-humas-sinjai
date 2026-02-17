@@ -21,10 +21,10 @@
       }
 
       // Load FontAwesome if not already present
-      if (!document.querySelector('link[href*="font-awesome"]')) {
+      if (!document.querySelector('link[href*="font-awesome"]') && !document.querySelector('link[href*="fontawesome"]')) {
         const fa = document.createElement('link');
         fa.rel = 'stylesheet';
-        fa.href = 'https://humas.sinjaikab.go.id/assets/fontawesome/css/all.min.css';
+        fa.href = 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css';
         document.head.appendChild(fa);
       }
 
@@ -32,7 +32,7 @@
       let html = `
         <div class="humas-sinjai-widget humas-sinjai-${theme}">
           <div class="humas-sinjai-title">
-            <i class="fas fa-fw fa-newspaper"></i>
+            <i class="fa-solid fa-fw fa-newspaper"></i>
             <span>${title}</span>
           </div>
           <ul>
@@ -51,12 +51,12 @@
                 </div>`
                   : `
                 <div class="humas-sinjai-thumb-wrapper" style="display:flex; align-items:center; justify-content:center; background:#f1f5f9;">
-                  <i class="fas fa-fw fa-image" style="color:#cbd5e1; font-size:20px;"></i>
+                  <i class="fa-solid fa-fw fa-image" style="color:#cbd5e1; font-size:20px;"></i>
                 </div>`
               }
               <div class="humas-sinjai-content">
                 <span class="humas-sinjai-content-title">${item.title}</span>
-                <small><i class="far fa-fw fa-calendar-alt" style="font-size:10px;"></i> ${item.pubDate}</small>
+                <small><i class="fa-regular fa-fw fa-calendar-days" style="font-size:10px;"></i> ${item.pubDate}</small>
               </div>
             </a>
           </li>
@@ -68,7 +68,7 @@
           </ul>
             <div class="humas-sinjai-footer">
               <img src="https://humas.sinjaikab.go.id/v1/humas.png" alt="Logo Sinjai" class="humas-sinjai-footer-logo">
-              <a href="https://humas.sinjaikab.go.id" target="_blank">Humas Sinjai <i class="fas fa-fw fa-external-link-alt" style="font-size:8px;"></i></a>
+              <a href="https://humas.sinjaikab.go.id" target="_blank">Humas Sinjai <i class="fa-solid fa-fw fa-up-right-from-square" style="font-size:8px;"></i></a>
             </div>
         </div>
       `;

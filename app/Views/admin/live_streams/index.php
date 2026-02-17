@@ -5,7 +5,7 @@
 <?= $this->section('page_actions') ?>
 <?php if (($count ?? 0) === 0): ?>
     <a href="<?= base_url('admin/live-streams/new') ?>" class="inline-flex items-center px-4 py-2 bg-blue-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
-        <i class="fas fa-fw fa-plus-circle mr-2"></i>Tambah Live Stream
+        <i class="fa-solid fa-fw fa-circle-plus mr-2"></i>Tambah Live Stream
     </a>
 <?php endif; ?>
 <?= $this->endSection() ?>
@@ -54,25 +54,25 @@
                                     <form action="<?= base_url('admin/live-streams/set-active/' . $stream['id']) ?>" method="post" class="inline">
                                         <?= csrf_field() ?>
                                         <button type="submit" class="inline-flex items-center p-2 bg-slate-100 text-green-600 rounded-lg hover:bg-green-600 hover:text-white transition-all shadow-sm" title="Aktifkan">
-                                            <i class="fas fa-fw fa-play"></i>
+                                            <i class="fa-solid fa-fw fa-play"></i>
                                         </button>
                                     </form>
                                 <?php else: ?>
                                     <form action="<?= base_url('admin/live-streams/deactivate/' . $stream['id']) ?>" method="post" class="inline">
                                         <?= csrf_field() ?>
                                         <button type="submit" class="inline-flex items-center p-2 bg-slate-100 text-orange-600 rounded-lg hover:bg-orange-600 hover:text-white transition-all shadow-sm" title="Nonaktifkan">
-                                            <i class="fas fa-fw fa-stop"></i>
+                                            <i class="fa-solid fa-fw fa-stop"></i>
                                         </button>
                                     </form>
                                 <?php endif; ?>
                                 <a href="<?= base_url('admin/live-streams/edit/' . $stream['id']) ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm" title="Edit">
-                                    <i class="fas fa-fw fa-edit"></i>
+                                    <i class="fa-solid fa-fw fa-pen-to-square"></i>
                                 </a>
                                 <form action="<?= base_url('admin/live-streams/' . $stream['id']) ?>" method="post" class="inline">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <?= csrf_field() ?>
                                     <button type="submit" class="p-2 bg-slate-100 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm" onclick="return confirm('Hapus live stream ini?')" title="Hapus">
-                                        <i class="fas fa-fw fa-trash"></i>
+                                        <i class="fa-solid fa-fw fa-trash"></i>
                                     </button>
                                 </form>
                             </td>
@@ -82,7 +82,7 @@
                     <tr>
                         <td colspan="4" class="px-8 py-24 text-center">
                             <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-200">
-                                <i class="fas fa-fw fa-tv text-2xl"></i>
+                                <i class="fa-solid fa-fw fa-tv text-2xl"></i>
                             </div>
                             <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tidak ada live stream tersedia</p>
                         </td>

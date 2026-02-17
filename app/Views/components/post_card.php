@@ -11,7 +11,7 @@
                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
             <?php else: ?>
                 <div class="w-full h-full flex items-center justify-center">
-                    <i class="fas fa-fw fa-image text-slate-300 text-6xl"></i>
+                    <i class="fa-solid fa-fw fa-image text-slate-300 text-6xl"></i>
                 </div>
             <?php endif; ?>
         </a>
@@ -43,14 +43,14 @@
 
         <div class="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">
             <span class="flex items-center">
-                <i class="far fa-fw fa-calendar-alt mr-2 text-blue-900"></i>
+                <i class="fa-regular fa-fw fa-calendar-days mr-2 text-blue-900"></i>
                 <?php
                     $dateField = $post['published_at'] ?: ($post['created_at'] ?: date('Y-m-d'));
                     echo format_date($dateField, 'date_only');
                 ?>
             </span>
             <span class="flex items-center">
-                <i class="far fa-fw fa-user mr-2 text-blue-900"></i>
+                <i class="fa-regular fa-fw fa-user mr-2 text-blue-900"></i>
                 <?= esc($post['author_name'] ?? 'Admin') ?>
             </span>
         </div>

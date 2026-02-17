@@ -13,7 +13,7 @@
     <!-- Performance Summary -->
     <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
         <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] mb-8 flex items-center border-b border-slate-50 pb-6">
-            <i class="fas fa-fw fa-chart-line mr-3 text-blue-800"></i>Ringkasan Kinerja Keseluruhan
+            <i class="fa-solid fa-fw fa-chart-line mr-3 text-blue-800"></i>Ringkasan Kinerja Keseluruhan
         </h3>
         <div id="performance-summary" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
     </div>
@@ -22,7 +22,7 @@
         <!-- Top Articles -->
         <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
             <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
-                <i class="fas fa-fw fa-file-alt mr-3 text-blue-800 opacity-50"></i>
+                <i class="fa-solid fa-fw fa-file-lines mr-3 text-blue-800 opacity-50"></i>
                 <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">Top 5 Artikel Terpopuler</h3>
             </div>
             <div class="overflow-x-auto">
@@ -41,7 +41,7 @@
         <!-- Daily Visit Trends -->
         <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
             <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] mb-10 flex items-center border-b border-slate-50 pb-6">
-                <i class="fas fa-fw fa-chart-bar mr-3 text-blue-800"></i>Tren Sesi Harian
+                <i class="fa-solid fa-fw fa-chart-column mr-3 text-blue-800"></i>Tren Sesi Harian
             </h3>
             <div id="daily-visits-chart" class="h-64"></div>
         </div>
@@ -51,7 +51,7 @@
         <!-- Traffic Sources -->
         <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
             <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
-                <i class="fas fa-fw fa-globe mr-3 text-emerald-600 opacity-50"></i>
+                <i class="fa-solid fa-fw fa-globe mr-3 text-emerald-600 opacity-50"></i>
                 <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">Sumber Lalu Lintas Utama</h3>
             </div>
             <div class="overflow-x-auto">
@@ -70,7 +70,7 @@
         <!-- Device Types -->
         <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
             <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] mb-10 flex items-center border-b border-slate-50 pb-6">
-                <i class="fas fa-fw fa-desktop mr-3 text-amber-500"></i>Distribusi Perangkat
+                <i class="fa-solid fa-fw fa-desktop mr-3 text-amber-500"></i>Distribusi Perangkat
             </h3>
             <div id="device-types-chart" class="h-64"></div>
         </div>
@@ -79,7 +79,7 @@
     <!-- Narrative Insights -->
     <div class="bg-slate-900 rounded-[3rem] p-10 md:p-16 border border-slate-800 shadow-2xl relative overflow-hidden">
         <div class="absolute top-0 right-0 p-16 text-white opacity-5">
-            <i class="fas fa-fw fa-lightbulb text-9xl"></i>
+            <i class="fa-solid fa-fw fa-lightbulb text-9xl"></i>
         </div>
         <div class="relative z-10">
             <h4 class="text-xs font-black text-blue-500 uppercase tracking-[0.4em] mb-4">Wawasan Naratif</h4>
@@ -116,7 +116,7 @@
                 summaryEl.innerHTML += `
                     <div class="flex items-center p-6 bg-slate-50 rounded-2xl border border-slate-100 group hover:border-blue-800 transition-all">
                         <div class="w-12 h-12 ${item.bg} ${item.color} rounded-xl flex items-center justify-center mr-4 text-xl group-hover:bg-blue-800 group-hover:text-white transition-all">
-                            <i class="fas ${item.icon}"></i>
+                            <i class="fa-solid ${item.icon}"></i>
                         </div>
                         <div>
                             <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">${item.label}</p>

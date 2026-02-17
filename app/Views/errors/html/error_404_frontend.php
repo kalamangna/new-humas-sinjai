@@ -10,7 +10,7 @@
                 Maaf, portal kami tidak dapat menemukan informasi yang anda cari. Pastikan alamat yang anda masukkan sudah benar.
             </p>
             <a href="<?= base_url('/') ?>" class="inline-flex items-center px-10 py-5 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
-                <i class="fas fa-fw fa-home mr-3 text-base"></i>Kembali ke Beranda
+                <i class="fa-solid fa-fw fa-house mr-3 text-base"></i>Kembali ke Beranda
             </a>
         </div>
     </div>

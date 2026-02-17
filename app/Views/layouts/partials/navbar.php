@@ -22,7 +22,7 @@
                     <div class="relative group">
                         <button class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition-all inline-flex items-center">
                             Kategori
-                            <i class="fas fa-fw fa-chevron-down ml-2 text-[10px] opacity-50"></i>
+                            <i class="fa-solid fa-fw fa-chevron-down ml-2 text-[10px] opacity-50"></i>
                         </button>
                         <div class="absolute left-0 mt-0 w-72 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-1 transition-all duration-200 z-50">
                             <div class="py-2 max-h-[80vh] overflow-y-auto scrollbar-thin">
@@ -59,7 +59,7 @@
                     <div class="relative group">
                         <button class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition-all inline-flex items-center">
                             Profil
-                            <i class="fas fa-fw fa-chevron-down ml-2 text-[10px] opacity-50"></i>
+                            <i class="fa-solid fa-fw fa-chevron-down ml-2 text-[10px] opacity-50"></i>
                         </button>
                         <div class="absolute left-0 mt-0 w-56 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-1 transition-all duration-200 z-50">
                             <div class="py-2">
@@ -80,7 +80,7 @@
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                             </span>
                             Live
-                            <i class="fas fa-fw fa-chevron-down ml-2 text-[10px] opacity-50"></i>
+                            <i class="fa-solid fa-fw fa-chevron-down ml-2 text-[10px] opacity-50"></i>
                         </button>
                         <div class="absolute left-0 mt-0 w-56 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-1 transition-all duration-200 z-50">
                             <div class="py-2">
@@ -97,7 +97,7 @@
                     <input type="text" name="q" placeholder="Cari Berita..." required
                         class="bg-blue-950 text-white placeholder-blue-400 text-xs font-bold uppercase tracking-wider rounded-xl border-none focus:ring-2 focus:ring-sky-500 pl-5 pr-12 py-3 w-72 shadow-inner transition-all">
                     <button type="submit" class="absolute right-0 top-0 h-full px-4 text-blue-400 hover:text-white transition-colors">
-                        <i class="fas fa-fw fa-search"></i>
+                        <i class="fa-solid fa-fw fa-search"></i>
                     </button>
                 </form>
             </div>
@@ -105,7 +105,7 @@
             <!-- Mobile menu button -->
             <div class="xl:hidden flex items-center">
                 <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-3 rounded-xl text-white hover:bg-blue-800 focus:outline-none transition-colors border border-blue-700/50">
-                    <i class="fas fa-fw fa-bars text-xl"></i>
+                    <i class="fa-solid fa-fw fa-bars text-xl"></i>
                 </button>
             </div>
         </div>
@@ -123,7 +123,7 @@
         <div class="py-2">
             <button type="button" id="mobile-categories-button" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
                 <span>Kategori</span>
-                <i class="fas fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-categories-arrow"></i>
+                <i class="fa-solid fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-categories-arrow"></i>
             </button>
             <div id="mobile-categories-menu" class="hidden pl-4 pr-2 mt-2 space-y-4 border-l-2 border-blue-800 ml-4">
                 <?php if (isset($categories)): ?>
@@ -150,7 +150,7 @@
         <div class="py-2">
             <button type="button" id="mobile-profile-button" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
                 <span>Profil</span>
-                <i class="fas fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-profile-arrow"></i>
+                <i class="fa-solid fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-profile-arrow"></i>
             </button>
             <div id="mobile-profile-menu" class="hidden pl-4 pr-2 mt-2 space-y-1 border-l-2 border-blue-800 ml-4">
                 <a href="<?= base_url('profil/bupati') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Bupati Sinjai</a>
@@ -171,7 +171,7 @@
                     </span>
                     Live
                 </span>
-                <i class="fas fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-live-arrow"></i>
+                <i class="fa-solid fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-live-arrow"></i>
             </button>
             <div id="mobile-live-menu" class="hidden pl-4 pr-2 mt-2 space-y-1 border-l-2 border-blue-800 ml-4">
                 <a href="<?= base_url('live/radio') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Suara Bersatu FM</a>
@@ -184,7 +184,7 @@
                 <input type="text" name="q" placeholder="Cari Berita..." required
                     class="bg-blue-900 text-white placeholder-blue-400 text-xs font-bold uppercase tracking-wider rounded-xl border-none focus:ring-2 focus:ring-sky-500 pl-5 pr-12 py-4 w-full shadow-inner transition-all">
                 <button type="submit" class="absolute right-0 top-0 h-full px-4 text-blue-400 hover:text-white transition-colors">
-                    <i class="fas fa-fw fa-search"></i>
+                    <i class="fa-solid fa-fw fa-search"></i>
                 </button>
             </form>
         </div>

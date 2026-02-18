@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Sebaran Lokasi<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Analitik: Sebaran Lokasi<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/analytics/overview') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -37,7 +37,7 @@
                         <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">
                             <th class="px-8 py-5">Negara</th>
                             <th class="px-8 py-5">Provinsi / Kota</th>
-                            <th class="px-8 py-5 text-right w-1">Jumlah User</th>
+                            <th class="px-8 py-5 text-right w-1">Pengunjung</th>
                         </tr>
                     </thead>
                     <tbody id="geo-data" class="divide-y divide-slate-100 whitespace-nowrap"></tbody>

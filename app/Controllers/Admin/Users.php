@@ -38,7 +38,7 @@ class Users extends BaseController
     public function create()
     {
         if ($this->userService->createUser($this->request->getPost())) {
-            return redirect()->to(base_url('admin/users'))->with('success', 'Pengguna berhasil dibuat.');
+            return redirect()->to(base_url('admin/users'))->with('success', 'User berhasil dibuat.');
         }
         return redirect()->back()->withInput()->with('errors', 'Failed to create user.');
     }
@@ -64,7 +64,7 @@ class Users extends BaseController
     public function update($id = null)
     {
         if ($this->userService->updateUser((int)$id, $this->request->getPost())) {
-            return redirect()->to(base_url('admin/users'))->with('success', 'Pengguna berhasil diperbarui.');
+            return redirect()->to(base_url('admin/users'))->with('success', 'User berhasil diperbarui.');
         }
         return redirect()->back()->withInput()->with('errors', 'Failed to update user.');
     }
@@ -72,7 +72,7 @@ class Users extends BaseController
     public function delete($id = null)
     {
         if ($this->userService->deleteUser((int)$id)) {
-            return redirect()->to(base_url('admin/users'))->with('success', 'Pengguna berhasil dihapus.');
+            return redirect()->to(base_url('admin/users'))->with('success', 'User berhasil dihapus.');
         }
         return redirect()->to(base_url('admin/users'))->with('error', 'Error deleting user.');
     }

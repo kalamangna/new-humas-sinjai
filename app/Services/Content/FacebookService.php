@@ -28,8 +28,7 @@ class FacebookService
      */
     public function getLiveVideoId(): ?string
     {
-        if (empty($this->pageId) || empty($this->pageToken)) {
-            log_message('error', '[FacebookService] Page ID or Token is not configured in .env');
+        if (empty($this->pageId) || empty($this->pageToken) || $this->pageId === 'YOUR_PAGE_ID_HERE') {
             return null;
         }
 

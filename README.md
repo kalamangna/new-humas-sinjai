@@ -24,7 +24,7 @@ Platform terpusat untuk diseminasi informasi publik, berita, profil pejabat, dan
 
 -   **Backend:** CodeIgniter 4.4+ (PHP 8.1+), MySQL/MariaDB.
 -   **Frontend:** Tailwind CSS 3.4, Alpine.js.
--   **Integrasi:** Google Analytics Data API, Google Gemini API (saran tag AI dengan fallback), Dompdf, FontAwesome 7 (CDN).
+-   **Integrasi:** Google Analytics Data API, Google Gemini API (saran tag AI dengan fallback), Facebook Graph API (deteksi otomatis siaran langsung), Dompdf, FontAwesome 7 (CDN).
 
 ---
 

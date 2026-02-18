@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Ubah Profil Pejabat<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Kelola Profil<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/profiles') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -17,8 +17,8 @@
                 <i class="fa-solid fa-fw fa-pen-to-square text-sm"></i>
             </div>
             <div>
-                <h2 class="text-lg font-black text-slate-900 tracking-tight">Pembaruan Data</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">ID: #<?= $profile['id'] ?> • <?= esc($profile['name'] ?? 'Profil') ?></p>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Ubah Profil</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">ID: #<?= $profile['id'] ?></p>
             </div>
         </div>
 
@@ -49,7 +49,7 @@
                     <!-- Column 2: Classification -->
                     <div class="space-y-8">
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tipe Klasifikasi <span class="text-red-600">*</span></label>
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tipe <span class="text-red-600">*</span></label>
                             <select name="type" id="type" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer">
                                 <option value="bupati" <?= old('type', $profile['type']) == 'bupati' ? 'selected' : '' ?>>Bupati</option>
                                 <option value="wakil-bupati" <?= old('type', $profile['type']) == 'wakil-bupati' ? 'selected' : '' ?>>Wakil Bupati</option>
@@ -71,7 +71,7 @@
 
                 <!-- Foto Profil Section -->
                 <div id="image-container" class="space-y-4 pt-10 border-t border-slate-100">
-                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Foto Profil</label>
+                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Foto</label>
                     <label class="block cursor-pointer">
                         <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
                             <i class="fa-solid fa-fw fa-camera text-slate-400 mr-3"></i>
@@ -90,7 +90,7 @@
                 </div>
 
                 <div id="bio-container" class="space-y-4">
-                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Biografi Singkat</label>
+                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Biografi</label>
                     <textarea name="bio" id="bio" rows="10" class="w-full"><?= old('bio', $profile['bio']) ?></textarea>
                 </div>
 
@@ -99,7 +99,7 @@
                         Batal
                     </a>
                     <button type="submit" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
-                        <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Perbarui Profil
+                        <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Simpan
                     </button>
                 </div>
             </form>

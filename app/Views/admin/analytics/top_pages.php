@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Halaman Populer<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Analitik: Halaman Terpopuler<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/analytics/overview') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -27,10 +27,10 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                        <th class="px-8 py-5">Peringkat & Judul Halaman</th>
-                        <th class="px-8 py-5">Alamat (Path)</th>
+                        <th class="px-8 py-5">Halaman</th>
+                        <th class="px-8 py-5">Path</th>
                         <th class="px-8 py-5 w-1 whitespace-nowrap">Tayangan</th>
-                        <th class="px-8 py-5 text-right w-1 whitespace-nowrap">Pengunjung Unik</th>
+                        <th class="px-8 py-5 text-right w-1 whitespace-nowrap">Pengunjung</th>
                     </tr>
                 </thead>
                 <tbody id="top-pages-data" class="divide-y divide-slate-100"></tbody>
@@ -79,7 +79,7 @@
                             </span>
                         </td>
                         <td class="px-8 py-6 text-sm font-bold text-slate-700">
-                            ${parseInt(page.screenPageViews).toLocaleString()} <span class="text-[10px] text-slate-400 font-medium uppercase tracking-tighter ml-1">Hits</span>
+                            ${parseInt(page.screenPageViews).toLocaleString()} <span class="text-[10px] text-slate-400 font-medium uppercase tracking-tighter ml-1">Dilihat</span>
                         </td>
                         <td class="px-8 py-6 text-right">
                             <span class="px-3 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">

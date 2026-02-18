@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Edit Berita<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Kelola Berita<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/posts') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -17,7 +17,7 @@
                 <i class="fa-solid fa-fw fa-pen-to-square text-sm"></i>
             </div>
             <div>
-                <h2 class="text-lg font-black text-slate-900 tracking-tight">Berita</h2>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Ubah Berita</h2>
                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">ID: #<?= $post['id'] ?> • Terakhir diperbarui <?= date('d/m/y H:i', strtotime($post['updated_at'])) ?></p>
             </div>
         </div>
@@ -54,12 +54,12 @@
                     <!-- Media Upload -->
                     <div class="space-y-6">
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Gambar Utama <span class="text-red-600">*</span></label>
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Gambar <span class="text-red-600">*</span></label>
                             <div class="flex items-center space-x-2">
                                 <label class="flex-1 cursor-pointer">
                                     <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
                                         <i class="fa-solid fa-fw fa-image text-slate-400 mr-3"></i>
-                                        <span class="text-sm font-bold text-slate-500 truncate" id="file-name"><?= $post['thumbnail'] ? 'Ganti Gambar Utama' : 'Pilih Gambar' ?></span>
+                                        <span class="text-sm font-bold text-slate-500 truncate" id="file-name"><?= $post['thumbnail'] ? 'Ganti Gambar' : 'Pilih Gambar' ?></span>
                                         <input type="file" name="thumbnail" id="thumbnail" class="hidden" accept="image/*" onchange="previewImage('thumbnail', 'thumbnail-preview', 'thumbnail-preview-container'); document.getElementById('file-name').innerText = this.files[0].name;">
                                     </div>
                                 </label>
@@ -68,11 +68,11 @@
                                 </button>
                             </div>
                             <input type="hidden" name="pasted_thumbnail" id="pasted_thumbnail">
-                            
+
                             <div id="thumbnail-preview-container" class="mt-4 ring-4 ring-slate-50 rounded-2xl overflow-hidden shadow-xl border border-slate-200 <?= empty($post['thumbnail']) ? 'hidden' : '' ?>">
-                                <?php 
-                                    $thumbPath = $post['thumbnail'] ?? '';
-                                    $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
+                                <?php
+                                $thumbPath = $post['thumbnail'] ?? '';
+                                $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
                                 ?>
                                 <img id="thumbnail-preview" src="<?= $thumbSrc ?>" class="w-full h-auto">
                             </div>
@@ -114,10 +114,10 @@
 
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tag <span class="text-red-600">*</span></label>
-                            <?php 
-                                $oldTags = old('tags');
-                                $displayTags = !is_null($oldTags) ? (is_array($oldTags) ? $oldTags : explode(',', $oldTags)) : $post_tag_names;
-                                $displayTags = array_filter(array_map('trim', $displayTags));
+                            <?php
+                            $oldTags = old('tags');
+                            $displayTags = !is_null($oldTags) ? (is_array($oldTags) ? $oldTags : explode(',', $oldTags)) : $post_tag_names;
+                            $displayTags = array_filter(array_map('trim', $displayTags));
                             ?>
                             <div id="tag-container" class="bg-slate-50 border border-slate-200 rounded-2xl p-4 min-h-[100px] flex flex-wrap gap-2 text-[10px] font-black uppercase tracking-widest">
                                 <?php foreach ($displayTags as $tagName) : ?>
@@ -128,13 +128,13 @@
                                 <?php endforeach; ?>
                             </div>
                             <input type="hidden" name="tags" id="tags-input" value="<?= esc(implode(',', $displayTags)) ?>">
-                            
+
                             <div class="flex gap-2">
                                 <input type="text" id="manual-tag-input" class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-800" placeholder="Tambah tag manual...">
                                 <button type="button" id="add-manual-tag-btn" class="p-2 bg-slate-800 text-white rounded-xl hover:bg-slate-950 transition-all"><i class="fa-solid fa-fw fa-plus"></i></button>
                             </div>
                             <button type="button" id="suggest-tags-btn" class="w-full py-3 bg-blue-50 text-blue-800 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-100 transition-all border border-blue-100">
-                                <i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Tag via AI
+                                <i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Tag
                             </button>
                         </div>
                     </div>
@@ -149,14 +149,14 @@
                     </a>
                     <?php if ($post['status'] === 'published') : ?>
                         <button type="submit" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
-                            <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Update
+                            <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Perbarui
                         </button>
                     <?php else : ?>
                         <button type="submit" onclick="document.getElementById('post-status').value='draft'" class="px-8 py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-slate-200 transition-all">
-                            Simpan Konsep
+                            <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Simpan Konsep
                         </button>
                         <button type="submit" onclick="document.getElementById('post-status').value='published'" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
-                            Terbitkan Sekarang
+                            Terbitkan
                         </button>
                     <?php endif; ?>
                 </div>
@@ -195,7 +195,7 @@
     const tagContainer = document.getElementById('tag-container');
     const tagsInput = document.getElementById('tags-input');
     const manualTagInput = document.getElementById('manual-tag-input');
-    
+
     function updateTagsInput() {
         const tags = Array.from(tagContainer.querySelectorAll('.tag-badge')).map(b => b.dataset.tag);
         tagsInput.value = tags.join(',');
@@ -207,26 +207,44 @@
         badge.className = 'tag-badge inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-800 text-[10px] font-black uppercase tracking-widest rounded-lg border border-blue-200';
         badge.dataset.tag = tag;
         badge.innerHTML = `${tag} <button type="button" class="ml-2 hover:text-red-600"><i class="fa-solid fa-fw fa-circle-xmark"></i></button>`;
-        badge.querySelector('button').onclick = () => { badge.remove(); updateTagsInput(); };
+        badge.querySelector('button').onclick = () => {
+            badge.remove();
+            updateTagsInput();
+        };
         tagContainer.appendChild(badge);
         updateTagsInput();
     }
 
-    document.getElementById('add-manual-tag-btn').onclick = () => { addTag(manualTagInput.value.trim()); manualTagInput.value = ''; };
-    document.querySelectorAll('.remove-tag').forEach(btn => btn.onclick = () => { btn.closest('.tag-badge').remove(); updateTagsInput(); });
+    document.getElementById('add-manual-tag-btn').onclick = () => {
+        addTag(manualTagInput.value.trim());
+        manualTagInput.value = '';
+    };
+    document.querySelectorAll('.remove-tag').forEach(btn => btn.onclick = () => {
+        btn.closest('.tag-badge').remove();
+        updateTagsInput();
+    });
 
     // AI Suggestion
     document.getElementById('suggest-tags-btn').onclick = function() {
         const title = document.getElementById('title').value;
         const content = tinymce.get('content').getContent();
-        if(!title || !content) return alert('Isi data dahulu.');
-        this.disabled = true; this.innerHTML = '<i class="fa-solid fa-fw fa-circle-notch fa-spin mr-2"></i>Menganalisa...';
+        if (!title || !content) return alert('Isi data dahulu.');
+        this.disabled = true;
+        this.innerHTML = '<i class="fa-solid fa-fw fa-circle-notch fa-spin mr-2"></i>Menganalisa...';
         fetch('<?= base_url('api/tags/suggest') ?>', {
-            method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
-            body: new URLSearchParams({ '<?= csrf_token() ?>': '<?= csrf_hash() ?>', title, content })
-        }).then(r => r.json()).then(data => data.forEach(addTag)).finally(() => { 
-            this.disabled = false; 
-            this.innerHTML = '<i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2"></i>Sarankan Tag via AI'; 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: new URLSearchParams({
+                '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
+                title,
+                content
+            })
+        }).then(r => r.json()).then(data => data.forEach(addTag)).finally(() => {
+            this.disabled = false;
+            this.innerHTML = '<i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2"></i>Sarankan Tag';
         });
     };
 </script>

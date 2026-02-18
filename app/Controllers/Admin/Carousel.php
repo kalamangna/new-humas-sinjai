@@ -38,7 +38,7 @@ class Carousel extends BaseController
         }
 
         if ($this->carouselService->saveSlide($data, $this->request->getFile('image'))) {
-            return redirect()->to(base_url('admin/carousel'))->with('success', 'Slide banner berhasil ditambahkan.');
+            return redirect()->to(base_url('admin/carousel'))->with('success', 'Slide berhasil ditambahkan.');
         }
 
         return redirect()->back()->withInput()->with('error', 'Gagal menambahkan slide.');
@@ -61,7 +61,7 @@ class Carousel extends BaseController
         }
 
         if ($this->carouselService->saveSlide($data, $this->request->getFile('image'), (int)$id)) {
-            return redirect()->to(base_url('admin/carousel'))->with('success', 'Slide banner berhasil diperbarui.');
+            return redirect()->to(base_url('admin/carousel'))->with('success', 'Slide berhasil diperbarui.');
         }
 
         return redirect()->back()->withInput()->with('error', 'Gagal memperbarui slide.');
@@ -70,7 +70,7 @@ class Carousel extends BaseController
     public function delete($id = null)
     {
         if ($this->carouselService->deleteSlide((int)$id)) {
-            return redirect()->to(base_url('admin/carousel'))->with('success', 'Slide banner berhasil dihapus.');
+            return redirect()->to(base_url('admin/carousel'))->with('success', 'Slide berhasil dihapus.');
         }
         return redirect()->to(base_url('admin/carousel'))->with('error', 'Gagal menghapus slide.');
     }

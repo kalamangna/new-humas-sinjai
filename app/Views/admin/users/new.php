@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Buat User<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Kelola User<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/users') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -17,8 +17,8 @@
                 <i class="fa-solid fa-fw fa-user-plus text-sm"></i>
             </div>
             <div>
-                <h2 class="text-lg font-black text-slate-900 tracking-tight">User</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Berikan akses sistem kepada pengguna baru</p>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Tambah User</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Lengkapi rincian user baru</p>
             </div>
         </div>
 
@@ -29,31 +29,31 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-3">
-                        <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Nama Lengkap <span class="text-red-600">*</span></label>
+                        <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Nama <span class="text-red-600">*</span></label>
                         <input type="text" name="name" required
                             class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all"
-                            value="<?= old('name') ?>" placeholder="Nama lengkap...">
+                            value="<?= old('name') ?>" placeholder="Masukkan nama">
                     </div>
 
                     <div class="space-y-3">
                         <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Email <span class="text-red-600">*</span></label>
                         <input type="email" name="email" required
                             class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all"
-                            value="<?= old('email') ?>" placeholder="email@sinjaikab.go.id">
+                            value="<?= old('email') ?>" placeholder="contoh@email.com">
                     </div>
 
                     <div class="space-y-3">
                         <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Password <span class="text-red-600">*</span></label>
                         <input type="password" name="password" required
                             class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all"
-                            placeholder="Minimal 8 karakter...">
+                            placeholder="Masukkan password">
                     </div>
 
                     <div class="space-y-3">
                         <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Role <span class="text-red-600">*</span></label>
                         <select name="role" required class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none appearance-none cursor-pointer">
-                            <option value="" disabled <?= empty(old('role')) ? 'selected' : '' ?>>-- Pilih Role Akses --</option>
-                            <option value="admin" <?= old('role') == 'admin' ? 'selected' : '' ?>>Administrator</option>
+                            <option value="" disabled <?= empty(old('role')) ? 'selected' : '' ?>>Pilih ...</option>
+                            <option value="admin" <?= old('role') == 'admin' ? 'selected' : '' ?>>Super Admin</option>
                             <option value="author" <?= old('role') == 'author' ? 'selected' : '' ?>>Penulis</option>
                         </select>
                     </div>

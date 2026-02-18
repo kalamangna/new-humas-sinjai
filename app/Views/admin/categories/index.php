@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Kategori Berita<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Kelola Kategori<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/categories/new') ?>" class="inline-flex items-center px-4 py-2 bg-blue-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
@@ -12,13 +12,16 @@
 
 <!-- Search Filter -->
 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
-    <form action="<?= base_url('admin/categories') ?>" method="get" class="flex flex-col md:flex-row gap-4">
-        <div class="flex-1">
-            <input type="text" name="search" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Cari nama kategori..." value="<?= esc($filters['search'] ?? '') ?>">
+    <form action="<?= base_url('admin/categories') ?>" method="get" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="md:col-span-3">
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Cari</label>
+            <input type="text" name="search" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Masukkan ..." value="<?= esc($filters['search'] ?? '') ?>">
         </div>
-        <div class="flex gap-2">
-            <button type="submit" class="px-6 py-2 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all">Terapkan</button>
-            <a href="<?= base_url('admin/categories') ?>" class="px-6 py-2 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200">Reset</a>
+        <div class="flex flex-col justify-end">
+            <div class="flex items-center space-x-2">
+                <button type="submit" class="flex-1 px-4 py-2.5 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all">Cari</button>
+                <a href="<?= base_url('admin/categories') ?>" class="px-4 py-2.5 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200 text-center">Reset</a>
+            </div>
         </div>
     </form>
 </div>
@@ -28,7 +31,7 @@
     <div class="bg-blue-800 p-6 rounded-2xl shadow-lg shadow-blue-900/20 text-white">
         <div class="flex justify-between items-center">
             <div>
-                <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Total Kategori</p>
+                <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Total</p>
                 <h3 class="text-3xl font-black mt-1"><?= $total_categories ?? '0' ?></h3>
             </div>
             <i class="fa-solid fa-fw fa-folder text-3xl opacity-30"></i>
@@ -51,10 +54,10 @@
         <table class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <th class="px-8 py-5">Nama Kategori</th>
-                    <th class="px-8 py-5">Identitas URL</th>
-                    <th class="px-8 py-5">Kategori Induk</th>
-                    <th class="px-8 py-5">Jumlah Berita</th>
+                    <th class="px-8 py-5">Nama</th>
+                    <th class="px-8 py-5">Slug</th>
+                    <th class="px-8 py-5">Induk</th>
+                    <th class="px-8 py-5">Total Berita</th>
                     <th class="px-8 py-5 text-right">Aksi</th>
                 </tr>
             </thead>
@@ -93,7 +96,7 @@
                                 <form action="<?= base_url('admin/categories/' . $category['id']) ?>" method="post" class="inline">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <?= csrf_field() ?>
-                                    <button type="submit" class="p-2 bg-slate-100 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm" onclick="return confirm('Hapus kategori ini?')">
+                                    <button type="submit" class="p-2 bg-slate-100 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                         <i class="fa-solid fa-fw fa-trash"></i>
                                     </button>
                                 </form>
@@ -111,7 +114,7 @@
                             <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-200">
                                 <i class="fa-solid fa-fw fa-folder-open text-2xl"></i>
                             </div>
-                            <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tidak ada kategori tersedia</p>
+                            <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Belum ada kategori</p>
                         </td>
                     </tr>
                 <?php endif; ?>

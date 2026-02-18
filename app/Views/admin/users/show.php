@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Detail Pengguna<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Kelola User<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/users') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -39,7 +39,7 @@
 
             <div class="pt-8 border-t border-slate-100 flex items-center space-x-3">
                 <a href="<?= base_url('admin/users/' . $user['id'] . '/edit') ?>" class="inline-flex items-center px-6 py-3 bg-blue-800 text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
-                    <i class="fa-solid fa-fw fa-pen-to-square mr-2"></i>Ubah Pengguna
+                    <i class="fa-solid fa-fw fa-pen-to-square mr-2"></i>Ubah
                 </a>
             </div>
         </div>

@@ -6,15 +6,15 @@
         </button>
         <div>
             <h1 class="text-lg font-bold text-slate-800 leading-none truncate max-w-[200px] sm:max-w-md">
-                <?= $this->renderSection('page_title') ?? 'Dasbor' ?>
+                <?= $this->renderSection('page_title') ?? 'Dashboard' ?>
             </h1>
-            <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mt-1">Administrator <?= esc(get_setting('site_name', 'Humas Sinjai')) ?></p>
+            <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mt-1"><?= esc(get_setting('site_name', 'Humas Sinjai')) ?></p>
         </div>
     </div>
 
     <div class="flex items-center space-x-3 sm:space-x-6">
         <a href="<?= base_url('/') ?>" target="_blank" class="hidden sm:flex items-center px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors">
-            <i class="fa-solid fa-fw fa-up-right-from-square mr-2"></i>Kunjungi Situs
+            <i class="fa-solid fa-fw fa-up-right-from-square mr-2"></i>Lihat Situs
         </a>
 
         <!-- User Dropdown -->
@@ -24,8 +24,8 @@
                     <?= substr(session()->get('name') ?? 'A', 0, 1) ?>
                 </div>
                 <div class="hidden md:block text-left">
-                    <p class="text-xs font-bold text-slate-900 leading-none"><?= session()->get('name') ?? 'Administrator' ?></p>
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mt-1"><?= ucfirst(session()->get('role') ?? 'pengguna') ?></p>
+                    <p class="text-xs font-bold text-slate-900 leading-none"><?= session()->get('name') ?? 'Pengelola' ?></p>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mt-1"><?= ucfirst(session()->get('role') ?? 'user') ?></p>
                 </div>
                 <i class="fa-solid fa-fw fa-chevron-down text-[10px] text-slate-400"></i>
             </button>

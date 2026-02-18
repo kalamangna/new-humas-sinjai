@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Pengaturan Situs<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Pengaturan<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
@@ -15,7 +15,7 @@
                 $groups = [
                     'general' => 'Umum',
                     'contact' => 'Kontak',
-                    'social'  => 'Media Sosial',
+                    'social'  => 'Sosial',
                     'about'   => 'Tentang'
                 ];
                 $activeGroup = 'general';
@@ -63,7 +63,7 @@
                                     <?php elseif ($setting['type'] === 'json'): ?>
                                         <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 border-dashed">
                                             <p class="text-[9px] font-black text-amber-600 uppercase tracking-widest mb-4 flex items-center">
-                                                <i class="fa-solid fa-fw fa-triangle-exclamation mr-2"></i> Pengaturan JSON (Mode Raw Text)
+                                                <i class="fa-solid fa-fw fa-triangle-exclamation mr-2"></i> Pengaturan JSON (Raw)
                                             </p>
                                             <textarea name="settings[<?= $setting['key'] ?>]" rows="6"
                                                 class="w-full bg-white border-slate-200 rounded-xl px-5 py-3 text-xs font-mono text-slate-600 focus:ring-2 focus:ring-blue-800 focus:border-transparent transition-all"><?= esc($setting['value']) ?></textarea>
@@ -80,7 +80,7 @@
         <!-- Footer Actions -->
         <div class="bg-slate-50 border-t border-slate-200 px-8 py-6 flex justify-end">
             <button type="submit" class="inline-flex items-center px-8 py-4 bg-blue-800 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
-                <i class="fa-solid fa-fw fa-floppy-disk mr-3"></i> Simpan Perubahan
+                <i class="fa-solid fa-fw fa-floppy-disk mr-3"></i> Simpan
             </button>
         </div>
     </div>

@@ -47,7 +47,7 @@
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Ganti Password Baru</label>
                             <input type="password" name="password"
                                 class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all <?= (isset(session('errors')['password'])) ? 'border-red-500' : '' ?>"
-                                placeholder="Biarkan kosong jika tidak ingin ganti...">
+                                placeholder="Biarkan kosong jika tidak diubah">
                             <?php if (isset(session('errors')['password'])) : ?>
                                 <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['password'] ?></p>
                             <?php endif; ?>
@@ -57,7 +57,7 @@
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Konfirmasi Password Baru</label>
                             <input type="password" name="password_confirm"
                                 class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all <?= (isset(session('errors')['password_confirm'])) ? 'border-red-500' : '' ?>"
-                                placeholder="Ulangi password baru...">
+                                placeholder="Ulangi password baru">
                             <?php if (isset(session('errors')['password_confirm'])) : ?>
                                 <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['password_confirm'] ?></p>
                             <?php endif; ?>
@@ -67,7 +67,7 @@
 
                 <div class="pt-8 border-t border-slate-100">
                     <button type="submit" class="w-full py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
-                        <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Perbarui Pengaturan
+                        <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Simpan
                     </button>
                 </div>
             </form>

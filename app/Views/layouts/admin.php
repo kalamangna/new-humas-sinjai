@@ -39,7 +39,7 @@
                     <!-- Page Actions -->
                     <div class="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <h1 class="text-2xl font-black text-slate-900 tracking-tight sm:hidden"><?= $this->renderSection('page_title') ?? 'Dasbor' ?></h1>
+                            <h1 class="text-2xl font-black text-slate-900 tracking-tight sm:hidden"><?= $this->renderSection('page_title') ?? 'Dashboard' ?></h1>
                         </div>
                         <div class="flex items-center space-x-3">
                             <?= $this->renderSection('page_actions') ?>

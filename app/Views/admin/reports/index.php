@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Laporan Bulanan<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Laporan<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <div class="flex items-center gap-3">
@@ -27,7 +27,7 @@
     <a href="<?= base_url("admin/reports/download-pdf/{$year}/" . str_pad($month, 2, '0', STR_PAD_LEFT)) ?>" id="download-pdf-btn" class="inline-flex items-center px-4 py-2 bg-rose-600 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-rose-700 transition-all shadow-lg shadow-rose-900/20">
         <i class="fa-solid fa-fw fa-file-pdf mr-2" id="btn-icon"></i>
         <div id="loading-spinner" class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
-        Unduh Laporan PDF
+        Unduh PDF
     </a>
 </div>
 <?= $this->endSection() ?>
@@ -40,15 +40,15 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
                 <h3 class="text-xs font-black text-blue-800 uppercase tracking-[0.3em] mb-3 flex items-center">
-                    <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>ARSIP PUBLIKASI BERITA
+                    <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>ARSIP BERITA
                 </h3>
                 <h2 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
-                    Laporan Bulanan - <?= format_date($year . '-' . $month . '-01', 'month_year') ?>
+                    Laporan - <?= format_date($year . '-' . $month . '-01', 'month_year') ?>
                 </h2>
             </div>
             <div class="bg-white px-6 py-4 rounded-2xl border border-slate-200 shadow-sm text-center md:text-right">
-                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Jumlah Berita</p>
-                <h4 class="text-3xl font-black text-slate-900 tracking-tighter"><?= count($posts) ?> <span class="text-sm font-bold text-slate-400 uppercase">Konten</span></h4>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Berita</p>
+                <h4 class="text-3xl font-black text-slate-900 tracking-tighter"><?= count($posts) ?> <span class="text-sm font-bold text-slate-400 uppercase">Berita</span></h4>
             </div>
         </div>
     </div>
@@ -58,10 +58,10 @@
         <table class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <th class="px-8 py-5">Judul Berita</th>
-                    <th class="px-8 py-5">Ringkasan Konten</th>
-                    <th class="px-8 py-5">Tayangan</th>
-                    <th class="px-8 py-5">Tanggal Terbit</th>
+                    <th class="px-8 py-5">Judul</th>
+                    <th class="px-8 py-5">Ringkasan</th>
+                    <th class="px-8 py-5">Dilihat</th>
+                    <th class="px-8 py-5">Tanggal</th>
                     <th class="px-8 py-5 text-right w-1">Aksi</th>
                 </tr>
             </thead>
@@ -81,7 +81,7 @@
                             </td>
                             <td class="px-8 py-6">
                                 <span class="px-3 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100 whitespace-nowrap">
-                                    <?= number_format($post['views']) ?> Hits
+                                    <?= number_format($post['views']) ?> Dilihat
                                 </span>
                             </td>
                             <td class="px-8 py-6 text-[10px] font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap">
@@ -100,8 +100,8 @@
                             <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-200">
                                 <i class="fa-solid fa-fw fa-inbox text-3xl"></i>
                             </div>
-                            <h4 class="text-sm font-black text-slate-400 uppercase tracking-widest">Data Tidak Ditemukan</h4>
-                            <p class="text-xs text-slate-400 mt-2">Tidak ada aktivitas publikasi pada periode ini.</p>
+                            <h4 class="text-sm font-black text-slate-400 uppercase tracking-widest">Kosong</h4>
+                            <p class="text-xs text-slate-400 mt-2">Tidak ada berita pada periode ini.</p>
                         </td>
                     </tr>
                 <?php endif; ?>

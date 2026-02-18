@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Analisa Perangkat<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Analitik: Statistik Perangkat<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/analytics/overview') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -45,7 +45,7 @@
                         <th class="px-8 py-5">Platform / Perangkat</th>
                         <th class="px-8 py-5 w-1">OS</th>
                         <th class="px-8 py-5 w-1">Browser</th>
-                        <th class="px-8 py-5 text-right w-1">Jumlah User</th>
+                        <th class="px-8 py-5 text-right w-1">Pengunjung</th>
                     </tr>
                 </thead>
                 <tbody id="device-data" class="divide-y divide-slate-100 whitespace-nowrap"></tbody>

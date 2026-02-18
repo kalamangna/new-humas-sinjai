@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Tulis Berita<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Kelola Berita<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/posts') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -17,8 +17,8 @@
                 <i class="fa-solid fa-fw fa-pen-nib text-sm"></i>
             </div>
             <div>
-                <h2 class="text-lg font-black text-slate-900 tracking-tight">Berita</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Input konten informasi terbaru</p>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Tulis Berita</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Lengkapi rincian berita baru</p>
             </div>
         </div>
 
@@ -31,7 +31,7 @@
                     <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Judul <span class="text-red-600">*</span></label>
                     <input type="text" name="title" id="title" required
                         class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-xl font-bold text-slate-900 placeholder-slate-300 focus:border-blue-800 focus:bg-white outline-none transition-all <?= (isset(session('errors')['title'])) ? 'border-red-500' : '' ?>"
-                        value="<?= old('title') ?>" placeholder="Tuliskan judul berita yang menarik...">
+                        value="<?= old('title') ?>" placeholder="Masukkan judul">
                     <?php if (isset(session('errors')['title'])) : ?>
                         <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['title'] ?></p>
                     <?php endif; ?>
@@ -41,7 +41,7 @@
                 <div class="space-y-4">
                     <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Isi <span class="text-red-600">*</span></label>
                     <div class="<?= (isset(session('errors')['content'])) ? 'ring-2 ring-red-500 rounded-2xl overflow-hidden' : '' ?>">
-                        <textarea name="content" id="content" rows="20" class="w-full"><?= old('content') ?></textarea>
+                        <textarea name="content" id="content" rows="20" class="w-full"></textarea>
                     </div>
                     <?php if (isset(session('errors')['content'])) : ?>
                         <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['content'] ?></p>
@@ -53,30 +53,30 @@
                     <!-- Media Upload -->
                     <div class="space-y-6">
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Gambar Utama <span class="text-red-600">*</span></label>
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Gambar <span class="text-red-600">*</span></label>
                             <div class="flex items-center space-x-2">
                                 <label class="flex-1 cursor-pointer">
                                     <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
                                         <i class="fa-solid fa-fw fa-image text-slate-400 mr-3"></i>
-                                        <span class="text-sm font-bold text-slate-500 truncate" id="file-name">Pilih atau Seret Gambar</span>
+                                        <span class="text-sm font-bold text-slate-500 truncate" id="file-name">Pilih ...</span>
                                         <input type="file" name="thumbnail" id="thumbnail" class="hidden" accept="image/*" onchange="previewImage('thumbnail', 'thumbnail-preview', 'thumbnail-preview-container'); document.getElementById('file-name').innerText = this.files[0].name;">
                                     </div>
                                 </label>
-                                <button type="button" id="paste-thumbnail-btn" class="p-3 bg-slate-100 text-slate-600 rounded-xl hover:bg-blue-800 hover:text-white transition-all shadow-sm" title="Tempel dari clipboard">
+                                <button type="button" id="paste-thumbnail-btn" class="p-3 bg-slate-100 text-slate-600 rounded-xl hover:bg-blue-800 hover:text-white transition-all shadow-sm" title="Tempel">
                                     <i class="fa-solid fa-fw fa-paste"></i>
                                 </button>
                             </div>
                             <input type="hidden" name="pasted_thumbnail" id="pasted_thumbnail">
-                            <p class="text-[10px] text-slate-400 font-medium">Format: JPG, PNG, WEBP. Maksimal 2MB.</p>
-                            
+                            <p class="text-[10px] text-slate-400 font-medium">Maksimal 2MB.</p>
+
                             <div id="thumbnail-preview-container" class="mt-4 hidden ring-4 ring-slate-50 rounded-2xl overflow-hidden shadow-xl border border-slate-200">
                                 <img id="thumbnail-preview" class="w-full h-auto">
                             </div>
                         </div>
 
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Keterangan Gambar</label>
-                            <input type="text" name="thumbnail_caption" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Contoh: Dokumentasi Humas Sinjai">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Keterangan</label>
+                            <input type="text" name="thumbnail_caption" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Masukkan keterangan">
                         </div>
                     </div>
 
@@ -101,19 +101,16 @@
                                     </div>
                                 <?php endforeach; ?>
                             </div>
-                            <?php if (isset(session('errors')['categories'])) : ?>
-                                <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['categories'] ?></p>
-                            <?php endif; ?>
                         </div>
 
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tag <span class="text-red-600">*</span></label>
-                            <?php 
+                            <div id="tag-container" class="bg-slate-50 border border-slate-200 rounded-2xl p-4 min-h-[100px] flex flex-wrap gap-2 text-[10px] font-black uppercase tracking-widest">
+                                <?php
                                 $oldTags = old('tags');
                                 $displayTags = !is_null($oldTags) ? (is_array($oldTags) ? $oldTags : explode(',', $oldTags)) : [];
                                 $displayTags = array_filter(array_map('trim', $displayTags));
-                            ?>
-                            <div id="tag-container" class="bg-slate-50 border border-slate-200 rounded-2xl p-4 min-h-[100px] flex flex-wrap gap-2 text-[10px] font-black uppercase tracking-widest">
+                                ?>
                                 <?php foreach ($displayTags as $tagName) : ?>
                                     <div class="tag-badge inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-800 rounded-lg border border-blue-200" data-tag="<?= esc($tagName) ?>">
                                         <?= esc($tagName) ?>
@@ -122,13 +119,13 @@
                                 <?php endforeach; ?>
                             </div>
                             <input type="hidden" name="tags" id="tags-input" value="<?= esc(implode(',', $displayTags)) ?>">
-                            
+
                             <div class="flex gap-2">
-                                <input type="text" id="manual-tag-input" class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-800" placeholder="Tambah tag manual...">
+                                <input type="text" id="manual-tag-input" class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-800" placeholder="Masukkan tag">
                                 <button type="button" id="add-manual-tag-btn" class="p-2 bg-slate-800 text-white rounded-xl hover:bg-slate-950 transition-all"><i class="fa-solid fa-fw fa-plus"></i></button>
                             </div>
                             <button type="button" id="suggest-tags-btn" class="w-full py-3 bg-blue-50 text-blue-800 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-100 transition-all border border-blue-100">
-                                <i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Tag via AI
+                                <i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Tag
                             </button>
                         </div>
                     </div>
@@ -136,13 +133,13 @@
 
                 <input type="hidden" name="status" id="post-status" value="published">
 
-                <!-- Simpan Section -->
+                <!-- Actions -->
                 <div class="pt-10 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-4">
                     <button type="submit" onclick="document.getElementById('post-status').value='draft'" class="px-8 py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-slate-200 transition-all">
                         <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Simpan Konsep
                     </button>
                     <button type="submit" onclick="document.getElementById('post-status').value='published'" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
-                        <i class="fa-solid fa-fw fa-paper-plane mr-2 text-sm"></i>Terbitkan
+                        Terbitkan
                     </button>
                 </div>
             </form>
@@ -166,19 +163,21 @@
                         document.getElementById('pasted_thumbnail').value = e.target.result;
                         document.getElementById('thumbnail-preview').src = e.target.result;
                         document.getElementById('thumbnail-preview-container').classList.remove('hidden');
-                        document.getElementById('file-name').innerText = "Gambar dari Clipboard";
+                        document.getElementById('file-name').innerText = "Gambar Clipboard";
                     };
                     reader.readAsDataURL(blob);
                 }
             }
-        } catch (e) { alert('Gagal menempel gambar.'); }
+        } catch (e) {
+            alert('Gagal menempel gambar.');
+        }
     });
 
     // Tag logic
     const tagContainer = document.getElementById('tag-container');
     const tagsInput = document.getElementById('tags-input');
     const manualTagInput = document.getElementById('manual-tag-input');
-    
+
     function updateTagsInput() {
         const tags = Array.from(tagContainer.querySelectorAll('.tag-badge')).map(b => b.dataset.tag);
         tagsInput.value = tags.join(',');
@@ -190,33 +189,51 @@
         badge.className = 'tag-badge inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-800 text-[10px] font-black uppercase tracking-widest rounded-lg border border-blue-200';
         badge.dataset.tag = tag;
         badge.innerHTML = `${tag} <button type="button" class="ml-2 hover:text-red-600"><i class="fa-solid fa-fw fa-circle-xmark"></i></button>`;
-        badge.querySelector('button').onclick = () => { badge.remove(); updateTagsInput(); };
+        badge.querySelector('button').onclick = () => {
+            badge.remove();
+            updateTagsInput();
+        };
         tagContainer.appendChild(badge);
         updateTagsInput();
     }
 
-    document.getElementById('add-manual-tag-btn').onclick = () => { addTag(manualTagInput.value.trim()); manualTagInput.value = ''; };
-    manualTagInput.onkeypress = (e) => { if(e.key==='Enter') { e.preventDefault(); document.getElementById('add-manual-tag-btn').click(); } };
+    document.getElementById('add-manual-tag-btn').onclick = () => {
+        addTag(manualTagInput.value.trim());
+        manualTagInput.value = '';
+    };
+    manualTagInput.onkeypress = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document.getElementById('add-manual-tag-btn').click();
+        }
+    };
 
     // Suggest logic
     document.getElementById('suggest-tags-btn').onclick = function() {
         const title = document.getElementById('title').value;
         const content = tinymce.get('content').getContent();
-        if(!title || !content) return alert('Isi judul dan konten dahulu.');
-        
+        if (!title || !content) return alert('Isi data dahulu.');
+
         this.disabled = true;
         this.innerHTML = '<i class="fa-solid fa-fw fa-circle-notch fa-spin mr-2"></i>Menganalisa...';
-        
+
         fetch('<?= base_url('api/tags/suggest') ?>', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
-            body: new URLSearchParams({ '<?= csrf_token() ?>': '<?= csrf_hash() ?>', title, content })
-        })
-        .then(r => r.json()).then(data => data.forEach(addTag))
-        .finally(() => { 
-            this.disabled = false; 
-            this.innerHTML = '<i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2"></i>Sarankan Tag via AI'; 
-        });
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: new URLSearchParams({
+                    '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
+                    title,
+                    content
+                })
+            })
+            .then(r => r.json()).then(data => data.forEach(addTag))
+            .finally(() => {
+                this.disabled = false;
+                this.innerHTML = '<i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2"></i>Sarankan Tag';
+            });
     };
 </script>
 

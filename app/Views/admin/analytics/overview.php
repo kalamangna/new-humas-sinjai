@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Analitik Situs<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Kelola Analitik<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <div class="flex flex-col sm:flex-row items-center sm:items-end gap-3 w-full sm:w-auto">
@@ -103,7 +103,7 @@
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Sesi Kunjungan</p>
             </div>
         </div>
-        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Jumlah periode interaksi aktif pengguna di situs.</p>
+        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Jumlah periode interaksi aktif user di situs.</p>
     </div>
 
     <!-- Rasio Pantulan -->
@@ -114,7 +114,7 @@
             </div>
             <div class="text-right">
                 <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="bounce-rate">...</h3>
-                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Bounce Rate</p>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Rasio Pantulan</p>
             </div>
         </div>
         <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Persentase pengunjung yang hanya membuka satu halaman.</p>
@@ -137,7 +137,7 @@
 
 <!-- Charts Grid -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-10">
-    <!-- View Trends -->
+    <!-- Tren Kunjungan -->
     <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
         <div class="flex items-center justify-between mb-10 border-b border-slate-50 pb-6">
             <h4 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
@@ -419,7 +419,7 @@
                     tooltip: {
                         theme: 'light',
                         x: { show: true },
-                        y: { formatter: (val) => val.toLocaleString() + ' Hits' }
+                        y: { formatter: (val) => val.toLocaleString() + ' Dilihat' }
                     }
                 };
 

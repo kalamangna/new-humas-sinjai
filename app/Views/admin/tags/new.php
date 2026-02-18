@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/admin') ?>
 
-<?= $this->section('page_title') ?>Buat Tag<?= $this->endSection() ?>
+<?= $this->section('page_title') ?>Kelola Tag<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
 <a href="<?= base_url('admin/tags') ?>" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-600 font-bold text-[10px] uppercase tracking-[0.2em] rounded-lg hover:bg-slate-200 transition-all border border-slate-200">
@@ -17,8 +17,8 @@
                 <i class="fa-solid fa-fw fa-circle-plus text-sm"></i>
             </div>
             <div>
-                <h2 class="text-lg font-black text-slate-900 tracking-tight">Tag</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Tambah klasifikasi berita baru</p>
+                <h2 class="text-lg font-black text-slate-900 tracking-tight">Tambah Tag</h2>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Lengkapi rincian tag baru</p>
             </div>
         </div>
 
@@ -31,7 +31,7 @@
                     <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Nama <span class="text-red-600">*</span></label>
                     <input type="text" name="name" required
                         class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all"
-                        value="<?= old('name') ?>" placeholder="Contoh: Infrastruktur">
+                        value="<?= old('name') ?>" placeholder="Masukkan nama tag">
                 </div>
 
                 <div class="pt-8 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-4">

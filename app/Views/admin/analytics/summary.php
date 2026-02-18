@@ -106,7 +106,7 @@
             // Performance Summary
             const latest = overview[0] || {};
             const summaryData = [
-                { label: 'Total Pengguna', value: parseInt(latest.totalUsers || 0).toLocaleString(), icon: 'fa-users', color: 'text-blue-800', bg: 'bg-blue-50' },
+                { label: 'Total User', value: parseInt(latest.totalUsers || 0).toLocaleString(), icon: 'fa-users', color: 'text-blue-800', bg: 'bg-blue-50' },
                 { label: 'Tampilan Halaman', value: parseInt(latest.screenPageViews || 0).toLocaleString(), icon: 'fa-eye', color: 'text-emerald-600', bg: 'bg-emerald-50' },
                 { label: 'Rata-rata Durasi', value: (latest.averageSessionDuration || 0).toFixed(0) + 's', icon: 'fa-clock', color: 'text-amber-600', bg: 'bg-amber-50' }
             ];

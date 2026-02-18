@@ -22,7 +22,7 @@
             <li>
                 <div class="flex items-center">
                     <i class="fa-solid fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <a href="<?= base_url('posts') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">Indeks Berita</a>
+                    <a href="<?= base_url('posts') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">Berita</a>
                 </div>
             </li>
             <li>

@@ -39,23 +39,24 @@
             <!-- Radio Visual -->
             <div class="relative w-48 h-48 mx-auto mb-8">
                 <div class="absolute inset-0 bg-blue-900 rounded-[2.5rem] rotate-6 opacity-5 group-hover:rotate-12 transition-transform duration-700"></div>
-                <div class="relative w-48 h-48 bg-slate-900 rounded-[2.5rem] flex items-center justify-center shadow-2xl ring-4 ring-slate-50 overflow-hidden">
+                <div class="relative w-48 h-48 bg-slate-900 rounded-[2.5rem] flex flex-col items-center justify-center shadow-2xl ring-4 ring-slate-50 overflow-hidden">
                     <img src="<?= base_url('sbfm.png') ?>" class="absolute w-32 h-auto opacity-20 group-hover:scale-110 transition-transform duration-[3s] object-contain" alt="Logo">
-                    <div id="equalizer" class="relative z-10 flex items-end space-x-1.5 h-12 opacity-50 transition-all duration-500">
-                        <div class="w-1.5 bg-blue-500 rounded-full h-2 bar-1"></div>
-                        <div class="w-1.5 bg-blue-500 rounded-full h-2 bar-2"></div>
-                        <div class="w-1.5 bg-blue-500 rounded-full h-2 bar-3"></div>
-                        <div class="w-1.5 bg-blue-500 rounded-full h-2 bar-4"></div>
-                        <div class="w-1.5 bg-blue-500 rounded-full h-2 bar-5"></div>
+                    
+                    <!-- Integrated Frequency & Equalizer -->
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div class="text-2xl font-black text-white tracking-tighter mb-3 drop-shadow-md">
+                            95,5 <span class="text-[10px] text-blue-400 uppercase font-bold ml-0.5 tracking-widest">FM</span>
+                        </div>
+                        <div id="equalizer" class="flex items-end space-x-1.5 h-10 opacity-50 transition-all duration-500">
+                            <div class="w-1.5 bg-blue-500 rounded-full h-2 bar-1"></div>
+                            <div class="w-1.5 bg-blue-500 rounded-full h-2 bar-2"></div>
+                            <div class="w-1.5 bg-blue-500 rounded-full h-2 bar-3"></div>
+                            <div class="w-1.5 bg-blue-500 rounded-full h-2 bar-4"></div>
+                            <div class="w-1.5 bg-blue-500 rounded-full h-2 bar-5"></div>
+                        </div>
                     </div>
+                    
                     <div class="absolute inset-0 bg-blue-600/10 mix-blend-overlay"></div>
-                </div>
-            </div>
-
-            <div class="mb-8">
-                <div class="inline-flex items-center px-5 py-1.5 bg-blue-50 border border-blue-100 rounded-full">
-                    <i class="fa-solid fa-fw fa-tower-broadcast text-blue-800 mr-2.5 text-xs"></i>
-                    <span class="text-xl font-black text-slate-900 tracking-tighter">95,5 <span class="text-xs text-blue-800 uppercase ml-0.5">FM</span></span>
                 </div>
             </div>
 
@@ -78,7 +79,13 @@
                     </div>
                     
                     <div class="flex flex-col items-center">
-                        <p id="status-msg" class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Siaran Siap</p>
+                        <div class="inline-flex items-center px-4 py-1.5 bg-slate-50 border border-slate-100 rounded-full transition-all duration-500" id="status-badge">
+                            <span class="relative flex h-2 w-2 mr-2.5">
+                                <span id="status-ping" class="absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-0 transition-opacity duration-500"></span>
+                                <span id="status-dot" class="relative inline-flex rounded-full h-2 w-2 bg-slate-400 transition-colors duration-500"></span>
+                            </span>
+                            <span id="status-msg" class="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em]">Siaran Siap</span>
+                        </div>
                         <div id="buffering-indicator" class="hidden mt-4 flex space-x-1.5">
                             <div class="w-1.5 h-1.5 bg-blue-800 rounded-full animate-bounce"></div>
                             <div class="w-1.5 h-1.5 bg-blue-800 rounded-full animate-bounce [animation-delay:0.2s]"></div>
@@ -132,20 +139,38 @@
     });
 
     function updateUI(isPlaying) {
+        const dot = document.getElementById('status-dot');
+        const badge = document.getElementById('status-badge');
+        const ping = document.getElementById('status-ping');
+        
         if (isPlaying) {
             playIcon.classList.replace('fa-play', 'fa-pause');
             playIcon.classList.remove('ml-1');
             statusMsg.innerText = 'Streaming Aktif';
-            statusMsg.classList.remove('text-red-600');
+            statusMsg.classList.replace('text-slate-500', 'text-red-600');
             bufferingIndicator.classList.add('hidden');
             equalizer.classList.add('playing');
             equalizer.classList.replace('opacity-50', 'opacity-100');
+            
+            if (badge) badge.classList.replace('bg-slate-50', 'bg-red-50');
+            if (badge) badge.classList.replace('border-slate-100', 'border-red-100');
+            if (dot) dot.classList.replace('bg-slate-400', 'bg-red-600');
+            if (ping) ping.classList.replace('opacity-0', 'opacity-100');
+            if (ping) ping.classList.add('animate-ping');
         } else {
             playIcon.classList.replace('fa-pause', 'fa-play');
             playIcon.classList.add('ml-1');
             bufferingIndicator.classList.add('hidden');
             equalizer.classList.remove('playing');
             equalizer.classList.replace('opacity-100', 'opacity-50');
+            statusMsg.innerText = 'Siaran Dihentikan';
+            statusMsg.classList.replace('text-red-600', 'text-slate-500');
+
+            if (badge) badge.classList.replace('bg-red-50', 'bg-slate-50');
+            if (badge) badge.classList.replace('border-red-100', 'border-slate-100');
+            if (dot) dot.classList.replace('bg-red-600', 'bg-slate-400');
+            if (ping) ping.classList.replace('opacity-100', 'opacity-0');
+            if (ping) ping.classList.remove('animate-ping');
         }
     }
 

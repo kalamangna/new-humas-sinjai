@@ -6,7 +6,13 @@ use CodeIgniter\Config\BaseConfig;
 
 class App extends BaseConfig
 {
-    public string $baseURL = 'http://localhost:8080/';
+    public string $baseURL;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->baseURL = env('app.baseURL', 'http://localhost:8080/');
+    }
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.

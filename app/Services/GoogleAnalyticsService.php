@@ -21,6 +21,20 @@ class GoogleAnalyticsService
 
     public function runReport(array $config = []): array
     {
+        // 1. Generate Cache Key
+        $cacheKey = 'ga_report_' . md5(json_encode($config) . $this->propertyId);
+        $cache = \Config\Services::cache();
+
+        // 2. Check Circuit Breaker (if API failed recently, don't try again for 15 mins)
+        if ($cache->get('ga_api_down')) {
+            return [];
+        }
+
+        // 3. Return cached data if available (cache for 1 hour)
+        if ($cachedData = $cache->get($cacheKey)) {
+            return $cachedData;
+        }
+
         try {
             $request = new RunReportRequest([
                 'property' => 'properties/' . $this->propertyId,
@@ -31,9 +45,22 @@ class GoogleAnalyticsService
             ]);
 
             $response = $this->client->runReport($request);
-            return $this->formatResponse($response);
+            $formattedData = $this->formatResponse($response);
+
+            // 4. Cache successful response (1 hour)
+            $cache->save($cacheKey, $formattedData, 3600);
+
+            return $formattedData;
+
         } catch (\Exception $e) {
-            throw new \RuntimeException('Google Analytics API Error: ' . $e->getMessage());
+            log_message('error', '[GA Service] API Error: ' . $e->getMessage());
+
+            // 5. Activate Circuit Breaker on quota/server errors (15 mins)
+            if (strpos($e->getMessage(), 'RESOURCE_EXHAUSTED') !== false || strpos($e->getMessage(), 'quota') !== false) {
+                $cache->save('ga_api_down', true, 900);
+            }
+
+            return []; // Graceful fallback
         }
     }
 

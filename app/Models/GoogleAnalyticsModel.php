@@ -33,6 +33,17 @@ class GoogleAnalyticsModel extends Model
 
         $data = $this->gaService->runReport($config);
 
+        if (empty($data)) {
+            return [[
+                'totalUsers' => 0,
+                'newUsers' => 0,
+                'sessions' => 0,
+                'screenPageViews' => 0,
+                'bounceRate' => 0,
+                'averageSessionDuration' => 0,
+            ]];
+        }
+
         // Map array ke format yang diinginkan
         return array_map(function ($item) {
             return [

@@ -58,20 +58,23 @@ class Posts extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->postService->getErrors());
         }
 
+        $title = $this->request->getPost('title');
+        $slug = url_title($title, '-', true);
+
         // Handle Image
         $thumbnailSource = $pastedThumbnail ?: $this->request->getFile('thumbnail');
-        $thumbnail = $this->mediaService->saveImage($thumbnailSource, 'thumbnails');
+        $imagePaths = $this->generateArticleImages($thumbnailSource, $slug);
 
-        if (!$thumbnail && ($this->request->getFile('thumbnail')->getName() !== '' || !empty($pastedThumbnail))) {
-            return redirect()->back()->withInput()->with('error', 'Gagal memproses gambar thumbnail.');
+        if (!$imagePaths && ($this->request->getFile('thumbnail')->getName() !== '' || !empty($pastedThumbnail))) {
+            return redirect()->back()->withInput()->with('error', 'Gagal memproses gambar berita.');
         }
 
         $data = [
-            'title'             => $this->request->getPost('title'),
+            'title'             => $title,
             'content'           => $this->request->getPost('content'),
             'status'            => $this->request->getPost('status'),
             'user_id'           => session()->get('user_id'),
-            'thumbnail'         => $thumbnail,
+            'thumbnail'         => $imagePaths['thumbnail'] ?? null,
             'thumbnail_caption' => $this->request->getPost('thumbnail_caption'),
         ];
 
@@ -128,10 +131,15 @@ class Posts extends BaseController
         $hasNewThumbnail = !empty($pastedThumbnail) || ($thumbnailFile && $thumbnailFile->isValid() && !$thumbnailFile->hasMoved());
 
         if ($hasNewThumbnail) {
-            $newThumbnail = $this->mediaService->saveImage($pastedThumbnail ?: $thumbnailFile, 'thumbnails');
-            if ($newThumbnail) {
-                $this->mediaService->deleteImage($post['thumbnail']);
-                $thumbnail = $newThumbnail;
+            $imagePaths = $this->generateArticleImages($pastedThumbnail ?: $thumbnailFile, $post['slug']);
+            if ($imagePaths) {
+                if (!empty($post['thumbnail'])) {
+                    $this->mediaService->deleteImage($post['thumbnail']);
+                    // Clean related posts version
+                    $postImage = str_replace('thumbnails', 'posts', $post['thumbnail']);
+                    if (file_exists(FCPATH . $postImage)) @unlink(FCPATH . $postImage);
+                }
+                $thumbnail = $imagePaths['thumbnail'];
             } else {
                 return redirect()->back()->withInput()->with('error', 'Gagal memproses gambar baru.');
             }
@@ -146,10 +154,21 @@ class Posts extends BaseController
             'thumbnail_caption' => $this->request->getPost('thumbnail_caption'),
         ];
 
-        if ($this->postService->savePost($data, [
+        if ($postId = $this->postService->savePost($data, [
             'categories' => $this->request->getPost('categories') ?? [],
             'tags'       => $this->request->getPost('tags') ?? ''
         ], (int)$id)) {
+            // Get updated post to check for slug changes
+            $postModel = new \App\Models\PostModel();
+            $updatedPost = $postModel->find($postId);
+
+            // Handle Slug change for OG Image
+            if ($post['slug'] !== $updatedPost['slug']) {
+                $oldOg = FCPATH . 'uploads/og/' . $post['slug'] . '.jpg';
+                $newOg = FCPATH . 'uploads/og/' . $updatedPost['slug'] . '.jpg';
+                if (file_exists($oldOg)) rename($oldOg, $newOg);
+            }
+
             return redirect()->to(base_url('admin/posts'))->with('success', 'Berita berhasil diperbarui.');
         }
 
@@ -162,9 +181,86 @@ class Posts extends BaseController
         $post = $this->postService->getPostBySlug((string)$id, false);
         if ($post && $this->postService->deletePost((int)$id)) {
             $this->mediaService->deleteImage($post['thumbnail']);
+            $this->mediaService->deleteOgImage($post['slug']);
+            
+            // Cleanup related post version
+            $postImage = str_replace('thumbnails', 'posts', $post['thumbnail'] ?? '');
+            if (!empty($postImage) && file_exists(FCPATH . $postImage)) @unlink(FCPATH . $postImage);
+
             return redirect()->to(base_url('admin/posts'))->with('success', 'Berita berhasil dihapus.');
         }
         return redirect()->to(base_url('admin/posts'))->with('error', 'Gagal menghapus berita.');
+    }
+
+    /**
+     * Standardized Image Generation for Articles
+     * TASK 1 & 2 Implementation
+     */
+    private function generateArticleImages($source, string $slug): ?array
+    {
+        if (empty($source)) return null;
+
+        try {
+            $tempPath = null;
+            $extension = 'jpg';
+
+            if ($source instanceof \CodeIgniter\HTTP\Files\UploadedFile) {
+                if (!$source->isValid()) return null;
+                $tempPath = $source->getRealPath();
+                $extension = $source->getExtension();
+            } elseif (is_string($source) && strpos($source, 'data:image') === 0) {
+                $parts = explode(',', $source);
+                $data = base64_decode($parts[1]);
+                $tempPath = WRITEPATH . 'cache/' . uniqid() . '.tmp';
+                file_put_contents($tempPath, $data);
+            }
+
+            if (!$tempPath || !file_exists($tempPath)) return null;
+
+            $subDir = date('Y/m');
+            $paths = [
+                'posts' => 'uploads/posts/' . $subDir,
+                'thumbnails' => 'uploads/thumbnails/' . $subDir,
+                'og' => 'uploads/og'
+            ];
+
+            foreach ($paths as $dir) {
+                if (!is_dir(FCPATH . $dir)) mkdir(FCPATH . $dir, 0755, true);
+            }
+
+            $fileName = bin2hex(random_bytes(8));
+            $image = \Config\Services::image('gd');
+
+            // 1. POSTS (Max width: 1600px, quality 80%, original extension)
+            $postRelPath = $paths['posts'] . '/' . $fileName . '.' . $extension;
+            $image->withFile($tempPath)
+                  ->resize(1600, 1600, true, 'width')
+                  ->save(FCPATH . $postRelPath, 80);
+
+            // 2. THUMBNAILS (400x250, crop center, JPG, 75%)
+            $thumbRelPath = $paths['thumbnails'] . '/' . $fileName . '.jpg';
+            $image->withFile($tempPath)
+                  ->fit(400, 250, 'center')
+                  ->save(FCPATH . $thumbRelPath, 75);
+
+            // 3. OG IMAGE (1200x630, crop center, slug.jpg, JPG, 75%)
+            $ogRelPath = $paths['og'] . '/' . $slug . '.jpg';
+            $image->withFile($tempPath)
+                  ->fit(1200, 630, 'center')
+                  ->save(FCPATH . $ogRelPath, 75);
+
+            if (is_string($source)) @unlink($tempPath);
+
+            return [
+                'post' => $postRelPath,
+                'thumbnail' => $thumbRelPath,
+                'og' => $ogRelPath
+            ];
+
+        } catch (\Exception $e) {
+            log_message('error', '[generateArticleImages] ' . $e->getMessage());
+            return null;
+        }
     }
 
     public function upload_image()

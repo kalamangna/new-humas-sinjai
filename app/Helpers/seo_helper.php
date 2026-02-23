@@ -13,6 +13,8 @@ if (!function_exists('generate_seo_tags')) {
         $image = isset($data['image']) ? $data['image'] : base_url('meta.png');
         $url = current_url();
         $canonical = rtrim($url, '/');
+        
+        $imageType = (strpos($image, '.png') !== false) ? 'image/png' : 'image/jpeg';
 
         $tags = [
             '<title>' . $title . '</title>',
@@ -26,9 +28,12 @@ if (!function_exists('generate_seo_tags')) {
             '<!-- Open Graph -->',
             '<meta property="og:title" content="' . $title . '">',
             '<meta property="og:description" content="' . $description . '">',
-            '<meta property="og:image" content="' . $image . '">',
+            '<meta property="og:type" content="' . (isset($data['type']) ? $data['type'] : 'article') . '">',
             '<meta property="og:url" content="' . $url . '">',
-            '<meta property="og:type" content="' . (isset($data['type']) ? $data['type'] : 'website') . '">',
+            '<meta property="og:image" content="' . $image . '">',
+            '<meta property="og:image:width" content="1200">',
+            '<meta property="og:image:height" content="630">',
+            '<meta property="og:image:type" content="image/jpeg">',
             '<meta property="og:site_name" content="Humas Sinjai">',
             '',
             '<!-- Twitter Card -->',

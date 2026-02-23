@@ -102,4 +102,40 @@ class MediaService extends BaseService
     {
         return $this->saveImage($file, 'posts', false);
     }
+
+    /**
+     * Generate and save OG image for a post
+     */
+    public function saveOgImage($sourcePath, string $slug): void
+    {
+        if (empty($sourcePath)) return;
+
+        // Ensure source path is absolute
+        $fullSourcePath = (strpos($sourcePath, FCPATH) === 0) ? $sourcePath : FCPATH . ltrim($sourcePath, '/');
+
+        if (!file_exists($fullSourcePath)) {
+            log_message('error', '[MediaService] Source image not found for OG generation: ' . $fullSourcePath);
+            return;
+        }
+
+        $targetPath = FCPATH . 'uploads/og/' . $slug . '.jpg';
+        
+        // Ensure directory exists
+        if (!is_dir(dirname($targetPath))) {
+            mkdir(dirname($targetPath), 0755, true);
+        }
+
+        generateOgImage($fullSourcePath, $targetPath);
+    }
+
+    /**
+     * Delete OG image from filesystem
+     */
+    public function deleteOgImage(string $slug): void
+    {
+        $path = FCPATH . 'uploads/og/' . $slug . '.jpg';
+        if (file_exists($path) && is_file($path)) {
+            @unlink($path);
+        }
+    }
 }

@@ -78,19 +78,29 @@
 
                     <?php if (!empty($post['thumbnail'])) : ?>
                         <?php
-                        $thumbPath = $post['thumbnail'] ?? '';
-                        $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
+                        $thumbPath = $post['thumbnail'];
+                        $imageSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : base_url($thumbPath);
+
+                        if (!filter_var($thumbPath, FILTER_VALIDATE_URL)) {
+                            // Try to find high-res version in "posts" directory
+                            $postsDir = str_replace('thumbnails', 'posts', dirname($thumbPath));
+                            $baseName = pathinfo($thumbPath, PATHINFO_FILENAME);
+                            $matches = glob(FCPATH . $postsDir . '/' . $baseName . '.*');
+                            
+                            if (!empty($matches)) {
+                                $ext = pathinfo($matches[0], PATHINFO_EXTENSION);
+                                $imageSrc = base_url($postsDir . '/' . $baseName . '.' . $ext);
+                            }
+                        }
                         ?>
-                        <?php if (!empty($thumbSrc)) : ?>
-                            <figure class="mb-8">
-                                <img loading="lazy" src="<?= $thumbSrc ?>" class="w-full h-auto rounded-2xl shadow-2xl border border-slate-100" alt="<?= esc($post['title']) ?>">
-                                <?php if (!empty($post['thumbnail_caption'])) : ?>
-                                    <figcaption class="mt-5 text-center text-xs text-slate-500 italic font-medium">
-                                        <i class="fa-solid fa-fw fa-camera mr-2 opacity-50"></i><?= esc($post['thumbnail_caption']) ?>
-                                    </figcaption>
-                                <?php endif; ?>
-                            </figure>
-                        <?php endif; ?>
+                        <figure class="mb-8">
+                            <img loading="lazy" src="<?= $imageSrc ?>" class="w-full h-auto rounded-2xl shadow-2xl border border-slate-100" alt="<?= esc($post['title']) ?>">
+                            <?php if (!empty($post['thumbnail_caption'])) : ?>
+                                <figcaption class="mt-5 text-center text-xs text-slate-500 italic font-medium">
+                                    <i class="fa-solid fa-fw fa-camera mr-2 opacity-50"></i><?= esc($post['thumbnail_caption']) ?>
+                                </figcaption>
+                            <?php endif; ?>
+                        </figure>
                     <?php endif; ?>
 
                     <!-- Post Content -->

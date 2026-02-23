@@ -40,3 +40,32 @@ if (!function_exists('processImage')) {
         }
     }
 }
+
+if (!function_exists('generateOgImage')) {
+    /**
+     * Generate Open Graph image (1200x630, JPG, 75% quality)
+     */
+    function generateOgImage($sourcePath, $targetPath)
+    {
+        if (empty($sourcePath) || !file_exists($sourcePath)) {
+            return false;
+        }
+
+        try {
+            $image = \Config\Services::image()
+                ->withFile($sourcePath);
+
+            // If original image is portrait, crop center to landscape before resize
+            // fit() already handles this by cropping to the specified dimensions from the center.
+            $image->fit(1200, 630, 'center');
+
+            // Save as JPG with 75% quality
+            $image->save($targetPath, 75);
+
+            return true;
+        } catch (\Exception $e) {
+            log_message('error', '[generateOgImage] Error: ' . $e->getMessage());
+            return false;
+        }
+    }
+}

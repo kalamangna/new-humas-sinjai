@@ -106,7 +106,7 @@ class PostService extends BaseService
             $this->syncTags($postId, $relations['tags'] ?? '');
 
             $this->postModel->db->transComplete();
-            return true;
+            return $postId;
 
         } catch (\Exception $e) {
             $this->postModel->db->transRollback();

@@ -53,9 +53,15 @@ class Home extends BaseController
         $data['seo']['title'] = $post['title'];
         $data['seo']['description'] = substr(strip_tags($post['content']), 0, 160);
         $data['seo']['keywords'] = implode(', ', array_column($post['tags'], 'name'));
-        $data['seo']['image'] = !empty($post['thumbnail']) 
-                                ? (filter_var($post['thumbnail'], FILTER_VALIDATE_URL) ? $post['thumbnail'] : base_url($post['thumbnail'])) 
-                                : base_url('meta.png');
+        
+        // TASK 3: OG image existence check
+        $ogImagePath = 'uploads/og/' . $post['slug'] . '.jpg';
+        if (file_exists(FCPATH . $ogImagePath)) {
+            $data['seo']['image'] = base_url($ogImagePath);
+        } else {
+            $data['seo']['image'] = base_url('meta.png');
+        }
+        
         $data['seo']['type'] = 'article';
 
         return view('frontend/posts/detail', $data);

@@ -43,6 +43,7 @@ $routes->group('api', static function ($routes) {
     // Analytics API
     $routes->group('analytics', static function ($routes) {
         $routes->get('overview', 'Admin\Analytics::overview');
+        $routes->get('api-status', 'Admin\Analytics::apiStatus');
         $routes->get('top-pages', 'Admin\Analytics::topPages');
         $routes->get('traffic-sources', 'Admin\Analytics::trafficSources');
         $routes->get('geo', 'Admin\Analytics::geo');

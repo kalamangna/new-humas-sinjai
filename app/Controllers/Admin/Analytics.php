@@ -93,6 +93,18 @@ class Analytics extends BaseController
         }
     }
 
+    /**
+     * Check if GA API is currently healthy or throttled
+     */
+    public function apiStatus()
+    {
+        $gaService = new \App\Services\GoogleAnalyticsService();
+        return $this->response->setJSON([
+            'is_throttled' => $gaService->isThrottled(),
+            'message'      => $gaService->isThrottled() ? 'Kuota API Google Analytics habis. Statistik akan tersedia kembali dalam beberapa menit.' : 'OK'
+        ]);
+    }
+
     public function popularPosts()
     {
         try {

@@ -19,6 +19,14 @@ class GoogleAnalyticsService
         $this->propertyId = GoogleClientService::getPropertyId();
     }
 
+    /**
+     * Check if the API is currently throttled by the circuit breaker
+     */
+    public function isThrottled(): bool
+    {
+        return (bool) \Config\Services::cache()->get('ga_api_down');
+    }
+
     public function runReport(array $config = []): array
     {
         // 1. Generate Cache Key

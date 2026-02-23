@@ -48,6 +48,19 @@
 
 <?= $this->section('content') ?>
 
+<!-- GA API Error Notice -->
+<div id="ga-error-container" class="hidden mb-8">
+    <div class="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-2xl flex items-center shadow-sm">
+        <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+            <i class="fa-solid fa-fw fa-triangle-exclamation text-lg"></i>
+        </div>
+        <div>
+            <h5 class="text-sm font-black text-amber-900 uppercase tracking-wider mb-0.5">Koneksi API Terganggu</h5>
+            <p class="text-[11px] font-bold text-amber-700/80 leading-tight" id="ga-error-message"></p>
+        </div>
+    </div>
+</div>
+
 <!-- Metrics Grid -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
     <!-- Total Pengunjung -->
@@ -305,7 +318,29 @@
         });
     }
 
+    function checkApiStatus() {
+        const errorContainer = document.getElementById('ga-error-container');
+        const errorMessage = document.getElementById('ga-error-message');
+
+        fetch('<?= base_url('api/analytics/api-status') ?>')
+            .then(r => r.json())
+            .then(data => {
+                if (data.is_throttled) {
+                    errorMessage.textContent = data.message;
+                    errorContainer.classList.remove('hidden');
+                } else {
+                    errorContainer.classList.add('hidden');
+                }
+            })
+            .catch(() => {
+                errorMessage.textContent = 'Gagal memverifikasi status koneksi API Google Analytics.';
+                errorContainer.classList.remove('hidden');
+            });
+    }
+
     function loadAllData() {
+        checkApiStatus();
+        
         // Reset metrics to loading state with spinners
         const metrics = [
             { id: 'total-users', color: 'border-t-blue-800' },
@@ -360,12 +395,17 @@
             })
             .catch((err) => {
                 console.error(err);
-                ['total-users', 'new-users', 'sessions', 'screen-page-views', 'bounce-rate', 'average-session-duration'].forEach(id => {
+                
+                const errorContainer = document.getElementById("ga-error-container");
+                const errorMessage = document.getElementById("ga-error-message");
+                errorMessage.textContent = "Gagal memuat data statistik. Silakan coba beberapa saat lagi atau periksa kuota API Anda.";
+                errorContainer.classList.remove("hidden");
+
+                ["total-users", "new-users", "sessions", "screen-page-views", "bounce-rate", "average-session-duration"].forEach(id => {
                     const el = document.getElementById(id);
-                    if (el) el.textContent = 'ERR';
+                    if (el) el.textContent = "ERR";
                 });
-            });
-    }
+            });    }
 
     function loadPostStats() {
         const url = new URL('<?= base_url('api/analytics/monthly-post-stats') ?>');

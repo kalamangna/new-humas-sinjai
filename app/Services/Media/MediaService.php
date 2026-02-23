@@ -100,7 +100,7 @@ class MediaService extends BaseService
      */
     public function uploadImage($file): ?string
     {
-        return $this->saveImage($file, 'posts', false);
+        return $this->saveImage($file, 'content', false);
     }
 
     /**

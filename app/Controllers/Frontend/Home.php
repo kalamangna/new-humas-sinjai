@@ -52,16 +52,10 @@ class Home extends BaseController
         $data['seo'] = $this->seoData;
         $data['seo']['title'] = $post['title'];
         $data['seo']['description'] = substr(strip_tags($post['content']), 0, 160);
-        $data['seo']['keywords'] = implode(', ', array_column($post['tags'], 'name'));
+        $data['seo']['keywords'] = implode(', ', array_column($post['tags'] ?? [], 'name'));
         
-        // TASK 3: OG image existence check
-        $slug = $post['slug'] ?? '';
-        $ogImagePath = 'uploads/og/' . $slug . '.jpg';
-        if (!empty($slug) && file_exists(FCPATH . $ogImagePath)) {
-            $data['seo']['image'] = base_url($ogImagePath);
-        } else {
-            $data['seo']['image'] = base_url('meta.png');
-        }
+        // Use media helper for OG image resolution with fallback to thumbnail
+        $data['seo']['image'] = getOgImage(($post['slug'] ?? '') . '.jpg', $post['thumbnail'] ?? '');
         
         $data['seo']['type'] = 'article';
 

@@ -3,6 +3,7 @@
 namespace Config;
 
 use CodeIgniter\Config\BaseService;
+use App\Services\Content\FacebookService; // Import the FacebookService
 
 /**
  * Services Configuration file.
@@ -29,4 +30,23 @@ class Services extends BaseService
      *     return new \CodeIgniter\Example();
      * }
      */
+
+    /**
+     * The FacebookService for handling Facebook Graph API interactions.
+     *
+     * @param boolean $getShared
+     * @return FacebookService
+     */
+    public static function facebookService(bool $getShared = true): FacebookService
+    {
+        if ($getShared) {
+            return static::getSharedInstance('facebookService');
+        }
+
+        // Resolve its dependencies (CodeIgniter's HTTP Client and Cache)
+        $httpClient = static::curlrequest();
+        $cache = static::cache();
+
+        return new FacebookService($httpClient, $cache);
+    }
 }

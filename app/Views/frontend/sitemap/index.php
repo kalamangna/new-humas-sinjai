@@ -42,7 +42,7 @@
     </url>
     <?php foreach ($posts as $post) : ?>
         <url>
-            <loc><?= base_url('post/' . $post['slug']) ?></loc>
+            <loc><?= base_url('post/' . $post['slug'] ?? '') ?></loc>
             <lastmod><?= date('Y-m-d', strtotime($post['updated_at'])) ?></lastmod>
             <changefreq>weekly</changefreq>
             <priority>0.8</priority>

@@ -55,8 +55,9 @@ class Home extends BaseController
         $data['seo']['keywords'] = implode(', ', array_column($post['tags'], 'name'));
         
         // TASK 3: OG image existence check
-        $ogImagePath = 'uploads/og/' . $post['slug'] . '.jpg';
-        if (file_exists(FCPATH . $ogImagePath)) {
+        $slug = $post['slug'] ?? '';
+        $ogImagePath = 'uploads/og/' . $slug . '.jpg';
+        if (!empty($slug) && file_exists(FCPATH . $ogImagePath)) {
             $data['seo']['image'] = base_url($ogImagePath);
         } else {
             $data['seo']['image'] = base_url('meta.png');

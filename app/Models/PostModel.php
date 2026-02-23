@@ -94,7 +94,8 @@ class PostModel extends Model
         $viewsData = $gaModel->getViewsBySlug($slugs, null, null);
 
         foreach ($posts as &$post) {
-            $post['views'] = $viewsData[$post['slug']] ?? 0;
+            $slug = $post['slug'] ?? '' ?? null;
+            $post['views'] = ($slug && isset($viewsData[$slug])) ? $viewsData[$slug] : 0;
         }
 
         return $posts;
@@ -131,7 +132,8 @@ class PostModel extends Model
 
         // Add views from our map
         foreach ($posts as &$post) {
-            $post['views'] = $viewsMap[$post['slug']] ?? 0;
+            $slug = $post['slug'] ?? '' ?? null;
+            $post['views'] = ($slug && isset($viewsMap[$slug])) ? $viewsMap[$slug] : 0;
         }
 
         // Re-sort by views because whereIn doesn't preserve order

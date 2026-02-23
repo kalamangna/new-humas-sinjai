@@ -168,7 +168,7 @@
                                 <?= word_limiter(trim(strip_tags($post['content'], '<p><a>')), 100) ?>
                             </td>
 
-                            <td><a href="<?= base_url('post/' . esc($post['slug'])) ?>" target="_blank"><?= base_url('post/' . esc($post['slug'])) ?></a></td>
+                            <td><a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>" target="_blank"><?= base_url('post/' . esc($post['slug'] ?? '')) ?></a></td>
 
                             <td><?= esc($post['views']) ?></td>
 

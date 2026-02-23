@@ -17,6 +17,7 @@
     <?= view('layouts/partials/footer') ?>
 
     <?= view('layouts/partials/scripts') ?>
+
 </body>
 
 </html>

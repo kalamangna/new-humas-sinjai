@@ -131,7 +131,7 @@ class Posts extends BaseController
         $hasNewThumbnail = !empty($pastedThumbnail) || ($thumbnailFile && $thumbnailFile->isValid() && !$thumbnailFile->hasMoved());
 
         if ($hasNewThumbnail) {
-            $imagePaths = $this->generateArticleImages($pastedThumbnail ?: $thumbnailFile, $post['slug']);
+            $imagePaths = $this->generateArticleImages($pastedThumbnail ?: $thumbnailFile, $post['slug'] ?? '');
             if ($imagePaths) {
                 if (!empty($post['thumbnail'])) {
                     $this->mediaService->deleteImage($post['thumbnail']);
@@ -163,9 +163,12 @@ class Posts extends BaseController
             $updatedPost = $postModel->find($postId);
 
             // Handle Slug change for OG Image
-            if ($post['slug'] !== $updatedPost['slug']) {
-                $oldOg = FCPATH . 'uploads/og/' . $post['slug'] . '.jpg';
-                $newOg = FCPATH . 'uploads/og/' . $updatedPost['slug'] . '.jpg';
+            $oldSlug = $post['slug'] ?? '' ?? null;
+            $newSlug = $updatedPost['slug'] ?? null;
+
+            if ($oldSlug && $newSlug && $oldSlug !== $newSlug) {
+                $oldOg = FCPATH . 'uploads/og/' . $oldSlug . '.jpg';
+                $newOg = FCPATH . 'uploads/og/' . $newSlug . '.jpg';
                 if (file_exists($oldOg)) rename($oldOg, $newOg);
             }
 
@@ -181,7 +184,7 @@ class Posts extends BaseController
         $post = $this->postService->getPostBySlug((string)$id, false);
         if ($post && $this->postService->deletePost((int)$id)) {
             $this->mediaService->deleteImage($post['thumbnail']);
-            $this->mediaService->deleteOgImage($post['slug']);
+            $this->mediaService->deleteOgImage($post['slug'] ?? '');
             
             // Cleanup related post version
             $postImage = str_replace('thumbnails', 'posts', $post['thumbnail'] ?? '');

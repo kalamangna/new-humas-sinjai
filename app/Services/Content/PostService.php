@@ -257,7 +257,8 @@ class PostService extends BaseService
         }
 
         foreach ($posts as &$post) {
-            $post['views'] = $viewsData[$post['slug']] ?? 0;
+            $slug = $post['slug'] ?? '' ?? null;
+            $post['views'] = ($slug && isset($viewsData[$slug])) ? $viewsData[$slug] : 0;
         }
         return $posts;
     }

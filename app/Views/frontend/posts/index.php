@@ -40,7 +40,7 @@
             <?php foreach ($posts as $post) : ?>
                 <article class="group bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col border border-slate-200">
                     <div class="relative h-64 overflow-hidden">
-                        <a href="<?= base_url('post/' . esc($post['slug'])) ?>" class="block h-full">
+                        <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>" class="block h-full">
                             <?php
                             $thumbPath = $post['thumbnail'] ?? '';
                             $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
@@ -70,7 +70,7 @@
 
                     <div class="p-10 flex flex-col flex-1">
                         <h2 class="text-2xl font-bold text-slate-900 mb-5 line-clamp-2 leading-tight group-hover:text-blue-800 transition-colors tracking-tight">
-                            <a href="<?= base_url('post/' . esc($post['slug'])) ?>">
+                            <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>">
                                 <?= esc($post['title']) ?>
                             </a>
                         </h2>

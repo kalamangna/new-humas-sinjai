@@ -155,7 +155,7 @@
                             </td>
                             <td class="px-6 py-4 text-right space-x-1 whitespace-nowrap w-1">
                                 <?php if ($post['status'] === 'published') : ?>
-                                    <a href="<?= base_url('post/' . esc($post['slug'])) ?>" target="_blank" class="inline-flex items-center p-2 bg-slate-100 text-sky-600 rounded-lg hover:bg-sky-600 hover:text-white transition-all shadow-sm">
+                                    <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>" target="_blank" class="inline-flex items-center p-2 bg-slate-100 text-sky-600 rounded-lg hover:bg-sky-600 hover:text-white transition-all shadow-sm">
                                         <i class="fa-solid fa-fw fa-up-right-from-square"></i>
                                     </a>
                                 <?php endif; ?>

@@ -4,9 +4,21 @@ namespace App\Controllers\Frontend;
 
 use App\Controllers\BaseController;
 use App\Services\Content\FacebookService;
+use Config\Services; // Import Config\Services
 
 class Live extends BaseController
 {
+    /**
+     * @var FacebookService
+     */
+    protected $facebookService;
+
+    public function __construct() // No arguments here
+    {
+        // Manually resolve FacebookService via CI4's service container
+        $this->facebookService = Services::facebookService(); // Use the service() helper
+    }
+
     public function radio()
     {
         $data = [
@@ -23,17 +35,13 @@ class Live extends BaseController
 
     public function tv()
     {
-        $facebookService = new FacebookService();
-        $liveVideoId = $facebookService->getLiveVideoId();
+        // Get live stream data from the service
+        $liveStreamData = $this->facebookService->getLiveStreamData();
         
-        $stream_url = $liveVideoId 
-            ? "https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fsinjaitv%2Fvideos%2F{$liveVideoId}%2F&show_text=0&width=560"
-            : null;
-
         $data = [
             'title'      => 'Sinjai TV',
-            'stream_url' => $stream_url,
-            'is_live'    => !empty($stream_url),
+            'stream_url' => $liveStreamData['embedUrl'], // Use the embedUrl from service
+            'is_live'    => $liveStreamData['isLive'],   // Use the isLive from service
             'seo'        => [
                 'title'       => 'Sinjai TV',
                 'description' => 'Siaran Langsung Sinjai TV - Saluran Informasi Pembangunan Daerah.',

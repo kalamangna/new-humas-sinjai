@@ -45,28 +45,6 @@
             liveArrow.classList.toggle('rotate-180');
         });
     }
-
-    // Scroll to Top
-    const scrollTopBtn = document.getElementById('scroll-top');
-    window.addEventListener('scroll', () => {
-        if (scrollTopBtn) {
-            if (window.pageYOffset > 400) {
-                scrollTopBtn.classList.remove('hidden');
-                scrollTopBtn.classList.add('flex');
-            } else {
-                scrollTopBtn.classList.add('hidden');
-                scrollTopBtn.classList.remove('flex');
-            }
-        }
-    });
-    if (scrollTopBtn) {
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
 </script>
 
 <?= $this->renderSection('scripts') ?>

@@ -88,7 +88,7 @@
                                 <?= format_date($post['published_at'], 'date_only') ?>
                             </td>
                             <td class="px-8 py-6 text-right">
-                                <a href="<?= base_url('post/' . esc($post['slug'])) ?>" target="_blank" class="inline-flex items-center p-2 bg-slate-100 text-slate-400 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all shadow-sm">
+                                <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>" target="_blank" class="inline-flex items-center p-2 bg-slate-100 text-slate-400 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all shadow-sm">
                                     <i class="fa-solid fa-fw fa-up-right-from-square text-xs"></i>
                                 </a>
                             </td>

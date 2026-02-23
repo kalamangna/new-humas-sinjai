@@ -240,11 +240,11 @@ class Posts extends BaseController
                   ->resize(1600, 1600, true, 'width')
                   ->save(FCPATH . $postRelPath, 80);
 
-            // 2. THUMBNAILS (400x250, crop center, JPG, 75%)
+            // 2. THUMBNAILS (800x500, crop center, JPG, 90%)
             $thumbRelPath = $paths['thumbnails'] . '/' . $fileName . '.jpg';
             $image->withFile($tempPath)
-                  ->fit(400, 250, 'center')
-                  ->save(FCPATH . $thumbRelPath, 75);
+                  ->fit(800, 500, 'center')
+                  ->save(FCPATH . $thumbRelPath, 90);
 
             // 3. OG IMAGE (1200x630, crop center, slug.jpg, JPG, 75%)
             $ogRelPath = $paths['og'] . '/' . $slug . '.jpg';

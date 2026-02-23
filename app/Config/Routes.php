@@ -24,7 +24,7 @@ $routes->get('sitemap.xml', 'Frontend\Home::sitemap');
 $routes->get('program-prioritas', 'Frontend\Home::programPrioritas');
 
 // Live Streaming
-$routes->group('live', function($routes) {
+$routes->group('live', function ($routes) {
     $routes->get('radio', 'Frontend\Live::radio');
     $routes->get('tv', 'Frontend\Live::tv');
 });
@@ -39,7 +39,7 @@ $routes->post('auth/login', 'Auth\Login::login');
 // API Routes
 $routes->group('api', static function ($routes) {
     $routes->post('tags/suggest', 'Api\TagSuggestion::suggest');
-    
+
     // Analytics API
     $routes->group('analytics', static function ($routes) {
         $routes->get('overview', 'Admin\Analytics::overview');
@@ -60,7 +60,7 @@ $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
     $routes->get('profile', 'Admin\Users::profile');
     $routes->get('settings', 'Admin\Users::settings'); // Account settings
     $routes->post('users/update_settings', 'Admin\Users::update_settings');
-    
+
     // Site Settings
     $routes->get('site-settings', 'Admin\Settings::index');
     $routes->post('settings/update', 'Admin\Settings::update');
@@ -71,7 +71,7 @@ $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
         $routes->get('(:num)/(:num)', 'Admin\Reports::index/$1/$2');
         $routes->get('download-pdf/(:num)/(:num)', 'Admin\Reports::downloadPdf/$1/$2');
     });
-    
+
     // Admin Analytics
     $routes->group('analytics', static function ($routes) {
         $routes->get('overview', 'Admin\Analytics::overviewView');
@@ -92,4 +92,4 @@ $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
 });
 
 // Custom 404 page for the frontend
-$routes->set404Override('App\Controllers\Frontend\Home::error404');
+// $routes->set404Override('App\Controllers\Frontend\Home::error404');

@@ -28,6 +28,15 @@ class CategoryService extends BaseService
             $data['slug'] = url_title($data['name'], '-', true);
         }
 
+        if (isset($data['parent_id']) && empty($data['parent_id'])) {
+            $data['parent_id'] = null;
+        }
+
+        // Prevent setting itself as parent
+        if ($id && isset($data['parent_id']) && (int)$data['parent_id'] === $id) {
+            $data['parent_id'] = null;
+        }
+
         if ($id) {
             return $this->categoryModel->update($id, $data);
         }

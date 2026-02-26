@@ -3,7 +3,7 @@
 
 <?= view('layouts/partials/head_admin') ?>
 
-<body class="h-full font-sans antialiased text-slate-900 bg-slate-100 sidebar-expanded">
+<body class="h-full font-sans antialiased text-slate-900 bg-slate-100 sidebar-expanded overflow-hidden">
     <style>
         @media (min-width: 1024px) {
             #sidebar { transition: width 0.3s ease, transform 0.3s ease; }
@@ -22,7 +22,7 @@
             body:not(.sidebar-expanded) #sidebar .bg-slate-950 #close-sidebar { display: none; }
         }
     </style>
-    <div class="min-h-screen flex overflow-hidden">
+    <div class="h-screen flex overflow-hidden">
         
         <?= view('layouts/partials/sidebar_admin') ?>
 

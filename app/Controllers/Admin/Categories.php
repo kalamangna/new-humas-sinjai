@@ -18,8 +18,18 @@ class Categories extends BaseController
 
     public function index()
     {
+        $filters = $this->request->getGet();
+        $categories = $this->categoryModel->getAllWithDetails($filters);
+        
+        $totalCategories = $this->categoryModel->countAllResults();
+        $postModel = new \App\Models\PostModel();
+        $totalPosts = $postModel->countAllResults();
+
         $data = [
-            'categories' => $this->categoryModel->getHierarchical(),
+            'categories' => $categories,
+            'filters'    => $filters,
+            'total_categories' => $totalCategories,
+            'total_posts' => $totalPosts,
         ];
         return $this->render('admin/categories/index', $data);
     }
@@ -52,9 +62,23 @@ class Categories extends BaseController
         $category = $this->categoryModel->find($id);
         if (!$category) throw new \CodeIgniter\Exceptions\PageNotFoundException();
 
+        // Check if this category is already a parent
+        $hasChildren = $this->categoryModel->where('parent_id', $id)->countAllResults() > 0;
+
+        // Candidates for parent: any top-level category that is not this category
+        // BUT if this category already has children, we shouldn't allow it to have a parent 
+        // (to keep it 2 levels max as per current design)
+        $parentCandidates = [];
+        if (!$hasChildren) {
+            $parentCandidates = $this->categoryModel->where('parent_id', null)
+                                                   ->where('id !=', $id)
+                                                   ->findAll();
+        }
+
         $data = [
             'category' => $category,
-            'categories' => $this->categoryModel->where('parent_id', null)->where('id !=', $id)->findAll(),
+            'categories' => $parentCandidates,
+            'has_children' => $hasChildren,
         ];
         return $this->render('admin/categories/edit', $data);
     }

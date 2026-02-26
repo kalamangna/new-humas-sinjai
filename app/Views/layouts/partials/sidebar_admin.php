@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-300 transition-transform duration-300 transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0 border-r border-slate-800 flex-shrink-0">
+<aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-300 transition-transform duration-300 transform -translate-x-full lg:translate-x-0 lg:static border-r border-slate-800 flex-shrink-0">
     <div class="flex flex-col h-full">
         <!-- Brand -->
         <div class="flex items-center justify-between h-20 px-6 bg-slate-950 border-b border-slate-800">

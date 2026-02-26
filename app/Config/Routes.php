@@ -92,4 +92,4 @@ $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
 });
 
 // Custom 404 page for the frontend
-// $routes->set404Override('App\Controllers\Frontend\Home::error404');
+$routes->set404Override('App\Controllers\Frontend\Home::error404');

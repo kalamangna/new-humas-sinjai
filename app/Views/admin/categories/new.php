@@ -38,7 +38,7 @@
                     <div class="space-y-3">
                         <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Induk</label>
                         <select name="parent_id" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all appearance-none cursor-pointer">
-                            <option value="">Pilih ...</option>
+                            <option value="">Pilih Induk</option>
                             <?php foreach ($categories as $category) : ?>
                                 <option value="<?= $category['id'] ?>" <?= old('parent_id') == $category['id'] ? 'selected' : '' ?>><?= esc($category['name']) ?></option>
                             <?php endforeach; ?>

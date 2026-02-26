@@ -67,8 +67,13 @@
                         <tr class="hover:bg-slate-50 transition-colors group">
                             <td class="px-8 py-6">
                                 <div class="flex items-center">
+                                    <?php if (!empty($category['parent_id'])) : ?>
+                                        <div class="ml-4 mr-2 text-slate-300">
+                                            <i class="fa-solid fa-fw fa-level-up fa-rotate-90 text-[10px]"></i>
+                                        </div>
+                                    <?php endif; ?>
                                     <div class="w-10 h-10 bg-blue-50 text-blue-800 rounded-xl flex items-center justify-center mr-4 group-hover:bg-blue-800 group-hover:text-white transition-all">
-                                        <i class="fa-solid fa-fw fa-folder"></i>
+                                        <i class="fa-solid fa-fw fa-folder<?= !empty($category['parent_id']) ? '-open' : '' ?> text-xs"></i>
                                     </div>
                                     <div>
                                         <div class="font-bold text-slate-900 tracking-tight leading-tight"><?= esc($category['name']) ?></div>

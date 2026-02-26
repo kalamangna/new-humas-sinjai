@@ -38,12 +38,18 @@
 
                     <div class="space-y-3">
                         <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Induk</label>
-                        <select name="parent_id" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all appearance-none cursor-pointer">
-                            <option value="">Pilih ...</option>
-                            <?php foreach ($categories as $cat) : ?>
-                                <option value="<?= $cat['id'] ?>" <?= old('parent_id', $category['parent_id']) == $cat['id'] ? 'selected' : '' ?>><?= esc($cat['name']) ?></option>
-                            <?php endforeach; ?>
-                        </select>
+                        <?php if ($has_children) : ?>
+                            <div class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-400 cursor-not-allowed italic">
+                                Kategori ini memiliki sub-kategori. Tidak bisa menjadi sub-kategori.
+                            </div>
+                        <?php else : ?>
+                            <select name="parent_id" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 focus:bg-white outline-none transition-all appearance-none cursor-pointer">
+                                <option value="">Pilih Induk</option>
+                                <?php foreach ($categories as $cat) : ?>
+                                    <option value="<?= $cat['id'] ?>" <?= old('parent_id', $category['parent_id']) == $cat['id'] ? 'selected' : '' ?>><?= esc($cat['name']) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php endif; ?>
                     </div>
                 </div>
 

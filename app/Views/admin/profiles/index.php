@@ -119,4 +119,16 @@
     </div>
 </div>
 
+<!-- Pagination -->
+<?php if (isset($pager) && $pager->getPageCount('profiles') > 1) : ?>
+    <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            Total: <span class="text-slate-900"><?= number_format($pager->getTotal('profiles')) ?></span>
+        </div>
+        <div>
+            <?= $pager->only(['search', 'type'])->links('profiles', 'custom_pager') ?>
+        </div>
+    </div>
+<?php endif; ?>
+
 <?= $this->endSection() ?>

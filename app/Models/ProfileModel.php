@@ -21,6 +21,9 @@ class ProfileModel extends Model
         'bio',
         'image',
         'order',
+        'kecamatan',
+        'kelurahan',
+        'desa',
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -36,7 +39,7 @@ class ProfileModel extends Model
     protected $validationRules      = [
         'name'     => 'permit_empty|max_length[255]',
         'slug'     => 'permit_empty|max_length[255]|is_unique[profiles.slug,id,{id}]',
-        'type'     => 'required|in_list[bupati,wakil-bupati,sekda,forkopimda,eselon-ii,eselon-iii,eselon-iv,kepala-desa]',
+        'type'     => 'required|in_list[bupati,wakil-bupati,sekda,forkopimda,eselon-ii,eselon-iii,lurah,kepala-desa]',
         'order'    => 'permit_empty|integer',
     ];
     protected $validationMessages   = [];

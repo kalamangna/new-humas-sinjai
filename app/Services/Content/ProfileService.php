@@ -17,20 +17,26 @@ class ProfileService extends BaseService
         $this->mediaService = new MediaService();
     }
 
-    public function getValidationRules(bool $isUpdate = false): array
+    public function getValidationRules(?string $type = null, bool $isUpdate = false): array
     {
         $rules = [
             'name'      => 'permit_empty|max_length[255]',
             'position'  => 'required',
             'type'      => 'required',
             'bio'       => 'permit_empty',
-            'order'     => 'required|numeric'
+            'order'     => 'required|numeric',
+            'kecamatan' => 'permit_empty|max_length[100]',
+            'kelurahan' => 'permit_empty|max_length[100]',
+            'desa'      => 'permit_empty|max_length[100]',
         ];
 
-        if (!$isUpdate) {
-            $rules['image'] = 'uploaded[image]|max_size[image,2048]|is_image[image]';
-        } else {
+        $hideImageTypes = ['forkopimda', 'eselon-ii', 'eselon-iii', 'lurah', 'kepala-desa'];
+        $isImageOptional = $isUpdate || in_array($type, $hideImageTypes);
+
+        if ($isImageOptional) {
             $rules['image'] = 'permit_empty|max_size[image,2048]|is_image[image]';
+        } else {
+            $rules['image'] = 'uploaded[image]|max_size[image,2048]|is_image[image]';
         }
 
         return $rules;

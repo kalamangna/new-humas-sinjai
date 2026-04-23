@@ -38,7 +38,7 @@ class Page extends BaseController
         }
 
         // Check if it's a valid type
-        $validTypes = ['bupati', 'wakil-bupati', 'sekda', 'forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa'];
+        $validTypes = ['bupati', 'wakil-bupati', 'sekda', 'forkopimda', 'eselon-ii', 'eselon-iii', 'lurah', 'kepala-desa'];
         
         if (!in_array($type, $validTypes)) {
              // Fallback: check if it's a slug for a specific profile
@@ -63,7 +63,7 @@ class Page extends BaseController
         $data['seo']['title'] = $title;
 
         if ($type == 'forkopimda') {
-            $officials = $model->whereIn('type', ['forkopimda', 'eselon-ii', 'eselon-iii', 'eselon-iv', 'kepala-desa'])
+            $officials = $model->whereIn('type', ['forkopimda', 'eselon-ii', 'eselon-iii', 'lurah', 'kepala-desa'])
                                ->orderBy('type', 'ASC')
                                ->orderBy('order', 'ASC')
                                ->findAll();
@@ -72,7 +72,7 @@ class Page extends BaseController
                 'Forkopimda' => [],
                 'Eselon II' => [],
                 'Eselon III' => [],
-                'Eselon IV' => [],
+                'Lurah' => [],
                 'Kepala Desa' => []
             ];
 
@@ -80,7 +80,7 @@ class Page extends BaseController
                 if ($official['type'] == 'forkopimda') $data['groupedProfiles']['Forkopimda'][] = $official;
                 elseif ($official['type'] == 'eselon-ii') $data['groupedProfiles']['Eselon II'][] = $official;
                 elseif ($official['type'] == 'eselon-iii') $data['groupedProfiles']['Eselon III'][] = $official;
-                elseif ($official['type'] == 'eselon-iv') $data['groupedProfiles']['Eselon IV'][] = $official;
+                elseif ($official['type'] == 'lurah') $data['groupedProfiles']['Lurah'][] = $official;
                 elseif ($official['type'] == 'kepala-desa') $data['groupedProfiles']['Kepala Desa'][] = $official;
             }
             

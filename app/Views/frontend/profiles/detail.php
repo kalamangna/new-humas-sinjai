@@ -63,6 +63,12 @@
                                 <i class="fa-solid fa-fw fa-landmark mr-3"></i><?= esc($profile['institution']) ?>
                             </div>
                         <?php endif; ?>
+                        
+                        <?php if (!empty($profile['kecamatan'])) : ?>
+                            <div class="inline-flex items-center px-6 py-2 bg-slate-50 text-slate-600 rounded-full text-xs font-black uppercase tracking-widest border border-slate-100 mt-4 md:mt-0 md:ml-2">
+                                <i class="fa-solid fa-fw fa-map-marker-alt mr-3 text-blue-800"></i><?= esc($profile['kecamatan']) ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Profile Content -->

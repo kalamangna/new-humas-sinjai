@@ -48,7 +48,7 @@
     <?php if ($hasData) : ?>
         <div class="max-w-5xl mx-auto">
             <?php
-            $displayOrder = ['Forkopimda', 'Eselon II', 'Eselon III', 'Eselon IV', 'Kepala Desa'];
+            $displayOrder = ['Forkopimda', 'Eselon II', 'Eselon III', 'Lurah', 'Kepala Desa'];
             foreach ($displayOrder as $groupName) :
                 $profiles = $groupedProfiles[$groupName] ?? [];
                 if (!empty($profiles)) : ?>
@@ -63,20 +63,27 @@
                                 <table class="w-full text-left border-collapse table-auto">
                                     <thead>
                                         <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-black text-slate-500 uppercase tracking-widest">
+                                            <th class="px-8 py-5 whitespace-nowrap text-center w-1">No</th>
                                             <th class="px-8 py-5 whitespace-nowrap">Nama Pejabat</th>
                                             <th class="px-8 py-5 whitespace-nowrap">Jabatan</th>
                                             <th class="px-8 py-5 whitespace-nowrap">
                                                 <?php
-                                                if (strpos($groupName, 'Eselon') !== false) echo 'OPD';
+                                                if (strpos($groupName, 'Eselon') !== false || $groupName == 'Lurah') echo 'OPD';
                                                 elseif ($groupName == 'Kepala Desa') echo 'Desa';
                                                 else echo 'Instansi';
                                                 ?>
                                             </th>
+                                            <?php if ($groupName == 'Kepala Desa') : ?>
+                                                <th class="px-8 py-5 whitespace-nowrap">Kecamatan</th>
+                                            <?php endif; ?>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-100">
-                                        <?php foreach ($profiles as $profile) : ?>
+                                        <?php $no = 1; foreach ($profiles as $profile) : ?>
                                             <tr class="hover:bg-slate-50 transition-colors group">
+                                                <td class="px-8 py-6 text-center text-sm font-black text-slate-400 w-1">
+                                                    <?= $no++ ?>
+                                                </td>
                                                 <td class="px-8 py-6">
                                                     <?php
                                                     $imgPath = $profile['image'] ?? '';
@@ -97,6 +104,13 @@
                                                         <?= esc($profile['institution'] ?? '-') ?>
                                                     </span>
                                                 </td>
+                                                <?php if ($groupName == 'Kepala Desa') : ?>
+                                                    <td class="px-8 py-6 text-sm text-slate-600 font-medium whitespace-nowrap">
+                                                        <span class="px-3 py-1 bg-slate-50 rounded-lg text-[10px] font-bold text-slate-500 uppercase tracking-widest border border-slate-200">
+                                                            <?= esc($profile['kecamatan'] ?? '-') ?>
+                                                        </span>
+                                                    </td>
+                                                <?php endif; ?>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>

@@ -18,9 +18,32 @@ class Profiles extends BaseController
 
     public function index()
     {
+        $search = $this->request->getGet('search');
+        $type = $this->request->getGet('type');
+
+        $query = $this->profileModel->orderBy('type', 'ASC')->orderBy('order', 'ASC');
+
+        if ($search) {
+            $query->groupStart()
+                  ->like('name', $search)
+                  ->orLike('position', $search)
+                  ->orLike('institution', $search)
+                  ->groupEnd();
+        }
+
+        if ($type) {
+            $query->where('type', $type);
+        }
+
         $data = [
-            'profiles' => $this->profileModel->orderBy('type', 'ASC')->orderBy('order', 'ASC')->findAll(),
+            'profiles' => $query->paginate(20, 'profiles'),
+            'pager' => $this->profileModel->pager,
+            'filters' => [
+                'search' => $search,
+                'type' => $type
+            ]
         ];
+
         return $this->render('admin/profiles/index', $data);
     }
 
@@ -33,7 +56,7 @@ class Profiles extends BaseController
     {
         $data = $this->request->getPost();
         
-        if (!$this->profileService->validate($data, $this->profileService->getValidationRules())) {
+        if (!$this->profileService->validate($data, $this->profileService->getValidationRules($data['type'] ?? null))) {
             return redirect()->back()->withInput()->with('errors', $this->profileService->getErrors());
         }
 
@@ -56,7 +79,7 @@ class Profiles extends BaseController
     {
         $data = $this->request->getPost();
         
-        if (!$this->profileService->validate($data, $this->profileService->getValidationRules(true))) {
+        if (!$this->profileService->validate($data, $this->profileService->getValidationRules($data['type'] ?? null, true))) {
             return redirect()->back()->withInput()->with('errors', $this->profileService->getErrors());
         }
 
@@ -73,5 +96,22 @@ class Profiles extends BaseController
             return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil dihapus.');
         }
         return redirect()->to(base_url('admin/profiles'))->with('error', 'Gagal menghapus profil.');
+    }
+
+    public function get_kecamatan()
+    {
+        $client = \Config\Services::curlrequest();
+        $response = $client->get('http://apps.sinjaikab.go.id/api/pegawai/get_kecamatan');
+        return $this->response->setJSON($response->getBody());
+    }
+
+    public function get_wilayah()
+    {
+        $tipe = $this->request->getGet('tipe');
+        $client = \Config\Services::curlrequest();
+        $response = $client->get('http://apps.sinjaikab.go.id/api/pegawai/get_wilayah', [
+            'query' => ['tipe' => $tipe]
+        ]);
+        return $this->response->setJSON($response->getBody());
     }
 }

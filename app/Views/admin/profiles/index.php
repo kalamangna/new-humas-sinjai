@@ -10,15 +10,45 @@
 
 <?= $this->section('content') ?>
 
+<!-- Filters -->
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
+    <form action="<?= base_url('admin/profiles') ?>" method="get" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Cari</label>
+            <input type="text" name="search" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Masukkan nama, jabatan, instansi..." value="<?= esc($filters['search'] ?? '') ?>">
+        </div>
+        <div>
+            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Tipe</label>
+            <select name="type" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none">
+                <option value="">Semua Tipe</option>
+                <option value="bupati" <?= ($filters['type'] ?? '') == 'bupati' ? 'selected' : '' ?>>Bupati</option>
+                <option value="wakil-bupati" <?= ($filters['type'] ?? '') == 'wakil-bupati' ? 'selected' : '' ?>>Wakil Bupati</option>
+                <option value="sekda" <?= ($filters['type'] ?? '') == 'sekda' ? 'selected' : '' ?>>Sekretaris Daerah</option>
+                <option value="forkopimda" <?= ($filters['type'] ?? '') == 'forkopimda' ? 'selected' : '' ?>>Forkopimda</option>
+                <option value="eselon-ii" <?= ($filters['type'] ?? '') == 'eselon-ii' ? 'selected' : '' ?>>Eselon II</option>
+                <option value="eselon-iii" <?= ($filters['type'] ?? '') == 'eselon-iii' ? 'selected' : '' ?>>Eselon III</option>
+                <option value="lurah" <?= ($filters['type'] ?? '') == 'lurah' ? 'selected' : '' ?>>Lurah</option>
+                <option value="kepala-desa" <?= ($filters['type'] ?? '') == 'kepala-desa' ? 'selected' : '' ?>>Kepala Desa</option>
+            </select>
+        </div>
+        <div class="flex flex-col justify-end">
+            <div class="flex items-center space-x-2">
+                <button type="submit" class="flex-1 px-4 py-2.5 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all">Cari</button>
+                <a href="<?= base_url('admin/profiles') ?>" class="px-4 py-2.5 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200 text-center">Reset</a>
+            </div>
+        </div>
+    </form>
+</div>
+
 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <th class="px-8 py-5">Foto</th>
+                    <th class="px-8 py-5 w-[100px]">Foto</th>
                     <th class="px-8 py-5">Identitas</th>
-                    <th class="px-8 py-5">Tipe</th>
-                    <th class="px-8 py-5 text-right">Aksi</th>
+                    <th class="px-8 py-5 w-[150px]">Tipe</th>
+                    <th class="px-8 py-5 text-right w-[120px]">Aksi</th>
                 </tr>
             </thead>
             <tbody id="profiles-data" class="divide-y divide-slate-100 whitespace-nowrap">
@@ -52,7 +82,7 @@
                                     'forkopimda' => 'Forkopimda',
                                     'eselon-ii' => 'Eselon II',
                                     'eselon-iii' => 'Eselon III',
-                                    'eselon-iv' => 'Eselon IV',
+                                    'lurah' => 'Lurah',
                                     'kepala-desa' => 'Kepala Desa',
                                 ];
                                 ?>

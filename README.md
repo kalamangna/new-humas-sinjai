@@ -31,12 +31,15 @@ Portal berita dan informasi publik modern untuk Kabupaten Sinjai. Platform ini d
 
 ### 📊 Dashboard Admin & Analitik
 - **Real-time Stats:** Visualisasi data pengunjung, halaman populer, dan referer langsung dari GA4.
+- **Direktori Pejabat:** Manajemen profil terpadu untuk Bupati, Forkopimda, Eselon, hingga Lurah dan Kepala Desa.
+- **Smart Forms:** Input data dinamis dengan integrasi API wilayah (Kecamatan/Desa) dan toggle visibilitas field cerdas.
 - **Fixed Layout UI:** Antarmuka admin yang responsif dengan sidebar statis untuk produktivitas maksimal.
 - **Manajemen User:** Sistem peran (Admin, Author, Streamer) dengan kontrol akses yang ketat.
-- **Laporan Otomatis:** Export statistik dan daftar berita ke format PDF yang profesional.
+- **Laporan & Export:** Pembuatan laporan PDF otomatis dan utilitas SQL dump untuk sinkronisasi data antar environment.
 
 ### 🌐 Public Portal
 - **Pencarian Cerdas:** Mesin pencari berbasis relevansi teks.
+- **Direktori Publik:** Halaman profil pejabat daerah yang informatif dan terorganisir dengan penomoran otomatis.
 - **Live Streaming:** Integrasi pemutar streaming untuk Radio Sinjai FM dan Sinjai TV.
 - **SEO Optimized:** Meta tag dinamis, Open Graph otomatis, dan struktur URL ramah SEO.
 - **Responsive Design:** Pengalaman pengguna yang konsisten di perangkat mobile, tablet, dan desktop.

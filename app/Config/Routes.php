@@ -86,6 +86,10 @@ $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
     $routes->post('posts/upload_image', 'Admin\Posts::upload_image');
     $routes->resource('categories', ['controller' => 'Admin\Categories']);
     $routes->resource('tags', ['controller' => 'Admin\Tags']);
+    
+    // Profiles
+    $routes->get('profiles/get_kecamatan', 'Admin\Profiles::get_kecamatan');
+    $routes->get('profiles/get_wilayah', 'Admin\Profiles::get_wilayah');
     $routes->resource('profiles', ['controller' => 'Admin\Profiles']);
     $routes->resource('carousel', ['controller' => 'Admin\Carousel', 'except' => 'show']);
     $routes->resource('users', ['controller' => 'Admin\Users', 'placeholder' => '(:num)', 'filter' => 'admin']);

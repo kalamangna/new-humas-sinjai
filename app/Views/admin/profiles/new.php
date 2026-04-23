@@ -23,7 +23,7 @@
         </div>
 
         <div class="p-8 md:p-12">
-            <form action="<?= base_url('admin/profiles') ?>" method="post" enctype="multipart/form-data" class="space-y-10">
+            <form action="<?= base_url('admin/profiles') ?>" method="post" enctype="multipart/form-data" class="space-y-10 needs-validation" novalidate>
                 <?= csrf_field() ?>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -50,8 +50,8 @@
                         </div>
 
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Jabatan</label>
-                            <input type="text" name="position" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('position') ?>" placeholder="Masukkan jabatan">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Jabatan <span class="text-red-600">*</span></label>
+                            <input type="text" name="position" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('position') ?>" placeholder="Masukkan jabatan">
                         </div>
 
                         <!-- New Fields for Region -->
@@ -84,8 +84,8 @@
                     <!-- Column 2: Classification -->
                     <div class="space-y-8">
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Urutan Tampil</label>
-                            <input type="number" name="order" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('order', 0) ?>" placeholder="Masukkan angka">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Urutan Tampil <span class="text-red-600">*</span></label>
+                            <input type="number" name="order" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('order', 0) ?>" placeholder="Masukkan angka">
                         </div>
                     </div>
                 </div>

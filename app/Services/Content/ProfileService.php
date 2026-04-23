@@ -13,6 +13,7 @@ class ProfileService extends BaseService
 
     public function __construct()
     {
+        helper('url');
         $this->profileModel = new ProfileModel();
         $this->mediaService = new MediaService();
     }
@@ -24,7 +25,7 @@ class ProfileService extends BaseService
             'position'  => 'required',
             'type'      => 'required',
             'bio'       => 'permit_empty',
-            'order'     => 'required|numeric',
+            'order'     => 'required|integer',
             'kecamatan' => 'permit_empty|max_length[100]',
             'kelurahan' => 'permit_empty|max_length[100]',
             'desa'      => 'permit_empty|max_length[100]',
@@ -57,11 +58,46 @@ class ProfileService extends BaseService
             }
         }
 
+        // Generate Slug
+        $slugBase = !empty($data['name']) ? $data['name'] : ($data['position'] ?? 'profile');
+        $slug = url_title($slugBase, '-', true);
+
+        if (!$id) {
+            $data['slug'] = $this->generateUniqueSlug($slug);
+        } else {
+            $existing = $this->profileModel->find($id);
+            // Re-generate slug if name or position changed significantly, or if it doesn't have one
+            $oldSlugBase = !empty($existing['name']) ? $existing['name'] : ($existing['position'] ?? '');
+            if (empty($existing['slug']) || $slugBase !== $oldSlugBase) {
+                $data['slug'] = $this->generateUniqueSlug($slug, $id);
+            }
+        }
+
         if ($id) {
             return $this->profileModel->update($id, $data);
         }
 
         return $this->profileModel->save($data);
+    }
+
+    protected function generateUniqueSlug(string $slug, ?int $excludeId = null): string
+    {
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (true) {
+            $builder = $this->profileModel->where('slug', $slug);
+            if ($excludeId) {
+                $builder->where('id !=', $excludeId);
+            }
+
+            if ($builder->countAllResults() === 0) {
+                return $slug;
+            }
+
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
     }
 
     public function deleteProfile(int $id): bool

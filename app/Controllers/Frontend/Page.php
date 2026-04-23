@@ -66,7 +66,7 @@ class Page extends BaseController
             $officials = $model->whereIn('type', ['forkopimda', 'eselon-ii', 'eselon-iii', 'lurah', 'kepala-desa'])
                                ->orderBy('type', 'ASC')
                                ->orderBy('order', 'ASC')
-                               ->orderBy('id', 'ASC')
+                               ->orderBy('created_at', 'DESC')
                                ->findAll();
             
             $data['groupedProfiles'] = [

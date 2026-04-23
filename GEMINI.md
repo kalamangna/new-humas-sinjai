@@ -12,6 +12,7 @@
         - For **Kepala Desa**, only the `Kecamatan` field is shown.
     - **Placeholders**: The `Instansi / OPD` field has dynamic placeholders and its label changes to **"Desa"** when the type is set to `Kepala Desa`.
     - **Pagination & Search**: The admin profiles list includes a search bar (name, position, institution) and type-based filtering with 20 items per page.
+    - **Sorting Logic**: Profiles are sorted by `type` (ASC), then `order` (ASC), with a fallback to `created_at` (DESC) to ensure newest profiles appear first when order is tied.
     - **Validation Feedback**: Admin forms now use the `needs-validation` Bootstrap pattern for real-time validity checks on mandatory fields like `Jabatan` and `Urutan Tampil`.
 - **Frontend Display**:
     - **Sequential Numbering**: Tables in the frontend profile list include a "No" column.

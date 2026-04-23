@@ -48,6 +48,7 @@
                     <th class="px-8 py-5 w-[100px]">Foto</th>
                     <th class="px-8 py-5">Identitas</th>
                     <th class="px-8 py-5 w-[150px]">Tipe</th>
+                    <th class="px-8 py-5 w-[100px] text-center">Urutan</th>
                     <th class="px-8 py-5 text-right w-[120px]">Aksi</th>
                 </tr>
             </thead>
@@ -90,6 +91,11 @@
                                     <?= ($typeLabels[$profile['type']] ?? $profile['type']) ?>
                                 </span>
                             </td>
+                            <td class="px-8 py-6 w-1 text-center">
+                                <span class="px-3 py-1 bg-slate-50 text-slate-500 font-mono text-[10px] font-bold rounded-lg border border-slate-200">
+                                    <?= esc($profile['order']) ?>
+                                </span>
+                            </td>
                             <td class="px-8 py-6 text-right space-x-1 whitespace-nowrap w-1">
                                 <a href="<?= base_url('admin/profiles/' . $profile['id'] . '/edit') ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
                                     <i class="fa-solid fa-fw fa-pen-to-square text-xs"></i>
@@ -106,7 +112,7 @@
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="4" class="px-8 py-24 text-center">
+                        <td colspan="5" class="px-8 py-24 text-center">
                             <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-200">
                                 <i class="fa-solid fa-fw fa-user-group text-2xl"></i>
                             </div>

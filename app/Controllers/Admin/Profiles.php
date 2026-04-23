@@ -21,7 +21,7 @@ class Profiles extends BaseController
         $search = $this->request->getGet('search');
         $type = $this->request->getGet('type');
 
-        $query = $this->profileModel->orderBy('type', 'ASC')->orderBy('order', 'ASC')->orderBy('id', 'ASC');
+        $query = $this->profileModel->orderBy('type', 'ASC')->orderBy('order', 'ASC')->orderBy('created_at', 'DESC');
 
         if ($search) {
             $query->groupStart()

@@ -45,8 +45,8 @@
                         </div>
 
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Nama Lengkap</label>
-                            <input type="text" name="name" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('name', $profile['name']) ?>">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Nama Lengkap <span class="text-red-600">*</span></label>
+                            <input type="text" name="name" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('name', $profile['name']) ?>">
                         </div>
 
                         <div class="space-y-4">
@@ -111,7 +111,7 @@
                 </div>
 
                 <div id="bio-container" class="space-y-4">
-                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Biografi</label>
+                    <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Biografi <span class="text-red-600">*</span></label>
                     <textarea name="bio" id="bio" rows="10" class="w-full"><?= old('bio', $profile['bio']) ?></textarea>
                 </div>
 
@@ -148,51 +148,62 @@
 
             const hideList = ['forkopimda', 'eselon-ii', 'eselon-iii', 'lurah', 'kepala-desa'];
             const isHidden = hideList.includes(typeSelect.value);
-            if (bioContainer) bioContainer.style.display = isHidden ? 'none' : 'block';
-            if (imageContainer) imageContainer.style.display = isHidden ? 'none' : 'block';
+            
+            if (bioContainer) {
+                bioContainer.style.display = isHidden ? 'none' : 'block';
+                const bioInput = document.getElementById('bio');
+                if (bioInput) bioInput.required = !isHidden;
+            }
+            if (imageContainer) {
+                imageContainer.style.display = isHidden ? 'none' : 'block';
+                // Image is optional on edit, so no required attribute is added dynamically here
+            }
             
             const type = typeSelect.value;
             const positionInput = document.querySelector('input[name="position"]');
             
             if (positionInput) {
-                if (type === 'kepala-desa') {
-                    if (!positionInput.value || positionInput.value === '') positionInput.value = 'Kepala Desa';
-                    positionInput.readOnly = true;
-                    positionInput.classList.add('bg-slate-100', 'text-slate-500');
-                } else {
-                    positionInput.readOnly = false;
-                    positionInput.classList.remove('bg-slate-100', 'text-slate-500');
-                }
+                positionInput.readOnly = false;
+                positionInput.classList.remove('bg-slate-100', 'text-slate-500');
             }
             
             if (type === 'lurah') {
-                institutionLabel.textContent = 'Instansi / OPD';
+                institutionLabel.innerHTML = 'Instansi / OPD <span class="text-red-600">*</span>';
                 institutionInput.placeholder = 'e.g. Kecamatan Sinjai Utara';
                 institutionInput.style.display = 'block';
                 institutionInput.disabled = false;
+                institutionInput.required = true;
                 institutionSelect.style.display = 'none';
                 institutionSelect.disabled = true;
+                institutionSelect.required = false;
                 if (kecamatanContainer) kecamatanContainer.style.display = 'none';
+                if (kecamatanSelect) kecamatanSelect.required = false;
                 if (kelurahanContainer) kelurahanContainer.style.display = 'none';
                 if (desaContainer) desaContainer.style.display = 'none';
             } else if (type === 'kepala-desa') {
-                institutionLabel.textContent = 'Desa';
+                institutionLabel.innerHTML = 'Desa <span class="text-red-600">*</span>';
                 institutionInput.style.display = 'none';
                 institutionInput.disabled = true;
+                institutionInput.required = false;
                 institutionSelect.style.display = 'block';
                 institutionSelect.disabled = false;
+                institutionSelect.required = true;
                 if (kecamatanContainer) kecamatanContainer.style.display = 'block';
+                if (kecamatanSelect) kecamatanSelect.required = true;
                 if (kelurahanContainer) kelurahanContainer.style.display = 'none';
                 if (desaContainer) desaContainer.style.display = 'none';
                 if (kecamatanSelect && kecamatanSelect.value) fetchWilayah(kecamatanSelect.value, 'Desa', institutionSelect, institutionSelect.dataset.selected);
             } else {
-                institutionLabel.textContent = 'Instansi / OPD';
+                institutionLabel.innerHTML = 'Instansi / OPD <span class="text-red-600">*</span>';
                 institutionInput.placeholder = 'Masukkan instansi / OPD';
                 institutionInput.style.display = 'block';
                 institutionInput.disabled = false;
+                institutionInput.required = true;
                 institutionSelect.style.display = 'none';
                 institutionSelect.disabled = true;
+                institutionSelect.required = false;
                 if (kecamatanContainer) kecamatanContainer.style.display = 'none';
+                if (kecamatanSelect) kecamatanSelect.required = false;
                 if (kelurahanContainer) kelurahanContainer.style.display = 'none';
                 if (desaContainer) desaContainer.style.display = 'none';
             }

@@ -20,19 +20,22 @@ class ProfileService extends BaseService
 
     public function getValidationRules(?string $type = null, bool $isUpdate = false): array
     {
+        $hideImageTypes = ['forkopimda', 'eselon-ii', 'eselon-iii', 'lurah', 'kepala-desa'];
+        $hasBioAndImage = !in_array($type, $hideImageTypes);
+
         $rules = [
-            'name'      => 'permit_empty|max_length[255]',
+            'name'      => 'required|max_length[255]',
             'position'  => 'required',
             'type'      => 'required',
-            'bio'       => 'permit_empty',
+            'bio'       => $hasBioAndImage ? 'required' : 'permit_empty',
             'order'     => 'required|integer',
-            'kecamatan' => 'permit_empty|max_length[100]',
+            'kecamatan' => $type === 'kepala-desa' ? 'required|max_length[100]' : 'permit_empty|max_length[100]',
+            'institution' => 'required',
             'kelurahan' => 'permit_empty|max_length[100]',
             'desa'      => 'permit_empty|max_length[100]',
         ];
 
-        $hideImageTypes = ['forkopimda', 'eselon-ii', 'eselon-iii', 'lurah', 'kepala-desa'];
-        $isImageOptional = $isUpdate || in_array($type, $hideImageTypes);
+        $isImageOptional = $isUpdate || !$hasBioAndImage;
 
         if ($isImageOptional) {
             $rules['image'] = 'permit_empty|max_size[image,2048]|is_image[image]';

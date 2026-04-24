@@ -85,6 +85,24 @@ class Page extends BaseController
                 elseif ($official['type'] == 'kepala-desa') $data['groupedProfiles']['Kepala Desa'][] = $official;
             }
             
+            // Custom sorting for Lurah (by OPD/Institution)
+            usort($data['groupedProfiles']['Lurah'], function ($a, $b) {
+                $instCmp = strcasecmp($a['institution'] ?? '', $b['institution'] ?? '');
+                if ($instCmp !== 0) return $instCmp;
+                if ($a['order'] != $b['order']) return $a['order'] <=> $b['order'];
+                return strcmp($a['created_at'] ?? '', $b['created_at'] ?? '');
+            });
+
+            // Custom sorting for Kepala Desa (by Kecamatan, then Desa/Institution)
+            usort($data['groupedProfiles']['Kepala Desa'], function ($a, $b) {
+                $kecCmp = strcasecmp($a['kecamatan'] ?? '', $b['kecamatan'] ?? '');
+                if ($kecCmp !== 0) return $kecCmp;
+                $instCmp = strcasecmp($a['institution'] ?? '', $b['institution'] ?? '');
+                if ($instCmp !== 0) return $instCmp;
+                if ($a['order'] != $b['order']) return $a['order'] <=> $b['order'];
+                return strcmp($a['created_at'] ?? '', $b['created_at'] ?? '');
+            });
+            
             return view('frontend/profiles/index', $data);
         } else {
             $data['profile'] = $model->where('type', $type)->orderBy('order', 'ASC')->orderBy('created_at', 'DESC')->first();

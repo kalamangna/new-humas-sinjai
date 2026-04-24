@@ -21,7 +21,23 @@ class Profiles extends BaseController
         $search = $this->request->getGet('search');
         $type = $this->request->getGet('type');
 
-        $query = $this->profileModel->orderBy('type', 'ASC')->orderBy('order', 'ASC')->orderBy('created_at', 'ASC');
+        $query = $this->profileModel;
+
+        if ($type) {
+            $query->where('type', $type);
+            // Custom sorting per type
+            if ($type === 'lurah') {
+                $query->orderBy('institution', 'ASC');
+            } elseif ($type === 'kepala-desa') {
+                $query->orderBy('kecamatan', 'ASC')->orderBy('institution', 'ASC');
+            }
+        } else {
+            // Default type sorting for mixed view
+            $query->orderBy('type', 'ASC');
+        }
+
+        // Common sorting fallback
+        $query->orderBy('order', 'ASC')->orderBy('created_at', 'ASC');
 
         if ($search) {
             $query->groupStart()
@@ -29,10 +45,6 @@ class Profiles extends BaseController
                   ->orLike('position', $search)
                   ->orLike('institution', $search)
                   ->groupEnd();
-        }
-
-        if ($type) {
-            $query->where('type', $type);
         }
 
         $data = [

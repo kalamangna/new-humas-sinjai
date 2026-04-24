@@ -62,8 +62,16 @@ class ProfileService extends BaseService
         }
 
         // Generate Slug
-        $slugBase = !empty($data['name']) ? $data['name'] : ($data['position'] ?? 'profile');
+        $name = trim($data['name'] ?? '');
+        $position = trim($data['position'] ?? '');
+        
+        $slugBase = ($name !== '' && $name !== '-') ? $name : ($position !== '' ? $position : 'profile');
         $slug = url_title($slugBase, '-', true);
+        
+        // If url_title still returns empty (e.g. all special chars), fallback to a random string or position slug
+        if (empty($slug)) {
+            $slug = url_title($position ?: 'profile', '-', true) ?: 'profile-' . time();
+        }
 
         if (!$id) {
             $data['slug'] = $this->generateUniqueSlug($slug);

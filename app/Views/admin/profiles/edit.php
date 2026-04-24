@@ -56,7 +56,7 @@
 
                         <!-- New Fields for Region -->
                         <div id="kecamatan-container" class="space-y-4 hidden">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kecamatan</label>
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kecamatan <span class="text-red-600">*</span></label>
                             <select name="kecamatan" id="kecamatan_select" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer" data-selected="<?= old('kecamatan', $profile['kecamatan'] ?? '') ?>">
                                 <option value="">Pilih Kecamatan...</option>
                             </select>

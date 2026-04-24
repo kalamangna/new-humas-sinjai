@@ -56,8 +56,8 @@
 
                         <!-- New Fields for Region -->
                         <div id="kecamatan-container" class="space-y-4 hidden">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kecamatan</label>
-                            <select name="kecamatan" id="kecamatan_select" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer">
+                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kecamatan <span class="text-red-600">*</span></label>
+                            <select name="kecamatan" id="kecamatan_select" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer" data-selected="<?= old('kecamatan') ?>">
                                 <option value="">Pilih Kecamatan...</option>
                             </select>
                         </div>
@@ -65,7 +65,7 @@
                         <div class="space-y-4">
                             <label id="institution_label" class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Instansi / OPD</label>
                             <input type="text" name="institution" id="institution_input" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('institution') ?>" placeholder="Masukkan instansi">
-                            <select name="institution" id="institution_select" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer hidden" disabled>
+                            <select name="institution" id="institution_select" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer hidden" disabled data-selected="<?= old('institution') ?>">
                                 <option value="">Pilih Desa...</option>
                             </select>
                         </div>
@@ -221,11 +221,16 @@
                 const data = await response.json();
                 
                 kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan...</option>';
+                const selectedKecamatan = kecamatanSelect.dataset.selected;
+                
                 if (data && data.length > 0) {
                     data.forEach(item => {
                         const option = document.createElement('option');
                         option.value = item.kecamatan_nama; 
                         option.textContent = item.kecamatan_nama;
+                        if (item.kecamatan_nama === selectedKecamatan) {
+                            option.selected = true;
+                        }
                         kecamatanSelect.appendChild(option);
                     });
                 }
@@ -245,6 +250,7 @@
                 const data = await response.json();
                 
                 if (data && data.length > 0) {
+                    const selectedValue = selectElement.dataset.selected;
                     data.forEach(item => {
                         const itemKecamatan = (item.kecamatan_nama || '').trim().toLowerCase();
                         const targetKecamatan = kecamatan.trim().toLowerCase();
@@ -255,6 +261,9 @@
                             if (namaWilayah) {
                                 option.value = namaWilayah; 
                                 option.textContent = namaWilayah;
+                                if (option.value === selectedValue) {
+                                    option.selected = true;
+                                }
                                 selectElement.appendChild(option);
                             }
                         }
@@ -270,6 +279,8 @@
         kecamatanSelect.addEventListener('change', () => {
             if (typeSelect.value === 'kepala-desa') {
                 fetchWilayah(kecamatanSelect.value, 'Desa', institutionSelect);
+            } else if (typeSelect.value === 'lurah') {
+                fetchWilayah(kecamatanSelect.value, 'Kelurahan', institutionSelect);
             }
         });
 
@@ -277,4 +288,4 @@
     });
 </script>
 
-<?= $this->endSection() ?>Section() ?>
+<?= $this->endSection() ?>

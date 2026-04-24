@@ -248,8 +248,8 @@
                         if (!item.kecamatan_nama || item.kecamatan_nama === kecamatan) {
                             const option = document.createElement('option');
                             const namaWilayah = item.desa_nama;
-                            option.value = (tipe === 'Desa' ? '' : 'Kelurahan ') + namaWilayah; 
-                            option.textContent = (tipe === 'Desa' ? '' : 'Kelurahan ') + namaWilayah;
+                            option.value = namaWilayah; 
+                            option.textContent = namaWilayah;
                             if (option.value === selectedValue) {
                                 option.selected = true;
                             }
@@ -267,6 +267,8 @@
         kecamatanSelect.addEventListener('change', () => {
             if (typeSelect.value === 'kepala-desa') {
                 fetchWilayah(kecamatanSelect.value, 'Desa', institutionSelect, institutionSelect.dataset.selected);
+            } else if (typeSelect.value === 'lurah') {
+                fetchWilayah(kecamatanSelect.value, 'Kelurahan', institutionSelect, institutionSelect.dataset.selected);
             }
         });
 

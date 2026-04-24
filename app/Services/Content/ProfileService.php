@@ -29,7 +29,7 @@ class ProfileService extends BaseService
             'type'      => 'required',
             'bio'       => $hasBioAndImage ? 'required' : 'permit_empty',
             'order'     => 'required|integer',
-            'kecamatan' => $type === 'kepala-desa' ? 'required|max_length[100]' : 'permit_empty|max_length[100]',
+            'kecamatan' => in_array($type, ['kepala-desa', 'lurah']) ? 'required|max_length[100]' : 'permit_empty|max_length[100]',
             'institution' => 'required',
             'kelurahan' => 'permit_empty|max_length[100]',
             'desa'      => 'permit_empty|max_length[100]',

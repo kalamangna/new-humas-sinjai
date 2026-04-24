@@ -27,7 +27,7 @@ class Profiles extends BaseController
             $query->where('type', $type);
             // Custom sorting per type
             if ($type === 'lurah') {
-                $query->orderBy('institution', 'ASC');
+                $query->orderBy('kecamatan', 'ASC')->orderBy('institution', 'ASC');
             } elseif ($type === 'kepala-desa') {
                 $query->orderBy('kecamatan', 'ASC')->orderBy('institution', 'ASC');
             }

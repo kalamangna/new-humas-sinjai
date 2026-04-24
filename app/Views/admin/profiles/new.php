@@ -166,18 +166,18 @@
             }
             
             if (type === 'lurah') {
-                institutionLabel.innerHTML = 'Instansi / OPD <span class="text-red-600">*</span>';
-                institutionInput.placeholder = 'e.g. Kecamatan Sinjai Utara';
-                institutionInput.style.display = 'block';
-                institutionInput.disabled = false;
-                institutionInput.required = true;
-                institutionSelect.style.display = 'none';
-                institutionSelect.disabled = true;
-                institutionSelect.required = false;
-                if (kecamatanContainer) kecamatanContainer.style.display = 'none';
-                if (kecamatanSelect) kecamatanSelect.required = false;
+                institutionLabel.innerHTML = 'Kelurahan <span class="text-red-600">*</span>';
+                institutionInput.style.display = 'none';
+                institutionInput.disabled = true;
+                institutionInput.required = false;
+                institutionSelect.style.display = 'block';
+                institutionSelect.disabled = false;
+                institutionSelect.required = true;
+                if (kecamatanContainer) kecamatanContainer.style.display = 'block';
+                if (kecamatanSelect) kecamatanSelect.required = true;
                 if (kelurahanContainer) kelurahanContainer.style.display = 'none';
                 if (desaContainer) desaContainer.style.display = 'none';
+                if (kecamatanSelect && kecamatanSelect.value) fetchWilayah(kecamatanSelect.value, 'Kelurahan', institutionSelect);
             } else if (type === 'kepala-desa') {
                 institutionLabel.innerHTML = 'Desa <span class="text-red-600">*</span>';
                 institutionInput.style.display = 'none';
@@ -264,4 +264,4 @@
     });
 </script>
 
-<?= $this->endSection() ?>
+<?= $this->endSection() ?>Section() ?>

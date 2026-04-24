@@ -85,8 +85,10 @@ class Page extends BaseController
                 elseif ($official['type'] == 'kepala-desa') $data['groupedProfiles']['Kepala Desa'][] = $official;
             }
             
-            // Custom sorting for Lurah (by OPD/Institution)
+            // Custom sorting for Lurah (by Kecamatan, then Kelurahan/Institution)
             usort($data['groupedProfiles']['Lurah'], function ($a, $b) {
+                $kecCmp = strcasecmp($a['kecamatan'] ?? '', $b['kecamatan'] ?? '');
+                if ($kecCmp !== 0) return $kecCmp;
                 $instCmp = strcasecmp($a['institution'] ?? '', $b['institution'] ?? '');
                 if ($instCmp !== 0) return $instCmp;
                 if ($a['order'] != $b['order']) return $a['order'] <=> $b['order'];

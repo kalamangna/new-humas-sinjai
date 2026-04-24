@@ -68,12 +68,13 @@
                                             <th class="px-8 py-5 whitespace-nowrap">Jabatan</th>
                                             <th class="px-8 py-5 whitespace-nowrap">
                                                 <?php
-                                                if (strpos($groupName, 'Eselon') !== false || $groupName == 'Lurah') echo 'OPD';
+                                                if (strpos($groupName, 'Eselon') !== false) echo 'OPD';
+                                                elseif ($groupName == 'Lurah') echo 'Kelurahan';
                                                 elseif ($groupName == 'Kepala Desa') echo 'Desa';
                                                 else echo 'Instansi';
                                                 ?>
                                             </th>
-                                            <?php if ($groupName == 'Kepala Desa') : ?>
+                                            <?php if ($groupName == 'Kepala Desa' || $groupName == 'Lurah') : ?>
                                                 <th class="px-8 py-5 whitespace-nowrap">Kecamatan</th>
                                             <?php endif; ?>
                                         </tr>
@@ -104,7 +105,7 @@
                                                         <?= esc($profile['institution'] ?? '-') ?>
                                                     </span>
                                                 </td>
-                                                <?php if ($groupName == 'Kepala Desa') : ?>
+                                                <?php if ($groupName == 'Kepala Desa' || $groupName == 'Lurah') : ?>
                                                     <td class="px-8 py-6 text-sm text-slate-600 font-medium whitespace-nowrap">
                                                         <span class="px-3 py-1 bg-slate-50 rounded-lg text-[10px] font-bold text-slate-500 uppercase tracking-widest border border-slate-200">
                                                             <?= esc($profile['kecamatan'] ?? '-') ?>

@@ -173,6 +173,7 @@
                 institutionSelect.style.display = 'block';
                 institutionSelect.disabled = false;
                 institutionSelect.required = true;
+                institutionSelect.innerHTML = '<option value="">Pilih Kelurahan...</option>';
                 if (kecamatanContainer) kecamatanContainer.style.display = 'block';
                 if (kecamatanSelect) kecamatanSelect.required = true;
                 if (kelurahanContainer) kelurahanContainer.style.display = 'none';
@@ -186,6 +187,7 @@
                 institutionSelect.style.display = 'block';
                 institutionSelect.disabled = false;
                 institutionSelect.required = true;
+                institutionSelect.innerHTML = '<option value="">Pilih Desa...</option>';
                 if (kecamatanContainer) kecamatanContainer.style.display = 'block';
                 if (kecamatanSelect) kecamatanSelect.required = true;
                 if (kelurahanContainer) kelurahanContainer.style.display = 'none';

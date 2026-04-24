@@ -13,17 +13,20 @@
     - **Pagination & Search**: The admin profiles list includes a search bar (name, position, institution) and type-based filtering with 20 items per page.
     - **Sorting Logic**: 
         - Profiles are generally sorted by `type` (ASC), then `order` (ASC), with a fallback to `created_at` (ASC).
-        - **Lurah** and **Kepala Desa** profiles are specifically sorted by their `kecamatan` (ASC), then by their Kelurahan/Desa (`institution` ASC) before applying the `order` sorting.
-    - **Validation Feedback**: Admin forms now use the `needs-validation` Bootstrap pattern for real-time validity checks on mandatory fields like `Jabatan` and `Urutan Tampil`.
+        - **Lurah** and **Kepala Desa** profiles are specifically sorted by their `kecamatan` (ASC), then by their Kelurahan/Desa (`institution` ASC).
+        - **Urutan Tampil** (manual ordering) is only visible and applicable for `forkopimda`, `eselon-ii`, and `eselon-iii`. For others, it is hidden and set to 0.
+    - **Validation Feedback**: Admin forms use the `needs-validation` Bootstrap pattern for real-time validity checks. Error messages are displayed **inline** under each specific field with red border highlights.
 - **Frontend Display**:
     - **Sequential Numbering**: Tables in the frontend profile list include a "No" column.
-    - **Column Layout**: In the Kepala Desa section, the "Kecamatan" column is moved to the end.
+    - **Column Layout**: In the Lurah and Kepala Desa sections, a dedicated "Kecamatan" column is shown at the end of the table.
 
 ## 🛠 Database & System
 - **Profile Slug Generation**: Automatic unique slug generation is reserved ONLY for `bupati`, `wakil-bupati`, and `sekda` types to support their dedicated profile detail pages. For all other types, the slug is set to `NULL`.
 - **Proxy API**: Internal routes `/admin/profiles/get_kecamatan` and `/admin/profiles/get_wilayah` act as proxies to bypass CORS when fetching geographical data from `apps.sinjaikab.go.id`.
-- **Validation**: Image uploads are optional for specific types: `forkopimda`, `eselon-ii`, `eselon-iii`, `lurah`, and `kepala-desa`. Mandatory fields for all profiles include `type`, `position`, and `order`.
-- **SQL Export**: A clean SQL dump utility exists to export personnel data without IDs or test records for production synchronization.
+- **Validation**: Image uploads are optional for regional and eselon types. Mandatory fields for all profiles include `name`, `type`, and `position`. `Kecamatan` and `institution` are mandatory for regional profiles.
+- **SQL Export & Updates**: 
+    - A clean SQL dump utility exists to export personnel data without IDs for production synchronization.
+    - Cumulative database changes are tracked in `database_updates_YYYY_MM_DD.sql` files for manual synchronization.
 
 ## 🎨 Layout Standards
 - **Component Inclusion**: Header and footer partials have been merged directly into `app/Views/layouts/frontend.php` to prevent redundant tags and improve render speed as per user preference.

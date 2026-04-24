@@ -152,6 +152,18 @@
             if (imageContainer) imageContainer.style.display = isHidden ? 'none' : 'block';
             
             const type = typeSelect.value;
+            const positionInput = document.querySelector('input[name="position"]');
+            
+            if (positionInput) {
+                if (type === 'kepala-desa') {
+                    if (!positionInput.value || positionInput.value === '') positionInput.value = 'Kepala Desa';
+                    positionInput.readOnly = true;
+                    positionInput.classList.add('bg-slate-100', 'text-slate-500');
+                } else {
+                    positionInput.readOnly = false;
+                    positionInput.classList.remove('bg-slate-100', 'text-slate-500');
+                }
+            }
             
             if (type === 'lurah') {
                 institutionLabel.textContent = 'Instansi / OPD';
@@ -225,8 +237,8 @@
                         if (!item.kecamatan_nama || item.kecamatan_nama === kecamatan) {
                             const option = document.createElement('option');
                             const namaWilayah = item.desa_nama;
-                            option.value = (tipe === 'Desa' ? 'Desa ' : 'Kelurahan ') + namaWilayah; 
-                            option.textContent = (tipe === 'Desa' ? 'Desa ' : 'Kelurahan ') + namaWilayah;
+                            option.value = (tipe === 'Desa' ? '' : 'Kelurahan ') + namaWilayah; 
+                            option.textContent = (tipe === 'Desa' ? '' : 'Kelurahan ') + namaWilayah;
                             if (option.value === selectedValue) {
                                 option.selected = true;
                             }

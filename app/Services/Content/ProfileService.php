@@ -24,23 +24,23 @@ class ProfileService extends BaseService
         $hasBioAndImage = !in_array($type, $hideImageTypes);
 
         $rules = [
-            'name'      => 'required|max_length[255]',
-            'position'  => 'required',
-            'type'      => 'required',
-            'bio'       => $hasBioAndImage ? 'required' : 'permit_empty',
-            'order'     => in_array($type, ['kepala-desa', 'lurah']) ? 'permit_empty|integer' : 'required|integer',
-            'kecamatan' => in_array($type, ['kepala-desa', 'lurah']) ? 'required|max_length[100]' : 'permit_empty|max_length[100]',
-            'institution' => 'required',
-            'kelurahan' => 'permit_empty|max_length[100]',
-            'desa'      => 'permit_empty|max_length[100]',
+            'name'      => ['label' => 'Nama Lengkap', 'rules' => 'required|max_length[255]'],
+            'position'  => ['label' => 'Jabatan', 'rules' => 'required'],
+            'type'      => ['label' => 'Tipe', 'rules' => 'required'],
+            'bio'       => ['label' => 'Biografi', 'rules' => $hasBioAndImage ? 'required' : 'permit_empty'],
+            'order'     => in_array($type, ['bupati', 'wakil-bupati', 'sekda', 'kepala-desa', 'lurah']) ? 'permit_empty|integer' : 'required|integer',
+            'kecamatan' => ['label' => 'Kecamatan', 'rules' => in_array($type, ['kepala-desa', 'lurah']) ? 'required|max_length[100]' : 'permit_empty|max_length[100]'],
+            'institution' => ['label' => ($type === 'kepala-desa' ? 'Desa' : ($type === 'lurah' ? 'Kelurahan' : 'Instansi / OPD')), 'rules' => 'required'],
+            'kelurahan' => ['label' => 'Kelurahan', 'rules' => 'permit_empty|max_length[100]'],
+            'desa'      => ['label' => 'Desa', 'rules' => 'permit_empty|max_length[100]'],
         ];
 
         $isImageOptional = $isUpdate || !$hasBioAndImage;
 
         if ($isImageOptional) {
-            $rules['image'] = 'permit_empty|max_size[image,2048]|is_image[image]';
+            $rules['image'] = ['label' => 'Foto', 'rules' => 'permit_empty|max_size[image,2048]|is_image[image]'];
         } else {
-            $rules['image'] = 'uploaded[image]|max_size[image,2048]|is_image[image]';
+            $rules['image'] = ['label' => 'Foto', 'rules' => 'uploaded[image]|max_size[image,2048]|is_image[image]'];
         }
 
         return $rules;

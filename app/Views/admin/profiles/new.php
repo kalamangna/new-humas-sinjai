@@ -31,7 +31,7 @@
                     <div class="space-y-8">
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tipe <span class="text-red-600">*</span></label>
-                            <select name="type" id="type" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer">
+                            <select name="type" id="type" required class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.type') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer">
                                 <option value="" disabled selected>Pilih ...</option>
                                 <option value="bupati" <?= old('type') == 'bupati' ? 'selected' : '' ?>>Bupati</option>
                                 <option value="wakil-bupati" <?= old('type') == 'wakil-bupati' ? 'selected' : '' ?>>Wakil Bupati</option>
@@ -42,32 +42,57 @@
                                 <option value="lurah" <?= old('type') == 'lurah' ? 'selected' : '' ?>>Lurah</option>
                                 <option value="kepala-desa" <?= old('type') == 'kepala-desa' ? 'selected' : '' ?>>Kepala Desa</option>
                             </select>
+                            <?php if (session('errors.type')) : ?>
+                                <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mt-2 ml-1 flex items-center">
+                                    <i class="fa-solid fa-circle-exclamation mr-2"></i><?= session('errors.type') ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
 
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Nama Lengkap <span class="text-red-600">*</span></label>
-                            <input type="text" name="name" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('name') ?>" placeholder="Masukkan nama lengkap">
+                            <input type="text" name="name" required class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.name') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('name') ?>" placeholder="Masukkan nama lengkap">
+                            <?php if (session('errors.name')) : ?>
+                                <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mt-2 ml-1 flex items-center">
+                                    <i class="fa-solid fa-circle-exclamation mr-2"></i><?= session('errors.name') ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
 
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Jabatan <span class="text-red-600">*</span></label>
-                            <input type="text" name="position" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('position') ?>" placeholder="Masukkan jabatan">
+                            <input type="text" name="position" required class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.position') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('position') ?>" placeholder="Masukkan jabatan">
+                            <?php if (session('errors.position')) : ?>
+                                <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mt-2 ml-1 flex items-center">
+                                    <i class="fa-solid fa-circle-exclamation mr-2"></i><?= session('errors.position') ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
 
                         <!-- New Fields for Region -->
                         <div id="kecamatan-container" class="space-y-4 hidden">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kecamatan <span class="text-red-600">*</span></label>
-                            <select name="kecamatan" id="kecamatan_select" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer" data-selected="<?= old('kecamatan') ?>">
+                            <select name="kecamatan" id="kecamatan_select" class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.kecamatan') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer" data-selected="<?= old('kecamatan') ?>">
                                 <option value="">Pilih Kecamatan...</option>
                             </select>
+                            <?php if (session('errors.kecamatan')) : ?>
+                                <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mt-2 ml-1 flex items-center">
+                                    <i class="fa-solid fa-circle-exclamation mr-2"></i><?= session('errors.kecamatan') ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
 
                         <div class="space-y-4">
                             <label id="institution_label" class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Instansi / OPD</label>
-                            <input type="text" name="institution" id="institution_input" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('institution') ?>" placeholder="Masukkan instansi">
-                            <select name="institution" id="institution_select" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer hidden" disabled data-selected="<?= old('institution') ?>">
+                            <input type="text" name="institution" id="institution_input" class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.institution') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('institution') ?>" placeholder="Masukkan instansi">
+                            <select name="institution" id="institution_select" class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.institution') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer hidden" disabled data-selected="<?= old('institution') ?>">
                                 <option value="">Pilih Desa...</option>
                             </select>
+                            <?php if (session('errors.institution')) : ?>
+                                <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mt-2 ml-1 flex items-center">
+                                    <i class="fa-solid fa-circle-exclamation mr-2"></i><?= session('errors.institution') ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
                         
                         <div id="kelurahan-container" class="space-y-4 hidden">
@@ -85,7 +110,12 @@
                     <div class="space-y-8">
                         <div id="order-container" class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Urutan Tampil <span class="text-red-600">*</span></label>
-                            <input type="number" name="order" id="order_input" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('order', 0) ?>" placeholder="Masukkan angka">
+                            <input type="number" name="order" id="order_input" required class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.order') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('order', 0) ?>" placeholder="Masukkan angka">
+                            <?php if (session('errors.order')) : ?>
+                                <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mt-2 ml-1 flex items-center">
+                                    <i class="fa-solid fa-circle-exclamation mr-2"></i><?= session('errors.order') ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -95,12 +125,17 @@
                 <div id="image-container" class="space-y-4 pt-10 border-t border-slate-100">
                     <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Foto <span class="text-red-600">*</span></label>
                     <label class="block cursor-pointer">
-                        <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
-                            <i class="fa-solid fa-fw fa-camera text-slate-400 mr-3"></i>
-                            <span class="text-sm font-bold text-slate-500 truncate" id="file-name">Pilih Foto...</span>
+                        <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed <?= session('errors.image') ? 'border-red-500 bg-red-50' : 'border-slate-200 hover:border-blue-800 hover:bg-slate-100' ?> rounded-xl transition-all">
+                            <i class="fa-solid fa-fw fa-camera <?= session('errors.image') ? 'text-red-400' : 'text-slate-400' ?> mr-3"></i>
+                            <span class="text-sm font-bold <?= session('errors.image') ? 'text-red-500' : 'text-slate-500' ?> truncate" id="file-name">Pilih Foto...</span>
                             <input type="file" name="image" id="image" class="hidden" accept="image/*" onchange="previewImage('image', 'image-preview', 'image-preview-container'); document.getElementById('file-name').innerText = this.files[0].name;">
                         </div>
                     </label>
+                    <?php if (session('errors.image')) : ?>
+                        <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mt-2 ml-1 flex items-center">
+                            <i class="fa-solid fa-circle-exclamation mr-2"></i><?= session('errors.image') ?>
+                        </p>
+                    <?php endif; ?>
                     
                     <div id="image-preview-container" class="mt-4 hidden ring-4 ring-slate-50 rounded-2xl overflow-hidden shadow-xl border border-slate-200 inline-block">
                         <img id="image-preview" class="h-64 w-auto object-cover">
@@ -109,7 +144,12 @@
 
                 <div id="bio-container" class="space-y-4">
                     <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Biografi <span class="text-red-600">*</span></label>
-                    <textarea name="bio" id="bio" rows="10" class="w-full"><?= old('bio') ?></textarea>
+                    <textarea name="bio" id="bio" rows="10" class="w-full <?= session('errors.bio') ? 'border-red-500 ring-2 ring-red-500/10' : '' ?>"><?= old('bio') ?></textarea>
+                    <?php if (session('errors.bio')) : ?>
+                        <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mt-2 ml-1 flex items-center">
+                            <i class="fa-solid fa-circle-exclamation mr-2"></i><?= session('errors.bio') ?>
+                        </p>
+                    <?php endif; ?>
                 </div>
 
                 <div class="pt-10 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-4">
@@ -167,9 +207,9 @@
                 positionInput.classList.remove('bg-slate-100', 'text-slate-500');
             }
 
-            const isRegionType = ['lurah', 'kepala-desa'].includes(type);
-            if (orderContainer) orderContainer.style.display = isRegionType ? 'none' : 'block';
-            if (orderInput) orderInput.required = !isRegionType;
+            const isManualOrderType = ['forkopimda', 'eselon-ii', 'eselon-iii'].includes(type);
+            if (orderContainer) orderContainer.style.display = !isManualOrderType ? 'none' : 'block';
+            if (orderInput) orderInput.required = isManualOrderType;
             
             if (type === 'lurah') {
                 institutionLabel.innerHTML = 'Kelurahan <span class="text-red-600">*</span>';

@@ -92,9 +92,13 @@
                                 </span>
                             </td>
                             <td class="px-8 py-6 w-1 text-center">
-                                <span class="px-3 py-1 bg-slate-50 text-slate-500 font-mono text-[10px] font-bold rounded-lg border border-slate-200">
-                                    <?= esc($profile['order']) ?>
-                                </span>
+                                <?php if (in_array($profile['type'], ['forkopimda', 'eselon-ii', 'eselon-iii'])) : ?>
+                                    <span class="px-3 py-1 bg-slate-50 text-slate-500 font-mono text-[10px] font-bold rounded-lg border border-slate-200">
+                                        <?= esc($profile['order']) ?>
+                                    </span>
+                                <?php else : ?>
+                                    <span class="text-slate-300">-</span>
+                                <?php endif; ?>
                             </td>
                             <td class="px-8 py-6 text-right space-x-1 whitespace-nowrap w-1">
                                 <a href="<?= base_url('admin/profiles/' . $profile['id'] . '/edit') ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">

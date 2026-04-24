@@ -83,9 +83,9 @@
 
                     <!-- Column 2: Classification -->
                     <div class="space-y-8">
-                        <div class="space-y-4">
+                        <div id="order-container" class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Urutan Tampil <span class="text-red-600">*</span></label>
-                            <input type="number" name="order" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('order', 0) ?>" placeholder="Masukkan angka">
+                            <input type="number" name="order" id="order_input" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('order', 0) ?>" placeholder="Masukkan angka">
                         </div>
                     </div>
                 </div>
@@ -139,6 +139,8 @@
         const kelurahanContainer = document.getElementById('kelurahan-container');
         const desaContainer = document.getElementById('desa-container');
         const kecamatanSelect = document.getElementById('kecamatan_select');
+        const orderContainer = document.getElementById('order-container');
+        const orderInput = document.getElementById('order_input');
 
         function toggleFields() {
             if (!typeSelect || !institutionLabel || !institutionInput || !institutionSelect) return;
@@ -164,6 +166,10 @@
                 positionInput.readOnly = false;
                 positionInput.classList.remove('bg-slate-100', 'text-slate-500');
             }
+
+            const isRegionType = ['lurah', 'kepala-desa'].includes(type);
+            if (orderContainer) orderContainer.style.display = isRegionType ? 'none' : 'block';
+            if (orderInput) orderInput.required = !isRegionType;
             
             if (type === 'lurah') {
                 institutionLabel.innerHTML = 'Kelurahan <span class="text-red-600">*</span>';
@@ -240,12 +246,18 @@
                 
                 if (data && data.length > 0) {
                     data.forEach(item => {
-                        if (!item.kecamatan_nama || item.kecamatan_nama === kecamatan) {
+                        const itemKecamatan = (item.kecamatan_nama || '').trim().toLowerCase();
+                        const targetKecamatan = kecamatan.trim().toLowerCase();
+
+                        if (!item.kecamatan_nama || itemKecamatan === targetKecamatan) {
                             const option = document.createElement('option');
                             const namaWilayah = item.desa_nama || item.kelurahan_nama;
-                            option.value = namaWilayah; 
-                            option.textContent = namaWilayah;
-                            selectElement.appendChild(option);                        }
+                            if (namaWilayah) {
+                                option.value = namaWilayah; 
+                                option.textContent = namaWilayah;
+                                selectElement.appendChild(option);
+                            }
+                        }
                     });
                     selectElement.disabled = false;
                 }

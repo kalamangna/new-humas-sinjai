@@ -20,7 +20,7 @@
     - **Column Layout**: In the Kepala Desa section, the "Kecamatan" column is moved to the end.
 
 ## 🛠 Database & System
-- **Profile Slug Generation**: Automatic unique slug generation has been added to the `ProfileService` to ensure profile links are human-readable and to prevent database insertion errors due to missing unique fields.
+- **Profile Slug Generation**: Automatic unique slug generation is reserved ONLY for `bupati`, `wakil-bupati`, and `sekda` types to support their dedicated profile detail pages. For all other types, the slug is set to `NULL`.
 - **Proxy API**: Internal routes `/admin/profiles/get_kecamatan` and `/admin/profiles/get_wilayah` act as proxies to bypass CORS when fetching geographical data from `apps.sinjaikab.go.id`.
 - **Validation**: Image uploads are optional for specific types: `forkopimda`, `eselon-ii`, `eselon-iii`, `lurah`, and `kepala-desa`. Mandatory fields for all profiles include `type`, `position`, and `order`.
 - **SQL Export**: A clean SQL dump utility exists to export personnel data without IDs or test records for production synchronization.

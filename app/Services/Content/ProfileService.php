@@ -61,27 +61,32 @@ class ProfileService extends BaseService
             }
         }
 
-        // Generate Slug
-        $name = trim($data['name'] ?? '');
-        $position = trim($data['position'] ?? '');
-        
-        $slugBase = ($name !== '' && $name !== '-') ? $name : ($position !== '' ? $position : 'profile');
-        $slug = url_title($slugBase, '-', true);
-        
-        // If url_title still returns empty (e.g. all special chars), fallback to a random string or position slug
-        if (empty($slug)) {
-            $slug = url_title($position ?: 'profile', '-', true) ?: 'profile-' . time();
-        }
-
-        if (!$id) {
-            $data['slug'] = $this->generateUniqueSlug($slug);
-        } else {
-            $existing = $this->profileModel->find($id);
-            // Re-generate slug if name or position changed significantly, or if it doesn't have one
-            $oldSlugBase = !empty($existing['name']) ? $existing['name'] : ($existing['position'] ?? '');
-            if (empty($existing['slug']) || $slugBase !== $oldSlugBase) {
-                $data['slug'] = $this->generateUniqueSlug($slug, $id);
+        // Generate Slug only for specific types
+        $slugTypes = ['bupati', 'wakil-bupati', 'sekda'];
+        if (in_array($data['type'], $slugTypes)) {
+            $name = trim($data['name'] ?? '');
+            $position = trim($data['position'] ?? '');
+            
+            $slugBase = ($name !== '' && $name !== '-') ? $name : ($position !== '' ? $position : 'profile');
+            $slug = url_title($slugBase, '-', true);
+            
+            // If url_title still returns empty (e.g. all special chars), fallback to a random string or position slug
+            if (empty($slug)) {
+                $slug = url_title($position ?: 'profile', '-', true) ?: 'profile-' . time();
             }
+
+            if (!$id) {
+                $data['slug'] = $this->generateUniqueSlug($slug);
+            } else {
+                $existing = $this->profileModel->find($id);
+                // Re-generate slug if name or position changed significantly, or if it doesn't have one
+                $oldSlugBase = !empty($existing['name']) ? $existing['name'] : ($existing['position'] ?? '');
+                if (empty($existing['slug']) || $slugBase !== $oldSlugBase) {
+                    $data['slug'] = $this->generateUniqueSlug($slug, $id);
+                }
+            }
+        } else {
+            $data['slug'] = null;
         }
 
         if ($id) {

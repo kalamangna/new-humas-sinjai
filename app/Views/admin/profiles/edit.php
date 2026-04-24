@@ -247,7 +247,7 @@
                     data.forEach(item => {
                         if (!item.kecamatan_nama || item.kecamatan_nama === kecamatan) {
                             const option = document.createElement('option');
-                            const namaWilayah = item.desa_nama;
+                            const namaWilayah = item.desa_nama || item.kelurahan_nama;
                             option.value = namaWilayah; 
                             option.textContent = namaWilayah;
                             if (option.value === selectedValue) {

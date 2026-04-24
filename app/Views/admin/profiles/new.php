@@ -240,11 +240,10 @@
                     data.forEach(item => {
                         if (!item.kecamatan_nama || item.kecamatan_nama === kecamatan) {
                             const option = document.createElement('option');
-                            const namaWilayah = item.desa_nama;
-                            option.value = (tipe === 'Desa' ? '' : 'Kelurahan ') + namaWilayah; 
-                            option.textContent = (tipe === 'Desa' ? '' : 'Kelurahan ') + namaWilayah;
-                            selectElement.appendChild(option);
-                        }
+                            const namaWilayah = item.desa_nama || item.kelurahan_nama;
+                            option.value = namaWilayah; 
+                            option.textContent = namaWilayah;
+                            selectElement.appendChild(option);                        }
                     });
                     selectElement.disabled = false;
                 }

@@ -16,21 +16,22 @@
             <?php endif; ?>
         </a>
 
-        <!-- Categories -->
+    </div>
+
+    <!-- Content -->
+    <div class="p-10 flex flex-col flex-1">
+        <!-- Categories (Moved Outside Image) -->
         <?php if (!empty($post['categories'])) : ?>
-            <div class="absolute top-6 left-6 flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2 mb-4">
                 <?php foreach ($post['categories'] as $category) : ?>
                     <a href="<?= base_url('category/' . esc($category['slug'])) ?>" 
-                        class="px-4 py-1.5 bg-blue-900 text-white text-[9px] font-black uppercase tracking-widest rounded-lg backdrop-blur-sm hover:bg-blue-950 transition-all shadow-xl">
+                        class="px-4 py-1.5 bg-blue-50 text-blue-900 text-[9px] font-black uppercase tracking-widest rounded-lg hover:bg-blue-100 transition-colors border border-blue-100">
                         <?= esc($category['name']) ?>
                     </a>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
-    </div>
 
-    <!-- Content -->
-    <div class="p-10 flex flex-col flex-1">
         <h2 class="text-xl font-bold text-slate-900 mb-5 line-clamp-2 leading-tight group-hover:text-blue-900 transition-colors tracking-tight">
             <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>">
                 <?= esc($post['title']) ?>

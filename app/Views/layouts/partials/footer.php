@@ -5,8 +5,16 @@
             <!-- Info -->
             <div class="space-y-6 text-center sm:text-left">
                 <img src="<?= base_url(get_setting('site_logo', 'humas.png')) ?>" alt="<?= esc(get_setting('site_name')) ?>" width="200" height="56" class="h-14 w-auto mx-auto sm:mx-0">
-                <div class="space-y-3">
-                    <p class="text-sm leading-relaxed font-medium"><?= esc(get_setting('site_tagline')) ?></p>
+                <!-- Logos: BerAKHLAK & EVP -->
+                <div class="flex items-center justify-center sm:justify-start space-x-4 mt-4">
+                    <img src="<?= base_url('Logo_BerAKHLAK.png') ?>" alt="ASN BerAKHLAK" width="120" height="30" class="h-8 w-auto">
+                    <img src="<?= base_url('Logo_EVP.png') ?>" alt="EVP" width="120" height="30" class="h-8 w-auto">
+                </div>
+                
+                <div class="space-y-3 mt-4">
+                    <div class="inline-flex items-center px-3 py-1 bg-blue-900/50 text-sky-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-blue-800">
+                        #samasamaki
+                    </div>
                 </div>
                 <div class="flex justify-center sm:justify-start space-x-6">
                     <?php if ($fb = get_setting('social_facebook')): ?>

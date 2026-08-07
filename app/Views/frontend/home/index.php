@@ -190,35 +190,53 @@
         <?php if (!empty($popular_posts)): ?>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
                 <?php foreach ($popular_posts as $index => $popular): ?>
-                    <article class="group relative flex gap-6 items-start bg-slate-50 rounded-3xl p-6 border border-slate-100 hover:bg-blue-50 hover:border-blue-100 transition-all duration-300">
-                        <!-- Ranking Number -->
-                        <div class="flex-shrink-0 text-5xl font-black text-slate-200 group-hover:text-blue-900/20 transition-colors w-12 text-center -mt-2">
-                            <?= $index + 1 ?>
+                    <article class="group relative flex flex-col bg-white rounded-[2rem] p-3 border border-slate-100 shadow-sm hover:shadow-2xl hover:border-blue-100 transition-all duration-500 hover:-translate-y-2 overflow-hidden h-full">
+                        
+                        <!-- Image Container with Rank Badge -->
+                        <div class="relative w-full aspect-video rounded-2xl overflow-hidden mb-5 bg-slate-100">
+                            <!-- Ranking Number Badge -->
+                            <div class="absolute top-4 left-4 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center text-xl font-black text-blue-900 shadow-lg border border-white/50">
+                                <?= $index + 1 ?>
+                            </div>
+                            
+                            <a href="<?= base_url('post/' . esc($popular['slug'] ?? '')) ?>" class="block h-full">
+                                <?php 
+                                    $pThumbPath = $popular['thumbnail'] ?? '';
+                                    $pThumbSrc = filter_var($pThumbPath, FILTER_VALIDATE_URL) ? $pThumbPath : (!empty($pThumbPath) ? base_url($pThumbPath) : '');
+                                ?>
+                                <?php if (!empty($pThumbSrc)) : ?>
+                                    <img loading="lazy" src="<?= $pThumbSrc ?>" alt="<?= esc($popular['title']) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <?php else: ?>
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <i class="fa-solid fa-fw fa-image text-slate-300 text-3xl"></i>
+                                    </div>
+                                <?php endif; ?>
+                            </a>
                         </div>
                         
                         <!-- Content -->
-                        <div class="flex-1">
+                        <div class="flex-1 flex flex-col px-3 pb-3">
                             <?php if (!empty($popular['categories'])) : ?>
                                 <div class="mb-3">
-                                    <span class="text-[9px] font-black uppercase tracking-widest text-blue-800">
+                                    <span class="text-[9px] font-black uppercase tracking-widest text-blue-800 bg-blue-50 px-2 py-1 rounded-md">
                                         <?= esc($popular['categories'][0]['name']) ?>
                                     </span>
                                 </div>
                             <?php endif; ?>
                             
-                            <h3 class="text-base font-black text-slate-900 line-clamp-3 leading-snug group-hover:text-blue-900 transition-colors tracking-tight mb-4">
+                            <h3 class="text-lg font-black text-slate-900 line-clamp-2 leading-snug group-hover:text-blue-900 transition-colors tracking-tight mb-4">
                                 <a href="<?= base_url('post/' . esc($popular['slug'] ?? '')) ?>">
                                     <?= esc($popular['title']) ?>
                                 </a>
                             </h3>
                             
-                            <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-auto">
+                            <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-auto border-t border-slate-100 pt-4">
                                 <span class="flex items-center">
                                     <i class="fa-regular fa-fw fa-calendar-days mr-2 text-slate-300"></i>
                                     <?= format_date($popular['published_at'] ?? 'now', 'date_only') ?>
                                 </span>
-                                <span class="flex items-center text-blue-800">
-                                    <i class="fa-regular fa-fw fa-eye mr-1.5"></i>
+                                <span class="flex items-center text-blue-900 bg-blue-50 px-2 py-1 rounded-md">
+                                    <i class="fa-solid fa-fw fa-fire mr-1.5 text-orange-500"></i>
                                     <?= number_format($popular['views'] ?? 0) ?>
                                 </span>
                             </div>

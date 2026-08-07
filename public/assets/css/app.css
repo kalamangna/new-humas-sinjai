@@ -2446,6 +2446,10 @@ video {
   border-color: rgb(255 255 255 / 0.3);
 }
 
+.border-white\/50 {
+  border-color: rgb(255 255 255 / 0.5);
+}
+
 .border-t-amber-500 {
   --tw-border-opacity: 1;
   border-top-color: rgb(245 158 11 / var(--tw-border-opacity, 1));
@@ -2753,6 +2757,10 @@ video {
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
+}
+
+.bg-white\/90 {
+  background-color: rgb(255 255 255 / 0.9);
 }
 
 .bg-opacity-70 {
@@ -3092,6 +3100,10 @@ video {
 
 .pt-8 {
   padding-top: 2rem;
+}
+
+.pb-3 {
+  padding-bottom: 0.75rem;
 }
 
 .text-left {

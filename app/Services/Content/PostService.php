@@ -288,7 +288,8 @@ class PostService extends BaseService
 
     public function getPopularPosts(int $limit = 5)
     {
-        return $this->postModel->getPopularPosts($limit);
+        $posts = $this->postModel->getPopularPosts($limit);
+        return $this->postModel->withCategoriesAndTags($posts);
     }
 
     public function searchPosts(string $query)

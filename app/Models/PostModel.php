@@ -8,7 +8,7 @@ class PostModel extends Model
 {
     protected $table = 'posts';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['title', 'slug', 'content', 'thumbnail', 'thumbnail_caption', 'status', 'user_id', 'published_at'];
+    protected $allowedFields = ['title', 'slug', 'content', 'thumbnail', 'thumbnail_caption', 'status', 'user_id', 'published_at', 'views'];
     protected $useTimestamps = true;
 
     // New methods for fetching related data
@@ -101,47 +101,52 @@ class PostModel extends Model
         return $posts;
     }
 
-    public function getPopularPosts()
+    public function getPopularPosts(int $limit = 5)
     {
         $gaModel = new \App\Models\GoogleAnalyticsModel();
-        // Get more than 5 to account for potential mismatches or unpublished posts
-        $popularGA = $gaModel->getPopularPosts('2023-07-01', 'today');
-        
-        if (empty($popularGA)) {
-            return $this->getRecentPosts();
+        try {
+            $popularGA = $gaModel->getPopularPosts('2023-07-01', 'today');
+        } catch (\Exception $e) {
+            $popularGA = [];
         }
+        
+        if (!empty($popularGA)) {
+            $slugs = [];
+            $viewsMap = [];
+            foreach ($popularGA as $item) {
+                if (preg_match('/\/post\/([^\/\?]+)/', $item['path'], $matches)) {
+                    $slug = $matches[1];
+                    $slugs[] = $slug;
+                    $viewsMap[$slug] = $item['views'];
+                }
+            }
 
-        $slugs = [];
-        $viewsMap = [];
-        foreach ($popularGA as $item) {
-            // Extract slug from path like /post/slug-name or /v1/post/slug-name
-            if (preg_match('/\/post\/([^\/\?]+)/', $item['path'], $matches)) {
-                $slug = $matches[1];
-                $slugs[] = $slug;
-                $viewsMap[$slug] = $item['views'];
+            if (!empty($slugs)) {
+                $posts = $this->whereIn('slug', $slugs)
+                    ->where('status', 'published')
+                    ->findAll();
+
+                if (!empty($posts)) {
+                    foreach ($posts as &$post) {
+                        $slug = $post['slug'] ?? '' ?? null;
+                        $post['views'] = ($slug && isset($viewsMap[$slug])) ? $viewsMap[$slug] : 0;
+                    }
+
+                    usort($posts, function ($a, $b) {
+                        return $b['views'] - $a['views'];
+                    });
+
+                    return array_slice($posts, 0, $limit);
+                }
             }
         }
 
-        if (empty($slugs)) {
-            return $this->getRecentPosts();
-        }
-
-        $posts = $this->whereIn('slug', $slugs)
-            ->where('status', 'published')
+        // Fallback to local views column if GA fails or returns empty
+        return $this->where('status', 'published')
+            ->orderBy('views', 'DESC')
+            ->orderBy('published_at', 'DESC')
+            ->limit($limit)
             ->findAll();
-
-        // Add views from our map
-        foreach ($posts as &$post) {
-            $slug = $post['slug'] ?? '' ?? null;
-            $post['views'] = ($slug && isset($viewsMap[$slug])) ? $viewsMap[$slug] : 0;
-        }
-
-        // Re-sort by views because whereIn doesn't preserve order
-        usort($posts, function ($a, $b) {
-            return $b['views'] - $a['views'];
-        });
-
-        return array_slice($posts, 0, 5);
     }
 
     public function getRecentPosts()

@@ -89,6 +89,7 @@ class SinjaiPostSeeder extends Seeder
                 'user_id' => $randomUser['id'],
                 'published_at' => $publishedAt,
                 'thumbnail' => 'https://picsum.photos/seed/' . md5($title) . '/800/600',
+                'views' => rand(500, 50000), // Tambahan data views untuk simulasi Berita Terpopuler
             ];
 
             $postId = $postModel->insert($postData);

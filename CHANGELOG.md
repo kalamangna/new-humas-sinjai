@@ -19,11 +19,14 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **UI/UX**: Memodifikasi `breadcrumb` (navigasi halaman) agar responsif dan bisa membungkus/jatuh ke baris baru (*wrap*) pada layar ponsel dengan menggunakan `flex-wrap` dan `gap`.
 - **UI/UX**: Mengubah *tagline* di footer sehingga tidak bertabrakan (duplikat) dengan elemen badge `#samasamaki`.
 - **UI/UX**: Memperkecil ukuran judul (`h1`) pada halaman detail berita menjadi lebih proporsional (`text-3xl` hingga `text-5xl`) untuk meningkatkan kenyamanan membaca (readability).
-- **UI/UX**: Merombak Beranda dengan desain *Magazine-Split* (1 Headline utama dan 4 sub-berita di sampingnya) untuk meminimalisir penumpukan elemen visual.
+- **UI/UX**: Merombak tampilan Beranda dengan desain *Magazine-Split* (1 Headline utama dan 4 sub-berita di sampingnya) untuk meminimalisir penumpukan elemen visual.
+- **UI/UX**: Memperbarui desain *card* pada seksi "Berita Terpopuler" untuk menampilkan *thumbnail* besar (*aspect-video*), angka urutan bergaya *glassmorphism*, dan merapikan komponen *badge* kategori serta penanda ikon api (🔥) pada jumlah *views*.
 - **UI/UX**: Menyeragamkan seluruh desain *Header* halaman dalam (Indeks Kategori, Detail Kategori, Hasil Pencarian, dll) dengan struktur rata kiri dan aksen garis biru yang seragam dengan Beranda.
 - **UI/UX**: Merombak komponen navigasi *Pagination* menjadi gaya *Clean Corporate Flat* tanpa efek layang berlebih agar sejalan dengan identitas visual korporat.
 - **UI/UX**: Memastikan elemen struktur *Footer* secara konsisten menerapkan perataan kiri di semua dimensi layar (terkecuali elemen teks *Copyright* pada *mobile*).
 - **System**: Menaikkan batas paginasi baris dari 10 menjadi 12 *post* per halaman agar tampilan katalog 3-kolom, 2-kolom, maupun 1-kolom selalu proporsional dan tidak berlubang.
+- **System**: Mengubah fungsi `getPopularPosts` di `PostModel` untuk memiliki *fallback* data sekunder dari kolom *views* lokal apabila API Google Analytics gagal mengembalikan data atau artikel tidak ditemukan (meningkatkan stabilitas *Production*).
+- **System**: Membuka blokir pada kolom `views` di `allowedFields` milik `PostModel` agar nilai popularitas simulasi dari seeder dapat tersimpan secara lokal.
 - **Performance**: Mengurangi drastis batasan kompresi *filesize* gambar dari 300KB menjadi 100KB di `image_helper.php` untuk menekan ukuran laman (*network payloads*) dan memperbaiki LCP pada hasil audit Lighthouse.
 - **Performance**: Menambahkan `fetchpriority="high"` untuk gambar utama, dan `loading="lazy"` disertai atribut dimensi eksplisit (`width`, `height`) pada gambar logo dan *thumbnail* untuk menghilangkan *Cumulative Layout Shift* (CLS).
 - **Accessibility**: Menyempurnakan atribut ARIA pada *navbar* (pencarian, menu) dan kontras warna pada *footer* untuk mencapai skor aksesibilitas Lighthouse 96+.

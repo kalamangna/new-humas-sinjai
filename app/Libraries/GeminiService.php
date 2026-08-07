@@ -8,9 +8,25 @@ use Exception;
 class GeminiService
 {
     private const BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/models/';
-    private const PRIMARY_MODEL = 'gemini-2.5-flash';
-    private const FALLBACK_MODEL = 'gemini-2.5-flash-lite';
     private const MAX_CONTENT_LENGTH = 500;
+
+    /**
+     * Chain prioritas model — dicoba berurutan dari atas ke bawah.
+     * Jika semua gagal, fallback ke tag hardcoded.
+     */
+    private const MODEL_CHAIN = [
+        'gemini-3.6-flash',       // Terbaru & tercepat
+        'gemini-3.5-flash',       // Stabil terbaru
+        'gemini-2.5-flash',       // Proven stable
+        'gemini-2.5-flash-lite',  // Fallback ringan
+        'gemini-2.0-flash',       // Generasi sebelumnya
+    ];
+
+    private const HARDCODED_FALLBACK = [
+        'Sinjai', 'Berita Sinjai', 'Kabupaten Sinjai', 'Pemerintah Daerah',
+        'Humas Sinjai', 'Informasi Publik', 'Sulawesi Selatan', 'Diskominfo Sinjai',
+        'Bupati Sinjai', 'Berita Daerah',
+    ];
 
     private string $apiKey;
     private $httpClient;
@@ -27,19 +43,21 @@ class GeminiService
             return [];
         }
 
-        try {
-            return $this->attemptSuggestion($title, $content, self::PRIMARY_MODEL);
-        } catch (Exception $e) {
-            log_message('warning', "[GeminiService] Primary model (" . self::PRIMARY_MODEL . ") failed: " . $e->getMessage() . ". Switching to fallback model (" . self::FALLBACK_MODEL . ").");
-
+        foreach (self::MODEL_CHAIN as $index => $model) {
             try {
-                return $this->attemptSuggestion($title, $content, self::FALLBACK_MODEL);
-            } catch (Exception $e2) {
-                log_message('error', '[GeminiService] Fallback model also failed: ' . $e2->getMessage() . '. Returning hardcoded fallback tags.');
-                // Hardcoded fallback if both models fail
-                return ['Sinjai', 'Berita Sinjai', 'Kabupaten Sinjai', 'Pemerintah Daerah', 'Humas Sinjai', 'Informasi Publik', 'Sulawesi Selatan', 'Diskominfo Sinjai', 'Bupati Sinjai', 'Berita Daerah'];
+                $tags = $this->attemptSuggestion($title, $content, $model);
+                if ($index > 0) {
+                    log_message('info', "[GeminiService] Succeeded with fallback model: {$model}.");
+                }
+                return $tags;
+            } catch (Exception $e) {
+                $next = self::MODEL_CHAIN[$index + 1] ?? 'hardcoded fallback';
+                log_message('warning', "[GeminiService] Model {$model} failed: {$e->getMessage()}. Trying: {$next}.");
             }
         }
+
+        log_message('error', '[GeminiService] All models failed. Returning hardcoded fallback tags.');
+        return self::HARDCODED_FALLBACK;
     }
 
     private function attemptSuggestion(string $title, string $content, string $model): array
@@ -63,12 +81,11 @@ class GeminiService
         $url = $this->buildApiUrl($model);
         $payload = $this->buildRequestPayload($title, $content);
 
-        // We do not catch exceptions here; we let them bubble up to suggestTags
-        // so it can trigger the fallback logic.
+        // Exceptions bubble up ke suggestTags untuk trigger next model dalam chain.
         $response = $this->httpClient->post($url, [
-            'json' => $payload,
-            'timeout' => 30,
-            'http_errors' => true // Ensure 4xx/5xx responses throw exceptions
+            'json'        => $payload,
+            'timeout'     => 30,
+            'http_errors' => true,
         ]);
 
         return json_decode($response->getBody(), true) ?? [];
@@ -76,7 +93,7 @@ class GeminiService
 
     private function buildApiUrl(string $model): string
     {
-        return self::BASE_URL . $model . ":generateContent?key=".$this->apiKey;
+        return self::BASE_URL . $model . ':generateContent?key=' . $this->apiKey;
     }
 
     private function buildRequestPayload(string $title, string $content): array
@@ -97,8 +114,7 @@ class GeminiService
 
     private function prepareContent(string $content): string
     {
-        $strippedContent = strip_tags($content);
-        return substr($strippedContent, 0, self::MAX_CONTENT_LENGTH);
+        return substr(strip_tags($content), 0, self::MAX_CONTENT_LENGTH);
     }
 
     private function buildPrompt(string $title, string $content): string
@@ -133,6 +149,6 @@ class GeminiService
     private function parseTags(string $tagsString): array
     {
         $tags = array_filter(array_map('trim', explode(',', $tagsString)));
-        return array_values($tags); // Reindex array
+        return array_values($tags);
     }
 }

@@ -6,6 +6,10 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ---
 
 ## [Unreleased]
+### Changed
+- **Server/Deployment**: Mengubah struktur deployment production Hostinger. Folder `v1` sekarang merupakan *symlink* yang mengarah langsung ke `new-humas-sinjai/public`. Hal ini memungkinkan perubahan frontend (CSS/JS/Views) langsung live saat GitHub Webhook bekerja tanpa perlu *upload* FTP manual.
+
+
 
 ## [2026-08-07]
 

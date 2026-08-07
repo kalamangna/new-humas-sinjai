@@ -39,10 +39,10 @@
                             ?>
                             <?php if (!empty($imgSrc)) : ?>
                                 <img loading="lazy" src="<?= $imgSrc ?>" alt="<?= esc($profile['name']) ?>" 
-                                    class="w-64 h-auto md:w-80 rounded-3xl shadow-2xl border-8 border-slate-50 mx-auto transform hover:scale-105 transition-transform duration-500">
+                                    class="w-48 h-auto md:w-64 rounded-3xl shadow-2xl border-8 border-slate-50 mx-auto transform hover:scale-105 transition-transform duration-500">
                             <?php else : ?>
-                                <div class="w-64 h-80 bg-slate-50 rounded-3xl shadow-inner border-4 border-dashed border-slate-200 flex items-center justify-center mx-auto">
-                                    <i class="fa-solid fa-fw fa-user text-slate-200 text-8xl"></i>
+                                <div class="w-48 h-64 md:w-64 md:h-80 bg-slate-50 rounded-3xl shadow-inner border-4 border-dashed border-slate-200 flex items-center justify-center mx-auto">
+                                    <i class="fa-solid fa-fw fa-user text-slate-200 text-6xl md:text-8xl"></i>
                                 </div>
                             <?php endif; ?>
                             
@@ -50,45 +50,42 @@
                             <div class="absolute -bottom-4 -right-4 w-20 h-20 bg-blue-800/10 rounded-full blur-2xl -z-10"></div>
                         </div>
                         
-                        <h1 class="text-3xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight">
+                        <h1 class="text-2xl md:text-3xl font-black text-slate-900 mb-3 tracking-tight">
                             <?= $profile['name'] ? esc($profile['name']) : esc($profile['position']) ?>
                         </h1>
                         
                         <?php if ($profile['name']): ?>
-                            <p class="text-lg md:text-xl text-slate-500 font-bold uppercase tracking-widest mb-2"><?= esc($profile['position']) ?></p>
+                            <p class="text-sm md:text-base text-slate-500 font-bold uppercase tracking-widest mb-4"><?= esc($profile['position']) ?></p>
                         <?php endif; ?>
                         
                         <?php if (!empty($profile['institution'])) : ?>
-                            <div class="inline-flex items-center px-6 py-2 bg-blue-50 text-blue-800 rounded-full text-xs font-black uppercase tracking-widest border border-blue-100">
-                                <i class="fa-solid fa-fw fa-landmark mr-3"></i><?= esc($profile['institution']) ?>
+                            <div class="inline-flex items-center px-4 py-1.5 bg-blue-50 text-blue-800 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100">
+                                <i class="fa-solid fa-fw fa-landmark mr-2"></i><?= esc($profile['institution']) ?>
                             </div>
                         <?php endif; ?>
                         
                         <?php if (!empty($profile['kecamatan'])) : ?>
-                            <div class="inline-flex items-center px-6 py-2 bg-slate-50 text-slate-600 rounded-full text-xs font-black uppercase tracking-widest border border-slate-100 mt-4 md:mt-0 md:ml-2">
-                                <i class="fa-solid fa-fw fa-map-marker-alt mr-3 text-blue-800"></i><?= esc($profile['kecamatan']) ?>
+                            <div class="inline-flex items-center px-4 py-1.5 bg-slate-50 text-slate-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-slate-100 mt-4 md:mt-0 md:ml-2">
+                                <i class="fa-solid fa-fw fa-map-marker-alt mr-2 text-blue-800"></i><?= esc($profile['kecamatan']) ?>
                             </div>
                         <?php endif; ?>
                     </div>
 
                     <!-- Profile Content -->
-                    <div class="border-t border-slate-100 pt-16">
-                        <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.3em] mb-10 flex items-center justify-center lg:justify-start">
-                            <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>Biografi & Profil Lengkap
-                        </h2>
-                        
-                        <div class="prose prose-slate lg:prose-xl max-w-none prose-headings:text-slate-900 prose-headings:font-black prose-p:leading-relaxed prose-p:text-slate-600">
-                            <?= $profile['bio'] ?>
+                    <?php if (!empty($profile['bio'])) : ?>
+                        <div class="border-t border-slate-100 pt-16">
+                            <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.3em] mb-10 flex items-center justify-center lg:justify-start">
+                                <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>Biografi & Profil Lengkap
+                            </h2>
+                            
+                            <div class="prose prose-slate lg:prose-xl max-w-prose mx-auto prose-headings:text-slate-900 prose-headings:font-black prose-p:leading-relaxed prose-p:text-slate-600">
+                                <?= $profile['bio'] ?>
+                            </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
                 
-                <!-- Footer Card -->
-                <div class="bg-slate-50 p-8 border-t border-slate-100 text-center">
-                    <button onclick="history.back()" class="inline-flex items-center text-xs font-black text-slate-500 hover:text-blue-800 uppercase tracking-widest transition-colors">
-                        <i class="fa-solid fa-fw fa-arrow-left mr-3"></i>Kembali ke Daftar
-                    </button>
-                </div>
+
             </article>
         </div>
     <?php else : ?>

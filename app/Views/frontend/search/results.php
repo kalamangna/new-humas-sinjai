@@ -27,18 +27,20 @@
     </nav>
 
     <!-- Header Section -->
-    <div class="text-center mb-10">
-        <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight uppercase">
-            Pencarian Berita
-        </h1>
-        <p class="mt-6 text-lg text-slate-600 font-medium leading-relaxed">
-            <?php if (!empty($query)) : ?>
-                Menampilkan hasil untuk kata kunci: <span class="text-blue-800 font-black italic">"<?= esc($query) ?>"</span>
-            <?php else : ?>
-                Silakan masukkan kata kunci untuk memulai pencarian.
-            <?php endif; ?>
-        </p>
-        <div class="mt-4 w-24 h-2 bg-blue-800 mx-auto rounded-full shadow-lg shadow-blue-900/20"></div>
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-slate-200 pb-6">
+        <div>
+            <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight uppercase flex items-center">
+                Pencarian Berita
+            </h1>
+            <p class="mt-2 text-slate-500 font-medium">
+                <?php if (!empty($query)) : ?>
+                    Menampilkan hasil untuk kata kunci: <span class="text-blue-800 font-black italic">"<?= esc($query) ?>"</span>
+                <?php else : ?>
+                    Silakan masukkan kata kunci untuk memulai pencarian.
+                <?php endif; ?>
+            </p>
+        </div>
+        <div class="hidden md:block w-24 h-1.5 bg-blue-900 rounded-full shadow-lg shadow-blue-900/20"></div>
     </div>
 
     <?php if (!empty($posts)) : ?>

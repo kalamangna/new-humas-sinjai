@@ -28,14 +28,7 @@
 
     <!-- Header Section -->
     <div class="text-center mb-12">
-        <div class="inline-flex items-center px-4 py-1.5 bg-slate-50 border-slate-100 rounded-full mb-6 border">
-            <span class="relative flex h-2 w-2 mr-2.5">
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-slate-400"></span>
-            </span>
-            <span class="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em]">
-                Off-Air
-            </span>
-        </div>
+
         <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight uppercase mb-6"><?= esc($title) ?></h1>
         <div class="mt-8 w-24 h-2 bg-blue-800 mx-auto rounded-full shadow-lg shadow-blue-900/20"></div>
     </div>

@@ -57,7 +57,7 @@ class PostModel extends Model
 
         if ($slug === false) {
             $posts = $paginate
-                ? $builder->orderBy('posts.published_at', 'DESC')->paginate(10)
+                ? $builder->orderBy('posts.published_at', 'DESC')->paginate(12)
                 : $builder->orderBy('posts.published_at', 'DESC')->findAll();
 
             return $this->addGAData($posts);

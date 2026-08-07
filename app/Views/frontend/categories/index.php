@@ -27,11 +27,13 @@
     </nav>
 
     <!-- Header Section -->
-    <div class="text-center mb-8">
-        <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight uppercase">
-            <?= esc($seo['title']) ?>
-        </h1>
-        <div class="mt-4 w-24 h-2 bg-blue-800 mx-auto rounded-full"></div>
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-slate-200 pb-6">
+        <div>
+            <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight uppercase flex items-center">
+                <?= esc($seo['title']) ?>
+            </h1>
+        </div>
+        <div class="hidden md:block w-24 h-1.5 bg-blue-900 rounded-full shadow-lg shadow-blue-900/20"></div>
     </div>
 
     <?php if (!empty($categories)) : ?>

@@ -28,13 +28,7 @@
 
     <!-- Header Section -->
     <div class="text-center mb-12">
-        <div class="inline-flex items-center px-4 py-1.5 bg-slate-50 border border-slate-100 rounded-full transition-all duration-500 mb-6" id="status-badge">
-            <span class="relative flex h-2 w-2 mr-2.5">
-                <span id="status-ping" class="absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-0 transition-opacity duration-500"></span>
-                <span id="status-dot" class="relative inline-flex rounded-full h-2 w-2 bg-slate-400 transition-colors duration-500"></span>
-            </span>
-            <span id="status-msg" class="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em]">Siaran Siap</span>
-        </div>
+
         <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight uppercase mb-6"><?= esc($title) ?></h1>
         <div class="mt-8 w-24 h-2 bg-blue-800 mx-auto rounded-full shadow-lg shadow-blue-900/20"></div>
     </div>
@@ -123,18 +117,20 @@
 
     playBtn.addEventListener('click', () => {
         if (audio.paused) {
-            statusMsg.innerText = 'Menyambungkan...';
+            if (statusMsg) statusMsg.innerText = 'Menyambungkan...';
             showLoading(true);
             audio.load();
             audio.play().then(() => updateUI(true)).catch(() => {
-                statusMsg.innerText = 'Gagal memuat siaran';
-                statusMsg.classList.add('text-red-600');
+                if (statusMsg) {
+                    statusMsg.innerText = 'Gagal memuat siaran';
+                    statusMsg.classList.add('text-red-600');
+                }
                 showLoading(false);
             });
         } else {
             audio.pause();
             updateUI(false);
-            statusMsg.innerText = 'Siaran Dihentikan';
+            if (statusMsg) statusMsg.innerText = 'Siaran Dihentikan';
         }
     });
 
@@ -157,8 +153,10 @@
         if (isPlaying) {
             playIcon.classList.replace('fa-play', 'fa-pause');
             playIcon.classList.remove('ml-1');
-            statusMsg.innerText = 'Streaming Aktif';
-            statusMsg.classList.replace('text-slate-500', 'text-red-600');
+            if (statusMsg) {
+                statusMsg.innerText = 'Streaming Aktif';
+                statusMsg.classList.replace('text-slate-500', 'text-red-600');
+            }
             showLoading(false);
             
             equalizer.classList.add('playing');
@@ -174,8 +172,10 @@
             playIcon.classList.replace('fa-pause', 'fa-play');
             playIcon.classList.add('ml-1');
             showLoading(false);
-            statusMsg.innerText = 'Siaran Dihentikan';
-            statusMsg.classList.replace('text-red-600', 'text-slate-500');
+            if (statusMsg) {
+                statusMsg.innerText = 'Siaran Dihentikan';
+                statusMsg.classList.replace('text-red-600', 'text-slate-500');
+            }
 
             equalizer.classList.remove('playing');
             equalizer.classList.replace('opacity-100', 'opacity-50');
@@ -206,7 +206,13 @@
 
     audio.addEventListener('waiting', () => showLoading(true));
     audio.addEventListener('playing', () => showLoading(false));
-    audio.addEventListener('error', () => { statusMsg.innerText = 'Siaran Offline'; statusMsg.classList.add('text-red-600'); updateUI(false); });
+    audio.addEventListener('error', () => { 
+        if (statusMsg) {
+            statusMsg.innerText = 'Siaran Offline'; 
+            statusMsg.classList.add('text-red-600'); 
+        }
+        updateUI(false); 
+    });
 </script>
 
 <?= $this->endSection() ?>

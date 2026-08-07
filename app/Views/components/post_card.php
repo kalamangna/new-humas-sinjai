@@ -1,6 +1,6 @@
-<article class="group bg-white rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col border border-slate-200 h-full">
+<article class="group bg-white rounded-[2.5rem] shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col border border-slate-200 h-full">
     <!-- Image Container -->
-    <div class="relative h-64 overflow-hidden bg-slate-100">
+    <div class="relative w-full aspect-video overflow-hidden bg-slate-100">
         <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>" class="block h-full">
             <?php 
                 $thumbPath = $post['thumbnail'] ?? '';

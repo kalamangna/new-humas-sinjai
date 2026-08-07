@@ -21,6 +21,24 @@ class Home extends BaseController
     {
         $data['posts'] = $this->postService->getPublicPosts()['posts'];
         $data['slides'] = (new CarouselSlideModel())->orderBy('slide_order', 'ASC')->findAll();
+        $data['popular_posts'] = $this->postService->getPopularPosts(6);
+
+        // Fetch Program Prioritas
+        $data['program_posts'] = [];
+        $catModel = new CategoryModel();
+        $progParent = $catModel->where('slug', 'program-prioritas')->first();
+        if ($progParent) {
+            $childCats = $catModel->where('parent_id', $progParent['id'])->findAll();
+            $catIds = array_merge([$progParent['id']], array_column($childCats, 'id'));
+            
+            $pcModel = new PostCategoryModel();
+            $pIds = array_column($pcModel->whereIn('category_id', $catIds)->findAll(), 'post_id');
+            if (!empty($pIds)) {
+                $pModel = new \App\Models\PostModel();
+                $progs = $pModel->whereIn('posts.id', $pIds)->where('status', 'published')->orderBy('posts.published_at', 'DESC')->limit(3)->findAll();
+                $data['program_posts'] = $pModel->withCategoriesAndTags($progs);
+            }
+        }
 
         $data['seo'] = $this->seoData;
         $data['seo']['title'] = 'Beranda';
@@ -70,7 +88,7 @@ class Home extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the category: ' . $slug);
         }
 
-        $result = $this->postService->getAdminPosts(['category' => $category['id']], 10);
+        $result = $this->postService->getAdminPosts(['category' => $category['id']], 12);
 
         $data = [
             'category'    => $category,
@@ -101,7 +119,7 @@ class Home extends BaseController
 
         if (!empty($postIds)) {
             $postModel = new \App\Models\PostModel();
-            $posts = $postModel->whereIn('posts.id', $postIds)->where('status', 'published')->orderBy('posts.published_at', 'DESC')->paginate(10);
+            $posts = $postModel->whereIn('posts.id', $postIds)->where('status', 'published')->orderBy('posts.published_at', 'DESC')->paginate(12);
             $data['posts'] = $postModel->withCategoriesAndTags($posts);
             $data['pager'] = $postModel->pager;
         }
@@ -136,7 +154,7 @@ class Home extends BaseController
 
     public function posts()
     {
-        $result = $this->postService->getPublicPosts(10);
+        $result = $this->postService->getPublicPosts(12);
         
         $data = [
             'posts'       => $result['posts'],

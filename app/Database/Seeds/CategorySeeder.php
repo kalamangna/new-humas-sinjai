@@ -11,39 +11,60 @@ class CategorySeeder extends Seeder
     {
         $categoryModel = new CategoryModel();
 
-        // Create "Program Prioritas" parent category
+        // 1. Matikan Foreign Key check agar bisa truncate tabel categories yang mungkin terhubung dengan post_categories
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+        $this->db->table('categories')->truncate();
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
+
+        echo "Tabel categories berhasil dikosongkan.\n";
+
+        // 2. Daftar Kategori Utama (Parent Categories)
+        $mainCategories = [
+            'Pemerintahan',
+            'Pendidikan',
+            'Kesehatan',
+            'Infrastruktur',
+            'Sosial & Ekonomi',
+            'Pariwisata & Budaya',
+            'Hukum & Kriminal'
+        ];
+
+        foreach ($mainCategories as $catName) {
+            $categoryModel->insert([
+                'name' => $catName,
+                'slug' => strtolower(url_title($catName, '-', true)),
+            ]);
+        }
+
+        // 3. Kategori Khusus dengan Sub-Kategori: Program Prioritas
         $parentCategoryName = 'Program Prioritas';
         $parentCategorySlug = 'program-prioritas';
 
-        if ($categoryModel->where('slug', $parentCategorySlug)->first() === null) {
-            $categoryModel->save([
-                'name' => $parentCategoryName,
-                'slug' => $parentCategorySlug,
+        $categoryModel->insert([
+            'name' => $parentCategoryName,
+            'slug' => $parentCategorySlug,
+        ]);
+
+        $parentId = $categoryModel->getInsertID();
+
+        // Sub-Kategori untuk Program Prioritas
+        $childCategories = [
+            'Pendidikan Berkualitas',
+            'Kesehatan Terjangkau',
+            'Infrastruktur Merata',
+            'Ekonomi Kreatif',
+            'Reformasi Birokrasi',
+            'Lingkungan Hidup',
+        ];
+
+        foreach ($childCategories as $childName) {
+            $categoryModel->insert([
+                'name'      => $childName,
+                'slug'      => strtolower(url_title($childName, '-', true)),
+                'parent_id' => $parentId,
             ]);
-
-            $parentId = $categoryModel->getInsertID();
-
-            // Create child categories
-            $childCategories = [
-                'Pendidikan Berkualitas',
-                'Kesehatan Terjangkau',
-                'Infrastruktur Merata',
-                'Ekonomi Kreatif',
-                'Reformasi Birokrasi',
-                'Lingkungan Hidup',
-            ];
-
-            foreach ($childCategories as $childCategoryName) {
-                $childCategorySlug = strtolower(url_title($childCategoryName, '-', true));
-
-                if ($categoryModel->where('slug', $childCategorySlug)->first() === null) {
-                    $categoryModel->save([
-                        'name'      => $childCategoryName,
-                        'slug'      => $childCategorySlug,
-                        'parent_id' => $parentId,
-                    ]);
-                }
-            }
         }
+
+        echo "Berhasil membuat kategori baru secara komprehensif!\n";
     }
 }

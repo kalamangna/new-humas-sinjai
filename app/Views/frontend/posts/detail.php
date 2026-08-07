@@ -45,7 +45,7 @@
                     </h1>
 
                     <!-- Post Meta -->
-                    <div class="flex flex-wrap items-center gap-8 text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-10 pb-10 border-b border-slate-100">
+                    <div class="flex flex-wrap items-center gap-6 text-[10px] font-black uppercase tracking-widest text-slate-500 mb-10 pb-8 border-b border-slate-200">
                         <div class="flex items-center">
                             <i class="fa-regular fa-fw fa-calendar-days mr-2 text-blue-700"></i>
                             <span>
@@ -104,7 +104,7 @@
                     <?php endif; ?>
 
                     <!-- Post Content -->
-                    <div class="prose prose-slate lg:prose-xl max-w-none prose-headings:text-slate-900 prose-headings:font-black prose-a:text-blue-800 prose-a:font-bold prose-img:rounded-2xl prose-img:w-full prose-p:text-slate-600 prose-p:leading-relaxed prose-p:font-medium">
+                    <div class="prose prose-slate lg:prose-xl max-w-prose mx-auto prose-headings:text-slate-900 prose-headings:font-black prose-a:text-blue-800 prose-a:font-bold prose-img:rounded-2xl prose-img:w-full prose-p:text-slate-600 prose-p:leading-relaxed prose-p:font-medium">
                         <?= $post['content'] ?>
                     </div>
 
@@ -180,7 +180,7 @@
                             $relThumbPath = $related['thumbnail'] ?? '';
                             $relThumbSrc = filter_var($relThumbPath, FILTER_VALIDATE_URL) ? $relThumbPath : (!empty($relThumbPath) ? base_url($relThumbPath) : '');
                             ?>
-                            <a href="<?= base_url('post/' . esc($related['slug'])) ?>" class="group block relative rounded-2xl overflow-hidden aspect-[16/10] border border-slate-200 shadow-sm">
+                            <a href="<?= base_url('post/' . esc($related['slug'])) ?>" class="group block relative rounded-2xl overflow-hidden aspect-video border border-slate-200 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
                                 <img loading="lazy" src="<?= $relThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Related" width="400" height="300">
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent p-6 flex flex-col justify-end">
                                     <h3 class="text-white font-bold leading-tight group-hover:text-sky-300 transition-colors tracking-tight"><?= esc($related['title']) ?></h3>
@@ -199,7 +199,7 @@
         </div>
 
         <!-- Sidebar -->
-        <aside class="lg:col-span-4 space-y-12">
+        <aside class="lg:col-span-4 space-y-12 sticky top-28 h-fit">
             <!-- Berita Terbaru Widget -->
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
                 <div class="p-8 border-b border-slate-100 bg-slate-50/50">
@@ -275,6 +275,8 @@
                                 </div>
                             </a>
                         <?php endforeach; ?>
+                    <?php else : ?>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase text-center">Data belum tersedia.</p>
                     <?php endif; ?>
                 </div>
             </div>

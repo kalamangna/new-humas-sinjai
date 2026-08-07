@@ -4,7 +4,7 @@
         <div class="flex justify-between h-20">
             <div class="flex items-center">
                 <a href="<?= base_url('/') ?>" class="flex-shrink-0 flex items-center">
-                    <img src="<?= base_url(get_setting('site_logo', 'humas.png')) ?>" alt="<?= esc(get_setting('site_name', 'Humas Sinjai')) ?>" class="h-10 w-auto">
+                    <img src="<?= base_url(get_setting('site_logo', 'humas.png')) ?>" alt="<?= esc(get_setting('site_name', 'Humas Sinjai')) ?>" width="200" height="40" class="h-10 w-auto">
                 </a>
                 <div class="hidden xl:ml-10 xl:flex xl:space-x-2">
                     <a href="<?= base_url('/') ?>" class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider <?= url_is('/') ? 'bg-blue-800 shadow-inner' : 'hover:bg-blue-800 transition-colors' ?>">

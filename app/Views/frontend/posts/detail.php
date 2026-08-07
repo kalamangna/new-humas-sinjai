@@ -94,7 +94,7 @@
                         }
                         ?>
                         <figure class="mb-8">
-                            <img loading="lazy" src="<?= $imageSrc ?>" class="w-full h-auto rounded-2xl shadow-2xl border border-slate-100" alt="<?= esc($post['title']) ?>">
+                            <img fetchpriority="high" src="<?= $imageSrc ?>" class="w-full h-auto rounded-2xl shadow-2xl border border-slate-100" alt="<?= esc($post['title']) ?>" width="1280" height="720">
                             <?php if (!empty($post['thumbnail_caption'])) : ?>
                                 <figcaption class="mt-5 text-center text-xs text-slate-500 italic font-medium">
                                     <i class="fa-solid fa-fw fa-camera mr-2 opacity-50"></i><?= esc($post['thumbnail_caption']) ?>
@@ -181,7 +181,7 @@
                             $relThumbSrc = filter_var($relThumbPath, FILTER_VALIDATE_URL) ? $relThumbPath : (!empty($relThumbPath) ? base_url($relThumbPath) : '');
                             ?>
                             <a href="<?= base_url('post/' . esc($related['slug'])) ?>" class="group block relative rounded-2xl overflow-hidden aspect-[16/10] border border-slate-200 shadow-sm">
-                                <img loading="lazy" src="<?= $relThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Related">
+                                <img loading="lazy" src="<?= $relThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Related" width="400" height="300">
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent p-6 flex flex-col justify-end">
                                     <h3 class="text-white font-bold leading-tight group-hover:text-sky-300 transition-colors tracking-tight"><?= esc($related['title']) ?></h3>
                                     <div class="mt-3 text-[10px] font-bold text-slate-300 uppercase tracking-widest flex items-center">
@@ -217,7 +217,7 @@
                             <a href="<?= base_url('post/' . esc($recent['slug'])) ?>" class="group flex gap-5">
                                 <div class="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden shadow-md border border-slate-100">
                                     <?php if (!empty($recThumbSrc)) : ?>
-                                        <img loading="lazy" src="<?= $recThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="Recent">
+                                        <img loading="lazy" src="<?= $recThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="Recent" width="400" height="300">
                                     <?php else: ?>
                                         <div class="w-full h-full bg-slate-50 flex items-center justify-center">
                                             <i class="fa-solid fa-fw fa-image text-slate-200"></i>
@@ -257,7 +257,7 @@
                             <a href="<?= base_url('post/' . esc($popular['slug'])) ?>" class="group flex gap-5">
                                 <div class="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden shadow-md border border-slate-100">
                                     <?php if (!empty($popThumbSrc)) : ?>
-                                        <img loading="lazy" src="<?= $popThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="Popular">
+                                        <img loading="lazy" src="<?= $popThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="Popular" width="400" height="300">
                                     <?php else: ?>
                                         <div class="w-full h-full bg-slate-50 flex items-center justify-center">
                                             <i class="fa-solid fa-fw fa-image text-slate-200"></i>

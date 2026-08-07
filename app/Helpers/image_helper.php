@@ -31,7 +31,7 @@ if (!function_exists('processImage')) {
                 $image->save($tempPath, $quality);
                 $fileSize = filesize($tempPath);
                 $quality -= 5;
-            } while ($fileSize > 300 * 1024 && $quality >= 50);
+            } while ($fileSize > 100 * 1024 && $quality >= 40);
 
             return $tempPath;
         } catch (\Exception $e) {

@@ -4,4 +4,4 @@ Disallow: /auth/
 Disallow: /api/
 Allow: /
 
-Sitemap: <?= base_url('sitemap.xml') ?>
+Sitemap: https://humas.sinjaikab.go.id/v1/sitemap.xml

@@ -104,7 +104,7 @@
                     <?php endif; ?>
 
                     <!-- Post Content -->
-                    <div class="prose prose-slate lg:prose-xl max-w-none prose-headings:text-slate-900 prose-headings:font-black prose-a:text-blue-800 prose-a:font-bold prose-img:rounded-2xl prose-p:text-slate-600 prose-p:leading-relaxed prose-p:font-medium">
+                    <div class="prose prose-slate lg:prose-xl max-w-none prose-headings:text-slate-900 prose-headings:font-black prose-a:text-blue-800 prose-a:font-bold prose-img:rounded-2xl prose-img:w-full prose-p:text-slate-600 prose-p:leading-relaxed prose-p:font-medium">
                         <?= $post['content'] ?>
                     </div>
 

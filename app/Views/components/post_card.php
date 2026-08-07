@@ -20,27 +20,27 @@
 
     <!-- Content -->
     <div class="p-10 flex flex-col flex-1">
-        <!-- Categories (Moved Outside Image) -->
-        <?php if (!empty($post['categories'])) : ?>
-            <div class="flex flex-wrap gap-2 mb-4">
-                <?php foreach ($post['categories'] as $category) : ?>
-                    <a href="<?= base_url('category/' . esc($category['slug'])) ?>" 
-                        class="px-4 py-1.5 bg-blue-50 text-blue-900 text-[9px] font-black uppercase tracking-widest rounded-lg hover:bg-blue-100 transition-colors border border-blue-100">
-                        <?= esc($category['name']) ?>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-
         <h2 class="text-xl font-bold text-slate-900 mb-5 line-clamp-2 leading-tight group-hover:text-blue-900 transition-colors tracking-tight">
             <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>">
                 <?= esc($post['title']) ?>
             </a>
         </h2>
         
-        <p class="text-slate-600 text-sm mb-10 line-clamp-3 leading-relaxed font-medium">
+        <p class="text-slate-600 text-sm mb-6 line-clamp-3 leading-relaxed font-medium">
             <?= word_limiter(strip_tags($post['content']), 22) ?>
         </p>
+
+        <!-- Categories (Moved Below Content) -->
+        <?php if (!empty($post['categories'])) : ?>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <?php foreach ($post['categories'] as $category) : ?>
+                    <a href="<?= base_url('category/' . esc($category['slug'])) ?>" 
+                        class="px-3 py-1 bg-blue-50 text-blue-900 text-[8px] font-black uppercase tracking-widest rounded-lg hover:bg-blue-100 transition-colors border border-blue-100">
+                        <?= esc($category['name']) ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
 
         <div class="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500 font-black uppercase tracking-[0.2em]">
             <span class="flex items-center">

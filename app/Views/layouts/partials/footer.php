@@ -13,19 +13,19 @@
                 </div>
                 <div class="flex justify-center sm:justify-start space-x-6">
                     <?php if ($fb = get_setting('social_facebook')): ?>
-                        <a href="<?= esc($fb) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-facebook-f text-xl"></i></a>
+                        <a href="<?= esc($fb) ?>" target="_blank" aria-label="Kunjungi Facebook Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-facebook-f text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($ig = get_setting('social_instagram')): ?>
-                        <a href="<?= esc($ig) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-instagram text-xl"></i></a>
+                        <a href="<?= esc($ig) ?>" target="_blank" aria-label="Kunjungi Instagram Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-instagram text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($yt = get_setting('social_youtube')): ?>
-                        <a href="<?= esc($yt) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-youtube text-xl"></i></a>
+                        <a href="<?= esc($yt) ?>" target="_blank" aria-label="Kunjungi Kanal YouTube Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-youtube text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($tk = get_setting('social_tiktok')): ?>
-                        <a href="<?= esc($tk) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-tiktok text-xl"></i></a>
+                        <a href="<?= esc($tk) ?>" target="_blank" aria-label="Kunjungi TikTok Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-tiktok text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($tw = get_setting('social_twitter')): ?>
-                        <a href="<?= esc($tw) ?>" target="_blank" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-x-twitter text-xl"></i></a>
+                        <a href="<?= esc($tw) ?>" target="_blank" aria-label="Kunjungi X Twitter Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-x-twitter text-xl"></i></a>
                     <?php endif; ?>
                 </div>
             </div>

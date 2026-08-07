@@ -96,7 +96,7 @@
                 <form action="<?= base_url('search') ?>" method="get" class="relative">
                     <input type="text" name="q" placeholder="Cari Berita..." required
                         class="bg-blue-950 text-white placeholder-blue-400 text-xs font-bold uppercase tracking-wider rounded-xl border-none focus:ring-2 focus:ring-sky-500 pl-5 pr-12 py-3 w-72 shadow-inner transition-all">
-                    <button type="submit" class="absolute right-0 top-0 h-full px-4 text-blue-400 hover:text-white transition-colors">
+                    <button type="submit" aria-label="Cari Berita" class="absolute right-0 top-0 h-full px-4 text-blue-400 hover:text-white transition-colors">
                         <i class="fa-solid fa-fw fa-search"></i>
                     </button>
                 </form>
@@ -104,7 +104,7 @@
 
             <!-- Mobile menu button -->
             <div class="xl:hidden flex items-center">
-                <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-3 rounded-xl text-white hover:bg-blue-800 focus:outline-none transition-colors border border-blue-700/50">
+                <button type="button" id="mobile-menu-button" aria-label="Buka Menu Navigasi" class="inline-flex items-center justify-center p-3 rounded-xl text-white hover:bg-blue-800 focus:outline-none transition-colors border border-blue-700/50">
                     <i class="fa-solid fa-fw fa-bars text-xl"></i>
                 </button>
             </div>
@@ -183,7 +183,7 @@
             <form action="<?= base_url('search') ?>" method="get" class="relative">
                 <input type="text" name="q" placeholder="Cari Berita..." required
                     class="bg-blue-900 text-white placeholder-blue-400 text-xs font-bold uppercase tracking-wider rounded-xl border-none focus:ring-2 focus:ring-sky-500 pl-5 pr-12 py-4 w-full shadow-inner transition-all">
-                <button type="submit" class="absolute right-0 top-0 h-full px-4 text-blue-400 hover:text-white transition-colors">
+                <button type="submit" aria-label="Cari Berita Mobile" class="absolute right-0 top-0 h-full px-4 text-blue-400 hover:text-white transition-colors">
                     <i class="fa-solid fa-fw fa-search"></i>
                 </button>
             </form>

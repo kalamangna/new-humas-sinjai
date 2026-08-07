@@ -16,6 +16,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **UI/UX**: Mengatur jarak lega antara elemen hero (slider) dengan bagian daftar Berita Terbaru menjadi `pt-16` / `pt-24` di halaman utama.
 - **UI/UX**: Memodifikasi `breadcrumb` (navigasi halaman) agar responsif dan bisa membungkus/jatuh ke baris baru (*wrap*) pada layar ponsel dengan menggunakan `flex-wrap` dan `gap`.
 - **UI/UX**: Mengubah *tagline* di footer sehingga tidak bertabrakan (duplikat) dengan elemen badge `#samasamaki`.
+- **UI/UX**: Memperkecil ukuran judul (`h1`) pada halaman detail berita menjadi lebih proporsional (`text-3xl` hingga `text-5xl`) untuk meningkatkan kenyamanan membaca (readability).
 - **Performance**: Mengurangi drastis batasan kompresi *filesize* gambar dari 300KB menjadi 100KB di `image_helper.php` untuk menekan ukuran laman (*network payloads*) dan memperbaiki LCP pada hasil audit Lighthouse.
 - **Performance**: Menambahkan `fetchpriority="high"` untuk gambar utama, dan `loading="lazy"` disertai atribut dimensi eksplisit (`width`, `height`) pada gambar logo dan *thumbnail* untuk menghilangkan *Cumulative Layout Shift* (CLS).
 - **Accessibility**: Menyempurnakan atribut ARIA pada *navbar* (pencarian, menu) dan kontras warna pada *footer* untuk mencapai skor aksesibilitas Lighthouse 96+.

@@ -35,7 +35,7 @@
 </section>
 
 <!-- Featured News Grid -->
-<section class="pt-4 md:pt-8 pb-12 md:pb-20 bg-slate-50">
+<section class="pt-16 md:pt-24 pb-12 md:pb-20 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="text-center mb-8">

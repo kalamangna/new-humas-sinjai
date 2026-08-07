@@ -40,7 +40,7 @@
             <article class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden mb-8">
                 <!-- Post Header -->
                 <div class="p-8 md:p-12">
-                    <h1 class="text-4xl md:text-6xl font-black text-slate-900 leading-tight mb-8 tracking-tight">
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 leading-snug md:leading-tight mb-8 tracking-tight">
                         <?= esc($post['title']) ?>
                     </h1>
 

@@ -17,7 +17,7 @@ class GeminiService
 
     public function __construct(?string $apiKey = null)
     {
-        $this->apiKey = $apiKey ?? getenv('GEMINI_API_KEY') ?? '';
+        $this->apiKey = $apiKey ?? env('GEMINI_API_KEY') ?? '';
         $this->httpClient = Services::curlrequest();
     }
 
@@ -37,7 +37,7 @@ class GeminiService
             } catch (Exception $e2) {
                 log_message('error', '[GeminiService] Fallback model also failed: ' . $e2->getMessage() . '. Returning hardcoded fallback tags.');
                 // Hardcoded fallback if both models fail
-                return ['Berita', 'Informasi', 'Daerah', 'Pemerintah'];
+                return ['Sinjai', 'Berita Sinjai', 'Kabupaten Sinjai', 'Pemerintah Daerah', 'Humas Sinjai', 'Informasi Publik', 'Sulawesi Selatan', 'Diskominfo Sinjai', 'Bupati Sinjai', 'Berita Daerah'];
             }
         }
     }

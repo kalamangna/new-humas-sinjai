@@ -134,3 +134,6 @@ writable/ga4-service-account.json
 # css map in public
 public/assets/css/*.map
 node_modules/
+
+# FTP Credentials (jangan di-commit)
+FTP.md

@@ -244,25 +244,35 @@ class PostModel extends Model
         }
 
         // --- PHASE 3: FULLTEXT SEARCH (Third Fallback) ---
+        // Gunakan BOOLEAN MODE agar tidak terpengaruh threshold 50% NATURAL LANGUAGE MODE
+        // yang menyebabkan kata umum diabaikan pada DB dengan jumlah artikel sedikit.
         if (count($relatedIds) < $limit && !empty($title)) {
-            // Clean title for cleaner search
-            $cleanTitle = $this->db->escapeString($title);
-            
-            $ftMatches = $this->select('id')
-                ->where('id !=', $currentId)
-                ->where('status', 'published');
-            
-            if (!empty($relatedIds)) {
-                $ftMatches->whereNotIn('id', $relatedIds);
-            }
+            try {
+                $words = preg_split('/\s+/', strip_tags($title));
+                $keywords = array_filter($words, fn($w) => mb_strlen($w) >= 4);
+                // Tanpa prefix (+) = OR logic, cukup satu kata cocok dianggap terkait
+                $booleanQuery = implode(' ', array_slice(array_values($keywords), 0, 10));
 
-            // Using raw query for FULLTEXT MATCH with escape prevention
-            $ftMatches->where("MATCH(title, content) AGAINST('$cleanTitle' IN NATURAL LANGUAGE MODE)", null, false)
-                ->orderBy("MATCH(title, content) AGAINST('$cleanTitle' IN NATURAL LANGUAGE MODE)", 'DESC', false)
-                ->limit($limit - count($relatedIds));
-            
-            $ftIds = array_column($ftMatches->findAll(), 'id');
-            $relatedIds = array_merge($relatedIds, $ftIds);
+                if (!empty($booleanQuery)) {
+                    $ftMatches = $this->select('id')
+                        ->where('id !=', $currentId)
+                        ->where('status', 'published');
+
+                    if (!empty($relatedIds)) {
+                        $ftMatches->whereNotIn('id', $relatedIds);
+                    }
+
+                    $ftMatches->where("MATCH(title, content) AGAINST('$booleanQuery' IN BOOLEAN MODE)", null, false)
+                        ->orderBy("MATCH(title, content) AGAINST('$booleanQuery' IN BOOLEAN MODE)", 'DESC', false)
+                        ->limit($limit - count($relatedIds));
+
+                    $ftIds = array_column($ftMatches->findAll(), 'id');
+                    $relatedIds = array_merge($relatedIds, $ftIds);
+                }
+            } catch (\Exception $e) {
+                // FULLTEXT index mungkin belum ada di production, lanjut ke Phase 4
+                log_message('warning', '[getRelatedNewsOptimized] FULLTEXT search failed: ' . $e->getMessage());
+            }
         }
 
         // --- PHASE 4: LATEST NEWS (Final Fallback) ---

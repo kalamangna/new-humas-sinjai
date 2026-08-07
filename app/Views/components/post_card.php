@@ -41,7 +41,7 @@
             <?= word_limiter(strip_tags($post['content']), 22) ?>
         </p>
 
-        <div class="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">
+        <div class="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500 font-black uppercase tracking-[0.2em]">
             <span class="flex items-center">
                 <i class="fa-regular fa-fw fa-calendar-days mr-2 text-blue-900"></i>
                 <?php

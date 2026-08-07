@@ -105,7 +105,7 @@ class PostModel extends Model
     {
         $gaModel = new \App\Models\GoogleAnalyticsModel();
         try {
-            $popularGA = $gaModel->getPopularPosts('2023-07-01', 'today');
+            $popularGA = $gaModel->getPopularPosts('2023-07-01', 'today', $limit + 5);
         } catch (\Exception $e) {
             $popularGA = [];
         }

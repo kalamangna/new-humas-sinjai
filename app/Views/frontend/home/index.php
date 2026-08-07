@@ -235,8 +235,8 @@
                                     <i class="fa-regular fa-fw fa-calendar-days mr-2 text-slate-300"></i>
                                     <?= format_date($popular['published_at'] ?? 'now', 'date_only') ?>
                                 </span>
-                                <span class="flex items-center text-blue-900 bg-blue-50 px-2 py-1 rounded-md">
-                                    <i class="fa-solid fa-fw fa-fire mr-1.5 text-orange-500"></i>
+                                <span class="flex items-center text-orange-600 bg-orange-50 px-2 py-1 rounded-md">
+                                    <i class="fa-regular fa-fw fa-eye mr-1.5"></i>
                                     <?= number_format($popular['views'] ?? 0) ?>
                                 </span>
                             </div>

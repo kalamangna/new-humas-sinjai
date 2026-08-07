@@ -183,7 +183,7 @@ class GoogleAnalyticsModel extends Model
         }, $data);
     }
 
-    public function getPopularPosts(?string $startDate = null, ?string $endDate = null): array
+    public function getPopularPosts(?string $startDate = null, ?string $endDate = null, int $limit = 10): array
     {
         $config = [
             'dimensions' => ['pageTitle', 'pagePath'],
@@ -213,8 +213,8 @@ class GoogleAnalyticsModel extends Model
             return str_contains($item['path'], '/post/');
         });
 
-        // Limit 5 data teratas
-        return array_slice($filteredData, 0, 5);
+        // Limit data sesuai parameter
+        return array_slice($filteredData, 0, $limit);
     }
 
 

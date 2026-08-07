@@ -39,7 +39,6 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="text-center mb-8">
-            <p class="text-[11px] font-black text-blue-900 uppercase tracking-[0.5em] mb-4">Warta Terkini</p>
             <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase">
                 Berita Terbaru
             </h1>

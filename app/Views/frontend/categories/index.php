@@ -28,7 +28,6 @@
 
     <!-- Header Section -->
     <div class="text-center mb-8">
-        <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Klasifikasi Informasi</p>
         <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight uppercase">
             <?= esc($seo['title']) ?>
         </h1>

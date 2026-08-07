@@ -28,7 +28,6 @@
 
     <!-- Header Section -->
     <div class="text-center mb-8">
-        <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Profil Lembaga</p>
         <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight uppercase">
             Tentang Kami
         </h1>
@@ -75,7 +74,6 @@
     <div class="bg-white rounded-[3rem] shadow-sm border border-slate-200 overflow-hidden mb-10">
         <div class="grid grid-cols-1 lg:grid-cols-12">
             <div class="lg:col-span-5 bg-slate-50 p-12 lg:p-16 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-slate-200">
-                <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4 text-center lg:text-left">Profil Resmi</p>
                 <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-8 leading-tight text-center lg:text-left tracking-tight uppercase"><?= esc(get_setting('site_name')) ?></h2>
                 <div class="w-20 h-2 bg-blue-800 rounded-full mx-auto lg:mx-0 mb-8"></div>
 
@@ -134,7 +132,6 @@
 
     <!-- Leadership Section -->
     <div class="text-center mb-10">
-        <p class="text-[11px] font-black text-blue-800 uppercase tracking-[0.4em] mb-4">Leadership</p>
         <h2 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight uppercase">Struktur Organisasi</h2>
         <div class="mt-6 w-24 h-2 bg-blue-800 mx-auto rounded-full"></div>
     </div>

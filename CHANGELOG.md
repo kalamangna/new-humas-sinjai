@@ -17,3 +17,4 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - **.gitignore**: Tambahkan `FTP.md` agar file konfigurasi FTP tidak ter-commit ke repository.
+- **Admin/Posts (new & edit)**: Reset daftar tag sebelum mengisi hasil saran Gemini, agar tag lama tidak tertumpuk dengan tag baru dari API.

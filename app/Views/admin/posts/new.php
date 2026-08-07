@@ -229,7 +229,12 @@
                     content
                 })
             })
-            .then(r => r.json()).then(data => data.forEach(addTag))
+            .then(r => r.json()).then(data => {
+                // Reset tag lama sebelum menambahkan hasil saran
+                tagContainer.querySelectorAll('.tag-badge').forEach(b => b.remove());
+                updateTagsInput();
+                data.forEach(addTag);
+            })
             .finally(() => {
                 this.disabled = false;
                 this.innerHTML = '<i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2"></i>Sarankan Tag';

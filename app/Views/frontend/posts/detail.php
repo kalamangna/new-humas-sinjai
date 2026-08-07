@@ -13,7 +13,7 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
     <!-- Breadcrumb -->
     <nav class="flex mb-6" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 md:space-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
+        <ol class="flex flex-wrap items-center gap-y-2 gap-x-1 md:gap-x-3 text-[10px] font-black uppercase tracking-[0.3em]">
             <li class="inline-flex items-center">
                 <a href="<?= base_url('/') ?>" class="text-slate-500 hover:text-blue-800 transition-colors">
                     <i class="fa-solid fa-fw fa-house mr-2 text-blue-800"></i>Beranda

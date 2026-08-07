@@ -6,7 +6,7 @@
             <div class="space-y-6 text-center sm:text-left">
                 <img src="<?= base_url(get_setting('site_logo', 'humas.png')) ?>" alt="<?= esc(get_setting('site_name')) ?>" width="200" height="56" class="h-14 w-auto mx-auto sm:mx-0">
                 <!-- Logos: BerAKHLAK & EVP -->
-                <div class="flex items-center justify-center sm:justify-start space-x-4 mt-4">
+                <div class="flex items-center justify-center sm:justify-start space-x-4 mt-4 bg-white/95 p-3 rounded-2xl w-fit mx-auto sm:mx-0 shadow-lg border border-slate-700/50">
                     <img src="<?= base_url('Logo_BerAKHLAK.png') ?>" alt="ASN BerAKHLAK" width="120" height="30" class="h-8 w-auto">
                     <img src="<?= base_url('Logo_EVP.png') ?>" alt="EVP" width="120" height="30" class="h-8 w-auto">
                 </div>

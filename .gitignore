@@ -136,4 +136,4 @@ public/assets/css/*.map
 node_modules/
 
 # FTP Credentials (jangan di-commit)
-FTP.md
+SERVER.md

@@ -20,7 +20,7 @@
 
                     <!-- Dropdown Kategori -->
                     <div class="relative group">
-                        <button class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition-all inline-flex items-center">
+                        <button aria-haspopup="true" aria-expanded="false" class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition-all inline-flex items-center">
                             Kategori
                             <i class="fa-solid fa-fw fa-chevron-down ml-2 text-[10px] opacity-50"></i>
                         </button>
@@ -57,7 +57,7 @@
 
                     <!-- Dropdown Profil -->
                     <div class="relative group">
-                        <button class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition-all inline-flex items-center">
+                        <button aria-haspopup="true" aria-expanded="false" class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition-all inline-flex items-center">
                             Profil
                             <i class="fa-solid fa-fw fa-chevron-down ml-2 text-[10px] opacity-50"></i>
                         </button>
@@ -74,7 +74,7 @@
 
                     <!-- Dropdown Live -->
                     <div class="relative group">
-                        <button class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition-all inline-flex items-center">
+                        <button aria-haspopup="true" aria-expanded="false" class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition-all inline-flex items-center">
                             <span class="relative flex h-2 w-2 mr-2">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
@@ -94,7 +94,7 @@
 
             <div class="hidden xl:flex items-center">
                 <form action="<?= base_url('search') ?>" method="get" class="relative">
-                    <input type="text" name="q" placeholder="Cari Berita..." required
+                    <input type="text" name="q" placeholder="Cari Berita..." required aria-label="Kata Kunci Pencarian"
                         class="bg-blue-950 text-white placeholder-blue-400 text-xs font-bold uppercase tracking-wider rounded-xl border-none focus:ring-2 focus:ring-sky-500 pl-5 pr-12 py-3 w-72 shadow-inner transition-all">
                     <button type="submit" aria-label="Cari Berita" class="absolute right-0 top-0 h-full px-4 text-blue-400 hover:text-white transition-colors">
                         <i class="fa-solid fa-fw fa-search"></i>
@@ -121,7 +121,7 @@
 
         <!-- Mobile Kategori Collapsible -->
         <div class="py-2">
-            <button type="button" id="mobile-categories-button" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
+            <button type="button" id="mobile-categories-button" aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
                 <span>Kategori</span>
                 <i class="fa-solid fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-categories-arrow"></i>
             </button>
@@ -148,7 +148,7 @@
 
         <!-- Mobile Profil Collapsible -->
         <div class="py-2">
-            <button type="button" id="mobile-profile-button" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
+            <button type="button" id="mobile-profile-button" aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
                 <span>Profil</span>
                 <i class="fa-solid fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-profile-arrow"></i>
             </button>
@@ -163,7 +163,7 @@
 
         <!-- Mobile Live Collapsible -->
         <div class="py-2">
-            <button type="button" id="mobile-live-button" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
+            <button type="button" id="mobile-live-button" aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
                 <span class="flex items-center">
                     <span class="relative flex h-2 w-2 mr-2">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -181,7 +181,7 @@
 
         <div class="pt-6">
             <form action="<?= base_url('search') ?>" method="get" class="relative">
-                <input type="text" name="q" placeholder="Cari Berita..." required
+                <input type="text" name="q" placeholder="Cari Berita..." required aria-label="Kata Kunci Pencarian"
                     class="bg-blue-900 text-white placeholder-blue-400 text-xs font-bold uppercase tracking-wider rounded-xl border-none focus:ring-2 focus:ring-sky-500 pl-5 pr-12 py-4 w-full shadow-inner transition-all">
                 <button type="submit" aria-label="Cari Berita Mobile" class="absolute right-0 top-0 h-full px-4 text-blue-400 hover:text-white transition-colors">
                     <i class="fa-solid fa-fw fa-search"></i>

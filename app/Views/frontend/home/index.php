@@ -12,7 +12,7 @@
                         $slidePath = $slide['image_path'] ?? '';
                         $slideSrc = filter_var($slidePath, FILTER_VALIDATE_URL) ? $slidePath : (!empty($slidePath) ? base_url($slidePath) : '');
                     ?>
-                    <img src="<?= $slideSrc ?>" class="w-full h-auto block" alt="Slide <?= $index + 1 ?>">
+                    <img src="<?= $slideSrc ?>" class="w-full h-auto block" alt="Slide <?= $index + 1 ?>" width="1280" height="720" <?= $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' ?>>
                 </div>
             <?php endforeach; ?>
 

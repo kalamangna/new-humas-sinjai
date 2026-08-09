@@ -1,0 +1,12 @@
+#!/usr/bin/expect -f
+set timeout 15
+spawn ssh -o StrictHostKeyChecking=no -p 65002 u784396033.humas.sinjaikab.go.id@145.79.28.184 "cd domains/humas.sinjaikab.go.id/public_html/writable/logs && ls -la | tail -n 2 && cat \$(ls -1tr | tail -n 1)"
+expect {
+    "assword:" {
+        send "Hum4sSinjai#\r"
+        exp_continue
+    }
+    eof {
+        exit 0
+    }
+}

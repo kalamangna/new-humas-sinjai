@@ -274,6 +274,10 @@ class Posts extends BaseController
         if ($url) {
             return $this->response->setJSON(['location' => base_url($url)]);
         }
-        return $this->response->setStatusCode(500, 'Image upload failed.');
+        
+        $errorMsg = $this->mediaService->getError();
+        return $this->response->setStatusCode(400)->setJSON([
+            'error' => $errorMsg ?: 'Gagal mengunggah gambar ke server.'
+        ]);
     }
 }

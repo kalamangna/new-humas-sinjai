@@ -40,6 +40,8 @@ class Home extends BaseController
             }
         }
 
+        $data['trending_tags'] = (new TagModel())->getPopularTags(10);
+
         $data['seo'] = $this->seoData;
         $data['seo']['title'] = 'Beranda';
 

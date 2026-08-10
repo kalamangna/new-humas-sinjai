@@ -55,14 +55,14 @@
         </div>
     <?php else : ?>
         <!-- Empty State -->
-        <div class="text-center py-24 bg-white rounded-[3rem] border border-slate-200 shadow-sm px-8 max-w-2xl mx-auto">
-            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200">
-                <i class="fa-solid fa-fw fa-tags text-5xl"></i>
+        <div class="text-center py-20 max-w-xl mx-auto">
+            <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
+                <i class="fa-solid fa-fw fa-tags text-3xl"></i>
             </div>
-            <h2 class="text-3xl font-black text-slate-900 mb-4 tracking-tight">Belum Ada Tag</h2>
-            <p class="text-slate-500 mb-8 leading-relaxed font-medium">Saat ini sistem belum memiliki kata kunci atau tag untuk klasifikasi berita. Silakan kembali lagi nanti.</p>
-            <a href="<?= base_url() ?>" class="inline-flex items-center px-10 py-5 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
-                <i class="fa-solid fa-fw fa-house mr-3 text-base"></i>Beranda Utama
+            <h2 class="text-xl font-bold text-slate-900 mb-2">Belum Ada Tag</h2>
+            <p class="text-slate-500 text-sm mb-6">Saat ini sistem belum memiliki kata kunci atau tag untuk klasifikasi berita. Silakan kembali lagi nanti.</p>
+            <a href="<?= base_url() ?>" class="inline-flex items-center px-6 py-2.5 bg-slate-100 text-slate-600 font-bold uppercase tracking-widest text-[10px] rounded-lg hover:bg-slate-200 transition-all">
+                <i class="fa-solid fa-fw fa-house mr-2"></i>Beranda
             </a>
         </div>
     <?php endif; ?>

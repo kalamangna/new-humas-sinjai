@@ -28,7 +28,7 @@
             <li>
                 <div class="flex items-center">
                     <i class="fa-solid fa-fw fa-chevron-right text-slate-300 text-[8px] mx-3"></i>
-                    <span class="text-slate-400 truncate max-w-[150px] md:max-w-none"><?= esc($post['title']) ?></span>
+                    <span class="text-slate-500 truncate max-w-[150px] md:max-w-none"><?= esc($post['title']) ?></span>
                 </div>
             </li>
         </ol>
@@ -155,7 +155,7 @@
                     <?php if (!empty($tags)) : ?>
                         <div class="mt-12 pt-10 border-t border-slate-100">
                             <div class="flex items-center flex-wrap gap-3">
-                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mr-2">Tag Terkait:</span>
+                                <span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mr-2">Tag Terkait:</span>
                                 <?php foreach ($tags as $tag) : ?>
                                     <a href="<?= base_url('tag/' . esc($tag['slug'])) ?>"
                                         class="px-4 py-1.5 bg-slate-50 text-slate-600 text-[10px] font-black uppercase tracking-widest rounded-lg border border-slate-200 hover:bg-blue-800 hover:text-white hover:border-blue-900 transition-all">
@@ -193,7 +193,7 @@
                         <?php endforeach; ?>
                     </div>
                 <?php else : ?>
-                    <p class="text-slate-400 text-sm italic text-center py-6 border-2 border-dashed border-slate-100 rounded-2xl font-medium">Tidak ada informasi terkait lainnya.</p>
+                    <p class="text-slate-400 text-sm italic text-center py-4">Tidak ada informasi terkait lainnya.</p>
                 <?php endif; ?>
             </div>
         </div>
@@ -228,14 +228,14 @@
                                     <h3 class="text-sm font-bold text-slate-900 line-clamp-2 group-hover:text-blue-800 transition-colors leading-snug tracking-tight">
                                         <?= esc($recent['title']) ?>
                                     </h3>
-                                    <div class="mt-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                    <div class="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
                                         <?= format_date($recent['published_at'] ?? $recent['created_at'] ?? 'now', 'date_only') ?>
                                     </div>
                                 </div>
                             </a>
                         <?php endforeach; ?>
                     <?php else : ?>
-                        <p class="text-[10px] text-slate-400 font-bold uppercase text-center">Data belum tersedia.</p>
+                        <p class="text-slate-400 text-sm italic text-center py-4">Data belum tersedia.</p>
                     <?php endif; ?>
                 </div>
             </div>
@@ -244,7 +244,7 @@
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
                 <div class="p-8 border-b border-slate-100 bg-slate-50/50">
                     <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
-                        <i class="fa-solid fa-fw fa-fire mr-3 text-orange-600"></i>Berita Populer
+                        <i class="fa-solid fa-fw fa-fire mr-3 text-orange-700"></i>Berita Populer
                     </h2>
                 </div>
                 <div class="p-8 space-y-8">
@@ -268,15 +268,15 @@
                                     <h3 class="text-sm font-bold text-slate-900 line-clamp-2 group-hover:text-blue-800 transition-colors leading-snug tracking-tight">
                                         <?= esc($popular['title']) ?>
                                     </h3>
-                                    <div class="mt-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-between">
+                                    <div class="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center justify-between">
                                         <span><?= format_date($popular['published_at'] ?? 'now', 'date_only') ?></span>
-                                        <span class="flex items-center text-orange-600"><i class="fa-regular fa-fw fa-eye mr-1"></i><?= number_format($popular['views']) ?></span>
+                                        <span class="flex items-center text-orange-700"><i class="fa-regular fa-fw fa-eye mr-1"></i><?= number_format($popular['views']) ?></span>
                                     </div>
                                 </div>
                             </a>
                         <?php endforeach; ?>
                     <?php else : ?>
-                        <p class="text-[10px] text-slate-400 font-bold uppercase text-center">Data belum tersedia.</p>
+                        <p class="text-slate-400 text-sm italic text-center py-4">Data belum tersedia.</p>
                     <?php endif; ?>
                 </div>
             </div>

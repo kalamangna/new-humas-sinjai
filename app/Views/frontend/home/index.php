@@ -139,7 +139,7 @@
                                             <?= esc($post['title']) ?>
                                         </a>
                                     </h3>
-                                    <div class="mt-3 text-[9px] font-bold text-slate-400 uppercase tracking-widest flex items-center">
+                                    <div class="mt-3 text-[9px] font-bold text-slate-500 uppercase tracking-widest flex items-center">
                                         <i class="fa-regular fa-fw fa-calendar-days mr-1.5 text-slate-300"></i>
                                         <?= format_date($post['published_at'] ?: ($post['created_at'] ?: date('Y-m-d')), 'date_only') ?>
                                     </div>
@@ -173,15 +173,70 @@
     </div>
 </section>
 
-<!-- Popular News Section -->
-<!-- Popular News Section -->
+<!-- Program Prioritas Section -->
 <section class="py-16 md:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-slate-100 pb-6">
             <div>
                 <h2 class="text-3xl font-black text-slate-900 tracking-tight uppercase flex items-center">
-                    Berita Terpopuler
+                    Program Prioritas
+                </h2>
+            </div>
+            <div class="w-24 h-1.5 bg-blue-900 rounded-full shadow-lg shadow-blue-900/20"></div>
+        </div>
+
+        <?php if (!empty($program_posts)): ?>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
+                <?php foreach ($program_posts as $post): ?>
+                    <?= view('components/post_card', ['post' => $post]) ?>
+                <?php endforeach; ?>
+            </div>
+            
+            <!-- View All -->
+            <div class="mt-12 text-center">
+                <a href="<?= base_url('program-prioritas') ?>" class="inline-flex items-center px-12 py-6 bg-blue-900 text-white font-black uppercase tracking-[0.3em] text-xs rounded-2xl shadow-2xl shadow-blue-900/30 hover:bg-blue-950 hover:-translate-y-1 transition-all duration-300">
+                    <i class="fa-solid fa-fw fa-star mr-4"></i>
+                    Lihat Semua Program
+                </a>
+            </div>
+        <?php else: ?>
+            <div class="text-center py-8">
+                <p class="text-slate-400 text-sm italic">Belum ada publikasi program prioritas saat ini.</p>
+            </div>
+        <?php endif; ?>
+    </div>
+</section>
+
+<!-- Trending Tags Section -->
+<section class="py-10 bg-blue-900 text-white relative overflow-hidden border-y border-blue-950">
+    <!-- Abstract pattern for depth -->
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center gap-6 lg:gap-8">
+        <div class="flex-shrink-0 flex items-center gap-3 bg-blue-950/50 px-5 py-3 rounded-2xl border border-blue-800">
+
+            <h2 class="text-sm font-black uppercase tracking-widest text-blue-50">Tag Populer</h2>
+        </div>
+        <div class="flex-1 flex flex-wrap gap-2.5 justify-center lg:justify-start">
+            <?php if (!empty($trending_tags)): ?>
+                <?php foreach ($trending_tags as $tag): ?>
+                    <a href="<?= base_url('tag/' . esc($tag['slug'])) ?>" class="px-4 py-2 bg-blue-800/40 hover:bg-orange-500 text-blue-100 hover:text-white border border-blue-700/50 hover:border-orange-500 transition-all duration-300 rounded-xl text-[10px] font-black uppercase tracking-widest whitespace-nowrap shadow-sm hover:-translate-y-0.5">
+                        <?= esc($tag['name']) ?>
+                    </a>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
+<!-- Popular News Section -->
+<section class="py-16 md:py-24 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-slate-200 pb-6">
+            <div>
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight uppercase flex items-center">
+                    Berita Populer
                 </h2>
             </div>
             <div class="w-16 h-1.5 bg-blue-900 rounded-full shadow-lg shadow-blue-900/20"></div>
@@ -230,12 +285,12 @@
                                 </a>
                             </h3>
                             
-                            <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-auto border-t border-slate-100 pt-4">
+                            <div class="flex items-center justify-between text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-auto border-t border-slate-100 pt-4">
                                 <span class="flex items-center">
                                     <i class="fa-regular fa-fw fa-calendar-days mr-2 text-slate-300"></i>
                                     <?= format_date($popular['published_at'] ?? 'now', 'date_only') ?>
                                 </span>
-                                <span class="flex items-center text-orange-600 bg-orange-50 px-2 py-1 rounded-md">
+                                <span class="flex items-center text-orange-700 bg-orange-50 px-2 py-1 rounded-md">
                                     <i class="fa-regular fa-fw fa-eye mr-1.5"></i>
                                     <?= number_format($popular['views'] ?? 0) ?>
                                 </span>
@@ -245,43 +300,8 @@
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
-            <div class="text-center py-12 bg-slate-50 rounded-3xl border border-slate-100">
-                <p class="text-slate-400 font-bold uppercase tracking-widest text-xs">Belum ada data popularitas berita.</p>
-            </div>
-        <?php endif; ?>
-    </div>
-</section>
-
-<!-- Program Prioritas Section -->
-<section class="py-16 md:py-24 bg-slate-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Header -->
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-slate-200 pb-6">
-            <div>
-                <h2 class="text-3xl font-black text-slate-900 tracking-tight uppercase flex items-center">
-                    Program Prioritas
-                </h2>
-            </div>
-            <div class="w-24 h-1.5 bg-blue-900 rounded-full shadow-lg shadow-blue-900/20"></div>
-        </div>
-
-        <?php if (!empty($program_posts)): ?>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
-                <?php foreach ($program_posts as $post): ?>
-                    <?= view('components/post_card', ['post' => $post]) ?>
-                <?php endforeach; ?>
-            </div>
-            
-            <!-- View All -->
-            <div class="mt-12 text-center">
-                <a href="<?= base_url('program-prioritas') ?>" class="inline-flex items-center px-12 py-6 bg-blue-900 text-white font-black uppercase tracking-[0.3em] text-xs rounded-2xl shadow-2xl shadow-blue-900/30 hover:bg-blue-950 hover:-translate-y-1 transition-all duration-300">
-                    <i class="fa-solid fa-fw fa-star mr-4"></i>
-                    Lihat Semua Program
-                </a>
-            </div>
-        <?php else: ?>
-            <div class="text-center py-12 bg-white rounded-3xl border border-slate-200 border-dashed shadow-sm">
-                <p class="text-slate-400 font-bold uppercase tracking-widest text-xs">Belum ada publikasi program prioritas saat ini.</p>
+            <div class="text-center py-8">
+                <p class="text-slate-400 text-sm italic">Belum ada data popularitas berita.</p>
             </div>
         <?php endif; ?>
     </div>

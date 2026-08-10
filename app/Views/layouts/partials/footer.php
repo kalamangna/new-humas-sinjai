@@ -80,7 +80,7 @@
 
         <div class="border-t border-slate-900 mt-20 pt-10 flex flex-col md:flex-row justify-between items-center text-center md:text-left text-[10px] tracking-[0.2em] uppercase font-black space-y-4 md:space-y-0">
             <p class="text-slate-400">&copy; <?= date('Y') ?> <?= esc(get_setting('site_name')) ?></p>
-            <p class="text-slate-400 text-[8px]">Dikembangkan oleh <?= esc(get_setting('developer_name')) ?></p>
+            <p class="text-slate-400 text-[8px]"><?= esc(get_setting('developer_name')) ?></p>
         </div>
     </div>
 </footer>

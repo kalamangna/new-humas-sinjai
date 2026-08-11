@@ -37,6 +37,9 @@ class Dashboard extends BaseController
 
     public function optimizeImages()
     {
+        @set_time_limit(300);
+        @ini_set('memory_limit', '512M');
+
         helper(['image']);
         $uploadPath = FCPATH . 'uploads';
 

@@ -10,6 +10,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **UI/UX**: Menambahkan logo ASN BerAKHLAK dan EVP ke dalam layout footer secara berdampingan.
 - **UI/UX**: Menambahkan blok "Tag Populer" (*Trending Tags*) di Beranda untuk menampilkan 10 tag dengan interaksi terbanyak.
 - **UI/UX**: Menambahkan seksi "Berita Terpopuler" di Beranda dengan desain kartu *trending* dan daftar angka.
+- **Admin UI**: Menambahkan tombol **Optimasi Gambar** pada halaman Dashboard Admin agar pengelola web yang tidak memiliki akses SSH/Terminal dapat mengompresi gambar lama secara langsung dari browser.
 - **CLI/Maintenance**: Menambahkan perintah CLI Spark `php spark image:optimize` untuk mengompresi dan menekan ukuran gambar yang sudah terlanjur terunggah di direktori `public/uploads`.
 - **Database**: Menambahkan `ProfileSeeder.php` dan `SinjaiPostSeeder.php` untuk pasokan data pengujian (*dummy data*) yang stabil.
 

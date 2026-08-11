@@ -34,4 +34,55 @@ class Dashboard extends BaseController
 
         return $this->render('admin/dashboard/index', $data);
     }
+
+    public function optimizeImages()
+    {
+        helper(['image']);
+        $uploadPath = FCPATH . 'uploads';
+
+        if (!is_dir($uploadPath)) {
+            return redirect()->back()->with('error', 'Folder uploads tidak ditemukan.');
+        }
+
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($uploadPath, \RecursiveDirectoryIterator::SKIP_DOTS)
+        );
+
+        $count = 0;
+        $savedBytes = 0;
+
+        foreach ($iterator as $file) {
+            if ($file->isDir()) continue;
+
+            $filePath = $file->getRealPath();
+            $ext = strtolower($file->getExtension());
+
+            if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) continue;
+
+            $initialSize = filesize($filePath);
+            if ($initialSize < 150 * 1024) continue;
+
+            try {
+                $tempOptimized = processImage($filePath, false);
+
+                if ($tempOptimized && file_exists($tempOptimized)) {
+                    $newSize = filesize($tempOptimized);
+
+                    if ($newSize < $initialSize) {
+                        copy($tempOptimized, $filePath);
+                        @unlink($tempOptimized);
+                        $savedBytes += ($initialSize - $newSize);
+                        $count++;
+                    } else {
+                        @unlink($tempOptimized);
+                    }
+                }
+            } catch (\Exception $e) {
+                log_message('error', '[OptimizeImages Web] ' . $e->getMessage());
+            }
+        }
+
+        $savedMB = round($savedBytes / (1024 * 1024), 2);
+        return redirect()->back()->with('success', "Optimasi Selesai! {$count} gambar berhasil disusutkan. Total penghematan ruang: {$savedMB} MB.");
+    }
 }

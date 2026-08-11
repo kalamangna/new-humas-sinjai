@@ -3,6 +3,9 @@
 <?= $this->section('page_title') ?>Dashboard<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
+<a href="<?= base_url('admin/optimize-images') ?>" class="inline-flex items-center px-4 py-2 bg-blue-900 border border-blue-800 rounded-lg text-xs font-bold uppercase tracking-widest text-white hover:bg-blue-800 transition-colors shadow-sm mr-2" onclick="return confirm('Proses ini akan mengompres seluruh gambar di folder uploads agar lebih ringan. Lanjutkan?')">
+    <i class="fa-solid fa-fw fa-file-image mr-2 text-sky-400"></i>Optimasi Gambar
+</a>
 <button class="inline-flex items-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-widest text-slate-700 hover:bg-slate-50 transition-colors shadow-sm" onclick="window.location.reload()">
     <i class="fa-solid fa-fw fa-arrows-rotate mr-2 text-blue-600"></i>Refresh
 </button>

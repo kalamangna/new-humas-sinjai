@@ -18,17 +18,19 @@
                 <?php endforeach; ?>
 
             <!-- Controls -->
-            <button id="prev-slide" class="hidden md:block absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-30 bg-blue-950/40 hover:bg-blue-900 text-white p-2 md:p-4 rounded-xl md:rounded-2xl transition-all border border-white/10 backdrop-blur-sm shadow-2xl">
-                <i class="fa-solid fa-fw fa-chevron-left text-sm md:text-xl"></i>
+            <button id="prev-slide" aria-label="Slide sebelumnya" class="hidden md:block absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-30 bg-blue-950/40 hover:bg-blue-900 text-white p-2 md:p-4 rounded-xl md:rounded-2xl transition-all border border-white/10 backdrop-blur-sm shadow-2xl">
+                <i class="fa-solid fa-fw fa-chevron-left text-sm md:text-xl" aria-hidden="true"></i>
             </button>
-            <button id="next-slide" class="hidden md:block absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-30 bg-blue-950/40 hover:bg-blue-900 text-white p-2 md:p-4 rounded-xl md:rounded-2xl transition-all border border-white/10 backdrop-blur-sm shadow-2xl">
-                <i class="fa-solid fa-fw fa-chevron-right text-sm md:text-xl"></i>
+            <button id="next-slide" aria-label="Slide berikutnya" class="hidden md:block absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-30 bg-blue-950/40 hover:bg-blue-900 text-white p-2 md:p-4 rounded-xl md:rounded-2xl transition-all border border-white/10 backdrop-blur-sm shadow-2xl">
+                <i class="fa-solid fa-fw fa-chevron-right text-sm md:text-xl" aria-hidden="true"></i>
             </button>
 
             <!-- Indicators -->
-            <div class="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 z-30 space-x-3">
+            <div class="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 z-30 space-x-1 items-center">
                 <?php foreach ($slides as $index => $slide): ?>
-                    <button class="carousel-indicator w-2.5 h-2.5 rounded-full transition-all border border-white/20 <?= $index === 0 ? 'bg-blue-600 w-8' : 'bg-white/40' ?>" data-index="<?= $index ?>"></button>
+                    <button aria-label="Ke slide <?= $index + 1 ?>" class="carousel-indicator p-2 focus:outline-none" data-index="<?= $index ?>">
+                        <span class="block h-2.5 rounded-full transition-all border border-white/20 pointer-events-none <?= $index === 0 ? 'bg-blue-600 w-8' : 'bg-white/40 w-2.5' ?>"></span>
+                    </button>
                 <?php endforeach; ?>
             </div>
         </div>

@@ -19,12 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         indicators.forEach((ind, i) => {
+            const dot = ind.querySelector('span') || ind;
             if (i === index) {
-                ind.classList.replace('bg-white/40', 'bg-blue-600');
-                ind.classList.add('w-8');
+                dot.classList.replace('bg-white/40', 'bg-blue-600');
+                dot.classList.replace('w-2.5', 'w-8');
             } else {
-                ind.classList.replace('bg-blue-600', 'bg-white/40');
-                ind.classList.remove('w-8');
+                dot.classList.replace('bg-blue-600', 'bg-white/40');
+                dot.classList.replace('w-8', 'w-2.5');
             }
         });
 

@@ -16,6 +16,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **UI/UX**: Menyederhanakan seluruh antarmuka komponen *empty state* pada widget Beranda, widget Halaman Detail, serta lima halaman indeks penuh (Berita, Kategori, Tag, Program, Profil) agar terlihat lebih bersih, profesional, dan menyatu dengan *layout*.
 - **UI/UX**: Mengubah teks *footer* dari "Dikembangkan oleh Diskominfo-SP Sinjai" menjadi teks instansi dinamis tanpa awalan ("Dikembangkan oleh").
 - **UI/UX**: Mengubah judul seksi "Berita Terpopuler" menjadi "Berita Populer" dan menukar posisinya ke bagian bawah "Program Prioritas".
+- **Accessibility**: Meningkatkan aksesibilitas tombol Hero Carousel dengan menambahkan `aria-label` yang deskriptif pada kontrol *prev/next* & indikator slide, serta memperbesar area sentuh (*touch target*) pada indikator.
 - **Accessibility**: Meningkatkan rasio kontras warna (*color contrast*) pada elemen mikro (seperti ikon *views* dan teks *empty state*) dari abu-abu muda (`slate-400`) ke gelap (`slate-500`) dan oranye (`orange-600` ke `orange-700`) demi memenuhi standar aksesibilitas Lighthouse.
 - **System**: Mengubah respon *endpoint* `upload_image` di `Admin\Posts` agar mengembalikan `JSON` murni tanpa menyertakan pesan *Error HTML* dari server guna mencegah kegagalan *JSON Parse* pada sisi klien (TinyMCE).
 - **UI/UX**: Memusatkan markup desain kartu artikel ke komponen tunggal `post_card.php` dan membuang ratusan baris kode ganda (DRY) pada halaman Cari, Tag, Kategori, dan Daftar Berita.

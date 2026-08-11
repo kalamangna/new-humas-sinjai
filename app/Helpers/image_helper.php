@@ -55,12 +55,19 @@ if (!function_exists('processImage')) {
                 mkdir($uploadDir, 0755, true);
             }
 
-            $tempPath = $uploadDir . uniqid() . '.webp';
+            $tempPath = $uploadDir . uniqid() . '.' . pathinfo($file, PATHINFO_EXTENSION);
 
-            // Iteratively reduce quality to meet file size target
             $quality = 80;
             do {
-                imagewebp($dstImg, $tempPath, $quality);
+                if ($mime === 'image/jpeg') {
+                    imagejpeg($dstImg, $tempPath, $quality);
+                } elseif ($mime === 'image/png') {
+                    // PNG compression level (0-9)
+                    $pngQuality = max(0, min(9, (int)(9 - ($quality / 10))));
+                    imagepng($dstImg, $tempPath, $pngQuality);
+                } else {
+                    imagewebp($dstImg, $tempPath, $quality);
+                }
                 $fileSize = @filesize($tempPath);
                 $quality -= 10;
             } while ($fileSize > 120 * 1024 && $quality >= 30);

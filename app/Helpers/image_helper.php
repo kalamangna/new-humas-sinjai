@@ -9,14 +9,46 @@ if (!function_exists('processImage')) {
         }
 
         try {
-            $image = \Config\Services::image()
-                ->withFile($file);
-                
-            if ($fit) {
-                $image->fit(1200, 630, 'center');
+            $info = @getimagesize($file);
+            if (!$info) return $file;
+
+            $mime = $info['mime'];
+            $srcImg = null;
+
+            switch ($mime) {
+                case 'image/jpeg':
+                    $srcImg = @imagecreatefromjpeg($file);
+                    break;
+                case 'image/png':
+                    $srcImg = @imagecreatefrompng($file);
+                    break;
+                case 'image/webp':
+                    $srcImg = @imagecreatefromwebp($file);
+                    break;
+                default:
+                    return $file;
             }
-                
-            $image->convert(IMAGETYPE_WEBP);
+
+            if (!$srcImg) return $file;
+
+            $origW = imagesx($srcImg);
+            $origH = imagesy($srcImg);
+
+            $targetW = $origW;
+            $targetH = $origH;
+
+            if ($fit && ($origW > 1200 || $origH > 630)) {
+                $targetW = 1200;
+                $targetH = 630;
+            }
+
+            $dstImg = imagecreatetruecolor($targetW, $targetH);
+            if ($mime === 'image/png' || $mime === 'image/webp') {
+                imagealphablending($dstImg, false);
+                imagesavealpha($dstImg, true);
+            }
+
+            imagecopyresampled($dstImg, $srcImg, 0, 0, 0, 0, $targetW, $targetH, $origW, $origH);
 
             $uploadDir = WRITEPATH . 'uploads/';
             if (!is_dir($uploadDir)) {
@@ -26,17 +58,20 @@ if (!function_exists('processImage')) {
             $tempPath = $uploadDir . uniqid() . '.webp';
 
             // Iteratively reduce quality to meet file size target
-            $quality = 85;
+            $quality = 80;
             do {
-                $image->save($tempPath, $quality);
-                $fileSize = filesize($tempPath);
-                $quality -= 5;
-            } while ($fileSize > 100 * 1024 && $quality >= 40);
+                imagewebp($dstImg, $tempPath, $quality);
+                $fileSize = @filesize($tempPath);
+                $quality -= 10;
+            } while ($fileSize > 120 * 1024 && $quality >= 30);
+
+            imagedestroy($srcImg);
+            imagedestroy($dstImg);
 
             return $tempPath;
         } catch (\Exception $e) {
             log_message('error', '[processImage] Error: ' . $e->getMessage());
-            return $file; // Fallback to original file path if processing fails
+            return $file;
         }
     }
 }

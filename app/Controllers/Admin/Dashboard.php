@@ -44,7 +44,10 @@ class Dashboard extends BaseController
         $uploadPath = FCPATH . 'uploads';
 
         if (!is_dir($uploadPath)) {
-            return redirect()->back()->with('error', 'Folder uploads tidak ditemukan.');
+            return $this->response->setJSON([
+                'status'  => 'error',
+                'message' => 'Folder uploads tidak ditemukan.'
+            ]);
         }
 
         $iterator = new \RecursiveIteratorIterator(
@@ -53,7 +56,8 @@ class Dashboard extends BaseController
 
         $count = 0;
         $savedBytes = 0;
-        $maxPerBatch = 15; // Proses 15 file per klik agar aman dari 503 Service Unavailable
+        $processedFiles = [];
+        $maxPerBatch = 10; // 10 file per AJAX batch request
 
         foreach ($iterator as $file) {
             if ($file->isDir()) continue;
@@ -66,6 +70,8 @@ class Dashboard extends BaseController
             $initialSize = filesize($filePath);
             if ($initialSize < 150 * 1024) continue;
 
+            $relativePath = str_replace(FCPATH, '', $filePath);
+
             try {
                 $tempOptimized = processImage($filePath, false);
 
@@ -75,13 +81,20 @@ class Dashboard extends BaseController
                     if ($newSize < $initialSize) {
                         copy($tempOptimized, $filePath);
                         @unlink($tempOptimized);
-                        $savedBytes += ($initialSize - $newSize);
+                        $saved = $initialSize - $newSize;
+                        $savedBytes += $saved;
                         $count++;
+                        $processedFiles[] = [
+                            'file' => $relativePath,
+                            'old_size_kb' => round($initialSize / 1024, 2),
+                            'new_size_kb' => round($newSize / 1024, 2),
+                            'saved_kb' => round($saved / 1024, 2)
+                        ];
                     } else {
                         @unlink($tempOptimized);
                     }
                 }
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 log_message('error', '[OptimizeImages Web] ' . $e->getMessage());
             }
 
@@ -91,10 +104,13 @@ class Dashboard extends BaseController
         }
 
         $savedMB = round($savedBytes / (1024 * 1024), 2);
-        if ($count > 0) {
-            return redirect()->back()->with('success', "Batch Optimasi Selesai! {$count} gambar berhasil disusutkan (Hemat {$savedMB} MB). Klik tombol lagi untuk memproses batch berikutnya jika masih ada.");
-        }
 
-        return redirect()->back()->with('success', "Semua gambar di folder uploads sudah teroptimasi sempurna (< 150 KB)!");
+        return $this->response->setJSON([
+            'status' => 'success',
+            'processed_count' => $count,
+            'saved_mb' => $savedMB,
+            'files' => $processedFiles,
+            'has_more' => ($count >= $maxPerBatch)
+        ]);
     }
 }

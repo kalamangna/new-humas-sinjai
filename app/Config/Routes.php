@@ -57,7 +57,6 @@ $routes->group('api', static function ($routes) {
 // Admin Dashboard Routes
 $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
     $routes->get('/', 'Admin\Dashboard::index');
-    $routes->get('optimize-images', 'Admin\Dashboard::optimizeImages');
     $routes->get('profile', 'Admin\Users::profile');
     $routes->get('settings', 'Admin\Users::settings'); // Account settings
     $routes->post('users/update_settings', 'Admin\Users::update_settings');

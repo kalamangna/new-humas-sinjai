@@ -3,9 +3,6 @@
 <?= $this->section('page_title') ?>Dashboard<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<button id="btn-optimize-images" type="button" class="inline-flex items-center px-4 py-2 bg-blue-900 border border-blue-800 rounded-lg text-xs font-bold uppercase tracking-widest text-white hover:bg-blue-800 transition-colors shadow-sm mr-2">
-    <i class="fa-solid fa-fw fa-file-image mr-2 text-sky-400"></i>Optimasi Gambar
-</button>
 <button class="inline-flex items-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-widest text-slate-700 hover:bg-slate-50 transition-colors shadow-sm" onclick="window.location.reload()">
     <i class="fa-solid fa-fw fa-arrows-rotate mr-2 text-blue-600"></i>Refresh
 </button>
@@ -226,68 +223,6 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
             .catch(error => {
                 popularPostsData.innerHTML = '<tr><td colspan="2" class="px-8 py-12 text-center text-red-500 font-black uppercase text-[10px] tracking-widest">Gagal memuat data.</td></tr>';
             });
-
-        // Interactive AJAX Console Logger untuk Optimasi Gambar
-        const btnOptimize = document.getElementById('btn-optimize-images');
-        if (btnOptimize) {
-            btnOptimize.addEventListener('click', async function() {
-                if (!confirm('Proses ini akan mengompres seluruh gambar berukuran besar di folder uploads. Lanjutkan?')) return;
-
-                btnOptimize.disabled = true;
-                btnOptimize.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Mengompres... (Cek Console F12)';
-
-                console.clear();
-                console.log('%c[Image Optimizer] Memulai proses optimasi gambar...', 'color: #3b82f6; font-weight: bold; font-size: 14px;');
-
-                let totalCount = 0;
-                let totalSavedMB = 0;
-                let batch = 1;
-
-                while (true) {
-                    console.log(`%c[Batch #${batch}] Mengirim permintaan kompresi ke server...`, 'color: #8b5cf6; font-weight: bold;');
-                    try {
-                        const res = await fetch('<?= base_url('admin/optimize-images') ?>');
-                        const data = await res.json();
-
-                        if (data.status === 'error') {
-                            console.error('[Image Optimizer Error]', data.message);
-                            alert('Gagal: ' + data.message);
-                            break;
-                        }
-
-                        if (data.files && data.files.length > 0) {
-                            console.group(`[Batch #${batch}] Berhasil mengompres ${data.files.length} file (Penghematan: ${data.saved_mb} MB)`);
-                            data.files.forEach(f => {
-                                console.log(`%c✓ ${f.file}%c: ${f.old_size_kb} KB ➔ ${f.new_size_kb} KB %c(Hemat ${f.saved_kb} KB)`, 'color: #10b981; font-weight: bold;', 'color: #64748b;', 'color: #3b82f6; font-weight: bold;');
-                            });
-                            console.groupEnd();
-
-                            totalCount += data.processed_count;
-                            totalSavedMB += parseFloat(data.saved_mb);
-                        } else {
-                            console.log('%c[Image Optimizer] Semua gambar di server sudah teroptimasi sempurna (< 150 KB)!', 'color: #10b981; font-weight: bold; font-size: 13px;');
-                            alert(`Optimasi Selesai! Seluruh gambar sudah optimal. Total disusutkan: ${totalCount} file (${totalSavedMB.toFixed(2)} MB).`);
-                            break;
-                        }
-
-                        if (!data.has_more) {
-                            console.log(`%c[Image Optimizer Selesai] Total file terkompresi: ${totalCount} file. Total penghematan: ${totalSavedMB.toFixed(2)} MB`, 'color: #10b981; font-weight: bold; font-size: 14px;');
-                            alert(`Optimasi Selesai! Total ${totalCount} gambar disusutkan (${totalSavedMB.toFixed(2)} MB dihemat).`);
-                            break;
-                        }
-
-                        batch++;
-                    } catch (err) {
-                        console.error('[Image Optimizer Network Error]', err);
-                        alert('Terjadi kesalahan jaringan / server timeout. Buka Console (F12) untuk rincian.');
-                        break;
-                    }
-                }
-
-                btnOptimize.disabled = false;
-                btnOptimize.innerHTML = '<i class="fa-solid fa-fw fa-file-image mr-2 text-sky-400"></i>Optimasi Gambar';
-            });
-        }
     });
 </script>
 

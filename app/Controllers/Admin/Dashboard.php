@@ -37,8 +37,8 @@ class Dashboard extends BaseController
 
     public function optimizeImages()
     {
-        @set_time_limit(300);
-        @ini_set('memory_limit', '512M');
+        @set_time_limit(60);
+        @ini_set('memory_limit', '256M');
 
         helper(['image']);
         $uploadPath = FCPATH . 'uploads';
@@ -53,6 +53,7 @@ class Dashboard extends BaseController
 
         $count = 0;
         $savedBytes = 0;
+        $maxPerBatch = 15; // Proses 15 file per klik agar aman dari 503 Service Unavailable
 
         foreach ($iterator as $file) {
             if ($file->isDir()) continue;
@@ -83,9 +84,17 @@ class Dashboard extends BaseController
             } catch (\Exception $e) {
                 log_message('error', '[OptimizeImages Web] ' . $e->getMessage());
             }
+
+            if ($count >= $maxPerBatch) {
+                break;
+            }
         }
 
         $savedMB = round($savedBytes / (1024 * 1024), 2);
-        return redirect()->back()->with('success', "Optimasi Selesai! {$count} gambar berhasil disusutkan. Total penghematan ruang: {$savedMB} MB.");
+        if ($count > 0) {
+            return redirect()->back()->with('success', "Batch Optimasi Selesai! {$count} gambar berhasil disusutkan (Hemat {$savedMB} MB). Klik tombol lagi untuk memproses batch berikutnya jika masih ada.");
+        }
+
+        return redirect()->back()->with('success', "Semua gambar di folder uploads sudah teroptimasi sempurna (< 150 KB)!");
     }
 }

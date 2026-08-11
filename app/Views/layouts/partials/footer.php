@@ -13,8 +13,8 @@
 
                 <!-- Logos: BerAKHLAK & EVP -->
                 <div class="flex items-center space-x-4 mt-6 bg-white/95 p-3 rounded-2xl w-fit shadow-lg border border-slate-700/50">
-                    <img src="<?= base_url('Logo_BerAKHLAK.png') ?>" alt="ASN BerAKHLAK" width="120" height="30" class="h-8 w-auto">
-                    <img src="<?= base_url('Logo_EVP.png') ?>" alt="EVP" width="120" height="30" class="h-8 w-auto">
+                    <img loading="lazy" src="<?= base_url('Logo_BerAKHLAK.png') ?>" alt="ASN BerAKHLAK" width="120" height="30" class="h-8 w-auto">
+                    <img loading="lazy" src="<?= base_url('Logo_EVP.png') ?>" alt="EVP" width="120" height="30" class="h-8 w-auto">
                 </div>
                 <div class="flex space-x-6">
                     <?php if ($fb = get_setting('social_facebook')): ?>

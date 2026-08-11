@@ -48,4 +48,28 @@
 </script>
 
 <?= $this->renderSection('scripts') ?>
-<script defer src="https://cdn.userway.org/widget.js" data-account="S41ThPrHz4" data-position="5"></script>
+<script>
+    // Delay non-critical accessibility widget until idle/interaction to boost LCP & reduce TBT
+    window.addEventListener('DOMContentLoaded', () => {
+        const loadUserWay = () => {
+            if (window.userwayLoaded) return;
+            window.userwayLoaded = true;
+            const s = document.createElement('script');
+            s.src = 'https://cdn.userway.org/widget.js';
+            s.setAttribute('data-account', 'S41ThPrHz4');
+            s.setAttribute('data-position', '5');
+            s.async = true;
+            document.body.appendChild(s);
+        };
+
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(loadUserWay, { timeout: 4000 });
+        } else {
+            setTimeout(loadUserWay, 3000);
+        }
+
+        ['pointerdown', 'keydown', 'scroll'].forEach(evt => {
+            window.addEventListener(evt, loadUserWay, { once: true, passive: true });
+        });
+    });
+</script>

@@ -34,6 +34,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Database**: Menambahkan `ProfileSeeder.php` dan `SinjaiPostSeeder.php` untuk pasokan data pengujian (*dummy data*) yang stabil.
 
 ### Changed
+- **UI/UX**: Merapikan teks placeholder dan perataan vertikal pada halaman login (`/masuk`) untuk peramban seluler, mengganti placeholder password dari karakter bullet menjadi teks deskriptif standar (`Masukkan email` dan `Masukkan password`), serta menambahkan atribut `autocomplete` untuk kemudahan pengisian otomatis.
 - **Open Graph Metadata**: Menyesuaikan tipe Open Graph (`og:type = website`) dan gambar pratinjau artikel terkini pada halaman arsip kategori, tag, dan semua berita.
 - **Performance Optimization**: Mengoptimalkan metrik LCP mobile dengan menghapus atribut `loading="lazy"` dan menambahkan `fetchpriority="high"` serta `srcset` responsif pada gambar headline dan carousel, menunda eksekusi Google Tag Manager ke kondisi *idle* untuk memangkas TBT, membersihkan rantai unduhan font pada jalur kritis, serta menerapkan konversi WebP otomatis untuk memangkas beban gambar hingga 90%+.
 - **Performance & Best Practices**: Mengubah pemuatan widget aksesibilitas UserWay menjadi *On-Demand* (hanya dimuat saat tombol diklik pengunjung) dengan tombol melayang mandiri ber-CSS *inline* di sudut kanan bawah, serta menghapus injeksi skrip pada halaman login & admin guna mengeliminasi cookie pihak ketiga (*third-party cookies*), menyelesaikan masalah Chrome DevTools, dan menaikkan skor Lighthouse Best Practices.

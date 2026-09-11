@@ -36,9 +36,9 @@
                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                     <i class="fa-solid fa-fw fa-envelope text-xs"></i>
                 </div>
-                <input type="email" name="email" id="email" required
-                    class="block w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-base sm:text-sm font-medium text-slate-900 placeholder-slate-400 focus:bg-white focus:border-blue-800 focus:ring-2 focus:ring-blue-800/20 outline-none transition-all"
-                    placeholder="nama@sinjaikab.go.id" value="<?= old('email') ?>">
+                <input type="email" name="email" id="email" required autocomplete="email"
+                    class="block w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-base sm:text-sm font-medium text-slate-900 placeholder:text-slate-400 placeholder:text-sm placeholder:font-normal leading-normal focus:bg-white focus:border-blue-800 focus:ring-2 focus:ring-blue-800/20 outline-none transition-all"
+                    placeholder="Masukkan email" value="<?= old('email') ?>">
             </div>
         </div>
 
@@ -49,9 +49,9 @@
                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                     <i class="fa-solid fa-fw fa-lock text-xs"></i>
                 </div>
-                <input type="password" name="password" id="login-password" required
-                    class="block w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-base sm:text-sm font-medium text-slate-900 placeholder-slate-400 focus:bg-white focus:border-blue-800 focus:ring-2 focus:ring-blue-800/20 outline-none transition-all"
-                    placeholder="••••••••">
+                <input type="password" name="password" id="login-password" required autocomplete="current-password"
+                    class="block w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-base sm:text-sm font-medium text-slate-900 placeholder:text-slate-400 placeholder:text-sm placeholder:font-normal leading-normal focus:bg-white focus:border-blue-800 focus:ring-2 focus:ring-blue-800/20 outline-none transition-all"
+                    placeholder="Masukkan password">
                 <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition-colors" aria-label="Lihat password">
                     <i class="fa-solid fa-fw fa-eye text-xs"></i>
                 </button>

@@ -35,10 +35,9 @@
                 <a href="<?= base_url('/') ?>" class="text-[10px] font-black text-slate-400 hover:text-blue-800 uppercase tracking-[0.3em] transition-colors">
                     <i class="fa-solid fa-fw fa-arrow-left mr-2"></i>Kembali ke Beranda Utama
                 </a>
-            </div>
         </div>
     </div>
-    <script src="https://cdn.userway.org/widget.js" data-account="S41ThPrHz4" data-position="5"></script>
+    </div>
 </body>
 
 </html>

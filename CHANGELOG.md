@@ -13,8 +13,14 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Rate Limiting**: Menerapkan CodeIgniter Throttler pada endpoint login (maksimum 5 percobaan per menit per alamat IP) dan regenerasi session ID saat login sukses untuk mencegah *session fixation*.
 - **Upload Hardening**: Memperketat validasi berkas pada `Posts::upload_image`, `MediaService`, dan `image_helper.php` dengan pengecekan MIME type dan verifikasi gambar (`getimagesize()`), serta menolak penyimpanan berkas berbahaya.
 - **Upload Hardening**: Menambahkan berkas proteksi `public/uploads/.htaccess` untuk mematikan eksekusi script engine PHP (`php_flag engine off`) dan melarang eksekusi script.
-- **Access Control (IDOR)**: Menambal celah IDOR (*Insecure Direct Object Reference*) pada `Users::update_settings` dengan mengunci `user_id` wajib dari sesi aktif (`session()->get('user_id')`) serta sanitasi field formulir.
+- **Access Control (IDOR & BOLA)**: Menambal celah IDOR pada `Users::update_settings` dan memvalidasi kepemilikan artikel pada `Posts::edit`, `update`, dan `delete` sehingga role Author tidak dapat mengedit/menghapus berita milik user lain.
 - **Access Control (RBAC)**: Memperbaiki deteksi rute pada `AdminFilter` agar kebal terhadap prefix subdirektori (`/v1/`), serta membatasi akses role Author ke `admin/users` dan `admin/site-settings`.
+- **Content Sanitization (Anti-XSS)**: Menambahkan filter sanitasi HTML pada `PostService::savePost` untuk membuang tag berbahaya (`<script>`, `<iframe>`, atribut `onerror`/`onload`) guna mitigasi Stored XSS.
+- **Security Headers & Cookies**: Mengaktifkan kembali filter global `secureheaders` (`X-Frame-Options`, `X-Content-Type-Options`), mengaktifkan `Cookie::$secure = true`, dan mengaktifkan `Session::$regenerateDestroy = true`.
+- **SSRF & MITM Defense**: Mengalihkan proxy API data pegawai wilayah di `Profiles.php` menggunakan protokol terenkripsi `https://apps.sinjaikab.go.id`.
+- **API Endpoint Protection**: Menempatkan seluruh rute `/api/*` (analitik Google Analytics dan saran tag) di bawah proteksi autentikasi `AdminFilter` serta mengembalikan respons HTTP 401 JSON jika diakses tanpa autentikasi.
+- **CSRF Protection on TinyMCE**: Mengintegrasikan `images_upload_handler` pada TinyMCE dengan token CSRF, menghapus pengecualian CSRF pada endpoint `admin/posts/upload_image`, dan mengonfigurasi `Security::$regenerate = false` agar formulir berita tetap valid saat melakukan unggahan media AJAX.
+- **Input Sanitization & Injection Prevention**: Memperketat penanganan parameter unduh PDF laporan bulanan dengan konversi tipe numerik (`(int)$year`, `(int)$month`) dan sanitasi teks kata kunci pencarian (`strip_tags`) untuk mencegah kegagalan tipe data dan injeksi header.
 
 ### Added
 - **UI/UX**: Menambahkan logo ASN BerAKHLAK dan EVP ke dalam layout footer secara berdampingan.
@@ -23,6 +29,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Database**: Menambahkan `ProfileSeeder.php` dan `SinjaiPostSeeder.php` untuk pasokan data pengujian (*dummy data*) yang stabil.
 
 ### Changed
+- **Performance & Best Practices**: Mengubah pemuatan widget aksesibilitas UserWay menjadi *On-Demand* (hanya dimuat saat tombol diklik pengunjung) dan menghapus injeksi skrip pada halaman login & admin guna mengeliminasi cookie pihak ketiga (*third-party cookies*), menyelesaikan masalah Chrome DevTools, dan menaikkan skor Lighthouse Best Practices.
 - **UI/UX**: Menyederhanakan seluruh antarmuka komponen *empty state* pada widget Beranda, widget Halaman Detail, serta lima halaman indeks penuh (Berita, Kategori, Tag, Program, Profil) agar terlihat lebih bersih, profesional, dan menyatu dengan *layout*.
 - **UI/UX**: Mengubah teks *footer* dari "Dikembangkan oleh Diskominfo-SP Sinjai" menjadi teks instansi dinamis tanpa awalan ("Dikembangkan oleh").
 - **UI/UX**: Mengubah judul seksi "Berita Terpopuler" menjadi "Berita Populer" dan menukar posisinya ke bagian bawah "Program Prioritas".

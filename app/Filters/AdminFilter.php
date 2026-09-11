@@ -15,6 +15,12 @@ class AdminFilter implements FilterInterface
 
         // Basic check: must be admin or author
         if (!in_array($role, ['admin', 'author'])) {
+            if ($request->isAJAX() || strpos($uri, 'api/') !== false) {
+                return service('response')->setStatusCode(401)->setJSON([
+                    'status' => 'error',
+                    'message' => 'Unauthorized'
+                ]);
+            }
             return redirect()->to(base_url('masuk'))->with('error', 'You do not have permission to access this page.');
         }
 

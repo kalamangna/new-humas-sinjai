@@ -93,11 +93,12 @@ class Posts extends BaseController
         $post = $this->postService->getPostBySlug((string)$id, false);
         
         if (!$post) {
-            // Fallback try find by ID if slug fails (legacy support)
-            // But getPostBySlug in service basically wraps getPosts($slug) which usually handles ID/Slug in model
-            // If strictly ID is passed, model usually handles it. 
-            // Let's rely on service returning null if not found.
              throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the post: ' . $id);
+        }
+
+        // Author can only edit their own posts
+        if (session()->get('role') !== 'admin' && (int)$post['user_id'] !== (int)session()->get('user_id')) {
+            return redirect()->to(base_url('admin/posts'))->with('error', 'Anda tidak memiliki hak akses untuk mengedit berita ini.');
         }
 
         $data = [
@@ -117,6 +118,11 @@ class Posts extends BaseController
         $post = $this->postService->getPostBySlug((string)$id, false);
         if (!$post) {
             return redirect()->to(base_url('admin/posts'))->with('error', 'Berita tidak ditemukan.');
+        }
+
+        // Author can only update their own posts
+        if (session()->get('role') !== 'admin' && (int)$post['user_id'] !== (int)session()->get('user_id')) {
+            return redirect()->to(base_url('admin/posts'))->with('error', 'Anda tidak memiliki hak akses untuk memperbarui berita ini.');
         }
 
         if (!$this->postService->validate($this->request->getPost(), $this->postService->getValidationRules(true))) {
@@ -182,7 +188,16 @@ class Posts extends BaseController
     {
         // Get post to delete image first
         $post = $this->postService->getPostBySlug((string)$id, false);
-        if ($post && $this->postService->deletePost((int)$id)) {
+        if (!$post) {
+            return redirect()->to(base_url('admin/posts'))->with('error', 'Berita tidak ditemukan.');
+        }
+
+        // Author can only delete their own posts
+        if (session()->get('role') !== 'admin' && (int)$post['user_id'] !== (int)session()->get('user_id')) {
+            return redirect()->to(base_url('admin/posts'))->with('error', 'Anda tidak memiliki hak akses untuk menghapus berita ini.');
+        }
+
+        if ($this->postService->deletePost((int)$id)) {
             $this->mediaService->deleteImage($post['thumbnail']);
             $this->mediaService->deleteOgImage($post['slug'] ?? '');
             

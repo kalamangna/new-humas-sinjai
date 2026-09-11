@@ -43,9 +43,13 @@ class Reports extends BaseController
 
     public function downloadPdf($year, $month)
     {
+        $year = (int)$year;
+        $month = (int)$month;
+        $monthStr = str_pad((string)$month, 2, '0', STR_PAD_LEFT);
+
         try {
-            $pdfContent = $this->analyticsService->generateMonthlyReportPdf($year, $month);
-            $filename = 'Laporan-Berita-' . $year . '-' . $month . '.pdf';
+            $pdfContent = $this->analyticsService->generateMonthlyReportPdf((string)$year, $monthStr);
+            $filename = 'Laporan-Berita-' . $year . '-' . $monthStr . '.pdf';
 
             return $this->response->setHeader('Content-Type', 'application/pdf')
                 ->setBody($pdfContent)

@@ -19,7 +19,48 @@
             selector: 'textarea#content, textarea#bio',
             plugins: 'code table lists image',
             toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table | image',
-            images_upload_url: '<?= site_url('admin/posts/upload_image') ?>',
+            images_upload_handler: (blobInfo, progress) => new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+                xhr.open('POST', '<?= site_url('admin/posts/upload_image') ?>');
+                xhr.setRequestHeader('<?= csrf_header() ?>', '<?= csrf_hash() ?>');
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+                xhr.upload.onprogress = (e) => {
+                    progress(e.loaded / e.total * 100);
+                };
+
+                xhr.onload = () => {
+                    if (xhr.status === 403) {
+                        reject({ message: 'Akses ditolak atau token CSRF kedaluwarsa.', remove: true });
+                        return;
+                    }
+                    if (xhr.status < 200 || xhr.status >= 300) {
+                        reject('Gagal mengunggah: HTTP ' + xhr.status);
+                        return;
+                    }
+                    try {
+                        const json = JSON.parse(xhr.responseText);
+                        if (!json || typeof json.location !== 'string') {
+                            reject('Format respons tidak valid.');
+                            return;
+                        }
+                        resolve(json.location);
+                    } catch (e) {
+                        reject('Gagal memproses respons server.');
+                    }
+                };
+
+                xhr.onerror = () => {
+                    reject('Koneksi gagal saat mengunggah gambar.');
+                };
+
+                const formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+                formData.append('<?= csrf_token() ?>', '<?= csrf_hash() ?>');
+
+                xhr.send(formData);
+            }),
             relative_urls: false,
             remove_script_host: false,
             license_key: 'gpl'

@@ -136,8 +136,9 @@ class Home extends BaseController
 
     public function search()
     {
-        $query = $this->request->getGet('q');
-        if (strlen($query) < 3) {
+        $query = (string)$this->request->getGet('q');
+        $query = trim(strip_tags($query));
+        if (mb_strlen($query) < 3) {
             return redirect()->back()->with('error', 'Kata kunci pencarian minimal harus 3 karakter.');
         }
 

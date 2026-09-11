@@ -10,33 +10,21 @@
 <section class="relative bg-slate-50 pt-6 md:pt-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <?php if (!empty($slides)): ?>
-            <div id="hero-carousel" class="relative w-full bg-slate-900 rounded-xl md:rounded-2xl overflow-hidden shadow-xl border border-slate-200">
+            <div id="hero-carousel" class="relative w-full bg-slate-900 rounded-xl md:rounded-2xl overflow-hidden shadow-xl border border-slate-200" style="aspect-ratio: 1440 / 456;">
                 <?php foreach ($slides as $index => $slide): ?>
-                    <div class="carousel-slide transition-opacity duration-1000 ease-in-out <?= $index === 0 ? 'relative opacity-100 z-10' : 'absolute inset-0 opacity-0 z-0' ?>" data-index="<?= $index ?>">
+                    <div class="carousel-slide absolute inset-0 transition-opacity duration-700 ease-in-out <?= $index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none' ?>" data-index="<?= $index ?>">
                         <?php 
                             $slidePath = $slide['image_path'] ?? '';
                             $slideSrcMobile = getOptimizedImageUrl($slidePath, 768);
                             $slideSrcDesktop = getOptimizedImageUrl($slidePath, 1440);
                         ?>
-                        <?php if ($index === 0): ?>
-                            <img src="<?= $slideSrcDesktop ?>" 
-                                 srcset="<?= $slideSrcMobile ?> 768w, <?= $slideSrcDesktop ?> 1440w"
-                                 sizes="(max-width: 768px) 100vw, 1280px"
-                                 class="w-full h-auto object-contain block" 
-                                 alt="Slide 1" 
-                                 width="1440" height="456" 
-                                 fetchpriority="high" 
-                                 decoding="async">
-                        <?php else: ?>
-                            <img data-src="<?= $slideSrcDesktop ?>" 
-                                 data-srcset="<?= $slideSrcMobile ?> 768w, <?= $slideSrcDesktop ?> 1440w"
-                                 sizes="(max-width: 768px) 100vw, 1280px"
-                                 class="w-full h-auto object-contain block" 
-                                 alt="Slide <?= $index + 1 ?>" 
-                                 width="1440" height="456" 
-                                 loading="lazy" 
-                                 decoding="async">
-                        <?php endif; ?>
+                        <img src="<?= $slideSrcDesktop ?>" 
+                             srcset="<?= $slideSrcMobile ?> 768w, <?= $slideSrcDesktop ?> 1440w"
+                             sizes="(max-width: 768px) 100vw, 1280px"
+                             class="w-full h-full object-contain block" 
+                             alt="Slide <?= $index + 1 ?>" 
+                             width="1440" height="456" 
+                             <?= $index === 0 ? 'fetchpriority="high"' : 'decoding="async"' ?>>
                     </div>
                 <?php endforeach; ?>
 
@@ -49,10 +37,10 @@
             </button>
 
             <!-- Indicators -->
-            <div class="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 z-30 space-x-1 items-center">
+            <div class="flex absolute bottom-2 sm:bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 z-30 space-x-1 items-center">
                 <?php foreach ($slides as $index => $slide): ?>
-                    <button aria-label="Ke slide <?= $index + 1 ?>" class="carousel-indicator p-2 focus:outline-none" data-index="<?= $index ?>">
-                        <span class="block h-2.5 rounded-full transition-all border border-white/20 pointer-events-none <?= $index === 0 ? 'bg-blue-600 w-8' : 'bg-white/40 w-2.5' ?>"></span>
+                    <button aria-label="Ke slide <?= $index + 1 ?>" class="carousel-indicator p-1.5 sm:p-2 focus:outline-none" data-index="<?= $index ?>">
+                        <span class="block h-2 md:h-2.5 rounded-full transition-all border border-white/20 pointer-events-none <?= $index === 0 ? 'bg-blue-600 w-6 md:w-8' : 'bg-white/50 w-2 md:w-2.5' ?>"></span>
                     </button>
                 <?php endforeach; ?>
             </div>
@@ -342,5 +330,5 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('scripts') ?>
-    <script defer src="<?= base_url('assets/js/carousel.js') ?>"></script>
+    <script defer src="<?= base_url('assets/js/carousel.js') ?>?v=<?= filemtime(FCPATH . 'assets/js/carousel.js') ?>"></script>
 <?= $this->endSection() ?>

@@ -57,4 +57,28 @@ class BaseService
 
         return true;
     }
+
+    /**
+     * Sanitize HTML content to prevent XSS while preserving rich-text formatting
+     */
+    protected function sanitizeHtml(string $html): string
+    {
+        // Recursively remove script & style tags to prevent nested tag bypasses
+        do {
+            $prev = $html;
+            $html = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $html);
+            $html = preg_replace('#<style(.*?)>(.*?)</style>#is', '', $html);
+        } while ($html !== $prev);
+
+        // Remove dangerous tags (applet, embed, object, form, base, meta, link, svg, math, canvas)
+        $html = preg_replace('#</?(applet|embed|object|form|base|meta|link|svg|math|canvas)(.*?)>#is', '', $html);
+
+        // Remove javascript:, vbscript:, and data:text/html URIs
+        $html = preg_replace('#(javascript|vbscript|data\s*:\s*text/html):#is', '$1-blocked:', $html);
+
+        // Remove inline event handlers (onload, onerror, onclick, etc.)
+        $html = preg_replace('#\s*on[a-zA-Z]+\s*=\s*(".*?"|\'.*?\'|[^\s>]+)#is', '', $html);
+
+        return $html;
+    }
 }

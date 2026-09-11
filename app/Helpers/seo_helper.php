@@ -14,7 +14,14 @@ if (!function_exists('generate_seo_tags')) {
         $url = current_url();
         $canonical = rtrim($url, '/');
         
-        $imageType = (strpos($image, '.png') !== false) ? 'image/png' : 'image/jpeg';
+        $ext = strtolower(pathinfo(parse_url($image, PHP_URL_PATH) ?? '', PATHINFO_EXTENSION));
+        if ($ext === 'png') {
+            $imageType = 'image/png';
+        } elseif ($ext === 'webp') {
+            $imageType = 'image/webp';
+        } else {
+            $imageType = 'image/jpeg';
+        }
 
         $tags = [
             '<title>' . $title . '</title>',

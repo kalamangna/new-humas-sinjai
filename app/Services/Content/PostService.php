@@ -303,22 +303,4 @@ class PostService extends BaseService
         return $this->postModel->withCategoriesAndTags($posts);
     }
 
-    /**
-     * Sanitize HTML content to prevent XSS while preserving rich-text formatting
-     */
-    protected function sanitizeHtml(string $html): string
-    {
-        // Remove script tags and contents
-        $html = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $html);
-        // Remove style tags with dangerous content or embedded expressions
-        $html = preg_replace('#<style(.*?)>(.*?)</style>#is', '', $html);
-        // Remove applet, embed, object, iframe (unless needed), form
-        $html = preg_replace('#<(applet|embed|object|form|base|meta|link)(.*?)>#is', '', $html);
-        // Remove javascript: and vbscript: URIs
-        $html = preg_replace('#(javascript|vbscript):#is', '$1-blocked:', $html);
-        // Remove inline event handlers (onload, onerror, onclick, onmouseover, etc.)
-        $html = preg_replace('#\s*on[a-zA-Z]+\s*=\s*(".*?"|\'.*?\'|[^\s>]+)#is', '', $html);
-
-        return $html;
-    }
 }

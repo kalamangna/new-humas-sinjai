@@ -72,13 +72,14 @@ if (!function_exists('generateOgImage')) {
             // Fit to 1200x630 landscape
             $image->fit(1200, 630, 'center');
 
-            // Save with progressive quality reduction to strictly stay below 200KB
+            // Save with progressive quality reduction to strictly stay below 180KB
+            // (WhatsApp crawlers reject large cards > ~200KB, 180KB gives safe headroom)
             $quality = 75;
             do {
                 $image->save($targetPath, $quality);
                 $fileSize = @filesize($targetPath);
                 $quality -= 10;
-            } while ($fileSize > 200 * 1024 && $quality >= 35);
+            } while ($fileSize > 180 * 1024 && $quality >= 30);
 
             return true;
         } catch (\Exception $e) {

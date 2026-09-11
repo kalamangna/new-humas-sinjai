@@ -27,7 +27,9 @@ class Live extends BaseController
             'seo'        => [
                 'title'       => 'Suara Bersatu FM',
                 'description' => 'Siaran Langsung Radio Suara Bersatu FM Sinjai - Suara Rakyat Sinjai.',
-                'keywords'    => 'radio sinjai, suara bersatu fm, streaming radio sinjai'
+                'keywords'    => 'radio sinjai, suara bersatu fm, streaming radio sinjai',
+                'image'       => base_url('meta.png'),
+                'type'        => 'website',
             ]
         ];
         return view('frontend/live/radio', $data);
@@ -45,7 +47,9 @@ class Live extends BaseController
             'seo'        => [
                 'title'       => 'Sinjai TV',
                 'description' => 'Siaran Langsung Sinjai TV - Saluran Informasi Pembangunan Daerah.',
-                'keywords'    => 'sinjai tv, streaming tv sinjai, live streaming sinjai'
+                'keywords'    => 'sinjai tv, streaming tv sinjai, live streaming sinjai',
+                'image'       => base_url('meta.png'),
+                'type'        => 'website',
             ]
         ];
         return view('frontend/live/tv', $data);

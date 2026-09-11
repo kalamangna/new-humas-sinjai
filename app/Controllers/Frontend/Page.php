@@ -48,9 +48,6 @@ class Page extends BaseController
                  $data['seo'] = $this->seoData;
                  $data['seo']['title'] = $profile['name'] ?: ($profile['position'] ?: 'Profil');
                  $data['seo']['description'] = limit_char($profile['bio'] ?? '', 160);
-                 if (!empty($profile['image'])) {
-                     $data['seo']['image'] = base_url($profile['image']);
-                 }
                  return view('frontend/profiles/detail', $data);
              }
              throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
@@ -110,9 +107,6 @@ class Page extends BaseController
             $data['profile'] = $model->where('type', $type)->orderBy('order', 'ASC')->orderBy('created_at', 'DESC')->first();
             if ($data['profile']) {
                 $data['seo']['description'] = limit_char($data['profile']['bio'] ?? '', 160);
-                if (!empty($data['profile']['image'])) {
-                    $data['seo']['image'] = base_url($data['profile']['image']);
-                }
             }
             return view('frontend/profiles/detail', $data);
         }

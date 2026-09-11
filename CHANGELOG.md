@@ -9,6 +9,11 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [2026-09-11]
 ### Security
+- **Search Query Protection**: Memperbaiki kueri pencarian pada `PostModel::searchAndAddGAData` dengan pembungkusan grup kondisi (`groupStart()`/`groupEnd()`) untuk mencegah kebocoran berita berstatus draft pada pencarian publik.
+- **SQL Injection Prevention**: Membersihkan karakter khusus pada kata kunci pencarian berita terkait dan menerapkan escaping string pada kueri `MATCH AGAINST` di `PostModel::getRelatedNewsOptimized`.
+- **Role-Based Access Control**: Menutup celah bypass pembaruan konfigurasi situs oleh role Author pada `admin/settings/update`, mengizinkan pembaruan profil akun mandiri (`admin/users/update_settings`), serta menambahkan validasi otorisasi ganda langsung di `Admin\Settings`.
+- **Stored XSS Prevention**: Memusatkan dan memperkuat metode sanitasi HTML di `BaseService::sanitizeHtml` dan menerapkannya pada field biografi profil pejabat (`ProfileService::saveProfile`).
+- **Upload Directory Hardening**: Menambahkan direktif Apache 2.4+ (`Require all denied`) pada berkas `public/uploads/.htaccess` untuk memastikan perlindungan eksekusi skrip aktif di seluruh versi web server.
 - **Authentication**: Mengubah rute login dari `/login` menjadi `/masuk`, serta memblokir akses rute `/login` dan `/auth/login` dengan respon 404 untuk mitigasi serangan otomatis dan *brute force*.
 - **Rate Limiting**: Menerapkan CodeIgniter Throttler pada endpoint login (maksimum 5 percobaan per menit per alamat IP) dan regenerasi session ID saat login sukses untuk mencegah *session fixation*.
 - **Upload Hardening**: Memperketat validasi berkas pada `Posts::upload_image`, `MediaService`, dan `image_helper.php` dengan pengecekan MIME type dan verifikasi gambar (`getimagesize()`), serta menolak penyimpanan berkas berbahaya.
@@ -34,6 +39,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Database**: Menambahkan `ProfileSeeder.php` dan `SinjaiPostSeeder.php` untuk pasokan data pengujian (*dummy data*) yang stabil.
 
 ### Changed
+- **Open Graph Metadata**: Menyeragamkan gambar Open Graph default (`meta.png` 1200×630 px) untuk seluruh halaman publik non-berita, termasuk halaman streaming siaran langsung Radio SBFM, Sinjai TV, dan detail profil pejabat guna menjamin kesesuaian rasio pratinjau media sosial.
 - **Admin UI & RBAC**: Menyesuaikan menu navigasi sidebar admin berdasarkan peran pengguna (*role*); membatasi seluruh grup menu `Sistem` (`User`, `Audit Log`, dan `Pengaturan`) hanya untuk Admin (`admin`) dan menyembunyikannya dari Penulis (`author`), memperkuat `AdminFilter` untuk memblokir akses rute `admin/audit-logs` dari role non-admin, serta menyeragamkan penamaan label peran pengguna menjadi **Admin** dan **Penulis** pada navbar, halaman profil, dan form user.
 - **UI/UX**: Merapikan teks placeholder dan perataan vertikal pada halaman login (`/masuk`) untuk peramban seluler, mengganti placeholder password dari karakter bullet menjadi teks deskriptif standar (`Masukkan email` dan `Masukkan password`), serta menambahkan atribut `autocomplete` untuk kemudahan pengisian otomatis.
 - **Open Graph Metadata**: Menyesuaikan tipe Open Graph (`og:type = website`) dan gambar pratinjau artikel terkini pada halaman arsip kategori, tag, dan semua berita.

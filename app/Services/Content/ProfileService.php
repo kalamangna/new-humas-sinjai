@@ -61,6 +61,11 @@ class ProfileService extends BaseService
             }
         }
 
+        // Sanitize bio to prevent Stored XSS
+        if (isset($data['bio'])) {
+            $data['bio'] = $this->sanitizeHtml($data['bio']);
+        }
+
         // Generate Slug only for specific types
         $slugTypes = ['bupati', 'wakil-bupati', 'sekda'];
         if (in_array($data['type'], $slugTypes)) {

@@ -179,8 +179,10 @@ class PostModel extends Model
     public function searchAndAddGAData(string $query): array
     {
         $posts = $this->where('status', 'published')
-            ->like('title', $query)
-            ->orLike('content', $query)
+            ->groupStart()
+                ->like('title', $query)
+                ->orLike('content', $query)
+            ->groupEnd()
             ->orderBy('posts.published_at', 'DESC')
             ->findAll();
 
@@ -254,9 +256,10 @@ class PostModel extends Model
         if (count($relatedIds) < $limit && !empty($title)) {
             try {
                 $words = preg_split('/\s+/', strip_tags($title));
-                $keywords = array_filter($words, fn($w) => mb_strlen($w) >= 4);
-                // Tanpa prefix (+) = OR logic, cukup satu kata cocok dianggap terkait
-                $booleanQuery = implode(' ', array_slice(array_values($keywords), 0, 10));
+                $cleanWords = array_map(fn($w) => preg_replace('/[^\p{L}\p{N}]/u', '', $w), $words);
+                $keywords = array_filter($cleanWords, fn($w) => mb_strlen($w) >= 4);
+                $cleanKeywords = array_slice(array_values($keywords), 0, 10);
+                $booleanQuery = $this->db->escapeString(implode(' ', $cleanKeywords));
 
                 if (!empty($booleanQuery)) {
                     $ftMatches = $this->select('id')
@@ -267,8 +270,8 @@ class PostModel extends Model
                         $ftMatches->whereNotIn('id', $relatedIds);
                     }
 
-                    $ftMatches->where("MATCH(title, content) AGAINST('$booleanQuery' IN BOOLEAN MODE)", null, false)
-                        ->orderBy("MATCH(title, content) AGAINST('$booleanQuery' IN BOOLEAN MODE)", 'DESC', false)
+                    $ftMatches->where("MATCH(title, content) AGAINST('{$booleanQuery}' IN BOOLEAN MODE)", null, false)
+                        ->orderBy("MATCH(title, content) AGAINST('{$booleanQuery}' IN BOOLEAN MODE)", 'DESC', false)
                         ->limit($limit - count($relatedIds));
 
                     $ftIds = array_column($ftMatches->findAll(), 'id');

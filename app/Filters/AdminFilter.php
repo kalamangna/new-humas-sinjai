@@ -29,12 +29,18 @@ class AdminFilter implements FilterInterface
             $disallowedForAuthor = [
                 'admin/users',
                 'admin/site-settings',
+                'admin/settings/update',
                 'admin/audit-logs'
             ];
 
-            foreach ($disallowedForAuthor as $segment) {
-                if (strpos($uri, $segment) !== false) {
-                    return redirect()->to(base_url('admin'))->with('error', 'Anda tidak memiliki hak akses untuk halaman tersebut.');
+            // Specific exception: author is allowed to update their own account profile/password
+            $isSelfUpdate = (strpos($uri, 'admin/users/update_settings') !== false);
+
+            if (! $isSelfUpdate) {
+                foreach ($disallowedForAuthor as $segment) {
+                    if (strpos($uri, $segment) !== false) {
+                        return redirect()->to(base_url('admin'))->with('error', 'Anda tidak memiliki hak akses untuk halaman tersebut.');
+                    }
                 }
             }
         }

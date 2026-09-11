@@ -34,6 +34,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Database**: Menambahkan `ProfileSeeder.php` dan `SinjaiPostSeeder.php` untuk pasokan data pengujian (*dummy data*) yang stabil.
 
 ### Changed
+- **Admin UI & RBAC**: Menyesuaikan menu navigasi sidebar admin berdasarkan peran pengguna (*role*); membatasi seluruh grup menu `Sistem` (`User`, `Audit Log`, dan `Pengaturan`) hanya untuk Super Admin (`admin`) dan menyembunyikannya dari Author (`author`), serta memperkuat `AdminFilter` untuk memblokir akses rute `admin/audit-logs` dari role non-admin.
 - **UI/UX**: Merapikan teks placeholder dan perataan vertikal pada halaman login (`/masuk`) untuk peramban seluler, mengganti placeholder password dari karakter bullet menjadi teks deskriptif standar (`Masukkan email` dan `Masukkan password`), serta menambahkan atribut `autocomplete` untuk kemudahan pengisian otomatis.
 - **Open Graph Metadata**: Menyesuaikan tipe Open Graph (`og:type = website`) dan gambar pratinjau artikel terkini pada halaman arsip kategori, tag, dan semua berita.
 - **Performance Optimization**: Mengoptimalkan metrik LCP mobile dengan menghapus atribut `loading="lazy"` dan menambahkan `fetchpriority="high"` serta `srcset` responsif pada gambar headline dan carousel, menunda eksekusi Google Tag Manager ke kondisi *idle* untuk memangkas TBT, membersihkan rantai unduhan font pada jalur kritis, serta menerapkan konversi WebP otomatis untuk memangkas beban gambar hingga 90%+.

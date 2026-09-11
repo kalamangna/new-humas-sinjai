@@ -28,7 +28,8 @@ class AdminFilter implements FilterInterface
         if ($role === 'author') {
             $disallowedForAuthor = [
                 'admin/users',
-                'admin/site-settings'
+                'admin/site-settings',
+                'admin/audit-logs'
             ];
 
             foreach ($disallowedForAuthor as $segment) {

@@ -80,10 +80,10 @@
             <?php endif; ?>
 
             <!-- Group: Sistem -->
-            <div>
-                <h3 class="px-4 mb-3 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] sidebar-header">Sistem</h3>
-                <div class="space-y-1">
-                    <?php if (session()->get('role') === 'admin') : ?>
+            <?php if (session()->get('role') === 'admin') : ?>
+                <div>
+                    <h3 class="px-4 mb-3 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] sidebar-header">Sistem</h3>
+                    <div class="space-y-1">
                         <a href="<?= base_url('admin/users') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/users*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
                             <i class="fa-solid fa-fw fa-users w-6 opacity-75"></i>
                             <span class="ml-3 font-medium text-sm sidebar-item-text">User</span>
@@ -92,13 +92,13 @@
                             <i class="fa-solid fa-fw fa-shield-halved w-6 opacity-75"></i>
                             <span class="ml-3 font-medium text-sm sidebar-item-text">Audit Log</span>
                         </a>
-                    <?php endif; ?>
-                    <a href="<?= base_url('admin/site-settings') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/site-settings*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
-                        <i class="fa-solid fa-fw fa-gear w-6 opacity-75"></i>
-                        <span class="ml-3 font-medium text-sm sidebar-item-text">Pengaturan</span>
-                    </a>
+                        <a href="<?= base_url('admin/site-settings') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/site-settings*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
+                            <i class="fa-solid fa-fw fa-gear w-6 opacity-75"></i>
+                            <span class="ml-3 font-medium text-sm sidebar-item-text">Pengaturan</span>
+                        </a>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
         </nav>
 
         <!-- Footer Sidebar -->

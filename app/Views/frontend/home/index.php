@@ -11,12 +11,27 @@
                     <div class="carousel-slide transition-opacity duration-1000 ease-in-out <?= $index === 0 ? 'relative opacity-100 z-10' : 'absolute inset-0 opacity-0 z-0' ?>" data-index="<?= $index ?>">
                         <?php 
                             $slidePath = $slide['image_path'] ?? '';
-                            $slideSrc = getOptimizedImageUrl($slidePath, 1440);
+                            $slideSrcMobile = getOptimizedImageUrl($slidePath, 768);
+                            $slideSrcDesktop = getOptimizedImageUrl($slidePath, 1440);
                         ?>
                         <?php if ($index === 0): ?>
-                            <img src="<?= $slideSrc ?>" class="w-full h-auto object-contain block" alt="Slide 1" width="1440" height="456" fetchpriority="high" decoding="async">
+                            <img src="<?= $slideSrcDesktop ?>" 
+                                 srcset="<?= $slideSrcMobile ?> 768w, <?= $slideSrcDesktop ?> 1440w"
+                                 sizes="(max-width: 768px) 100vw, 1280px"
+                                 class="w-full h-auto object-contain block" 
+                                 alt="Slide 1" 
+                                 width="1440" height="456" 
+                                 fetchpriority="high" 
+                                 decoding="async">
                         <?php else: ?>
-                            <img data-src="<?= $slideSrc ?>" class="w-full h-auto object-contain block" alt="Slide <?= $index + 1 ?>" width="1440" height="456" loading="lazy" decoding="async">
+                            <img data-src="<?= $slideSrcDesktop ?>" 
+                                 data-srcset="<?= $slideSrcMobile ?> 768w, <?= $slideSrcDesktop ?> 1440w"
+                                 sizes="(max-width: 768px) 100vw, 1280px"
+                                 class="w-full h-auto object-contain block" 
+                                 alt="Slide <?= $index + 1 ?>" 
+                                 width="1440" height="456" 
+                                 loading="lazy" 
+                                 decoding="async">
                         <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
@@ -66,10 +81,17 @@
                             <a href="<?= base_url('post/' . esc($headline['slug'] ?? '')) ?>" class="block h-full w-full">
                                 <?php 
                                     $thumbPath = $headline['thumbnail'] ?? '';
-                                    $thumbSrc = getOptimizedImageUrl($thumbPath, 800);
+                                    $thumbSrcMobile = getOptimizedImageUrl($thumbPath, 480);
+                                    $thumbSrcDesktop = getOptimizedImageUrl($thumbPath, 800);
                                 ?>
-                                <?php if (!empty($thumbSrc)) : ?>
-                                    <img loading="lazy" decoding="async" src="<?= $thumbSrc ?>" alt="<?= esc($headline['title']) ?>" width="800" height="450" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                <?php if (!empty($thumbSrcDesktop)) : ?>
+                                    <img fetchpriority="high" decoding="async" 
+                                         src="<?= $thumbSrcDesktop ?>" 
+                                         srcset="<?= $thumbSrcMobile ?> 480w, <?= $thumbSrcDesktop ?> 800w"
+                                         sizes="(max-width: 768px) 100vw, 800px"
+                                         alt="<?= esc($headline['title']) ?>" 
+                                         width="800" height="450" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                                 <?php else: ?>
                                     <div class="w-full h-full flex items-center justify-center">
                                         <i class="fa-solid fa-fw fa-image text-slate-300 text-6xl"></i>
@@ -121,7 +143,7 @@
                                     <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>" class="block h-full w-full">
                                         <?php 
                                             $pThumbPath = $post['thumbnail'] ?? '';
-                                            $pThumbSrc = getOptimizedImageUrl($pThumbPath, 320);
+                                            $pThumbSrc = getOptimizedImageUrl($pThumbPath, 256);
                                         ?>
                                         <?php if (!empty($pThumbSrc)) : ?>
                                             <img loading="lazy" decoding="async" src="<?= $pThumbSrc ?>" alt="<?= esc($post['title']) ?>" width="128" height="128" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">

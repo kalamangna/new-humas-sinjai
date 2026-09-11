@@ -18,43 +18,31 @@
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" as="style">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"></noscript>
-    <style>
-        @font-face {
-            font-family: 'Font Awesome 6 Free';
-            font-style: normal;
-            font-weight: 900;
-            font-display: swap;
-            src: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/webfonts/fa-solid-900.woff2') format('woff2');
-        }
-        @font-face {
-            font-family: 'Font Awesome 6 Free';
-            font-style: normal;
-            font-weight: 400;
-            font-display: swap;
-            src: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/webfonts/fa-regular-400.woff2') format('woff2');
-        }
-        @font-face {
-            font-family: 'Font Awesome 6 Brands';
-            font-style: normal;
-            font-weight: 400;
-            font-display: swap;
-            src: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/webfonts/fa-brands-400.woff2') format('woff2');
-        }
-    </style>
-
     <!-- JSON-LD Schemas -->
     <?= generate_schema_org() ?>
     <?= $this->renderSection('schema') ?>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QEW3BM9KJ7"></script>
+    <!-- Google tag (gtag.js) - Deferred to idle for 0ms main thread blocking -->
     <script>
         window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-QEW3BM9KJ7');
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const loadGTM = () => {
+                if (window.gtmLoaded) return;
+                window.gtmLoaded = true;
+                const s = document.createElement('script');
+                s.async = true;
+                s.src = 'https://www.googletagmanager.com/gtag/js?id=G-QEW3BM9KJ7';
+                document.head.appendChild(s);
+            };
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(loadGTM, { timeout: 3000 });
+            } else {
+                setTimeout(loadGTM, 2000);
+            }
+        });
     </script>
 </head>

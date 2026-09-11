@@ -29,7 +29,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Database**: Menambahkan `ProfileSeeder.php` dan `SinjaiPostSeeder.php` untuk pasokan data pengujian (*dummy data*) yang stabil.
 
 ### Changed
-- **Performance & Best Practices**: Mengubah pemuatan widget aksesibilitas UserWay menjadi *On-Demand* (hanya dimuat saat tombol diklik pengunjung) dan menghapus injeksi skrip pada halaman login & admin guna mengeliminasi cookie pihak ketiga (*third-party cookies*), menyelesaikan masalah Chrome DevTools, dan menaikkan skor Lighthouse Best Practices.
+- **Performance & Best Practices**: Mengubah pemuatan widget aksesibilitas UserWay menjadi *On-Demand* (hanya dimuat saat tombol diklik pengunjung) dengan tombol melayang mandiri ber-CSS *inline* di sudut kanan bawah, serta menghapus injeksi skrip pada halaman login & admin guna mengeliminasi cookie pihak ketiga (*third-party cookies*), menyelesaikan masalah Chrome DevTools, dan menaikkan skor Lighthouse Best Practices.
 - **UI/UX**: Menyederhanakan seluruh antarmuka komponen *empty state* pada widget Beranda, widget Halaman Detail, serta lima halaman indeks penuh (Berita, Kategori, Tag, Program, Profil) agar terlihat lebih bersih, profesional, dan menyatu dengan *layout*.
 - **UI/UX**: Mengubah teks *footer* dari "Dikembangkan oleh Diskominfo-SP Sinjai" menjadi teks instansi dinamis tanpa awalan ("Dikembangkan oleh").
 - **UI/UX**: Mengubah judul seksi "Berita Terpopuler" menjadi "Berita Populer" dan menukar posisinya ke bagian bawah "Program Prioritas".

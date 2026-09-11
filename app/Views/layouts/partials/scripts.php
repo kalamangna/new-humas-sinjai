@@ -49,14 +49,16 @@
 
 <?= $this->renderSection('scripts') ?>
 <!-- Accessibility Widget (On-Demand / Click-to-Load to eliminate 3rd-party cookie issues) -->
-<div id="userway-wrapper" class="fixed bottom-5 right-5 z-40">
+<div id="userway-wrapper" style="position: fixed; bottom: 24px; right: 24px; z-index: 99999;">
     <button id="userway-trigger-btn"
             type="button"
             onclick="loadUserWayWidget(this)"
             aria-label="Menu Aksesibilitas Disabilitas"
-            title="Menu Aksesibilitas"
-            class="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-blue-800 hover:bg-blue-900 text-white shadow-xl hover:scale-110 active:scale-95 transition-all duration-200 border-2 border-white/30 focus:outline-none focus:ring-4 focus:ring-blue-400">
-        <i class="fa-solid fa-universal-access text-xl md:text-2xl"></i>
+            title="Menu Aksesibilitas Disabilitas"
+            onmouseover="this.style.transform='scale(1.1)'; this.style.backgroundColor='#1d4ed8';"
+            onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='#1e3a8a';"
+            style="width: 50px; height: 50px; border-radius: 50%; background-color: #1e3a8a; color: #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2); border: 2.5px solid rgba(255, 255, 255, 0.6); cursor: pointer; transition: transform 0.2s ease, background-color 0.2s ease; outline: none;">
+        <i class="fa-solid fa-universal-access" style="font-size: 24px; color: #ffffff;"></i>
     </button>
 </div>
 

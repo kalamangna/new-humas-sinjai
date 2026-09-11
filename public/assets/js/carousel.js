@@ -47,15 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
         currentSlide = index;
     }
 
-    // Preload remaining slides after idle/delay so initial page load only downloads slide 1
-    const preloadAllSlides = () => {
-        slides.forEach(preloadSlideImage);
-    };
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(preloadAllSlides, { timeout: 3500 });
-    } else {
-        setTimeout(preloadAllSlides, 2500);
-    }
 
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {

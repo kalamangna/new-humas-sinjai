@@ -93,14 +93,22 @@ if (!function_exists('getOptimizedImageUrl')) {
             return '';
         }
 
-        // Return untouched if external URL
+        // 1. If it's a full URL, extract path if it belongs to our domain
         if (filter_var($path, FILTER_VALIDATE_URL)) {
-            return $path;
+            $parsedUrl = parse_url($path);
+            $imgHost = $parsedUrl['host'] ?? '';
+            $siteHost = parse_url(base_url(), PHP_URL_HOST);
+
+            if ($imgHost && ($siteHost === null || strcasecmp($imgHost, $siteHost) === 0 || strpos($imgHost, 'sinjaikab.go.id') !== false)) {
+                $path = $parsedUrl['path'] ?? $path;
+            } else {
+                return $path;
+            }
         }
 
+        // 2. Normalize path (strip leading slash and v1/ subdirectory prefix)
         $cleanPath = ltrim($path, '/');
-        $cleanPath = preg_replace('#^https?://[^/]+/#i', '', $cleanPath);
-        $cleanPath = ltrim($cleanPath, '/');
+        $cleanPath = preg_replace('#^v1/#i', '', $cleanPath);
 
         $sourceFile = FCPATH . $cleanPath;
         if (!is_file($sourceFile)) {

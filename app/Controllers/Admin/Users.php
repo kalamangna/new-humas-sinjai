@@ -37,7 +37,9 @@ class Users extends BaseController
 
     public function create()
     {
-        if ($this->userService->createUser($this->request->getPost())) {
+        $postData = $this->request->getPost();
+        if ($this->userService->createUser($postData)) {
+            audit_log('users', 'create', 'Menambah user: ' . ($postData['name'] ?? ''));
             return redirect()->to(base_url('admin/users'))->with('success', 'User berhasil dibuat.');
         }
         return redirect()->back()->withInput()->with('errors', 'Failed to create user.');
@@ -63,7 +65,9 @@ class Users extends BaseController
 
     public function update($id = null)
     {
-        if ($this->userService->updateUser((int)$id, $this->request->getPost())) {
+        $postData = $this->request->getPost();
+        if ($this->userService->updateUser((int)$id, $postData)) {
+            audit_log('users', 'update', 'Mengubah user: ' . ($postData['name'] ?? "#{$id}"));
             return redirect()->to(base_url('admin/users'))->with('success', 'User berhasil diperbarui.');
         }
         return redirect()->back()->withInput()->with('errors', 'Failed to update user.');
@@ -71,7 +75,9 @@ class Users extends BaseController
 
     public function delete($id = null)
     {
+        $user = $this->userService->getUserById((int)$id);
         if ($this->userService->deleteUser((int)$id)) {
+            audit_log('users', 'delete', 'Menghapus user: ' . ($user['name'] ?? "#{$id}"));
             return redirect()->to(base_url('admin/users'))->with('success', 'User berhasil dihapus.');
         }
         return redirect()->to(base_url('admin/users'))->with('error', 'Error deleting user.');
@@ -130,6 +136,7 @@ class Users extends BaseController
         if ($this->userService->updateUser($userId, $updateData)) {
             session()->set('name', $updateData['name']);
             session()->set('email', $updateData['email']);
+            audit_log('users', 'update', 'Memperbarui profil akun sendiri');
             return redirect()->to(base_url('admin'))->with('message', 'Pengaturan profil berhasil diperbarui.');
         }
 

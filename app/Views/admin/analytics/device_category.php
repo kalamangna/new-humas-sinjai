@@ -15,26 +15,26 @@
     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Menganalisa Spesifikasi Akses...</span>
 </div>
 
-<div id="analytics-content" class="hidden space-y-10">
+<div id="analytics-content" class="hidden space-y-6 sm:space-y-10">
     <!-- Charts -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200">
-            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">KATEGORI PERANGKAT</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+        <div class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200">
+            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 sm:mb-6 text-center">KATEGORI PERANGKAT</h3>
             <div id="deviceChart" class="h-48"></div>
         </div>
-        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200">
-            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">SISTEM OPERASI</h3>
+        <div class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200">
+            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 sm:mb-6 text-center">SISTEM OPERASI</h3>
             <div id="osChart" class="h-48"></div>
         </div>
-        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200">
-            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 text-center">PERAMBAN (BROWSER)</h3>
+        <div class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200 sm:col-span-2 md:col-span-1">
+            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 sm:mb-6 text-center">PERAMBAN (BROWSER)</h3>
             <div id="browserChart" class="h-48"></div>
         </div>
     </div>
 
     <!-- Table -->
-    <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
+    <div class="bg-white rounded-2xl sm:rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-5 sm:px-8 py-4 sm:py-6 bg-slate-50 border-b border-slate-200 flex items-center">
             <i class="fa-solid fa-fw fa-microchip mr-3 text-amber-500 opacity-50"></i>
             <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">DETAIL TEKNIS PENGUNJUNG</h3>
         </div>
@@ -42,10 +42,10 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">
-                        <th class="px-8 py-5">Platform / Perangkat</th>
-                        <th class="px-8 py-5 w-1">OS</th>
-                        <th class="px-8 py-5 w-1">Browser</th>
-                        <th class="px-8 py-5 text-right w-1">Pengunjung</th>
+                        <th class="px-4 sm:px-8 py-3.5 sm:py-5">Platform / Perangkat</th>
+                        <th class="px-4 sm:px-8 py-3.5 sm:py-5 w-1">OS</th>
+                        <th class="px-4 sm:px-8 py-3.5 sm:py-5 w-1">Browser</th>
+                        <th class="px-4 sm:px-8 py-3.5 sm:py-5 text-right w-1">Pengunjung</th>
                     </tr>
                 </thead>
                 <tbody id="device-data" class="divide-y divide-slate-100 whitespace-nowrap"></tbody>
@@ -127,16 +127,16 @@
                     const row = document.createElement('tr');
                     row.className = 'hover:bg-slate-50 transition-colors group';
                     row.innerHTML = `
-                        <td class="px-8 py-6">
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5">
                             <div class="flex items-center">
-                                <i class="fa-solid ${getDeviceIcon(item.deviceCategory)} mr-4 text-slate-300 group-hover:text-amber-500 transition-colors"></i>
+                                <i class="fa-solid ${getDeviceIcon(item.deviceCategory)} mr-3 sm:mr-4 text-slate-300 group-hover:text-amber-500 transition-colors"></i>
                                 <span class="font-bold text-slate-900 text-xs uppercase tracking-tight">${item.deviceCategory || 'Lainnya'}</span>
                             </div>
                         </td>
-                        <td class="px-8 py-6 text-[10px] font-black text-slate-500 uppercase tracking-widest">${item.operatingSystem || '-'}</td>
-                        <td class="px-8 py-6 text-[10px] font-bold text-slate-400 italic">${item.browser || '-'}</td>
-                        <td class="px-8 py-6 text-right">
-                            <span class="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-black rounded-lg border border-amber-100">
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5 text-[10px] font-black text-slate-500 uppercase tracking-widest">${item.operatingSystem || '-'}</td>
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5 text-[10px] font-bold text-slate-400 italic">${item.browser || '-'}</td>
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5 text-right">
+                            <span class="px-2.5 sm:px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-black rounded-lg border border-amber-100">
                                 ${parseInt(item.totalUsers).toLocaleString()} User
                             </span>
                         </td>

@@ -11,26 +11,26 @@
 <?= $this->section('content') ?>
 
 <div class="max-w-5xl mx-auto">
-    <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
-            <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4">
+    <div class="bg-white rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-5 sm:px-8 py-4 sm:py-6 bg-slate-50 border-b border-slate-200 flex items-center">
+            <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
                 <i class="fa-solid fa-fw fa-pen-nib text-sm"></i>
             </div>
             <div>
-                <h2 class="text-lg font-black text-slate-900 tracking-tight">Tulis Berita</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Lengkapi rincian berita baru</p>
+                <h2 class="text-base sm:text-lg font-black text-slate-900 tracking-tight">Tulis Berita</h2>
+                <p class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Lengkapi rincian berita baru</p>
             </div>
         </div>
 
-        <div class="p-8 md:p-12">
-            <form action="<?= base_url('admin/posts') ?>" method="post" enctype="multipart/form-data" class="space-y-10">
+        <div class="p-4 sm:p-8 md:p-12">
+            <form action="<?= base_url('admin/posts') ?>" method="post" enctype="multipart/form-data" class="space-y-8 sm:space-y-10">
                 <?= csrf_field() ?>
 
                 <!-- Title Section -->
-                <div class="space-y-4">
+                <div class="space-y-3 sm:space-y-4">
                     <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Judul <span class="text-red-600">*</span></label>
                     <input type="text" name="title" id="title" required
-                        class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-xl font-bold text-slate-900 placeholder-slate-300 focus:border-blue-800 focus:bg-white outline-none transition-all <?= (isset(session('errors')['title'])) ? 'border-red-500' : '' ?>"
+                        class="w-full px-4 sm:px-6 py-3 sm:py-4 bg-slate-50 border-2 border-slate-100 rounded-xl sm:rounded-2xl text-base sm:text-xl font-bold text-slate-900 placeholder-slate-300 focus:border-blue-800 focus:bg-white outline-none transition-all <?= (isset(session('errors')['title'])) ? 'border-red-500' : '' ?>"
                         value="<?= old('title') ?>" placeholder="Masukkan judul">
                     <?php if (isset(session('errors')['title'])) : ?>
                         <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['title'] ?></p>
@@ -38,9 +38,9 @@
                 </div>
 
                 <!-- Content Section -->
-                <div class="space-y-4">
+                <div class="space-y-3 sm:space-y-4">
                     <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Isi <span class="text-red-600">*</span></label>
-                    <div class="<?= (isset(session('errors')['content'])) ? 'ring-2 ring-red-500 rounded-2xl overflow-hidden' : '' ?>">
+                    <div class="max-w-full overflow-hidden <?= (isset(session('errors')['content'])) ? 'ring-2 ring-red-500 rounded-2xl' : '' ?>">
                         <textarea name="content" id="content" rows="20" class="w-full"></textarea>
                     </div>
                     <?php if (isset(session('errors')['content'])) : ?>
@@ -49,20 +49,20 @@
                 </div>
 
                 <!-- Media & Meta Grid -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
                     <!-- Media Upload -->
                     <div class="space-y-6">
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Gambar <span class="text-red-600">*</span></label>
                             <div class="flex items-center space-x-2">
-                                <label class="flex-1 cursor-pointer">
+                                <label class="flex-1 cursor-pointer min-w-0">
                                     <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
-                                        <i class="fa-solid fa-fw fa-image text-slate-400 mr-3"></i>
-                                        <span class="text-sm font-bold text-slate-500 truncate" id="file-name">Pilih ...</span>
+                                        <i class="fa-solid fa-fw fa-image text-slate-400 mr-3 flex-shrink-0"></i>
+                                        <span class="text-xs sm:text-sm font-bold text-slate-500 truncate" id="file-name">Pilih ...</span>
                                         <input type="file" name="thumbnail" id="thumbnail" class="hidden" accept="image/*" onchange="previewImage('thumbnail', 'thumbnail-preview', 'thumbnail-preview-container'); document.getElementById('file-name').innerText = this.files[0].name;">
                                     </div>
                                 </label>
-                                <button type="button" id="paste-thumbnail-btn" class="p-3 bg-slate-100 text-slate-600 rounded-xl hover:bg-blue-800 hover:text-white transition-all shadow-sm" title="Tempel">
+                                <button type="button" id="paste-thumbnail-btn" class="p-3 bg-slate-100 text-slate-600 rounded-xl hover:bg-blue-800 hover:text-white transition-all shadow-sm flex-shrink-0" title="Tempel">
                                     <i class="fa-solid fa-fw fa-paste"></i>
                                 </button>
                             </div>
@@ -81,10 +81,10 @@
                     </div>
 
                     <!-- Category & Tags -->
-                    <div class="space-y-8">
+                    <div class="space-y-6 sm:space-y-8">
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kategori <span class="text-red-600">*</span></label>
-                            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 h-48 overflow-y-auto space-y-4 scrollbar-thin">
+                            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-6 h-48 overflow-y-auto space-y-4 scrollbar-thin">
                                 <?php foreach ($categories as $category) : ?>
                                     <div>
                                         <h6 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2"><?= esc($category['name']) ?></h6>
@@ -121,8 +121,8 @@
                             <input type="hidden" name="tags" id="tags-input" value="<?= esc(implode(',', $displayTags)) ?>">
 
                             <div class="flex gap-2">
-                                <input type="text" id="manual-tag-input" class="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-800" placeholder="Masukkan tag">
-                                <button type="button" id="add-manual-tag-btn" class="p-2 bg-slate-800 text-white rounded-xl hover:bg-slate-950 transition-all"><i class="fa-solid fa-fw fa-plus"></i></button>
+                                <input type="text" id="manual-tag-input" class="flex-1 min-w-0 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-800" placeholder="Masukkan tag">
+                                <button type="button" id="add-manual-tag-btn" class="p-2 bg-slate-800 text-white rounded-xl hover:bg-slate-950 transition-all flex-shrink-0"><i class="fa-solid fa-fw fa-plus"></i></button>
                             </div>
                             <button type="button" id="suggest-tags-btn" class="w-full py-3 bg-blue-50 text-blue-800 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-100 transition-all border border-blue-100">
                                 <i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Tag
@@ -134,11 +134,11 @@
                 <input type="hidden" name="status" id="post-status" value="published">
 
                 <!-- Actions -->
-                <div class="pt-10 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-4">
-                    <button type="submit" onclick="document.getElementById('post-status').value='draft'" class="px-8 py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-slate-200 transition-all">
+                <div class="pt-6 sm:pt-10 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
+                    <button type="submit" onclick="document.getElementById('post-status').value='draft'" class="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-xl sm:rounded-2xl hover:bg-slate-200 transition-all text-center">
                         <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Simpan Konsep
                     </button>
-                    <button type="submit" onclick="document.getElementById('post-status').value='published'" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
+                    <button type="submit" onclick="document.getElementById('post-status').value='published'" class="w-full sm:w-auto px-8 sm:px-10 py-3.5 sm:py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-xl sm:rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20 text-center">
                         Terbitkan
                     </button>
                 </div>

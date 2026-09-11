@@ -11,23 +11,23 @@
 <?= $this->section('content') ?>
 
 <div class="max-w-5xl mx-auto">
-    <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
-            <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4">
+    <div class="bg-white rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-5 sm:px-8 py-4 sm:py-6 bg-slate-50 border-b border-slate-200 flex items-center">
+            <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
                 <i class="fa-solid fa-fw fa-pen-to-square text-sm"></i>
             </div>
             <div>
-                <h2 class="text-lg font-black text-slate-900 tracking-tight">Ubah Profil</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">ID: #<?= $profile['id'] ?></p>
+                <h2 class="text-base sm:text-lg font-black text-slate-900 tracking-tight">Ubah Profil</h2>
+                <p class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">ID: #<?= $profile['id'] ?></p>
             </div>
         </div>
 
-        <div class="p-8 md:p-12">
-            <form action="<?= base_url('admin/profiles/' . $profile['id']) ?>" method="post" enctype="multipart/form-data" class="space-y-10 needs-validation" novalidate>
+        <div class="p-4 sm:p-8 md:p-12">
+            <form action="<?= base_url('admin/profiles/' . $profile['id']) ?>" method="post" enctype="multipart/form-data" class="space-y-8 sm:space-y-10 needs-validation" novalidate>
                 <?= csrf_field() ?>
                 <input type="hidden" name="_method" value="PUT">
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
                     <!-- Column 1: Identity -->
                     <div class="space-y-8">
                         <div class="space-y-4">
@@ -155,11 +155,11 @@
                     <?php endif; ?>
                 </div>
 
-                <div class="pt-10 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-4">
-                    <a href="<?= base_url('admin/profiles') ?>" class="px-8 py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-slate-200 transition-all text-center">
+                <div class="pt-6 sm:pt-10 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
+                    <a href="<?= base_url('admin/profiles') ?>" class="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-xl sm:rounded-2xl hover:bg-slate-200 transition-all text-center">
                         Batal
                     </a>
-                    <button type="submit" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
+                    <button type="submit" class="w-full sm:w-auto px-8 sm:px-10 py-3.5 sm:py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-xl sm:rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20 text-center">
                         <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Simpan
                     </button>
                 </div>

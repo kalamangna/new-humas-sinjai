@@ -11,9 +11,9 @@
 <?= $this->section('content') ?>
 
 <!-- Search Filter -->
-<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
-    <form action="<?= base_url('admin/categories') ?>" method="get" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="md:col-span-3">
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 mb-6 sm:mb-8">
+    <form action="<?= base_url('admin/categories') ?>" method="get" class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="sm:col-span-2 lg:col-span-3">
             <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Cari</label>
             <input type="text" name="search" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Masukkan ..." value="<?= esc($filters['search'] ?? '') ?>">
         </div>
@@ -27,23 +27,23 @@
 </div>
 
 <!-- Stats -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-    <div class="bg-blue-800 p-6 rounded-2xl shadow-lg shadow-blue-900/20 text-white">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+    <div class="bg-blue-800 p-5 sm:p-6 rounded-2xl shadow-lg shadow-blue-900/20 text-white">
         <div class="flex justify-between items-center">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Total</p>
-                <h3 class="text-3xl font-black mt-1"><?= $total_categories ?? '0' ?></h3>
+                <h3 class="text-2xl sm:text-3xl font-black mt-1"><?= $total_categories ?? '0' ?></h3>
             </div>
-            <i class="fa-solid fa-fw fa-folder text-3xl opacity-30"></i>
+            <i class="fa-solid fa-fw fa-folder text-2xl sm:text-3xl opacity-30"></i>
         </div>
     </div>
-    <div class="bg-sky-600 p-6 rounded-2xl shadow-lg shadow-sky-900/20 text-white">
+    <div class="bg-sky-600 p-5 sm:p-6 rounded-2xl shadow-lg shadow-sky-900/20 text-white">
         <div class="flex justify-between items-center">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Total Berita</p>
-                <h3 class="text-3xl font-black mt-1"><?= $total_posts ?? '0' ?></h3>
+                <h3 class="text-2xl sm:text-3xl font-black mt-1"><?= $total_posts ?? '0' ?></h3>
             </div>
-            <i class="fa-solid fa-fw fa-newspaper text-3xl opacity-30"></i>
+            <i class="fa-solid fa-fw fa-newspaper text-2xl sm:text-3xl opacity-30"></i>
         </div>
     </div>
 </div>
@@ -54,47 +54,47 @@
         <table class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <th class="px-8 py-5">Nama</th>
-                    <th class="px-8 py-5">Slug</th>
-                    <th class="px-8 py-5">Induk</th>
-                    <th class="px-8 py-5">Total Berita</th>
-                    <th class="px-8 py-5 text-right">Aksi</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">Nama</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">Slug</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">Induk</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">Total Berita</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4 text-right">Aksi</th>
                 </tr>
             </thead>
             <tbody id="categories-data" class="divide-y divide-slate-100 whitespace-nowrap">
                 <?php if (!empty($categories)): ?>
                     <?php foreach ($categories as $category): ?>
                         <tr class="hover:bg-slate-50 transition-colors group">
-                            <td class="px-8 py-6">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4">
                                 <div class="flex items-center">
                                     <?php if (!empty($category['parent_id'])) : ?>
-                                        <div class="ml-4 mr-2 text-slate-300">
+                                        <div class="ml-2 sm:ml-4 mr-2 text-slate-300">
                                             <i class="fa-solid fa-fw fa-level-up fa-rotate-90 text-[10px]"></i>
                                         </div>
                                     <?php endif; ?>
-                                    <div class="w-10 h-10 bg-blue-50 text-blue-800 rounded-xl flex items-center justify-center mr-4 group-hover:bg-blue-800 group-hover:text-white transition-all">
+                                    <div class="w-9 h-9 sm:w-10 sm:h-10 bg-blue-50 text-blue-800 rounded-xl flex items-center justify-center mr-3 sm:mr-4 group-hover:bg-blue-800 group-hover:text-white transition-all flex-shrink-0">
                                         <i class="fa-solid fa-fw fa-folder<?= !empty($category['parent_id']) ? '-open' : '' ?> text-xs"></i>
                                     </div>
-                                    <div>
+                                    <div class="min-w-0">
                                         <div class="font-bold text-slate-900 tracking-tight leading-tight"><?= esc($category['name']) ?></div>
                                         <?php if (!empty($category['description'])) : ?>
-                                            <div class="text-[10px] text-slate-400 font-medium italic mt-0.5"><?= esc($category['description']) ?></div>
+                                            <div class="text-[10px] text-slate-400 font-medium italic mt-0.5 truncate max-w-xs"><?= esc($category['description']) ?></div>
                                         <?php endif; ?>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-8 py-6">
-                                <span class="px-3 py-1 bg-slate-100 text-slate-500 font-mono text-[10px] rounded-md border border-slate-200">/<?= esc($category['slug']) ?></span>
+                            <td class="px-4 sm:px-6 py-3 sm:py-4">
+                                <span class="px-2.5 py-1 bg-slate-100 text-slate-500 font-mono text-[10px] rounded-md border border-slate-200">/<?= esc($category['slug']) ?></span>
                             </td>
-                            <td class="px-8 py-6 text-sm text-slate-600 font-bold tracking-tight">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-slate-600 font-bold tracking-tight">
                                 <?= esc($category['parent_name'] ?? '-') ?>
                             </td>
-                            <td class="px-8 py-6">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4">
                                 <span class="px-2.5 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">
                                     <?= $category['post_count'] ?? '0' ?> Berita
                                 </span>
                             </td>
-                            <td class="px-8 py-6 text-right space-x-1 whitespace-nowrap w-1">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4 text-right space-x-1 whitespace-nowrap w-1">
                                 <a href="<?= base_url('admin/categories/' . $category['id'] . '/edit') ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
                                     <i class="fa-solid fa-fw fa-pen-to-square"></i>
                                 </a>

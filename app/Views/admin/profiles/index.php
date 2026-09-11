@@ -11,8 +11,8 @@
 <?= $this->section('content') ?>
 
 <!-- Filters -->
-<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
-    <form action="<?= base_url('admin/profiles') ?>" method="get" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 mb-6 sm:mb-8">
+    <form action="<?= base_url('admin/profiles') ?>" method="get" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <div>
             <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Cari</label>
             <input type="text" name="search" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Masukkan nama, jabatan, instansi..." value="<?= esc($filters['search'] ?? '') ?>">
@@ -31,7 +31,7 @@
                 <option value="kepala-desa" <?= ($filters['type'] ?? '') == 'kepala-desa' ? 'selected' : '' ?>>Kepala Desa</option>
             </select>
         </div>
-        <div class="flex flex-col justify-end">
+        <div class="flex flex-col justify-end sm:col-span-2 lg:col-span-1">
             <div class="flex items-center space-x-2">
                 <button type="submit" class="flex-1 px-4 py-2.5 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all">Cari</button>
                 <a href="<?= base_url('admin/profiles') ?>" class="px-4 py-2.5 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200 text-center">Reset</a>
@@ -45,19 +45,19 @@
         <table class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <th class="px-8 py-5 w-[100px]">Foto</th>
-                    <th class="px-8 py-5">Identitas</th>
-                    <th class="px-8 py-5 w-[150px]">Tipe</th>
-                    <th class="px-8 py-5 w-[100px] text-center">Urutan</th>
-                    <th class="px-8 py-5 text-right w-[120px]">Aksi</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4 w-[80px] sm:w-[100px]">Foto</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">Identitas</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4 w-[130px] sm:w-[150px]">Tipe</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4 w-[80px] sm:w-[100px] text-center">Urutan</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4 text-right w-[100px] sm:w-[120px]">Aksi</th>
                 </tr>
             </thead>
             <tbody id="profiles-data" class="divide-y divide-slate-100 whitespace-nowrap">
                 <?php if (!empty($profiles)) : ?>
                     <?php foreach ($profiles as $profile) : ?>
                         <tr class="hover:bg-slate-50 transition-colors group">
-                            <td class="px-8 py-6 w-1">
-                                <div class="w-14 h-20 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm flex-shrink-0">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4 w-1">
+                                <div class="w-12 sm:w-14 h-16 sm:h-20 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm flex-shrink-0">
                                     <?php
                                     $imgPath = $profile['image'] ?? '';
                                     $imgSrc = filter_var($imgPath, FILTER_VALIDATE_URL) ? $imgPath : (!empty($imgPath) ? base_url($imgPath) : '');
@@ -69,12 +69,12 @@
                                     <?php endif; ?>
                                 </div>
                             </td>
-                            <td class="px-8 py-6">
-                                <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors tracking-tight text-base leading-tight"><?= $profile['name'] ? esc($profile['name']) : esc($profile['position']) ?></div>
+                            <td class="px-4 sm:px-6 py-3 sm:py-4">
+                                <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors tracking-tight text-sm sm:text-base leading-tight"><?= $profile['name'] ? esc($profile['name']) : esc($profile['position']) ?></div>
                                 <div class="text-[10px] text-blue-800 font-black uppercase tracking-widest mt-1"><?= esc($profile['position'] ?? '-') ?></div>
                                 <div class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter mt-0.5"><?= esc($profile['institution'] ?? '-') ?></div>
                             </td>
-                            <td class="px-8 py-6 w-1">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4 w-1">
                                 <?php
                                 $typeLabels = [
                                     'bupati' => 'Bupati',
@@ -87,20 +87,20 @@
                                     'kepala-desa' => 'Kepala Desa',
                                 ];
                                 ?>
-                                <span class="px-3 py-1 bg-slate-100 text-slate-600 text-[9px] font-black uppercase tracking-widest rounded-lg border border-slate-200">
+                                <span class="px-2.5 py-1 bg-slate-100 text-slate-600 text-[9px] font-black uppercase tracking-widest rounded-lg border border-slate-200">
                                     <?= ($typeLabels[$profile['type']] ?? $profile['type']) ?>
                                 </span>
                             </td>
-                            <td class="px-8 py-6 w-1 text-center">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4 w-1 text-center">
                                 <?php if (in_array($profile['type'], ['forkopimda', 'eselon-ii', 'eselon-iii'])) : ?>
-                                    <span class="px-3 py-1 bg-slate-50 text-slate-500 font-mono text-[10px] font-bold rounded-lg border border-slate-200">
+                                    <span class="px-2.5 py-1 bg-slate-50 text-slate-500 font-mono text-[10px] font-bold rounded-lg border border-slate-200">
                                         <?= esc($profile['order']) ?>
                                     </span>
                                 <?php else : ?>
                                     <span class="text-slate-300">-</span>
                                 <?php endif; ?>
                             </td>
-                            <td class="px-8 py-6 text-right space-x-1 whitespace-nowrap w-1">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4 text-right space-x-1 whitespace-nowrap w-1">
                                 <a href="<?= base_url('admin/profiles/' . $profile['id'] . '/edit') ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
                                     <i class="fa-solid fa-fw fa-pen-to-square text-xs"></i>
                                 </a>

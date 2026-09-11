@@ -73,6 +73,7 @@ class Profiles extends BaseController
         }
 
         if ($this->profileService->saveProfile($data, $this->request->getFile('image'))) {
+            audit_log('profiles', 'create', 'Menambah profil: ' . (!empty($data['name']) ? $data['name'] : ($data['position'] ?? '')));
             return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil disimpan.');
         }
 
@@ -96,6 +97,7 @@ class Profiles extends BaseController
         }
 
         if ($this->profileService->saveProfile($data, $this->request->getFile('image'), (int)$id)) {
+            audit_log('profiles', 'update', 'Mengubah profil: ' . (!empty($data['name']) ? $data['name'] : ($data['position'] ?? '')));
             return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil diperbarui.');
         }
 
@@ -104,7 +106,10 @@ class Profiles extends BaseController
 
     public function delete($id = null)
     {
+        $profile = $this->profileModel->find((int)$id);
         if ($this->profileService->deleteProfile((int)$id)) {
+            $name = !empty($profile['name']) ? $profile['name'] : ($profile['position'] ?? "#{$id}");
+            audit_log('profiles', 'delete', 'Menghapus profil: ' . $name);
             return redirect()->to(base_url('admin/profiles'))->with('success', 'Profil berhasil dihapus.');
         }
         return redirect()->to(base_url('admin/profiles'))->with('error', 'Gagal menghapus profil.');

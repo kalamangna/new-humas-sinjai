@@ -33,7 +33,7 @@ if (!function_exists('generate_seo_tags')) {
             '<meta property="og:image" content="' . $image . '">',
             '<meta property="og:image:width" content="1200">',
             '<meta property="og:image:height" content="630">',
-            '<meta property="og:image:type" content="image/jpeg">',
+            '<meta property="og:image:type" content="' . $imageType . '">',
             '<meta property="og:site_name" content="Humas Sinjai">',
             '',
             '<!-- Twitter Card -->',
@@ -168,3 +168,29 @@ if (!function_exists('generate_schema_breadcrumb')) {
         return '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . '</script>';
     }
 }
+
+if (!function_exists('generate_schema_website')) {
+    /**
+     * Generates WebSite JSON-LD with Sitelinks Searchbox
+     */
+    function generate_schema_website(): string
+    {
+        $schema = [
+            '@context' => 'https://schema.org',
+            '@type'    => 'WebSite',
+            'name'     => 'Humas Sinjai',
+            'url'      => base_url(),
+            'potentialAction' => [
+                '@type'       => 'SearchAction',
+                'target'      => [
+                    '@type'       => 'EntryPoint',
+                    'urlTemplate' => base_url('search') . '?q={search_term_string}'
+                ],
+                'query-input' => 'required name=search_term_string'
+            ]
+        ];
+
+        return '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . '</script>';
+    }
+}
+

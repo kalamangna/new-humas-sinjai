@@ -1,5 +1,9 @@
 <?= $this->extend('layouts/frontend') ?>
 
+<?= $this->section('schema') ?>
+<?= generate_schema_website() ?>
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
 <!-- Hero / Carousel Section -->

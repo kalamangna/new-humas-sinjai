@@ -15,20 +15,20 @@
         <table class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <th class="px-8 py-5">Urutan</th>
-                    <th class="px-8 py-5">Pratinjau</th>
-                    <th class="px-8 py-5 text-right">Aksi</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4 w-1">Urutan</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">Pratinjau</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4 text-right">Aksi</th>
                 </tr>
             </thead>
             <tbody id="carousel-data" class="divide-y divide-slate-100 whitespace-nowrap">
                 <?php if (!empty($slides)): ?>
                     <?php foreach ($slides as $slide): ?>
                         <tr class="hover:bg-slate-50 transition-colors group">
-                            <td class="px-8 py-6">
-                                <span class="w-8 h-8 bg-slate-100 text-slate-600 font-black rounded-lg flex items-center justify-center border border-slate-200"><?= esc($slide['slide_order']) ?></span>
+                            <td class="px-4 sm:px-6 py-3 sm:py-4">
+                                <span class="w-8 h-8 bg-slate-100 text-slate-600 font-black rounded-lg flex items-center justify-center border border-slate-200 text-xs sm:text-sm"><?= esc($slide['slide_order']) ?></span>
                             </td>
-                            <td class="px-8 py-6">
-                                <div class="w-48 h-24 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4">
+                                <div class="w-36 sm:w-48 h-18 sm:h-24 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm">
                                     <?php
                                     $slidePath = $slide['image_path'] ?? '';
                                     $slideSrc = filter_var($slidePath, FILTER_VALIDATE_URL) ? $slidePath : (!empty($slidePath) ? base_url($slidePath) : '');
@@ -36,7 +36,7 @@
                                     <img src="<?= $slideSrc ?>" class="w-full h-full object-cover">
                                 </div>
                             </td>
-                            <td class="px-8 py-6 text-right space-x-1 whitespace-nowrap w-1">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4 text-right space-x-1 whitespace-nowrap w-1">
                                 <a href="<?= base_url('admin/carousel/' . $slide['id'] . '/edit') ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
                                     <i class="fa-solid fa-fw fa-pen-to-square"></i>
                                 </a>

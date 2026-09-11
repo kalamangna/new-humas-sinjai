@@ -82,6 +82,7 @@ class Posts extends BaseController
             'categories' => $this->request->getPost('categories') ?? [],
             'tags'       => $this->request->getPost('tags') ?? ''
         ])) {
+            audit_log('posts', 'create', 'Menambah berita: ' . $title);
             return redirect()->to(base_url('admin/posts'))->with('success', 'Berita berhasil diterbitkan.');
         }
 
@@ -178,6 +179,7 @@ class Posts extends BaseController
                 if (file_exists($oldOg)) rename($oldOg, $newOg);
             }
 
+            audit_log('posts', 'update', 'Mengubah berita: ' . ($data['title'] ?? $post['title']));
             return redirect()->to(base_url('admin/posts'))->with('success', 'Berita berhasil diperbarui.');
         }
 
@@ -205,6 +207,7 @@ class Posts extends BaseController
             $postImage = str_replace('thumbnails', 'posts', $post['thumbnail'] ?? '');
             if (!empty($postImage) && file_exists(FCPATH . $postImage)) @unlink(FCPATH . $postImage);
 
+            audit_log('posts', 'delete', 'Menghapus berita: ' . $post['title']);
             return redirect()->to(base_url('admin/posts'))->with('success', 'Berita berhasil dihapus.');
         }
         return redirect()->to(base_url('admin/posts'))->with('error', 'Gagal menghapus berita.');

@@ -51,9 +51,21 @@ class Login extends BaseController
                 'role' => $user['role'],
                 'isLoggedIn' => true,
             ]);
+
+            // Catat audit log login sukses
+            audit_log('auth', 'login', 'Login berhasil', (int) $user['id'], $user['name'], $user['role']);
+
+            // Auto-prune log > 90 hari saat Super Admin login
+            if ($user['role'] === 'admin') {
+                (new \App\Services\AuditLogService())->pruneOlderThan(90);
+            }
+
             // Redirect to admin dashboard
             return redirect()->to(base_url('admin'));
         }
+
+        // Catat audit log login gagal
+        audit_log('auth', 'login_failed', 'Percobaan login gagal untuk: ' . ($email ?: 'tanpa email'));
 
         // Redirect back with error
         return redirect()->back()->withInput()->with('error', 'Email atau kata sandi tidak valid.');
@@ -61,6 +73,9 @@ class Login extends BaseController
 
     public function logout()
     {
+        if (session('isLoggedIn')) {
+            audit_log('auth', 'logout', 'Logout dari sistem');
+        }
         session()->destroy();
         return redirect()->to(base_url('masuk'));
     }

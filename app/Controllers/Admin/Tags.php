@@ -39,6 +39,7 @@ class Tags extends BaseController
         }
 
         if ($this->tagService->saveTag($data)) {
+            audit_log('tags', 'create', 'Menambah tag: ' . ($data['name'] ?? ''));
             return redirect()->to(base_url('admin/tags'))->with('success', 'Tag berhasil dibuat.');
         }
 
@@ -62,6 +63,7 @@ class Tags extends BaseController
         }
 
         if ($this->tagService->saveTag($data, (int)$id)) {
+            audit_log('tags', 'update', 'Mengubah tag: ' . ($data['name'] ?? ''));
             return redirect()->to(base_url('admin/tags'))->with('success', 'Tag berhasil diperbarui.');
         }
 
@@ -70,7 +72,9 @@ class Tags extends BaseController
 
     public function delete($id = null)
     {
+        $tag = $this->tagModel->find((int)$id);
         if ($this->tagService->deleteTag((int)$id)) {
+            audit_log('tags', 'delete', 'Menghapus tag: ' . ($tag['name'] ?? "#{$id}"));
             return redirect()->to(base_url('admin/tags'))->with('success', 'Tag berhasil dihapus.');
         }
         return redirect()->to(base_url('admin/tags'))->with('error', 'Gagal menghapus tag.');

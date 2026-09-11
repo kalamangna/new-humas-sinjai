@@ -54,7 +54,21 @@ class Cookie extends BaseConfig
      *
      * Cookie will only be set if a secure HTTPS connection exists.
      */
-    public bool $secure = true;
+    public bool $secure = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Auto-enable secure cookies on HTTPS connections while avoiding SecurityException on HTTP (localhost/dev)
+        if (! isset($_ENV['cookie.secure']) && ! isset($_SERVER['cookie.secure'])) {
+            $isHttps = (! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
+                || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https')
+                || (isset($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off');
+
+            $this->secure = $isHttps;
+        }
+    }
 
     /**
      * --------------------------------------------------------------------------

@@ -2,11 +2,11 @@
 <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-300 transition-transform duration-300 transform -translate-x-full lg:translate-x-0 lg:static border-r border-slate-800 flex-shrink-0">
     <div class="flex flex-col h-full">
         <!-- Brand -->
-        <div class="flex items-center justify-between h-20 px-6 bg-slate-950 border-b border-slate-800">
+        <div class="flex items-center justify-between h-16 sm:h-20 px-6 bg-slate-950 border-b border-slate-800">
             <a href="<?= base_url('admin') ?>" class="flex items-center">
-                <img src="<?= base_url(get_setting('site_logo', 'humas.png')) ?>" alt="<?= esc(get_setting('site_name', 'Humas Sinjai')) ?>" class="h-10 w-auto" id="sidebar-logo-img">
+                <img src="<?= base_url(get_setting('site_logo', 'humas.png')) ?>" alt="<?= esc(get_setting('site_name', 'Humas Sinjai')) ?>" class="h-8 sm:h-10 w-auto" id="sidebar-logo-img">
             </a>
-            <button id="close-sidebar" class="lg:hidden text-slate-500 hover:text-white">
+            <button id="close-sidebar" class="lg:hidden text-slate-500 hover:text-white p-2" aria-label="Tutup Menu">
                 <i class="fa-solid fa-fw fa-times text-xl"></i>
             </button>
         </div>
@@ -87,6 +87,10 @@
                         <a href="<?= base_url('admin/users') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/users*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
                             <i class="fa-solid fa-fw fa-users w-6 opacity-75"></i>
                             <span class="ml-3 font-medium text-sm sidebar-item-text">User</span>
+                        </a>
+                        <a href="<?= base_url('admin/audit-logs') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/audit-logs*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">
+                            <i class="fa-solid fa-fw fa-shield-halved w-6 opacity-75"></i>
+                            <span class="ml-3 font-medium text-sm sidebar-item-text">Audit Log</span>
                         </a>
                     <?php endif; ?>
                     <a href="<?= base_url('admin/site-settings') ?>" class="flex items-center px-4 py-3 rounded-lg transition-all <?= url_is('admin/site-settings*') ? 'bg-blue-800 text-white shadow-lg shadow-blue-900/50' : 'hover:bg-slate-800 hover:text-white' ?>">

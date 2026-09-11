@@ -62,97 +62,97 @@
 </div>
 
 <!-- Metrics Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
     <!-- Total Pengunjung -->
-    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
+    <div class="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
         <div class="flex items-start justify-between">
-            <div class="w-12 h-12 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center group-hover:bg-blue-800 group-hover:text-white transition-all">
+            <div class="w-12 h-12 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center group-hover:bg-blue-800 group-hover:text-white transition-all flex-shrink-0">
                 <i class="fa-solid fa-fw fa-users text-xl"></i>
             </div>
             <div class="text-right">
-                <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="total-users">...</h3>
+                <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight" id="total-users">...</h3>
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Total Pengunjung</p>
             </div>
         </div>
-        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Akumulasi individu unik yang mengakses portal berita.</p>
+        <p class="mt-4 sm:mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Akumulasi individu unik yang mengakses portal berita.</p>
     </div>
 
     <!-- Pengunjung Baru -->
-    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
+    <div class="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
         <div class="flex items-start justify-between">
-            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all">
+            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all flex-shrink-0">
                 <i class="fa-solid fa-fw fa-user-check text-xl"></i>
             </div>
             <div class="text-right">
-                <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="new-users">...</h3>
+                <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight" id="new-users">...</h3>
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Pengunjung Baru</p>
             </div>
         </div>
-        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Pengunjung yang baru pertama kali tercatat dalam sistem.</p>
+        <p class="mt-4 sm:mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Pengunjung yang baru pertama kali tercatat dalam sistem.</p>
     </div>
 
     <!-- Tampilan Berita -->
-    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
+    <div class="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
         <div class="flex items-start justify-between">
-            <div class="w-12 h-12 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center group-hover:bg-sky-600 group-hover:text-white transition-all">
+            <div class="w-12 h-12 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center group-hover:bg-sky-600 group-hover:text-white transition-all flex-shrink-0">
                 <i class="fa-solid fa-fw fa-eye text-xl"></i>
             </div>
             <div class="text-right">
-                <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="screen-page-views">...</h3>
+                <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight" id="screen-page-views">...</h3>
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Tampilan Halaman</p>
             </div>
         </div>
-        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Total akumulasi pembacaan seluruh konten berita.</p>
+        <p class="mt-4 sm:mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Total akumulasi pembacaan seluruh konten berita.</p>
     </div>
 
     <!-- Sesi Kunjungan -->
-    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
+    <div class="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
         <div class="flex items-start justify-between">
-            <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-all">
+            <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-all flex-shrink-0">
                 <i class="fa-solid fa-fw fa-chart-line text-xl"></i>
             </div>
             <div class="text-right">
-                <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="sessions">...</h3>
+                <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight" id="sessions">...</h3>
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Sesi Kunjungan</p>
             </div>
         </div>
-        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Jumlah periode interaksi aktif user di situs.</p>
+        <p class="mt-4 sm:mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Jumlah periode interaksi aktif user di situs.</p>
     </div>
 
     <!-- Rasio Pantulan -->
-    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
+    <div class="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
         <div class="flex items-start justify-between">
-            <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center group-hover:bg-rose-600 group-hover:text-white transition-all">
+            <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center group-hover:bg-rose-600 group-hover:text-white transition-all flex-shrink-0">
                 <i class="fa-solid fa-fw fa-chart-pie text-xl"></i>
             </div>
             <div class="text-right">
-                <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="bounce-rate">...</h3>
+                <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight" id="bounce-rate">...</h3>
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Rasio Pantulan</p>
             </div>
         </div>
-        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Persentase pengunjung yang hanya membuka satu halaman.</p>
+        <p class="mt-4 sm:mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Persentase pengunjung yang hanya membuka satu halaman.</p>
     </div>
 
     <!-- Rata-rata Durasi -->
-    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
+    <div class="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200 flex flex-col justify-between group hover:border-blue-800 transition-all">
         <div class="flex items-start justify-between">
-            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all">
+            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all flex-shrink-0">
                 <i class="fa-solid fa-fw fa-clock text-xl"></i>
             </div>
             <div class="text-right">
-                <h3 class="text-xl font-black text-slate-900 tracking-tight" id="average-session-duration">...</h3>
+                <h3 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight" id="average-session-duration">...</h3>
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Durasi Kunjungan</p>
             </div>
         </div>
-        <p class="mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Rata-rata waktu yang dihabiskan pengunjung di portal.</p>
+        <p class="mt-4 sm:mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Rata-rata waktu yang dihabiskan pengunjung di portal.</p>
     </div>
 </div>
 
 <!-- Charts Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-10">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 mb-8 sm:mb-10">
     <!-- Tren Kunjungan -->
-    <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
-        <div class="flex items-center justify-between mb-10 border-b border-slate-50 pb-6">
+    <div class="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-6 sm:mb-10 border-b border-slate-50 pb-4 sm:pb-6">
             <h4 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
                 <i class="fa-solid fa-fw fa-chart-area mr-3 text-blue-800"></i>Tren Kunjungan Berita
             </h4>
@@ -165,8 +165,8 @@
     </div>
 
     <!-- User Trends -->
-    <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
-        <div class="flex items-center justify-between mb-10 border-b border-slate-50 pb-6">
+    <div class="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-6 sm:mb-10 border-b border-slate-50 pb-4 sm:pb-6">
             <h4 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
                 <i class="fa-solid fa-fw fa-user-group mr-3 text-emerald-600"></i>Tren Pertumbuhan Pengunjung
             </h4>
@@ -180,29 +180,29 @@
 </div>
 
 <!-- Advanced Reports -->
-<div class="bg-slate-900 rounded-[3rem] p-10 md:p-16 border border-slate-800 shadow-2xl relative overflow-hidden">
-    <div class="absolute top-0 right-0 p-16 text-white opacity-5">
+<div class="bg-slate-900 rounded-2xl sm:rounded-[3rem] p-6 sm:p-10 md:p-16 border border-slate-800 shadow-2xl relative overflow-hidden">
+    <div class="absolute top-0 right-0 p-16 text-white opacity-5 hidden sm:block">
         <i class="fa-solid fa-fw fa-rocket text-9xl"></i>
     </div>
     <div class="relative z-10">
-        <h4 class="text-xs font-black text-blue-500 uppercase tracking-[0.4em] mb-4">Analisis Strategis</h4>
-        <h2 class="text-2xl md:text-4xl font-black text-white mb-12 tracking-tight">Modul Laporan Lanjutan</h2>
+        <h4 class="text-xs font-black text-blue-500 uppercase tracking-[0.4em] mb-3 sm:mb-4">Analisis Strategis</h4>
+        <h2 class="text-xl sm:text-2xl md:text-4xl font-black text-white mb-6 sm:mb-12 tracking-tight">Modul Laporan Lanjutan</h2>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="advanced-links">
-            <a href="<?= base_url('admin/analytics/top-pages') ?>" class="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-blue-800 transition-all text-center">
-                <i class="fa-solid fa-fw fa-file-lines text-3xl text-blue-500 group-hover:text-white mb-4 transition-colors"></i>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6" id="advanced-links">
+            <a href="<?= base_url('admin/analytics/top-pages') ?>" class="group bg-white/5 border border-white/10 p-5 sm:p-8 rounded-2xl sm:rounded-3xl hover:bg-blue-800 transition-all text-center">
+                <i class="fa-solid fa-fw fa-file-lines text-2xl sm:text-3xl text-blue-500 group-hover:text-white mb-3 sm:mb-4 transition-colors"></i>
                 <p class="text-[10px] font-black text-white uppercase tracking-widest">Halaman Populer</p>
             </a>
-            <a href="<?= base_url('admin/analytics/traffic-sources') ?>" class="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-emerald-600 transition-all text-center">
-                <i class="fa-solid fa-fw fa-globe text-3xl text-emerald-500 group-hover:text-white mb-4 transition-colors"></i>
+            <a href="<?= base_url('admin/analytics/traffic-sources') ?>" class="group bg-white/5 border border-white/10 p-5 sm:p-8 rounded-2xl sm:rounded-3xl hover:bg-emerald-600 transition-all text-center">
+                <i class="fa-solid fa-fw fa-globe text-2xl sm:text-3xl text-emerald-500 group-hover:text-white mb-3 sm:mb-4 transition-colors"></i>
                 <p class="text-[10px] font-black text-white uppercase tracking-widest">Sumber Lalu Lintas</p>
             </a>
-            <a href="<?= base_url('admin/analytics/geo') ?>" class="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-sky-600 transition-all text-center">
-                <i class="fa-solid fa-fw fa-map-marker-alt text-3xl text-sky-500 group-hover:text-white mb-4 transition-colors"></i>
+            <a href="<?= base_url('admin/analytics/geo') ?>" class="group bg-white/5 border border-white/10 p-5 sm:p-8 rounded-2xl sm:rounded-3xl hover:bg-sky-600 transition-all text-center">
+                <i class="fa-solid fa-fw fa-map-marker-alt text-2xl sm:text-3xl text-sky-500 group-hover:text-white mb-3 sm:mb-4 transition-colors"></i>
                 <p class="text-[10px] font-black text-white uppercase tracking-widest">Sebaran Lokasi</p>
             </a>
-            <a href="<?= base_url('admin/analytics/device-category') ?>" class="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-amber-500 transition-all text-center">
-                <i class="fa-solid fa-fw fa-desktop text-3xl text-amber-500 group-hover:text-white mb-4 transition-colors"></i>
+            <a href="<?= base_url('admin/analytics/device-category') ?>" class="group bg-white/5 border border-white/10 p-5 sm:p-8 rounded-2xl sm:rounded-3xl hover:bg-amber-500 transition-all text-center">
+                <i class="fa-solid fa-fw fa-desktop text-2xl sm:text-3xl text-amber-500 group-hover:text-white mb-3 sm:mb-4 transition-colors"></i>
                 <p class="text-[10px] font-black text-white uppercase tracking-widest">Statistik Perangkat</p>
             </a>
         </div>

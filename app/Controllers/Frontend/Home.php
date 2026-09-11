@@ -101,6 +101,11 @@ class Home extends BaseController
         $data['seo'] = $this->seoData;
         $data['seo']['title'] = 'Kategori: ' . $category['name'];
         $data['seo']['description'] = 'Telusuri semua berita dalam kategori ' . $category['name'] . ' di Humas Sinjai.';
+        $data['seo']['keywords'] = $category['name'] . ', Berita Sinjai, Humas Sinjai';
+        $data['seo']['type'] = 'website';
+        if (!empty($result['posts'][0]['thumbnail'])) {
+            $data['seo']['image'] = getOgImage(($result['posts'][0]['slug'] ?? '') . '.jpg', $result['posts'][0]['thumbnail']);
+        }
 
         return view('frontend/categories/detail', $data);
     }
@@ -130,6 +135,11 @@ class Home extends BaseController
         $data['seo'] = $this->seoData;
         $data['seo']['title'] = 'Tag: ' . $tag['name'];
         $data['seo']['description'] = 'Telusuri semua berita dengan tag ' . $tag['name'] . ' di Humas Sinjai.';
+        $data['seo']['keywords'] = $tag['name'] . ', Berita Sinjai, Humas Sinjai';
+        $data['seo']['type'] = 'website';
+        if (!empty($data['posts'][0]['thumbnail'])) {
+            $data['seo']['image'] = getOgImage(($data['posts'][0]['slug'] ?? '') . '.jpg', $data['posts'][0]['thumbnail']);
+        }
 
         return view('frontend/tags/detail', $data);
     }
@@ -166,6 +176,8 @@ class Home extends BaseController
 
         $data['seo'] = $this->seoData;
         $data['seo']['title'] = 'Semua Berita';
+        $data['seo']['description'] = 'Kumpulan berita dan informasi resmi Pemerintah Kabupaten Sinjai terbaru dan terpercaya.';
+        $data['seo']['type'] = 'website';
 
         return view('frontend/posts/index', $data);
     }
@@ -198,6 +210,8 @@ class Home extends BaseController
 
         $data['seo'] = $this->seoData;
         $data['seo']['title'] = 'Semua Kategori';
+        $data['seo']['description'] = 'Daftar kategori berita dan publikasi Pemerintah Kabupaten Sinjai.';
+        $data['seo']['type'] = 'website';
 
         return view('frontend/categories/index', $data);
     }
@@ -216,6 +230,8 @@ class Home extends BaseController
 
         $data['seo'] = $this->seoData;
         $data['seo']['title'] = 'Semua Tag';
+        $data['seo']['description'] = 'Daftar topik dan tag berita Pemerintah Kabupaten Sinjai.';
+        $data['seo']['type'] = 'website';
 
         return view('frontend/tags/index', $data);
     }
@@ -239,11 +255,22 @@ class Home extends BaseController
         $postModel = new \App\Models\PostModel();
         $categoryModel = new CategoryModel();
         $tagModel = new TagModel();
+        $profileModel = new \App\Models\ProfileModel();
 
+        $now = date('Y-m-d H:i:s');
         $data = [
-            'posts' => $postModel->where('status', 'published')->orderBy('published_at', 'DESC')->findAll(),
+            'posts' => $postModel
+                ->where('status', 'published')
+                ->where('published_at <=', $now)
+                ->orderBy('published_at', 'DESC')
+                ->findAll(),
             'categories' => $categoryModel->findAll(),
-            'tags' => $tagModel->findAll(),
+            'tags'       => $tagModel->findAll(),
+            'profiles'   => $profileModel
+                ->whereIn('type', ['bupati', 'wakil-bupati', 'sekda'])
+                ->where('slug IS NOT NULL')
+                ->where('slug !=', '')
+                ->findAll(),
         ];
 
         $this->response->setHeader('Content-Type', 'application/xml');

@@ -16,8 +16,8 @@
 </div>
 
 <div id="analytics-content" class="hidden">
-    <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
+    <div class="bg-white rounded-2xl sm:rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-5 sm:px-8 py-4 sm:py-6 bg-slate-50 border-b border-slate-200 flex items-center">
             <i class="fa-solid fa-fw fa-globe mr-3 text-emerald-600 opacity-50"></i>
             <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">ANALISIS SUMBER KUNJUNGAN</h2>
         </div>
@@ -26,11 +26,11 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                        <th class="px-8 py-5">Sumber</th>
-                        <th class="px-8 py-5 w-1 whitespace-nowrap">Media</th>
-                        <th class="px-8 py-5 w-1 whitespace-nowrap">Sesi</th>
-                        <th class="px-8 py-5 w-1 whitespace-nowrap">Tayangan</th>
-                        <th class="px-8 py-5 text-right w-1 whitespace-nowrap">Pengunjung</th>
+                        <th class="px-4 sm:px-8 py-3.5 sm:py-5">Sumber</th>
+                        <th class="px-4 sm:px-8 py-3.5 sm:py-5 w-1 whitespace-nowrap">Media</th>
+                        <th class="px-4 sm:px-8 py-3.5 sm:py-5 w-1 whitespace-nowrap">Sesi</th>
+                        <th class="px-4 sm:px-8 py-3.5 sm:py-5 w-1 whitespace-nowrap">Tayangan</th>
+                        <th class="px-4 sm:px-8 py-3.5 sm:py-5 text-right w-1 whitespace-nowrap">Pengunjung</th>
                     </tr>
                 </thead>
                 <tbody id="traffic-sources-data" class="divide-y divide-slate-100"></tbody>
@@ -63,19 +63,19 @@
                     const row = document.createElement('tr');
                     row.className = 'hover:bg-slate-50 transition-colors group';
                     row.innerHTML = `
-                        <td class="px-8 py-6">
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5">
                             <div class="flex items-center">
-                                <div class="w-2 h-2 bg-emerald-500 rounded-full mr-4 opacity-40 group-hover:opacity-100 transition-opacity flex-shrink-0"></div>
-                                <span class="font-bold text-slate-900 text-xs truncate max-w-[200px] inline-block">${item.sessionSource || 'Langsung'}</span>
+                                <div class="w-2 h-2 bg-emerald-500 rounded-full mr-3 sm:mr-4 opacity-40 group-hover:opacity-100 transition-opacity flex-shrink-0"></div>
+                                <span class="font-bold text-slate-900 text-xs truncate max-w-[150px] sm:max-w-[200px] inline-block">${item.sessionSource || 'Langsung'}</span>
                             </div>
                         </td>
-                        <td class="px-8 py-6 w-1 whitespace-nowrap">
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5 w-1 whitespace-nowrap">
                             <span class="px-2 py-1 bg-slate-100 text-slate-500 text-[9px] font-black uppercase tracking-widest rounded border border-slate-200">${item.sessionMedium || 'Tanpa Media'}</span>
                         </td>
-                        <td class="px-8 py-6 text-sm font-bold text-slate-700 w-1 whitespace-nowrap">${parseInt(item.sessions).toLocaleString()}</td>
-                        <td class="px-8 py-6 text-sm font-bold text-slate-700 w-1 whitespace-nowrap">${parseInt(item.screenPageViews).toLocaleString()}</td>
-                        <td class="px-8 py-6 text-right w-1 whitespace-nowrap">
-                            <span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-black rounded-lg border border-emerald-100">
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5 text-xs sm:text-sm font-bold text-slate-700 w-1 whitespace-nowrap">${parseInt(item.sessions).toLocaleString()}</td>
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5 text-xs sm:text-sm font-bold text-slate-700 w-1 whitespace-nowrap">${parseInt(item.screenPageViews).toLocaleString()}</td>
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5 text-right w-1 whitespace-nowrap">
+                            <span class="px-2.5 sm:px-3 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-black rounded-lg border border-emerald-100">
                                 ${parseInt(item.totalUsers).toLocaleString()} User
                             </span>
                         </td>

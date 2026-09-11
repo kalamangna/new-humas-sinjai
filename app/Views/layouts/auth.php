@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-slate-100">
+<html lang="id" class="h-full bg-slate-50">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Humas Sinjai</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Masuk - Humas Sinjai</title>
     <link rel="icon" href="<?= base_url('logo.png') ?>" type="image/png">
 
     <!-- Tailwind CSS -->
@@ -14,29 +15,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css">
 </head>
 
-<body class="h-full">
-    <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-slate-100">
-        <div class="sm:mx-auto sm:w-full sm:max-w-md">
-            <a href="<?= base_url('/') ?>" class="flex justify-center">
-                <img src="<?= base_url('logo.png') ?>" alt="Logo Sinjai" class="h-20 w-auto">
+<body class="h-full flex flex-col justify-center py-8 sm:py-12 px-4 sm:px-6 lg:px-8 bg-slate-50">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <?= $this->renderSection('content') ?>
+
+        <div class="mt-6 text-center">
+            <a href="<?= base_url('/') ?>" class="inline-flex items-center text-xs font-semibold text-slate-400 hover:text-slate-700 transition-colors">
+                <i class="fa-solid fa-fw fa-arrow-left mr-2 text-[11px]"></i>Kembali ke Beranda
             </a>
-            <h2 class="mt-6 text-center text-3xl font-black text-slate-900 tracking-tight uppercase">
-                Admin Panel
-            </h2>
-            <p class="mt-2 text-center text-sm font-bold text-slate-500 uppercase tracking-widest">
-                Humas Sinjai
-            </p>
         </div>
-
-        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
-            <?= $this->renderSection('content') ?>
-
-            <div class="mt-8 text-center">
-                <a href="<?= base_url('/') ?>" class="text-[10px] font-black text-slate-400 hover:text-blue-800 uppercase tracking-[0.3em] transition-colors">
-                    <i class="fa-solid fa-fw fa-arrow-left mr-2"></i>Kembali ke Beranda Utama
-                </a>
-        </div>
-    </div>
     </div>
 </body>
 

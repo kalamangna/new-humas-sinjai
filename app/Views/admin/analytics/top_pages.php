@@ -16,8 +16,8 @@
 </div>
 
 <div id="analytics-content" class="hidden">
-    <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-8 py-6 bg-slate-50 border-b border-slate-200">
+    <div class="bg-white rounded-2xl sm:rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-5 sm:px-8 py-4 sm:py-6 bg-slate-50 border-b border-slate-200">
             <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
                 <i class="fa-solid fa-fw fa-list-ol mr-3 text-blue-800"></i>10 HALAMAN PALING SERING DIKUNJUNGI
             </h2>
@@ -27,10 +27,10 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                        <th class="px-8 py-5">Halaman</th>
-                        <th class="px-8 py-5">Path</th>
-                        <th class="px-8 py-5 w-1 whitespace-nowrap">Tayangan</th>
-                        <th class="px-8 py-5 text-right w-1 whitespace-nowrap">Pengunjung</th>
+                        <th class="px-4 sm:px-8 py-3.5 sm:py-5">Halaman</th>
+                        <th class="px-4 sm:px-8 py-3.5 sm:py-5">Path</th>
+                        <th class="px-4 sm:px-8 py-3.5 sm:py-5 w-1 whitespace-nowrap">Tayangan</th>
+                        <th class="px-4 sm:px-8 py-3.5 sm:py-5 text-right w-1 whitespace-nowrap">Pengunjung</th>
                     </tr>
                 </thead>
                 <tbody id="top-pages-data" class="divide-y divide-slate-100"></tbody>
@@ -63,26 +63,26 @@
                     const row = document.createElement('tr');
                     row.className = 'hover:bg-slate-50 transition-colors group';
                     row.innerHTML = `
-                        <td class="px-8 py-6">
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5">
                             <div class="flex items-center">
-                                <span class="w-8 h-8 bg-blue-50 text-blue-800 rounded-lg flex-shrink-0 flex items-center justify-center font-black text-xs mr-4 border border-blue-100 group-hover:bg-blue-800 group-hover:text-white transition-all">
+                                <span class="w-8 h-8 bg-blue-50 text-blue-800 rounded-lg flex-shrink-0 flex items-center justify-center font-black text-xs mr-3 sm:mr-4 border border-blue-100 group-hover:bg-blue-800 group-hover:text-white transition-all">
                                     ${index + 1}
                                 </span>
                                 <div class="min-w-0">
-                                    <div class="font-bold text-slate-900 truncate max-w-xs md:max-w-md tracking-tight">${page.pageTitle || 'Tanpa Judul'}</div>
+                                    <div class="font-bold text-slate-900 truncate max-w-[150px] sm:max-w-xs md:max-w-md tracking-tight text-xs sm:text-sm">${page.pageTitle || 'Tanpa Judul'}</div>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-8 py-6">
-                            <span class="px-3 py-1 bg-slate-100 text-slate-500 font-mono text-[10px] rounded-md border border-slate-200 italic truncate max-w-[150px] inline-block">
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5">
+                            <span class="px-2.5 sm:px-3 py-1 bg-slate-100 text-slate-500 font-mono text-[10px] rounded-md border border-slate-200 italic truncate max-w-[120px] sm:max-w-[150px] inline-block">
                                 ${page.pagePath || '/'}
                             </span>
                         </td>
-                        <td class="px-8 py-6 text-sm font-bold text-slate-700">
-                            ${parseInt(page.screenPageViews).toLocaleString()} <span class="text-[10px] text-slate-400 font-medium uppercase tracking-tighter ml-1">Dilihat</span>
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5 text-xs sm:text-sm font-bold text-slate-700 whitespace-nowrap">
+                            ${parseInt(page.screenPageViews).toLocaleString()} <span class="text-[9px] sm:text-[10px] text-slate-400 font-medium uppercase tracking-tighter ml-1">Dilihat</span>
                         </td>
-                        <td class="px-8 py-6 text-right">
-                            <span class="px-3 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5 text-right whitespace-nowrap">
+                            <span class="px-2.5 sm:px-3 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">
                                 ${parseInt(page.totalUsers).toLocaleString()} User
                             </span>
                         </td>

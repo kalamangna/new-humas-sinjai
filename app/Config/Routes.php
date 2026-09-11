@@ -66,6 +66,10 @@ $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
     // Site Settings
     $routes->get('site-settings', 'Admin\Settings::index');
     $routes->post('settings/update', 'Admin\Settings::update');
+    $routes->post('site-settings/generate-og', 'Admin\Settings::generateOg');
+
+    // Audit Logs
+    $routes->get('audit-logs', 'Admin\AuditLogs::index');
 
     // Reports
     $routes->group('reports', static function ($routes) {

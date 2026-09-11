@@ -11,8 +11,8 @@
 <?= $this->section('content') ?>
 
 <!-- Filters -->
-<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
-    <form action="<?= base_url('admin/posts') ?>" method="get" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 mb-6 sm:mb-8">
+    <form action="<?= base_url('admin/posts') ?>" method="get" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <div>
             <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Cari</label>
             <input type="text" name="search" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Masukkan ..." value="<?= esc($filters['search'] ?? '') ?>">
@@ -43,7 +43,7 @@
                 <option value="draft" <?= ($filters['status'] ?? '') == 'draft' ? 'selected' : '' ?>>Konsep</option>
             </select>
         </div>
-        <div class="flex flex-col justify-end">
+        <div class="flex flex-col justify-end sm:col-span-2 lg:col-span-1">
             <div class="flex items-center space-x-2">
                 <button type="submit" class="flex-1 px-4 py-2.5 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all">Cari</button>
                 <a href="<?= base_url('admin/posts') ?>" class="px-4 py-2.5 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200 text-center">Reset</a>
@@ -53,41 +53,41 @@
 </div>
 
 <!-- Stats -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <div class="bg-blue-800 p-6 rounded-2xl shadow-lg shadow-blue-900/20 text-white">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+    <div class="bg-blue-800 p-5 sm:p-6 rounded-2xl shadow-lg shadow-blue-900/20 text-white">
         <div class="flex justify-between items-center">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Total</p>
-                <h3 class="text-3xl font-black mt-1"><?= $total_posts ?? '0' ?></h3>
+                <h3 class="text-2xl sm:text-3xl font-black mt-1"><?= $total_posts ?? '0' ?></h3>
             </div>
-            <i class="fa-solid fa-fw fa-newspaper text-3xl opacity-30"></i>
+            <i class="fa-solid fa-fw fa-newspaper text-2xl sm:text-3xl opacity-30"></i>
         </div>
     </div>
-    <div class="bg-emerald-600 p-6 rounded-2xl shadow-lg shadow-emerald-900/20 text-white">
+    <div class="bg-emerald-600 p-5 sm:p-6 rounded-2xl shadow-lg shadow-emerald-900/20 text-white">
         <div class="flex justify-between items-center">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Telah Terbit</p>
-                <h3 class="text-3xl font-black mt-1"><?= $published_posts ?? '0' ?></h3>
+                <h3 class="text-2xl sm:text-3xl font-black mt-1"><?= $published_posts ?? '0' ?></h3>
             </div>
-            <i class="fa-solid fa-fw fa-circle-check text-3xl opacity-30"></i>
+            <i class="fa-solid fa-fw fa-circle-check text-2xl sm:text-3xl opacity-30"></i>
         </div>
     </div>
-    <div class="bg-amber-500 p-6 rounded-2xl shadow-lg shadow-amber-900/20 text-white">
+    <div class="bg-amber-500 p-5 sm:p-6 rounded-2xl shadow-lg shadow-amber-900/20 text-white">
         <div class="flex justify-between items-center">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Draf Konsep</p>
-                <h3 class="text-3xl font-black mt-1"><?= $draft_posts ?? '0' ?></h3>
+                <h3 class="text-2xl sm:text-3xl font-black mt-1"><?= $draft_posts ?? '0' ?></h3>
             </div>
-            <i class="fa-solid fa-fw fa-pen-to-square text-3xl opacity-30"></i>
+            <i class="fa-solid fa-fw fa-pen-to-square text-2xl sm:text-3xl opacity-30"></i>
         </div>
     </div>
-    <div class="bg-sky-600 p-6 rounded-2xl shadow-lg shadow-sky-900/20 text-white">
+    <div class="bg-sky-600 p-5 sm:p-6 rounded-2xl shadow-lg shadow-sky-900/20 text-white">
         <div class="flex justify-between items-center">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Hari Ini</p>
-                <h3 class="text-3xl font-black mt-1"><?= $today_posts ?? '0' ?></h3>
+                <h3 class="text-2xl sm:text-3xl font-black mt-1"><?= $today_posts ?? '0' ?></h3>
             </div>
-            <i class="fa-solid fa-fw fa-calendar-day text-3xl opacity-30"></i>
+            <i class="fa-solid fa-fw fa-calendar-day text-2xl sm:text-3xl opacity-30"></i>
         </div>
     </div>
 </div>
@@ -98,20 +98,20 @@
         <table class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <th class="px-6 py-4">Informasi Berita</th>
-                    <th class="px-6 py-4">Kategori</th>
-                    <th class="px-6 py-4">Status</th>
-                    <th class="px-6 py-4">Statistik</th>
-                    <th class="px-8 py-4 text-right">Aksi</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">Informasi Berita</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">Kategori</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">Status</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">Statistik</th>
+                    <th class="px-4 sm:px-8 py-3 sm:py-4 text-right">Aksi</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100 whitespace-nowrap">
                 <?php if (!empty($posts)) : ?>
                     <?php foreach ($posts as $post) : ?>
                         <tr class="hover:bg-slate-50 transition-colors group">
-                            <td class="px-6 py-4">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4">
                                 <div class="flex items-center">
-                                    <div class="w-20 h-12 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0 border border-slate-200">
+                                    <div class="w-16 sm:w-20 h-10 sm:h-12 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0 border border-slate-200">
                                         <?php
                                         $thumbPath = $post['thumbnail'] ?? '';
                                         $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
@@ -122,13 +122,13 @@
                                             <div class="w-full h-full flex items-center justify-center"><i class="fa-solid fa-fw fa-image text-slate-300"></i></div>
                                         <?php endif; ?>
                                     </div>
-                                    <div class="ml-4 min-w-0">
-                                        <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors truncate max-w-xs"><?= esc($post['title']) ?></div>
+                                    <div class="ml-3 sm:ml-4 min-w-0">
+                                        <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors truncate max-w-[180px] sm:max-w-xs"><?= esc($post['title']) ?></div>
                                         <div class="text-[10px] text-slate-400 mt-1 font-bold uppercase tracking-tighter"><?= esc($post['author_name'] ?? 'Penulis') ?> • <?= format_date($post['created_at']) ?></div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4">
                                 <div class="flex flex-wrap gap-1 mb-1">
                                     <?php if (!empty($post['category_name'])) : ?>
                                         <?php foreach (explode(',', $post['category_name']) as $name) : ?>
@@ -138,7 +138,7 @@
                                 </div>
                                 <div class="text-[9px] text-slate-400 font-bold uppercase tracking-widest"><i class="fa-solid fa-fw fa-tags mr-1"></i><?= $post['tag_count'] ?> Tag</div>
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4">
                                 <?php if ($post['status'] === 'published') : ?>
                                     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800">
                                         <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5"></span>Terbit
@@ -149,11 +149,11 @@
                                     </span>
                                 <?php endif; ?>
                             </td>
-                            <td class="px-6 py-4 text-xs font-bold text-slate-500 whitespace-nowrap">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4 text-xs font-bold text-slate-500 whitespace-nowrap">
                                 <div class="flex items-center"><i class="fa-regular fa-fw fa-eye w-4 text-slate-400"></i><?= number_format($post['views'] ?? 0) ?> Dilihat</div>
                                 <div class="flex items-center mt-1"><i class="fa-regular fa-fw fa-calendar-check w-4 text-slate-400"></i><?= $post['published_at'] ? date('d/m/y', strtotime($post['published_at'])) : '-' ?></div>
                             </td>
-                            <td class="px-6 py-4 text-right space-x-1 whitespace-nowrap w-1">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4 text-right space-x-1 whitespace-nowrap w-1">
                                 <?php if ($post['status'] === 'published') : ?>
                                     <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>" target="_blank" class="inline-flex items-center p-2 bg-slate-100 text-sky-600 rounded-lg hover:bg-sky-600 hover:text-white transition-all shadow-sm">
                                         <i class="fa-solid fa-fw fa-up-right-from-square"></i>

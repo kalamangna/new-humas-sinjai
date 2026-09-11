@@ -18,9 +18,16 @@
             localStorage.setItem('sidebar-expanded', isExpanded);
         } else {
             // Mobile toggle
-            sidebar.classList.toggle('-translate-x-full');
-            overlay.classList.toggle('hidden');
-            body.classList.toggle('overflow-hidden');
+            const isOpen = !sidebar.classList.contains('-translate-x-full');
+            if (isOpen) {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+                body.classList.remove('overflow-hidden');
+            } else {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                body.classList.add('overflow-hidden');
+            }
         }
     }
 
@@ -28,8 +35,17 @@
     if (closeBtn) closeBtn.addEventListener('click', toggleSidebar);
     if (overlay) overlay.addEventListener('click', toggleSidebar);
 
+    // Auto-reset mobile sidebar on viewport expansion
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1024) {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.add('hidden');
+            body.classList.remove('overflow-hidden');
+        }
+    });
+
     // Auto-dismiss alerts
-    document.querySelectorAll('.bg-emerald-50, .bg-red-50').forEach(alert => {
+    document.querySelectorAll('.flash-alert').forEach(alert => {
         setTimeout(() => {
             alert.classList.add('opacity-0', 'transition-opacity', 'duration-500');
             setTimeout(() => alert.remove(), 500);

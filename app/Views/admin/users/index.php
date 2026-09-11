@@ -11,9 +11,9 @@
 <?= $this->section('content') ?>
 
 <!-- Search Filter -->
-<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
-    <form action="<?= base_url('admin/users') ?>" method="get" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="md:col-span-3">
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 mb-6 sm:mb-8">
+    <form action="<?= base_url('admin/users') ?>" method="get" class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="sm:col-span-2 lg:col-span-3">
             <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Cari</label>
             <input type="text" name="search" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Masukkan ..." value="<?= esc($filters['search'] ?? '') ?>">
         </div>
@@ -27,32 +27,32 @@
 </div>
 
 <!-- Stats -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-    <div class="bg-blue-800 p-6 rounded-2xl shadow-lg shadow-blue-900/20 text-white">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+    <div class="bg-blue-800 p-5 sm:p-6 rounded-2xl shadow-lg shadow-blue-900/20 text-white">
         <div class="flex justify-between items-center">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Total User</p>
-                <h3 class="text-3xl font-black mt-1"><?= $total_users ?? '0' ?></h3>
+                <h3 class="text-2xl sm:text-3xl font-black mt-1"><?= $total_users ?? '0' ?></h3>
             </div>
-            <i class="fa-solid fa-fw fa-users text-3xl opacity-30"></i>
+            <i class="fa-solid fa-fw fa-users text-2xl sm:text-3xl opacity-30"></i>
         </div>
     </div>
-    <div class="bg-rose-600 p-6 rounded-2xl shadow-lg shadow-rose-900/20 text-white">
+    <div class="bg-rose-600 p-5 sm:p-6 rounded-2xl shadow-lg shadow-rose-900/20 text-white">
         <div class="flex justify-between items-center">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Admin</p>
-                <h3 class="text-3xl font-black mt-1"><?= $admin_users ?? '0' ?></h3>
+                <h3 class="text-2xl sm:text-3xl font-black mt-1"><?= $admin_users ?? '0' ?></h3>
             </div>
-            <i class="fa-solid fa-fw fa-user-shield text-3xl opacity-30"></i>
+            <i class="fa-solid fa-fw fa-user-shield text-2xl sm:text-3xl opacity-30"></i>
         </div>
     </div>
-    <div class="bg-amber-500 p-6 rounded-2xl shadow-lg shadow-amber-900/20 text-white">
+    <div class="bg-amber-500 p-5 sm:p-6 rounded-2xl shadow-lg shadow-amber-900/20 text-white">
         <div class="flex justify-between items-center">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Penulis</p>
-                <h3 class="text-3xl font-black mt-1"><?= $author_users ?? '0' ?></h3>
+                <h3 class="text-2xl sm:text-3xl font-black mt-1"><?= $author_users ?? '0' ?></h3>
             </div>
-            <i class="fa-solid fa-fw fa-user-edit text-3xl opacity-30"></i>
+            <i class="fa-solid fa-fw fa-user-edit text-2xl sm:text-3xl opacity-30"></i>
         </div>
     </div>
 </div>
@@ -63,29 +63,29 @@
         <table class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <th class="px-8 py-5">User</th>
-                    <th class="px-8 py-5">Role</th>
-                    <th class="px-8 py-5">Berita</th>
-                    <th class="px-8 py-5">Tanggal Bergabung</th>
-                    <th class="px-8 py-5 text-right">Aksi</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">User</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">Role</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">Berita</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4">Tanggal Bergabung</th>
+                    <th class="px-4 sm:px-6 py-3 sm:py-4 text-right">Aksi</th>
                 </tr>
             </thead>
             <tbody id="users-data" class="divide-y divide-slate-100 whitespace-nowrap">
                 <?php if (!empty($users)) : ?>
                     <?php foreach ($users as $user) : ?>
                         <tr class="hover:bg-slate-50 transition-colors group">
-                            <td class="px-8 py-6">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4">
                                 <div class="flex items-center">
-                                    <div class="w-10 h-10 bg-slate-100 border border-slate-200 rounded-full flex items-center justify-center text-blue-800 font-black mr-4">
+                                    <div class="w-9 h-9 sm:w-10 sm:h-10 bg-slate-100 border border-slate-200 rounded-full flex items-center justify-center text-blue-800 font-black mr-3 sm:mr-4 flex-shrink-0 text-xs sm:text-sm">
                                         <?= substr(esc($user['name']), 0, 1) ?>
                                     </div>
-                                    <div>
-                                        <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors tracking-tight"><?= esc($user['name']) ?></div>
-                                        <div class="text-[10px] text-slate-400 font-bold tracking-tighter mt-0.5"><?= esc($user['email']) ?></div>
+                                    <div class="min-w-0">
+                                        <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors tracking-tight text-sm"><?= esc($user['name']) ?></div>
+                                        <div class="text-[10px] text-slate-400 font-bold tracking-tighter mt-0.5 truncate max-w-xs"><?= esc($user['email']) ?></div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-8 py-6">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4">
                                 <?php
                                 $roleClass = match ($user['role'] ?? 'author') {
                                     'admin' => 'bg-rose-50 text-rose-600 border-rose-100',
@@ -93,19 +93,19 @@
                                     default => 'bg-slate-50 text-slate-600 border-slate-100'
                                 };
                                 ?>
-                                <span class="px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border <?= $roleClass ?>">
+                                <span class="px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border <?= $roleClass ?>">
                                     <?= $user['role'] === 'admin' ? 'Super Admin' : 'Penulis' ?>
                                 </span>
                             </td>
-                            <td class="px-8 py-6">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4">
                                 <span class="px-2.5 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">
                                     <?= $user['post_count'] ?? '0' ?> Berita
                                 </span>
                             </td>
-                            <td class="px-8 py-6 text-xs font-bold text-slate-500 whitespace-nowrap">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4 text-xs font-bold text-slate-500 whitespace-nowrap">
                                 <?= format_date($user['created_at'] ?? 'now') ?>
                             </td>
-                            <td class="px-8 py-6 text-right space-x-1 whitespace-nowrap w-1">
+                            <td class="px-4 sm:px-6 py-3 sm:py-4 text-right space-x-1 whitespace-nowrap w-1">
                                 <a href="<?= base_url('admin/users/' . $user['id'] . '/edit') ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
                                     <i class="fa-solid fa-fw fa-pen-to-square text-xs"></i>
                                 </a>

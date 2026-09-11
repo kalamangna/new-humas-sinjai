@@ -11,33 +11,33 @@
 <?= $this->section('content') ?>
 
 <div class="max-w-2xl mx-auto">
-    <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
-            <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4">
+    <div class="bg-white rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-5 sm:px-8 py-4 sm:py-6 bg-slate-50 border-b border-slate-200 flex items-center">
+            <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
                 <i class="fa-solid fa-fw fa-pen-to-square text-sm"></i>
             </div>
             <div>
-                <h2 class="text-lg font-black text-slate-900 tracking-tight">Ubah Slide</h2>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">ID: #<?= $slide['id'] ?> • Pengaturan Visual</p>
+                <h2 class="text-base sm:text-lg font-black text-slate-900 tracking-tight">Ubah Slide</h2>
+                <p class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">ID: #<?= $slide['id'] ?> • Pengaturan Visual</p>
             </div>
         </div>
 
-        <div class="p-8 md:p-12">
-            <form action="<?= base_url('admin/carousel/' . $slide['id']) ?>" method="post" enctype="multipart/form-data" class="space-y-8">
+        <div class="p-4 sm:p-8 md:p-12">
+            <form action="<?= base_url('admin/carousel/' . $slide['id']) ?>" method="post" enctype="multipart/form-data" class="space-y-6 sm:space-y-8">
                 <input type="hidden" name="_method" value="PUT">
                 <?= csrf_field() ?>
 
                 <div class="space-y-4">
                     <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Gambar</label>
                     <label class="block">
-                        <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl hover:border-blue-800 hover:bg-slate-100 transition-all cursor-pointer">
-                            <i class="fa-solid fa-fw fa-cloud-arrow-up text-slate-400 mr-4"></i>
-                            <span class="text-sm font-bold text-slate-500" id="file-name">Pilih ...</span>
+                        <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl sm:rounded-2xl hover:border-blue-800 hover:bg-slate-100 transition-all cursor-pointer">
+                            <i class="fa-solid fa-fw fa-cloud-arrow-up text-slate-400 mr-3 sm:mr-4 flex-shrink-0"></i>
+                            <span class="text-xs sm:text-sm font-bold text-slate-500 truncate" id="file-name">Pilih ...</span>
                             <input type="file" name="image" id="carousel_image" class="hidden" onchange="previewImage('carousel_image', 'image-preview', 'image-preview-container'); document.getElementById('file-name').innerText = this.files[0].name;">
                         </div>
                     </label>
 
-                    <div id="image-preview-container" class="mt-6 ring-4 ring-slate-50 rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
+                    <div id="image-preview-container" class="mt-4 sm:mt-6 ring-4 ring-slate-50 rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
                         <?php
                         $slidePath = $slide['image_path'] ?? '';
                         $slideSrc = filter_var($slidePath, FILTER_VALIDATE_URL) ? $slidePath : (!empty($slidePath) ? base_url($slidePath) : '');
@@ -51,11 +51,11 @@
                     <input type="number" name="slide_order" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:border-blue-800 outline-none transition-all" value="<?= old('slide_order', $slide['slide_order']) ?>">
                 </div>
 
-                <div class="pt-8 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-4">
-                    <a href="<?= base_url('admin/carousel') ?>" class="px-8 py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-slate-200 transition-all text-center">
+                <div class="pt-6 sm:pt-8 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
+                    <a href="<?= base_url('admin/carousel') ?>" class="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-slate-100 text-slate-600 font-black text-[11px] uppercase tracking-[0.2em] rounded-xl sm:rounded-2xl hover:bg-slate-200 transition-all text-center">
                         Batal
                     </a>
-                    <button type="submit" class="px-10 py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20">
+                    <button type="submit" class="w-full sm:w-auto px-8 sm:px-10 py-3.5 sm:py-4 bg-blue-800 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-xl sm:rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/20 text-center">
                         <i class="fa-solid fa-fw fa-floppy-disk mr-2 text-sm"></i>Simpan
                     </button>
                 </div>

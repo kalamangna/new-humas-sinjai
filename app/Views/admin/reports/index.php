@@ -3,16 +3,16 @@
 <?= $this->section('page_title') ?>Laporan<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<div class="flex items-center gap-3">
+<div class="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
     <!-- Year Select -->
-    <select id="year-select" class="bg-white border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider px-4 py-2 focus:ring-2 focus:ring-blue-800 outline-none shadow-sm transition-all text-slate-700">
+    <select id="year-select" class="bg-white border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider px-3 sm:px-4 py-2 focus:ring-2 focus:ring-blue-800 outline-none shadow-sm transition-all text-slate-700 flex-1 sm:flex-initial">
         <?php for($y = $maxYear; $y >= $minYear; $y--): ?>
             <option value="<?= $y ?>" <?= $y == $year ? 'selected' : '' ?>><?= $y ?></option>
         <?php endfor; ?>
     </select>
 
     <!-- Month Select -->
-    <select id="month-select" class="bg-white border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider px-4 py-2 focus:ring-2 focus:ring-blue-800 outline-none shadow-sm transition-all text-slate-700">
+    <select id="month-select" class="bg-white border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider px-3 sm:px-4 py-2 focus:ring-2 focus:ring-blue-800 outline-none shadow-sm transition-all text-slate-700 flex-1 sm:flex-initial">
         <?php 
         $limitMonth = ($year == $currentYear) ? $currentMonth : 12;
         for($m = 1; $m <= $limitMonth; $m++): 
@@ -24,7 +24,7 @@
         <?php endfor; ?>
     </select>
 
-    <a href="<?= base_url("admin/reports/download-pdf/{$year}/" . str_pad($month, 2, '0', STR_PAD_LEFT)) ?>" id="download-pdf-btn" class="inline-flex items-center px-4 py-2 bg-rose-600 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-rose-700 transition-all shadow-lg shadow-rose-900/20">
+    <a href="<?= base_url("admin/reports/download-pdf/{$year}/" . str_pad($month, 2, '0', STR_PAD_LEFT)) ?>" id="download-pdf-btn" class="inline-flex items-center justify-center px-4 py-2 bg-rose-600 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-rose-700 transition-all shadow-lg shadow-rose-900/20 w-full sm:w-auto">
         <i class="fa-solid fa-fw fa-file-pdf mr-2" id="btn-icon"></i>
         <div id="loading-spinner" class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
         Unduh PDF
@@ -34,21 +34,21 @@
 
 <?= $this->section('content') ?>
 
-<div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden mb-10">
+<div class="bg-white rounded-2xl sm:rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden mb-8 sm:mb-10">
     <!-- Header -->
-    <div class="px-8 py-10 bg-slate-50 border-b border-slate-200">
+    <div class="px-5 sm:px-8 py-6 sm:py-10 bg-slate-50 border-b border-slate-200">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-                <h3 class="text-xs font-black text-blue-800 uppercase tracking-[0.3em] mb-3 flex items-center">
-                    <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>ARSIP BERITA
+                <h3 class="text-xs font-black text-blue-800 uppercase tracking-[0.3em] mb-2 sm:mb-3 flex items-center">
+                    <span class="w-2 h-6 bg-blue-800 mr-3 sm:mr-4 rounded-full"></span>ARSIP BERITA
                 </h3>
-                <h2 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
                     Laporan - <?= format_date($year . '-' . $month . '-01', 'month_year') ?>
                 </h2>
             </div>
-            <div class="bg-white px-6 py-4 rounded-2xl border border-slate-200 shadow-sm text-center md:text-right">
-                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Berita</p>
-                <h4 class="text-3xl font-black text-slate-900 tracking-tighter"><?= count($posts) ?> <span class="text-sm font-bold text-slate-400 uppercase">Berita</span></h4>
+            <div class="bg-white px-5 sm:px-6 py-3 sm:py-4 rounded-2xl border border-slate-200 shadow-sm text-center md:text-right">
+                <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Berita</p>
+                <h4 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tighter"><?= count($posts) ?> <span class="text-xs sm:text-sm font-bold text-slate-400 uppercase">Berita</span></h4>
             </div>
         </div>
     </div>
@@ -58,11 +58,11 @@
         <table class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                    <th class="px-8 py-5">Judul</th>
-                    <th class="px-8 py-5">Ringkasan</th>
-                    <th class="px-8 py-5">Dilihat</th>
-                    <th class="px-8 py-5">Tanggal</th>
-                    <th class="px-8 py-5 text-right w-1">Aksi</th>
+                    <th class="px-4 sm:px-8 py-3 sm:py-5">Judul</th>
+                    <th class="px-4 sm:px-8 py-3 sm:py-5">Ringkasan</th>
+                    <th class="px-4 sm:px-8 py-3 sm:py-5">Dilihat</th>
+                    <th class="px-4 sm:px-8 py-3 sm:py-5">Tanggal</th>
+                    <th class="px-4 sm:px-8 py-3 sm:py-5 text-right w-1">Aksi</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">

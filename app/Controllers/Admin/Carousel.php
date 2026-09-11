@@ -38,6 +38,7 @@ class Carousel extends BaseController
         }
 
         if ($this->carouselService->saveSlide($data, $this->request->getFile('image'))) {
+            audit_log('carousel', 'create', 'Menambah slide beranda');
             return redirect()->to(base_url('admin/carousel'))->with('success', 'Slide berhasil ditambahkan.');
         }
 
@@ -61,6 +62,7 @@ class Carousel extends BaseController
         }
 
         if ($this->carouselService->saveSlide($data, $this->request->getFile('image'), (int)$id)) {
+            audit_log('carousel', 'update', 'Mengubah slide beranda #' . $id);
             return redirect()->to(base_url('admin/carousel'))->with('success', 'Slide berhasil diperbarui.');
         }
 
@@ -70,6 +72,7 @@ class Carousel extends BaseController
     public function delete($id = null)
     {
         if ($this->carouselService->deleteSlide((int)$id)) {
+            audit_log('carousel', 'delete', 'Menghapus slide beranda #' . $id);
             return redirect()->to(base_url('admin/carousel'))->with('success', 'Slide berhasil dihapus.');
         }
         return redirect()->to(base_url('admin/carousel'))->with('error', 'Gagal menghapus slide.');

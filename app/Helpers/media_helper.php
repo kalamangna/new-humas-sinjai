@@ -7,7 +7,7 @@
 if (!function_exists('getOgImage')) {
     /**
      * Resolves Open Graph image with folder priority
-     * Handles backward compatibility by checking an alternative filename/path
+     * Automatically generates dedicated 1200x630 OG image (<200KB) on first access if missing
      */
     function getOgImage(?string $filename, ?string $fallbackPath = null): string
     {
@@ -19,7 +19,24 @@ if (!function_exists('getOgImage')) {
 
         $url = resolve_media_url($filename, $priority, '');
 
-        if ($url === '' && $fallbackPath) {
+        if ($url !== '') {
+            return $url;
+        }
+
+        // On-the-fly generation: if OG image is missing, generate it immediately from fallback thumbnail
+        if ($fallbackPath && $filename) {
+            helper(['image']);
+            $sourceLocal = resolve_local_media_path($fallbackPath);
+            if ($sourceLocal && file_exists($sourceLocal) && function_exists('generateOgImage')) {
+                $ogFilename = pathinfo($filename, PATHINFO_BASENAME);
+                $targetOg = FCPATH . 'uploads/og/' . $ogFilename;
+                if (generateOgImage($sourceLocal, $targetOg)) {
+                    return base_url('uploads/og/' . $ogFilename);
+                }
+            }
+        }
+
+        if ($fallbackPath) {
             $url = resolve_media_url($fallbackPath, $priority, '');
         }
 
@@ -75,6 +92,37 @@ if (!function_exists('resolve_media_url')) {
         }
 
         return $fallback ? base_url($fallback) : '';
+    }
+}
+
+if (!function_exists('resolve_local_media_path')) {
+    /**
+     * Resolves the absolute local filesystem path for a media file
+     */
+    function resolve_local_media_path(?string $filename, array $roots = ['uploads/posts/', 'uploads/thumbnails/', 'uploads/']): ?string
+    {
+        if (empty($filename) || filter_var($filename, FILTER_VALIDATE_URL)) {
+            return null;
+        }
+
+        $cleanPath = preg_replace('/^uploads\/(thumbnails|posts|og)\//', '', ltrim($filename, '/'));
+        $basename  = pathinfo($cleanPath, PATHINFO_BASENAME);
+
+        foreach ($roots as $root) {
+            $root = rtrim($root, '/') . '/';
+            if (is_file(FCPATH . $root . $cleanPath)) {
+                return FCPATH . $root . $cleanPath;
+            }
+            if (is_file(FCPATH . $root . $basename)) {
+                return FCPATH . $root . $basename;
+            }
+        }
+
+        if (is_file(FCPATH . ltrim($filename, '/'))) {
+            return FCPATH . ltrim($filename, '/');
+        }
+
+        return null;
     }
 }
 

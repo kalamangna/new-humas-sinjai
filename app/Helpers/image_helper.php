@@ -52,7 +52,7 @@ if (!function_exists('processImage')) {
 
 if (!function_exists('generateOgImage')) {
     /**
-     * Generate Open Graph image (1200x630, JPG, 75% quality)
+     * Generate Open Graph image (1200x630, JPG, optimized under 200KB)
      */
     function generateOgImage($sourcePath, $targetPath)
     {
@@ -61,15 +61,24 @@ if (!function_exists('generateOgImage')) {
         }
 
         try {
+            $dir = dirname($targetPath);
+            if (!is_dir($dir)) {
+                mkdir($dir, 0755, true);
+            }
+
             $image = \Config\Services::image()
                 ->withFile($sourcePath);
 
-            // If original image is portrait, crop center to landscape before resize
-            // fit() already handles this by cropping to the specified dimensions from the center.
+            // Fit to 1200x630 landscape
             $image->fit(1200, 630, 'center');
 
-            // Save as JPG with 75% quality
-            $image->save($targetPath, 75);
+            // Save with progressive quality reduction to strictly stay below 200KB
+            $quality = 75;
+            do {
+                $image->save($targetPath, $quality);
+                $fileSize = @filesize($targetPath);
+                $quality -= 10;
+            } while ($fileSize > 200 * 1024 && $quality >= 35);
 
             return true;
         } catch (\Exception $e) {

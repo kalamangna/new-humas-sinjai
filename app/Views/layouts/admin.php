@@ -3,7 +3,7 @@
 
 <?= view('layouts/partials/head_admin') ?>
 
-<body class="h-full font-sans antialiased text-slate-900 bg-slate-100 sidebar-expanded overflow-hidden">
+<body class="h-full font-sans antialiased text-slate-900 bg-slate-100 sidebar-expanded lg:overflow-hidden">
     <style>
         @media (min-width: 1024px) {
             #sidebar { transition: width 0.3s ease, transform 0.3s ease; }
@@ -22,33 +22,33 @@
             body:not(.sidebar-expanded) #sidebar .bg-slate-950 #close-sidebar { display: none; }
         }
     </style>
-    <div class="h-screen flex overflow-hidden">
+    <div class="h-screen h-[100dvh] flex overflow-hidden">
         
         <?= view('layouts/partials/sidebar_admin') ?>
 
         <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <div class="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
             <!-- Mobile Sidebar Overlay -->
             <div id="sidebar-overlay" class="fixed inset-0 z-40 bg-slate-900/60 hidden transition-opacity lg:hidden"></div>
 
             <?= view('layouts/partials/navbar_admin') ?>
 
             <!-- Page Content -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto p-6 lg:p-10">
+            <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 pb-28 sm:p-6 sm:pb-16 lg:p-10 lg:pb-10 overscroll-contain">
                 <div class="max-w-full mx-auto">
                     <!-- Page Actions -->
-                    <div class="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div>
-                            <h1 class="text-2xl font-black text-slate-900 tracking-tight sm:hidden"><?= $this->renderSection('page_title') ?? 'Dashboard' ?></h1>
+                    <div class="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="min-w-0">
+                            <!-- Mobile Page Title if rendered here -->
                         </div>
-                        <div class="flex items-center space-x-3">
+                        <div class="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
                             <?= $this->renderSection('page_actions') ?>
                         </div>
                     </div>
 
                     <!-- Alert Messages -->
                     <?php if (session()->getFlashdata('success')) : ?>
-                        <div class="bg-emerald-50 border-l-4 border-emerald-500 p-5 mb-8 rounded-r-xl shadow-sm flex items-center animate-in fade-in slide-in-from-top-2 duration-300">
+                        <div role="alert" class="flash-alert bg-emerald-50 border-l-4 border-emerald-500 p-5 mb-8 rounded-r-xl shadow-sm flex items-center animate-in fade-in slide-in-from-top-2 duration-300">
                             <div class="bg-emerald-500 rounded-full p-1.5 mr-4">
                                 <i class="fa-solid fa-fw fa-check text-white text-xs"></i>
                             </div>
@@ -57,7 +57,7 @@
                     <?php endif; ?>
 
                     <?php if (session()->getFlashdata('error')) : ?>
-                        <div class="bg-red-50 border-l-4 border-red-500 p-5 mb-8 rounded-r-xl shadow-sm flex items-center animate-in fade-in slide-in-from-top-2 duration-300">
+                        <div role="alert" class="flash-alert bg-red-50 border-l-4 border-red-500 p-5 mb-8 rounded-r-xl shadow-sm flex items-center animate-in fade-in slide-in-from-top-2 duration-300">
                             <div class="bg-red-500 rounded-full p-1.5 mr-4">
                                 <i class="fa-solid fa-fw fa-triangle-exclamation text-white text-xs"></i>
                             </div>
@@ -66,7 +66,7 @@
                     <?php endif; ?>
 
                     <?php if (session()->getFlashdata('errors')) : ?>
-                        <div class="bg-red-50 border-l-4 border-red-500 p-6 mb-8 rounded-r-xl shadow-sm animate-in fade-in slide-in-from-top-2 duration-300">
+                        <div role="alert" class="flash-alert bg-red-50 border-l-4 border-red-500 p-6 mb-8 rounded-r-xl shadow-sm animate-in fade-in slide-in-from-top-2 duration-300">
                             <div class="flex items-center mb-3">
                                 <div class="bg-red-500 rounded-full p-1.5 mr-4">
                                     <i class="fa-solid fa-fw fa-triangle-exclamation text-white text-xs"></i>

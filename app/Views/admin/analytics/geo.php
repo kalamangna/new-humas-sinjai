@@ -15,19 +15,19 @@
     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Memetakan Lokasi Akses...</span>
 </div>
 
-<div id="analytics-content" class="hidden space-y-10">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+<div id="analytics-content" class="hidden space-y-6 sm:space-y-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
         <!-- Chart -->
-        <div class="lg:col-span-5 bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
-            <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] mb-10 flex items-center">
+        <div class="lg:col-span-5 bg-white p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] shadow-sm border border-slate-200">
+            <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] mb-6 sm:mb-10 flex items-center">
                 <i class="fa-solid fa-fw fa-chart-pie mr-3 text-sky-600"></i>PROPORSI PER NEGARA
             </h3>
             <div id="countryChart" class="h-80"></div>
         </div>
 
         <!-- Table -->
-        <div class="lg:col-span-7 bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden flex flex-col">
-            <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
+        <div class="lg:col-span-7 bg-white rounded-2xl sm:rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+            <div class="px-5 sm:px-8 py-4 sm:py-6 bg-slate-50 border-b border-slate-200 flex items-center">
                 <i class="fa-solid fa-fw fa-map-marker-alt mr-3 text-sky-600 opacity-50"></i>
                 <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">RINCIAN SEBARAN PENGUNJUNG</h3>
             </div>
@@ -35,9 +35,9 @@
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">
-                            <th class="px-8 py-5">Negara</th>
-                            <th class="px-8 py-5">Provinsi / Kota</th>
-                            <th class="px-8 py-5 text-right w-1">Pengunjung</th>
+                            <th class="px-4 sm:px-8 py-3.5 sm:py-5">Negara</th>
+                            <th class="px-4 sm:px-8 py-3.5 sm:py-5">Provinsi / Kota</th>
+                            <th class="px-4 sm:px-8 py-3.5 sm:py-5 text-right w-1">Pengunjung</th>
                         </tr>
                     </thead>
                     <tbody id="geo-data" class="divide-y divide-slate-100 whitespace-nowrap"></tbody>
@@ -104,17 +104,17 @@
                     const row = document.createElement('tr');
                     row.className = 'hover:bg-slate-50 transition-colors group';
                     row.innerHTML = `
-                        <td class="px-8 py-6">
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5">
                             <div class="flex items-center">
                                 <span class="font-bold text-slate-900 tracking-tight text-xs">${item.country || 'Langsung'}</span>
                             </div>
                         </td>
-                        <td class="px-8 py-6">
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5">
                             <div class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">${item.region || '-'}</div>
                             <div class="text-[9px] text-slate-400 font-medium italic">${item.city || '-'}</div>
                         </td>
-                        <td class="px-8 py-6 text-right">
-                            <span class="px-3 py-1 bg-sky-50 text-sky-700 text-[10px] font-black rounded-lg border border-sky-100">
+                        <td class="px-4 sm:px-8 py-3.5 sm:py-5 text-right">
+                            <span class="px-2.5 sm:px-3 py-1 bg-sky-50 text-sky-700 text-[10px] font-black rounded-lg border border-sky-100">
                                 ${parseInt(item.totalUsers).toLocaleString()} User
                             </span>
                         </td>

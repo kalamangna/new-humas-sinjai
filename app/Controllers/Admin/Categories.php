@@ -51,6 +51,7 @@ class Categories extends BaseController
         }
 
         if ($this->categoryService->saveCategory($data)) {
+            audit_log('categories', 'create', 'Menambah kategori: ' . ($data['name'] ?? ''));
             return redirect()->to(base_url('admin/categories'))->with('success', 'Kategori berhasil dibuat.');
         }
 
@@ -92,6 +93,7 @@ class Categories extends BaseController
         }
 
         if ($this->categoryService->saveCategory($data, (int)$id)) {
+            audit_log('categories', 'update', 'Mengubah kategori: ' . ($data['name'] ?? ''));
             return redirect()->to(base_url('admin/categories'))->with('success', 'Kategori berhasil diperbarui.');
         }
 
@@ -100,7 +102,9 @@ class Categories extends BaseController
 
     public function delete($id = null)
     {
+        $category = $this->categoryModel->find((int)$id);
         if ($this->categoryService->deleteCategory((int)$id)) {
+            audit_log('categories', 'delete', 'Menghapus kategori: ' . ($category['name'] ?? "#{$id}"));
             return redirect()->to(base_url('admin/categories'))->with('success', 'Kategori berhasil dihapus.');
         }
         return redirect()->to(base_url('admin/categories'))->with('error', 'Gagal menghapus kategori.');

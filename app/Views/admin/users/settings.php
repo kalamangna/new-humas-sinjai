@@ -5,19 +5,19 @@
 <?= $this->section('content') ?>
 
 <div class="max-w-2xl mx-auto">
-    <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-8 py-6 bg-slate-50 border-b border-slate-200 flex items-center">
-            <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4">
+    <div class="bg-white rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-5 sm:px-8 py-4 sm:py-6 bg-slate-50 border-b border-slate-200 flex items-center">
+            <div class="w-10 h-10 bg-blue-800 text-white rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
                 <i class="fa-solid fa-fw fa-gear text-sm"></i>
             </div>
             <div>
-                <h2 class="text-lg font-black text-slate-900 tracking-tight">Preferensi & Keamanan</h2>
+                <h2 class="text-base sm:text-lg font-black text-slate-900 tracking-tight">Preferensi & Keamanan</h2>
                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Kelola informasi login dan identitas anda</p>
             </div>
         </div>
 
-        <div class="p-8 md:p-12">
-            <form action="<?= base_url('admin/users/update_settings') ?>" method="post" class="space-y-8">
+        <div class="p-4 sm:p-8 md:p-12">
+            <form action="<?= base_url('admin/users/update_settings') ?>" method="post" class="space-y-6 sm:space-y-8">
                 <?= csrf_field() ?>
                 <input type="hidden" name="user_id" value="<?= esc($user['id']) ?>">
 

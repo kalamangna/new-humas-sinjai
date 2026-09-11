@@ -23,12 +23,18 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Input Sanitization & Injection Prevention**: Memperketat penanganan parameter unduh PDF laporan bulanan dengan konversi tipe numerik (`(int)$year`, `(int)$month`) dan sanitasi teks kata kunci pencarian (`strip_tags`) untuk mencegah kegagalan tipe data dan injeksi header.
 
 ### Added
+- **Audit Logging**: Menambahkan sistem audit log aktivitas menyeluruh mencakup migrasi `audit_logs`, `AuditLogModel`, `AuditLogService`, helper `audit_log()`, pencatatan aksi autentikasi dan CRUD pada seluruh modul admin, antarmuka admin di `/admin/audit-logs` dengan filter & statistik, CLI spark `audit:prune`, serta pembersihan retensi 90 hari otomatis saat login Super Admin.
+- **SEO & Structured Data**: Menambahkan schema Google Sitelinks Searchbox JSON-LD (`generate_schema_website()`) di Beranda dan BreadcrumbList JSON-LD pada seluruh halaman publik.
+- **SEO & Google Image Sitemap**: Memperbarui sitemap XML dengan namespace `xmlns:image` dan tag `<image:image>` untuk berita bergambar, menyertakan URL profil pejabat ber-slug (`/profil/{slug}`), indeks kategori dan tag, serta memfilter berita sesuai waktu terbit aktual (`published_at <= NOW()`).
+- **Open Graph Optimization**: Menambahkan generator gambar Open Graph otomatis (1200×630 px, kompresi bertahap di bawah 200 KB) agar pratinjau berita di WhatsApp dan media sosial konsisten tampil penuh di atas (*large card*), dilengkapi mekanisme *on-demand / lazy generation* saat tautan diakses tanpa perlu akses terminal, tombol sinkronisasi batch di Pengaturan Situs Admin, serta perintah CLI `php spark og:generate`.
+- **Search Engine Directive**: Menambahkan aturan pelarangan perayapan pada endpoint `/masuk` dan `/logout` di `robots.txt`, menyesuaikan URL sitemap ke lingkungan produksi (`/v1/`), dan menyematkan tag `<meta name="robots" content="noindex, nofollow">` pada halaman autentikasi.
 - **UI/UX**: Menambahkan logo ASN BerAKHLAK dan EVP ke dalam layout footer secara berdampingan.
 - **UI/UX**: Menambahkan blok "Tag Populer" (*Trending Tags*) di Beranda untuk menampilkan 10 tag dengan interaksi terbanyak.
 - **UI/UX**: Menambahkan seksi "Berita Terpopuler" di Beranda dengan desain kartu *trending* dan daftar angka.
 - **Database**: Menambahkan `ProfileSeeder.php` dan `SinjaiPostSeeder.php` untuk pasokan data pengujian (*dummy data*) yang stabil.
 
 ### Changed
+- **Open Graph Metadata**: Menyesuaikan tipe Open Graph (`og:type = website`) dan gambar pratinjau artikel terkini pada halaman arsip kategori, tag, dan semua berita.
 - **Performance Optimization**: Mengoptimalkan metrik LCP mobile dengan menghapus atribut `loading="lazy"` dan menambahkan `fetchpriority="high"` serta `srcset` responsif pada gambar headline dan carousel, menunda eksekusi Google Tag Manager ke kondisi *idle* untuk memangkas TBT, membersihkan rantai unduhan font pada jalur kritis, serta menerapkan konversi WebP otomatis untuk memangkas beban gambar hingga 90%+.
 - **Performance & Best Practices**: Mengubah pemuatan widget aksesibilitas UserWay menjadi *On-Demand* (hanya dimuat saat tombol diklik pengunjung) dengan tombol melayang mandiri ber-CSS *inline* di sudut kanan bawah, serta menghapus injeksi skrip pada halaman login & admin guna mengeliminasi cookie pihak ketiga (*third-party cookies*), menyelesaikan masalah Chrome DevTools, dan menaikkan skor Lighthouse Best Practices.
 - **UI/UX**: Menyederhanakan seluruh antarmuka komponen *empty state* pada widget Beranda, widget Halaman Detail, serta lima halaman indeks penuh (Berita, Kategori, Tag, Program, Profil) agar terlihat lebih bersih, profesional, dan menyatu dengan *layout*.

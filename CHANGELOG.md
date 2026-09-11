@@ -39,6 +39,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Database**: Menambahkan `ProfileSeeder.php` dan `SinjaiPostSeeder.php` untuk pasokan data pengujian (*dummy data*) yang stabil.
 
 ### Changed
+- **Accessibility Widget**: Mengembalikan integrasi widget UserWay ke konfigurasi skrip default bawaan UserWay dengan menghapus tombol pemicu kustom dan skrip pemuatan manual (*on-demand*).
 - **Hero Carousel Mobile UX**: Menambahkan dukungan touch gesture (*swipe left/right*) pada carousel, menampilkan indikator titik navigasi di layar ponsel, mengunci rasio kontainer banner (`aspect-ratio: 1440 / 456`) untuk mencegah *height collapse*, serta memuat `src` dan `srcset` langsung tanpa *lazy-load* bermasalah guna mengatasi slide kedua dan ketiga kosong (*blank*) di mobile.
 - **Open Graph Metadata**: Menyeragamkan gambar Open Graph default (`meta.png` 1200×630 px) untuk seluruh halaman publik non-berita, termasuk halaman streaming siaran langsung Radio SBFM, Sinjai TV, dan detail profil pejabat guna menjamin kesesuaian rasio pratinjau media sosial.
 - **Admin UI & RBAC**: Menyesuaikan menu navigasi sidebar admin berdasarkan peran pengguna (*role*); membatasi seluruh grup menu `Sistem` (`User`, `Audit Log`, dan `Pengaturan`) hanya untuk Admin (`admin`) dan menyembunyikannya dari Penulis (`author`), memperkuat `AdminFilter` untuk memblokir akses rute `admin/audit-logs` dari role non-admin, serta menyeragamkan penamaan label peran pengguna menjadi **Admin** dan **Penulis** pada navbar, halaman profil, dan form user.

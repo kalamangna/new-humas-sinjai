@@ -94,7 +94,7 @@
                                 };
                                 ?>
                                 <span class="px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border <?= $roleClass ?>">
-                                    <?= $user['role'] === 'admin' ? 'Super Admin' : 'Penulis' ?>
+                                    <?= $user['role'] === 'admin' ? 'Admin' : 'Penulis' ?>
                                 </span>
                             </td>
                             <td class="px-4 sm:px-6 py-3 sm:py-4">

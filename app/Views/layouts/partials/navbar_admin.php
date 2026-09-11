@@ -25,7 +25,7 @@
                 </div>
                 <div class="hidden md:block text-left">
                     <p class="text-xs font-bold text-slate-900 leading-none"><?= session()->get('name') ?? 'Pengelola' ?></p>
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mt-1"><?= ucfirst(session()->get('role') ?? 'user') ?></p>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mt-1"><?= session()->get('role') === 'admin' ? 'Admin' : (session()->get('role') === 'author' ? 'Penulis' : ucfirst(session()->get('role') ?? 'Pengguna')) ?></p>
                 </div>
                 <i class="fa-solid fa-fw fa-chevron-down text-[10px] text-slate-400 hidden sm:block"></i>
             </button>

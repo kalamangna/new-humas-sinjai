@@ -12,7 +12,7 @@
             </div>
             <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight"><?= esc($user['name']) ?></h2>
             <div class="mt-2 inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 text-[10px] font-black uppercase tracking-widest rounded-lg border border-blue-200">
-                <?= ucfirst(esc($user['role'])) ?>
+                <?= $user['role'] === 'admin' ? 'Admin' : ($user['role'] === 'author' ? 'Penulis' : ucfirst(esc($user['role']))) ?>
             </div>
         </div>
 

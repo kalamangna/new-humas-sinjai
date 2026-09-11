@@ -55,7 +55,7 @@ class Login extends BaseController
             // Catat audit log login sukses
             audit_log('auth', 'login', 'Login berhasil', (int) $user['id'], $user['name'], $user['role']);
 
-            // Auto-prune log > 90 hari saat Super Admin login
+            // Auto-prune log > 90 hari saat Admin login
             if ($user['role'] === 'admin') {
                 (new \App\Services\AuditLogService())->pruneOlderThan(90);
             }

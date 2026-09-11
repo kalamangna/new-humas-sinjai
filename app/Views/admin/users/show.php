@@ -18,7 +18,7 @@
                 </div>
                 <div>
                     <h2 class="text-2xl font-black text-slate-900 tracking-tight"><?= esc($user['name']) ?></h2>
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1"><?= esc($user['role']) ?></p>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1"><?= $user['role'] === 'admin' ? 'Admin' : ($user['role'] === 'author' ? 'Penulis' : esc($user['role'])) ?></p>
                 </div>
             </div>
         </div>

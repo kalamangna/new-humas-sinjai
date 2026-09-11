@@ -77,3 +77,106 @@ if (!function_exists('resolve_media_url')) {
         return $fallback ? base_url($fallback) : '';
     }
 }
+
+if (!function_exists('getOptimizedImageUrl')) {
+    /**
+     * Resolves an optimized, resized WebP image URL, generating it automatically on first access.
+     *
+     * @param string|null $path Relative or absolute path / URL to image
+     * @param int $maxWidth Max width to downscale (preserves aspect ratio)
+     * @param int $quality WebP quality (default 80)
+     * @return string URL to the optimized WebP image, or original URL if not optimizable
+     */
+    function getOptimizedImageUrl(?string $path, int $maxWidth = 1280, int $quality = 80): string
+    {
+        if (empty($path)) {
+            return '';
+        }
+
+        // Return untouched if external URL
+        if (filter_var($path, FILTER_VALIDATE_URL)) {
+            return $path;
+        }
+
+        $cleanPath = ltrim($path, '/');
+        $cleanPath = preg_replace('#^https?://[^/]+/#i', '', $cleanPath);
+        $cleanPath = ltrim($cleanPath, '/');
+
+        $sourceFile = FCPATH . $cleanPath;
+        if (!is_file($sourceFile)) {
+            return base_url($cleanPath);
+        }
+
+        $ext = strtolower(pathinfo($sourceFile, PATHINFO_EXTENSION));
+        $filename = pathinfo($sourceFile, PATHINFO_FILENAME);
+        $rawSubDir = dirname($cleanPath);
+        $subDir = ($rawSubDir === '.' || $rawSubDir === '') ? '' : trim($rawSubDir, '/') . '/';
+
+        // Target cache path: uploads/cache/{subDir}{filename}_w{maxWidth}.webp
+        $cacheRelDir = 'uploads/cache/' . rtrim($subDir, '/');
+        $cacheRelFile = 'uploads/cache/' . $subDir . $filename . '_w' . $maxWidth . '.webp';
+        $cacheAbsDir = FCPATH . $cacheRelDir;
+        $cacheAbsFile = FCPATH . $cacheRelFile;
+
+        if (is_file($cacheAbsFile)) {
+            return base_url($cacheRelFile);
+        }
+
+        if (function_exists('imagewebp')) {
+            try {
+                $info = @getimagesize($sourceFile);
+                if ($info && !empty($info[0]) && !empty($info[1])) {
+                    $srcW = $info[0];
+                    $srcH = $info[1];
+                    $mime = $info['mime'] ?? '';
+
+                    // If already a WebP and smaller than maxWidth, return original
+                    if ($ext === 'webp' && $srcW <= $maxWidth) {
+                        return base_url($cleanPath);
+                    }
+
+                    if (!is_dir($cacheAbsDir)) {
+                        mkdir($cacheAbsDir, 0755, true);
+                    }
+
+                    $srcImg = null;
+                    switch ($mime) {
+                        case 'image/jpeg':
+                        case 'image/jpg':
+                            $srcImg = @imagecreatefromjpeg($sourceFile);
+                            break;
+                        case 'image/png':
+                            $srcImg = @imagecreatefrompng($sourceFile);
+                            break;
+                        case 'image/webp':
+                            $srcImg = @imagecreatefromwebp($sourceFile);
+                            break;
+                    }
+
+                    if ($srcImg) {
+                        $targetW = min($srcW, $maxWidth);
+                        $targetH = (int)round(($srcH / $srcW) * $targetW);
+
+                        $dstImg = imagecreatetruecolor($targetW, $targetH);
+                        imagealphablending($dstImg, false);
+                        imagesavealpha($dstImg, true);
+
+                        imagecopyresampled($dstImg, $srcImg, 0, 0, 0, 0, $targetW, $targetH, $srcW, $srcH);
+                        imagewebp($dstImg, $cacheAbsFile, $quality);
+
+                        imagedestroy($dstImg);
+                        imagedestroy($srcImg);
+
+                        if (is_file($cacheAbsFile)) {
+                            return base_url($cacheRelFile);
+                        }
+                    }
+                }
+            } catch (\Throwable $e) {
+                log_message('error', '[getOptimizedImageUrl] ' . $e->getMessage());
+            }
+        }
+
+        return base_url($cleanPath);
+    }
+}

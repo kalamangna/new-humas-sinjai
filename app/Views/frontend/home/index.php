@@ -11,9 +11,13 @@
                     <div class="carousel-slide transition-opacity duration-1000 ease-in-out <?= $index === 0 ? 'relative opacity-100 z-10' : 'absolute inset-0 opacity-0 z-0' ?>" data-index="<?= $index ?>">
                         <?php 
                             $slidePath = $slide['image_path'] ?? '';
-                            $slideSrc = filter_var($slidePath, FILTER_VALIDATE_URL) ? $slidePath : (!empty($slidePath) ? base_url($slidePath) : '');
+                            $slideSrc = getOptimizedImageUrl($slidePath, 1440);
                         ?>
-                        <img src="<?= $slideSrc ?>" class="w-full h-auto object-contain block" alt="Slide <?= $index + 1 ?>" width="3870" height="1227" <?= $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' ?>>
+                        <?php if ($index === 0): ?>
+                            <img src="<?= $slideSrc ?>" class="w-full h-auto object-contain block" alt="Slide 1" width="1440" height="456" fetchpriority="high" decoding="async">
+                        <?php else: ?>
+                            <img data-src="<?= $slideSrc ?>" class="w-full h-auto object-contain block" alt="Slide <?= $index + 1 ?>" width="1440" height="456" loading="lazy" decoding="async">
+                        <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
 
@@ -62,10 +66,10 @@
                             <a href="<?= base_url('post/' . esc($headline['slug'] ?? '')) ?>" class="block h-full w-full">
                                 <?php 
                                     $thumbPath = $headline['thumbnail'] ?? '';
-                                    $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
+                                    $thumbSrc = getOptimizedImageUrl($thumbPath, 800);
                                 ?>
                                 <?php if (!empty($thumbSrc)) : ?>
-                                    <img loading="lazy" src="<?= $thumbSrc ?>" alt="<?= esc($headline['title']) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                    <img loading="lazy" decoding="async" src="<?= $thumbSrc ?>" alt="<?= esc($headline['title']) ?>" width="800" height="450" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                                 <?php else: ?>
                                     <div class="w-full h-full flex items-center justify-center">
                                         <i class="fa-solid fa-fw fa-image text-slate-300 text-6xl"></i>
@@ -117,10 +121,10 @@
                                     <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>" class="block h-full w-full">
                                         <?php 
                                             $pThumbPath = $post['thumbnail'] ?? '';
-                                            $pThumbSrc = filter_var($pThumbPath, FILTER_VALIDATE_URL) ? $pThumbPath : (!empty($pThumbPath) ? base_url($pThumbPath) : '');
+                                            $pThumbSrc = getOptimizedImageUrl($pThumbPath, 320);
                                         ?>
                                         <?php if (!empty($pThumbSrc)) : ?>
-                                            <img loading="lazy" src="<?= $pThumbSrc ?>" alt="<?= esc($post['title']) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                            <img loading="lazy" decoding="async" src="<?= $pThumbSrc ?>" alt="<?= esc($post['title']) ?>" width="128" height="128" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                                         <?php else: ?>
                                             <div class="w-full h-full flex items-center justify-center">
                                                 <i class="fa-solid fa-fw fa-image text-slate-200 text-2xl"></i>
@@ -259,10 +263,10 @@
                             <a href="<?= base_url('post/' . esc($popular['slug'] ?? '')) ?>" class="block h-full">
                                 <?php 
                                     $pThumbPath = $popular['thumbnail'] ?? '';
-                                    $pThumbSrc = filter_var($pThumbPath, FILTER_VALIDATE_URL) ? $pThumbPath : (!empty($pThumbPath) ? base_url($pThumbPath) : '');
+                                    $pThumbSrc = getOptimizedImageUrl($pThumbPath, 640);
                                 ?>
                                 <?php if (!empty($pThumbSrc)) : ?>
-                                    <img loading="lazy" src="<?= $pThumbSrc ?>" alt="<?= esc($popular['title']) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                    <img loading="lazy" decoding="async" src="<?= $pThumbSrc ?>" alt="<?= esc($popular['title']) ?>" width="400" height="225" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 <?php else: ?>
                                     <div class="w-full h-full flex items-center justify-center">
                                         <i class="fa-solid fa-fw fa-image text-slate-300 text-3xl"></i>
@@ -312,5 +316,5 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('scripts') ?>
-    <script src="<?= base_url('assets/js/carousel.js') ?>"></script>
+    <script defer src="<?= base_url('assets/js/carousel.js') ?>"></script>
 <?= $this->endSection() ?>

@@ -4,7 +4,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 items-start">
             <!-- Info -->
             <div class="space-y-6 text-left">
-                <img src="<?= base_url(get_setting('site_logo', 'humas.png')) ?>" alt="<?= esc(get_setting('site_name')) ?>" width="200" height="56" class="h-14 w-auto">
+                <img loading="lazy" decoding="async" src="<?= base_url(get_setting('site_logo', 'humas.png')) ?>" alt="<?= esc(get_setting('site_name')) ?>" width="200" height="56" class="h-14 w-auto">
                 <div class="space-y-3 mt-4">
                     <div class="inline-flex items-center px-3 py-1 bg-blue-900/50 text-sky-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-blue-800">
                         #samasamaki
@@ -72,7 +72,7 @@
                     <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>Pengaduan
                 </h3>
                 <a href="https://lapor.go.id/" target="_blank" class="inline-block bg-white p-4 rounded-2xl shadow-2xl hover:shadow-blue-900/20 transition-all hover:-translate-y-1">
-                    <img src="<?= base_url('lapor.png') ?>" alt="Lapor" width="200" height="56" class="h-14 w-auto">
+                    <img loading="lazy" decoding="async" src="<?= base_url('lapor.png') ?>" alt="Lapor" width="200" height="56" class="h-14 w-auto">
                 </a>
                 <p class="mt-6 text-[10px] font-black text-blue-500 uppercase tracking-widest italic">Sampaikan Aspirasi Anda</p>
             </div>

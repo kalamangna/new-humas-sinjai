@@ -29,6 +29,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Database**: Menambahkan `ProfileSeeder.php` dan `SinjaiPostSeeder.php` untuk pasokan data pengujian (*dummy data*) yang stabil.
 
 ### Changed
+- **Performance Optimization**: Mengimplementasikan konversi otomatis ke WebP terkompresi dan responsive resizing pada gambar carousel dan thumbnail berita via helper `getOptimizedImageUrl()`, menerapkan lazy-load berbasis `data-src` pada slide carousel berikutnya, menambahkan atribut `defer` pada `carousel.js`, memperpanjang *Cache-Control* aset statis menjadi 30 hari di `.htaccess`, serta menyematkan `font-display: swap` pada Font Awesome untuk memangkas LCP dan mempercepat render halaman.
 - **Performance & Best Practices**: Mengubah pemuatan widget aksesibilitas UserWay menjadi *On-Demand* (hanya dimuat saat tombol diklik pengunjung) dengan tombol melayang mandiri ber-CSS *inline* di sudut kanan bawah, serta menghapus injeksi skrip pada halaman login & admin guna mengeliminasi cookie pihak ketiga (*third-party cookies*), menyelesaikan masalah Chrome DevTools, dan menaikkan skor Lighthouse Best Practices.
 - **UI/UX**: Menyederhanakan seluruh antarmuka komponen *empty state* pada widget Beranda, widget Halaman Detail, serta lima halaman indeks penuh (Berita, Kategori, Tag, Program, Profil) agar terlihat lebih bersih, profesional, dan menyatu dengan *layout*.
 - **UI/UX**: Mengubah teks *footer* dari "Dikembangkan oleh Diskominfo-SP Sinjai" menjadi teks instansi dinamis tanpa awalan ("Dikembangkan oleh").

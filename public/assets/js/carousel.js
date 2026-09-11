@@ -5,7 +5,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = document.getElementById('prev-slide');
     let currentSlide = 0;
 
+    function preloadSlideImage(slideEl) {
+        if (!slideEl) return;
+        const img = slideEl.querySelector('img[data-src]');
+        if (img) {
+            img.src = img.getAttribute('data-src');
+            img.removeAttribute('data-src');
+        }
+    }
+
     function showSlide(index) {
+        preloadSlideImage(slides[index]);
+        // Also preload next slide in advance
+        if (slides.length > 1) {
+            preloadSlideImage(slides[(index + 1) % slides.length]);
+        }
+
         slides.forEach((s, i) => {
             if (i === index) {
                 s.classList.replace('opacity-0', 'opacity-100');
@@ -30,6 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         currentSlide = index;
+    }
+
+    // Preload remaining slides after idle/delay so initial page load only downloads slide 1
+    const preloadAllSlides = () => {
+        slides.forEach(preloadSlideImage);
+    };
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(preloadAllSlides, { timeout: 3500 });
+    } else {
+        setTimeout(preloadAllSlides, 2500);
     }
 
     if (nextBtn) {

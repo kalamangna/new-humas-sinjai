@@ -18,6 +18,10 @@
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" as="style">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"></noscript>
+    <style>
+        @font-face { font-family: 'Font Awesome 6 Free'; font-display: swap; }
+        @font-face { font-family: 'Font Awesome 6 Brands'; font-display: swap; }
+    </style>
 
     <!-- JSON-LD Schemas -->
     <?= generate_schema_org() ?>

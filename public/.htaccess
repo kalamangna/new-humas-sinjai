@@ -35,9 +35,12 @@ Options -Indexes
 ServerSignature Off
 # Disable server signature end
 
-# Cache Control for Images
+# Cache Control for Static Assets (Images, Fonts, CSS, JS)
 <IfModule mod_headers.c>
-    <FilesMatch "\.(jpg|jpeg|png|gif|webp|ico)$">
-        Header set Cache-Control "public, max-age=86400"
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp|ico|svg)$">
+        Header set Cache-Control "public, max-age=2592000, stale-while-revalidate=86400"
+    </FilesMatch>
+    <FilesMatch "\.(css|js|woff2|woff|ttf|eot)$">
+        Header set Cache-Control "public, max-age=2592000, stale-while-revalidate=86400"
     </FilesMatch>
 </IfModule>

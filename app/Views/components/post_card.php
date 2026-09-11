@@ -4,10 +4,10 @@
         <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>" class="block h-full">
             <?php 
                 $thumbPath = $post['thumbnail'] ?? '';
-                $thumbSrc = filter_var($thumbPath, FILTER_VALIDATE_URL) ? $thumbPath : (!empty($thumbPath) ? base_url($thumbPath) : '');
+                $thumbSrc = getOptimizedImageUrl($thumbPath, 640);
             ?>
             <?php if (!empty($thumbSrc)) : ?>
-                <img loading="lazy" src="<?= $thumbSrc ?>" alt="<?= esc($post['title']) ?>" width="800" height="600"
+                <img loading="lazy" decoding="async" src="<?= $thumbSrc ?>" alt="<?= esc($post['title']) ?>" width="640" height="360"
                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
             <?php else: ?>
                 <div class="w-full h-full flex items-center justify-center">

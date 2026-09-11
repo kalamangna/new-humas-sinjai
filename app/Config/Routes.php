@@ -30,11 +30,13 @@ $routes->group('live', function ($routes) {
 });
 
 // Auth Routes
-$routes->get('login', 'Auth\Login::index');
-$routes->post('login', 'Auth\Login::attemptLogin');
+$routes->get('masuk', 'Auth\Login::index');
+$routes->post('masuk', 'Auth\Login::attemptLogin');
 $routes->get('logout', 'Auth\Login::logout');
-$routes->get('auth/login', 'Auth\Login::index');
-$routes->post('auth/login', 'Auth\Login::login');
+
+// Block legacy login endpoints with 404
+$routes->add('login', 'Frontend\Home::error404');
+$routes->add('auth/login', 'Frontend\Home::error404');
 
 // API Routes
 $routes->group('api', static function ($routes) {

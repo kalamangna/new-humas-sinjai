@@ -268,6 +268,24 @@ class Posts extends BaseController
 
     public function upload_image()
     {
+        $validationRule = [
+            'file' => [
+                'label' => 'Image File',
+                'rules' => [
+                    'uploaded[file]',
+                    'is_image[file]',
+                    'mime_in[file,image/jpg,image/jpeg,image/png,image/webp]',
+                    'max_size[file,5120]',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($validationRule)) {
+            return $this->response->setStatusCode(400)->setJSON([
+                'error' => implode(', ', $this->validator->getErrors())
+            ]);
+        }
+
         $file = $this->request->getFile('file');
         $url = $this->mediaService->uploadImage($file);
 

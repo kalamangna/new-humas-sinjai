@@ -41,20 +41,30 @@ class MediaService extends BaseService
                 if (!$source->isValid()) {
                     throw new \RuntimeException($source->getErrorString());
                 }
-                // Use the existing processImage helper (should return a temp path to a webp file)
+                $mime = $source->getMimeType();
+                if (!in_array($mime, ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'])) {
+                    throw new \RuntimeException('Tipe file tidak diizinkan: ' . $mime);
+                }
+                // Use the existing processImage helper
                 $tempPath = processImage($source->getRealPath(), $fit);
+                if (!$tempPath) {
+                    throw new \RuntimeException('File bukan merupakan gambar yang valid.');
+                }
             } elseif (is_string($source) && strpos($source, 'data:image') === 0) {
                 // Handle Base64 pasted images
                 $parts = explode(',', $source);
                 $data = base64_decode($parts[1]);
-                $tempPath = WRITEPATH . 'cache/' . uniqid() . '.webp';
-                file_put_contents($tempPath, $data);
+                if ($data === false) {
+                    throw new \RuntimeException('Data gambar base64 tidak valid.');
+                }
+                $rawTemp = WRITEPATH . 'cache/' . uniqid() . '.tmp';
+                file_put_contents($rawTemp, $data);
                 
                 // Process the temp file to ensure it's valid webp/resized
-                $processed = processImage($tempPath, $fit);
-                if ($processed !== $tempPath) {
-                    @unlink($tempPath);
-                    $tempPath = $processed;
+                $tempPath = processImage($rawTemp, $fit);
+                @unlink($rawTemp);
+                if (!$tempPath) {
+                    throw new \RuntimeException('Data base64 bukan gambar yang valid.');
                 }
             }
 

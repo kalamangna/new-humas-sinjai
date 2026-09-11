@@ -127,6 +127,7 @@ _modules/*
 
 # public/uploads
 public/uploads/*
+!public/uploads/.htaccess
 
 # Google Cloud Service Account Credentials
 writable/ga4-service-account.json

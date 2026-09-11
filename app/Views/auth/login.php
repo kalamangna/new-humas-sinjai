@@ -18,7 +18,7 @@
         </div>
     <?php endif; ?>
 
-    <form action="<?= site_url('login') ?>" method="post" class="space-y-8">
+    <form action="<?= site_url('masuk') ?>" method="post" class="space-y-8">
         <?= csrf_field() ?>
 
         <div class="space-y-6">

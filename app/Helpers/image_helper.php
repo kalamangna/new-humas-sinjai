@@ -5,7 +5,14 @@ if (!function_exists('processImage')) {
     {
         if (empty($file) || !file_exists($file)) {
             log_message('error', '[processImage] Input file does not exist: ' . ($file ?: 'null'));
-            return $file;
+            return null;
+        }
+
+        // Verify that the file is indeed a valid image
+        $imageInfo = @getimagesize($file);
+        if ($imageInfo === false) {
+            log_message('error', '[processImage] File is not a valid image: ' . $file);
+            return null;
         }
 
         try {
@@ -38,7 +45,7 @@ if (!function_exists('processImage')) {
             return $tempPath;
         } catch (\Throwable $e) {
             log_message('error', '[processImage] Error: ' . $e->getMessage());
-            return $file;
+            return null;
         }
     }
 }

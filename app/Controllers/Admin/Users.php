@@ -99,7 +99,10 @@ class Users extends BaseController
 
     public function update_settings()
     {
-        $userId = $this->request->getPost('user_id');
+        $userId = (int) session()->get('user_id');
+        if (!$userId) {
+            return redirect()->to(base_url('masuk'))->with('error', 'Sesi login tidak valid.');
+        }
         
         $validationRules = [
             'name'  => 'required|min_length[3]|max_length[255]',
@@ -115,11 +118,18 @@ class Users extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        if ($this->userService->updateUser((int)$userId, $this->request->getPost())) {
-            if (session()->get('user_id') == $userId) {
-                session()->set('name', $this->request->getPost('name'));
-                session()->set('email', $this->request->getPost('email'));
-            }
+        // Only allow updating safe profile fields (prevent role tampering)
+        $updateData = [
+            'name'  => $this->request->getPost('name'),
+            'email' => $this->request->getPost('email'),
+        ];
+        if ($this->request->getPost('password')) {
+            $updateData['password'] = $this->request->getPost('password');
+        }
+
+        if ($this->userService->updateUser($userId, $updateData)) {
+            session()->set('name', $updateData['name']);
+            session()->set('email', $updateData['email']);
             return redirect()->to(base_url('admin'))->with('message', 'Pengaturan profil berhasil diperbarui.');
         }
 

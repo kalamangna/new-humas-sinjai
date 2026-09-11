@@ -15,17 +15,18 @@ class AdminFilter implements FilterInterface
 
         // Basic check: must be admin or author
         if (!in_array($role, ['admin', 'author'])) {
-            return redirect()->to(base_url('login'))->with('error', 'You do not have permission to access this page.');
+            return redirect()->to(base_url('masuk'))->with('error', 'You do not have permission to access this page.');
         }
 
         // Restrict 'author' role
         if ($role === 'author') {
             $disallowedForAuthor = [
-                'admin/users'
+                'admin/users',
+                'admin/site-settings'
             ];
 
             foreach ($disallowedForAuthor as $segment) {
-                if ($uri === $segment || strpos($uri, $segment . '/') === 0) {
+                if (strpos($uri, $segment) !== false) {
                     return redirect()->to(base_url('admin'))->with('error', 'Anda tidak memiliki hak akses untuk halaman tersebut.');
                 }
             }

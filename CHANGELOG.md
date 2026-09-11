@@ -6,6 +6,16 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ---
 
 ## [Unreleased]
+
+## [2026-09-11]
+### Security
+- **Authentication**: Mengubah rute login dari `/login` menjadi `/masuk`, serta memblokir akses rute `/login` dan `/auth/login` dengan respon 404 untuk mitigasi serangan otomatis dan *brute force*.
+- **Rate Limiting**: Menerapkan CodeIgniter Throttler pada endpoint login (maksimum 5 percobaan per menit per alamat IP) dan regenerasi session ID saat login sukses untuk mencegah *session fixation*.
+- **Upload Hardening**: Memperketat validasi berkas pada `Posts::upload_image`, `MediaService`, dan `image_helper.php` dengan pengecekan MIME type dan verifikasi gambar (`getimagesize()`), serta menolak penyimpanan berkas berbahaya.
+- **Upload Hardening**: Menambahkan berkas proteksi `public/uploads/.htaccess` untuk mematikan eksekusi script engine PHP (`php_flag engine off`) dan melarang eksekusi script.
+- **Access Control (IDOR)**: Menambal celah IDOR (*Insecure Direct Object Reference*) pada `Users::update_settings` dengan mengunci `user_id` wajib dari sesi aktif (`session()->get('user_id')`) serta sanitasi field formulir.
+- **Access Control (RBAC)**: Memperbaiki deteksi rute pada `AdminFilter` agar kebal terhadap prefix subdirektori (`/v1/`), serta membatasi akses role Author ke `admin/users` dan `admin/site-settings`.
+
 ### Added
 - **UI/UX**: Menambahkan logo ASN BerAKHLAK dan EVP ke dalam layout footer secara berdampingan.
 - **UI/UX**: Menambahkan blok "Tag Populer" (*Trending Tags*) di Beranda untuk menampilkan 10 tag dengan interaksi terbanyak.

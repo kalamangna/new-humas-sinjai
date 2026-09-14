@@ -8,9 +8,10 @@
     <title>Masuk - Humas Sinjai</title>
 
     <!-- Meta Image & Social Tags -->
+    <meta name="description" content="Portal Berita Resmi Pemerintah Kabupaten Sinjai #samasamaki">
     <meta name="image" content="<?= base_url('meta.png') ?>">
     <meta property="og:title" content="Masuk - Humas Sinjai">
-    <meta property="og:description" content="Portal Berita Resmi Pemerintah Kabupaten Sinjai">
+    <meta property="og:description" content="Portal Berita Resmi Pemerintah Kabupaten Sinjai #samasamaki">
     <meta property="og:type" content="website">
     <meta property="og:url" content="<?= current_url() ?>">
     <meta property="og:image" content="<?= base_url('meta.png') ?>">
@@ -20,7 +21,7 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Masuk - Humas Sinjai">
-    <meta name="twitter:description" content="Portal Berita Resmi Pemerintah Kabupaten Sinjai">
+    <meta name="twitter:description" content="Portal Berita Resmi Pemerintah Kabupaten Sinjai #samasamaki">
     <meta name="twitter:image" content="<?= base_url('meta.png') ?>">
 
     <link rel="icon" href="<?= base_url('logo.png') ?>" type="image/png">

@@ -11,6 +11,9 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - **Open Graph & Meta Tags**: Menambahkan meta image (`meta.png`), Open Graph, dan Twitter Card pada layout autentikasi (`layouts/auth.php`) untuk halaman login (`/masuk`).
 
+### Fixed
+- **Meta Description**: Menyelaraskan teks meta deskripsi pada layout autentikasi (`layouts/auth.php`) dengan standar tagline portal (`#samasamaki`) dan melengkapi tag `<meta name="description">`.
+
 ### Removed
 - **Unused Assets**: Menghapus berkas aset publik yang sudah tidak digunakan (`custom.css`, `custom.css.map`, `banner.png`, `poster.png`, dan `sinjaitv.png`).
 

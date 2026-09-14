@@ -6,6 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="robots" content="noindex, nofollow">
     <title>Masuk - Humas Sinjai</title>
+
+    <!-- Meta Image & Social Tags -->
+    <meta name="image" content="<?= base_url('meta.png') ?>">
+    <meta property="og:title" content="Masuk - Humas Sinjai">
+    <meta property="og:description" content="Portal Berita Resmi Pemerintah Kabupaten Sinjai">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:image" content="<?= base_url('meta.png') ?>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Masuk - Humas Sinjai">
+    <meta name="twitter:description" content="Portal Berita Resmi Pemerintah Kabupaten Sinjai">
+    <meta name="twitter:image" content="<?= base_url('meta.png') ?>">
+
     <link rel="icon" href="<?= base_url('logo.png') ?>" type="image/png">
 
     <!-- Tailwind CSS -->

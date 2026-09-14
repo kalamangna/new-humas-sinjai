@@ -7,6 +7,13 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2026-09-14]
+### Added
+- **Open Graph & Meta Tags**: Menambahkan meta image (`meta.png`), Open Graph, dan Twitter Card pada layout autentikasi (`layouts/auth.php`) untuk halaman login (`/masuk`).
+
+### Removed
+- **Unused Assets**: Menghapus berkas aset publik yang sudah tidak digunakan (`custom.css`, `custom.css.map`, `banner.png`, `poster.png`, dan `sinjaitv.png`).
+
 ## [2026-09-11]
 ### Security
 - **Search Query Protection**: Memperbaiki kueri pencarian pada `PostModel::searchAndAddGAData` dengan pembungkusan grup kondisi (`groupStart()`/`groupEnd()`) untuk mencegah kebocoran berita berstatus draft pada pencarian publik.

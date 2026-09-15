@@ -7,6 +7,10 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2026-09-15]
+### Changed
+- **Accessibility Widget**: Mengganti integrasi widget UserWay dengan widget aksesibilitas web mandiri Kabupaten Sinjai (`a11y-sinjaikab`) berbasis Web Component & Shadow DOM.
+
 ## [2026-09-14]
 ### Added
 - **Open Graph & Meta Tags**: Menambahkan meta image (`meta.png`), Open Graph, dan Twitter Card pada layout autentikasi (`layouts/auth.php`) untuk halaman login (`/masuk`).

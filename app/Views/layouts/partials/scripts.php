@@ -48,5 +48,5 @@
 </script>
 
 <?= $this->renderSection('scripts') ?>
-<!-- UserWay Accessibility Widget Default -->
-<script defer src="https://cdn.userway.org/widget.js" data-account="S41ThPrHz4" data-position="5"></script>
+<!-- Widget Aksesibilitas Sinjai -->
+<script src="https://cdn.jsdelivr.net/gh/kalamangna/a11y-sinjaikab@main/dist/widget.min.js" data-position="bottom-left" data-lang="id" data-color="#0056b3" defer></script>

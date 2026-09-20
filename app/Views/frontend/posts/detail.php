@@ -63,6 +63,13 @@
                             </div>
                         <?php endif; ?>
 
+                        <?php if (!empty($post['views'])) : ?>
+                            <div class="flex items-center">
+                                <i class="fa-regular fa-fw fa-eye mr-2 text-blue-700"></i>
+                                <span><?= number_format($post['views']) ?></span>
+                            </div>
+                        <?php endif; ?>
+
                         <?php if (!empty($post['categories'])) : ?>
                             <div class="flex items-center flex-wrap gap-2">
                                 <i class="fa-regular fa-fw fa-folder mr-2 text-blue-700"></i>

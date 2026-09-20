@@ -7,7 +7,12 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-## [2026-09-15]
+## [2026-09-21]
+### Added
+- **Post Views Counter**: Menampilkan jumlah pembaca/dilihat (ikon mata dan angka terformat) pada metadata artikel di halaman detail berita (`frontend/posts/detail.php`) bersumber dari metrik GA4.
+
+### Fixed
+- **CSRF Token Exemption**: Menambahkan pengecualian proteksi filter CSRF untuk endpoint asynchronous `admin/posts/upload_image` pada `Config\Filters` guna mencegah error *"Akses ditolak atau token CSRF kedaluwarsa"* saat mengunggah gambar via TinyMCE editor.
 ### Changed
 - **Accessibility Widget**: Mengganti integrasi widget UserWay dengan widget aksesibilitas web mandiri Kabupaten Sinjai (`a11y-sinjaikab`) berbasis Web Component & Shadow DOM.
 

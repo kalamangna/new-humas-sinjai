@@ -43,4 +43,21 @@ ServerSignature Off
     <FilesMatch "\.(css|js|woff2|woff|ttf|eot)$">
         Header set Cache-Control "public, max-age=2592000, stale-while-revalidate=86400"
     </FilesMatch>
+
+    # ------------------------------------------------------------------
+    # Security Headers & Hardening (CSIRT Compliance)
+    # ------------------------------------------------------------------
+    # 1. Information Disclosure Protection
+    Header always unset X-Powered-By
+    Header unset X-Powered-By
+
+    # 2. HTTP Strict Transport Security (HSTS)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # 3. Permissions Policy
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+    # 4. Content Security Policy (CSP)
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: https:; media-src 'self' data: blob: https:; frame-src 'self' https://www.facebook.com https://web.facebook.com https://www.youtube.com https://www.google.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://apps.sinjaikab.go.id; frame-ancestors 'self'; upgrade-insecure-requests;"
 </IfModule>
+

@@ -23,7 +23,7 @@
 ## 🛠 Database & System
 - **Profile Slug Generation**: Automatic unique slug generation is reserved ONLY for `bupati`, `wakil-bupati`, and `sekda` types to support their dedicated profile detail pages. For all other types, the slug is set to `NULL`.
 - **Proxy API**: Internal routes `/admin/profiles/get_kecamatan` and `/admin/profiles/get_wilayah` act as proxies to bypass CORS when fetching geographical data from `apps.sinjaikab.go.id`.
-- **Validation**: Image uploads are optional for regional and eselon types. Mandatory fields for all profiles include `name`, `type`, and `position`. `Kecamatan` and `institution` are mandatory for regional profiles.
+- **Deployment Pipeline**: Sistem menggunakan integrasi **GitHub Webhook** ke server production. Setiap perubahan kode cukup di-**push** ke GitHub repository (`git push origin main`) dan server akan otomatis tersinkronisasi. Akses **FTP hanya digunakan untuk observasi / membaca kondisi server dan log**, bukan untuk deployment berkas.
 - **SQL Export & Updates**: 
     - A clean SQL dump utility exists to export personnel data without IDs for production synchronization.
     - Cumulative database changes are tracked in `database_updates_YYYY_MM_DD.sql` files for manual synchronization.

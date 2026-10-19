@@ -7,6 +7,15 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2026-10-19]
+### Security
+- **Security Headers & Information Disclosure**: Menyembunyikan header `X-Powered-By` melalui konfigurasi `.htaccess` dan penanganan *runtime* pada `public/index.php` guna mencegah kebocoran versi PHP.
+- **HTTP Strict Transport Security (HSTS)**: Mengaktifkan header `Strict-Transport-Security` dengan durasi 1 tahun (`max-age=31536000; includeSubDomains; preload`) pada `.htaccess`.
+- **Permissions-Policy**: Membatasi izin akses fitur peramban yang tidak relevan (`geolocation`, `microphone`, `camera`) melalui `.htaccess`.
+- **Content Security Policy (CSP)**: Menerapkan kebijakan CSP pada `.htaccess` untuk membatasi eksekusi skrip, gaya, fon, dan media hanya dari sumber tepercaya (Google Tag Manager, CDN FontAwesome, ApexCharts, sematan siaran langsung, dan peta).
+- **Admin Crawl Protection**: Menambahkan tag `<meta name="robots" content="noindex, nofollow">` pada layout panel admin dan header HTTP `X-Robots-Tag: noindex, nofollow` pada rute admin dan autentikasi melalui `CacheControlFilter`.
+- **Robots.txt Hygiene**: Menyederhanakan `public/robots.txt` dengan menghapus eksposur rute autentikasi internal guna mencegah pengintaian oleh bot penyerang.
+
 ## [2026-09-21]
 ### Added
 - **Post Views Counter**: Menampilkan jumlah pembaca/dilihat (ikon mata dan angka terformat) pada metadata artikel di halaman detail berita (`frontend/posts/detail.php`) bersumber dari metrik GA4.

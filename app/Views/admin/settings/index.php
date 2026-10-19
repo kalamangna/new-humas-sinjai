@@ -86,24 +86,6 @@
     </div>
 </form>
 
-<!-- Open Graph Image Maintenance Card -->
-<div class="mt-6 sm:mt-8 bg-white rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200 p-6 sm:p-8">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-            <h4 class="text-sm sm:text-base font-black text-slate-800 tracking-tight">Sinkronisasi Gambar Open Graph</h4>
-            <p class="text-xs text-slate-500 mt-1 font-medium max-w-xl">
-                Buat otomatis berkas gambar 1200×630 px (&lt;200 KB) untuk semua berita agar pratinjau saat dibagikan ke WhatsApp dan media sosial selalu tampil penuh di bagian atas tanpa perlu akses terminal.
-            </p>
-        </div>
-        <form action="<?= base_url('admin/site-settings/generate-og') ?>" method="post" class="flex-shrink-0">
-            <?= csrf_field() ?>
-            <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 bg-slate-800 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-900 transition-all shadow-md">
-                <i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2"></i> Sinkronkan Sekarang
-            </button>
-        </form>
-    </div>
-</div>
-
 <script>
     function switchTab(groupId) {
         // Hide all contents

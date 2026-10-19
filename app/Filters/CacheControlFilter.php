@@ -18,9 +18,10 @@ class CacheControlFilter implements FilterInterface
         // 1. Check if it's an admin route
         $uri = $request->getUri()->getPath();
         if (strpos($uri, 'admin') !== false || strpos($uri, 'masuk') !== false || strpos($uri, 'login') !== false) {
-            // Disable caching for admin and login
+            // Disable caching and prevent indexing for admin and login
             $response->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
             $response->setHeader('Pragma', 'no-cache');
+            $response->setHeader('X-Robots-Tag', 'noindex, nofollow');
             return;
         }
 

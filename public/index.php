@@ -1,5 +1,8 @@
 <?php
 
+// Sembunyikan informasi versi PHP dari respons HTTP
+header_remove('X-Powered-By');
+
 use CodeIgniter\Boot;
 use Config\Paths;
 

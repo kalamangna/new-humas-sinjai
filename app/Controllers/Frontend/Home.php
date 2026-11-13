@@ -106,6 +106,9 @@ class Home extends BaseController
         if (!empty($result['posts'][0]['thumbnail'])) {
             $data['seo']['image'] = getOgImage(($result['posts'][0]['slug'] ?? '') . '.jpg', $result['posts'][0]['thumbnail']);
         }
+        if (empty($result['posts'])) {
+            $data['seo']['robots'] = 'noindex, follow';
+        }
 
         return view('frontend/categories/detail', $data);
     }
@@ -140,6 +143,9 @@ class Home extends BaseController
         if (!empty($data['posts'][0]['thumbnail'])) {
             $data['seo']['image'] = getOgImage(($data['posts'][0]['slug'] ?? '') . '.jpg', $data['posts'][0]['thumbnail']);
         }
+        if (empty($data['posts'])) {
+            $data['seo']['robots'] = 'noindex, follow';
+        }
 
         return view('frontend/tags/detail', $data);
     }
@@ -161,6 +167,7 @@ class Home extends BaseController
 
         $data['seo'] = $this->seoData;
         $data['seo']['title'] = 'Hasil pencarian untuk: ' . $query;
+        $data['seo']['robots'] = 'noindex, follow';
 
         return view('frontend/search/results', $data);
     }
@@ -264,8 +271,24 @@ class Home extends BaseController
                 ->where('published_at <=', $now)
                 ->orderBy('published_at', 'DESC')
                 ->findAll(),
-            'categories' => $categoryModel->findAll(),
-            'tags'       => $tagModel->findAll(),
+            'categories' => $categoryModel
+                ->select('categories.name, categories.slug')
+                ->join('post_categories', 'post_categories.category_id = categories.id')
+                ->join('posts', 'posts.id = post_categories.post_id')
+                ->where('posts.status', 'published')
+                ->where('posts.published_at <=', $now)
+                ->groupBy('categories.id')
+                ->orderBy('categories.name', 'ASC')
+                ->findAll(),
+            'tags' => $tagModel
+                ->select('tags.name, tags.slug')
+                ->join('post_tags', 'post_tags.tag_id = tags.id')
+                ->join('posts', 'posts.id = post_tags.post_id')
+                ->where('posts.status', 'published')
+                ->where('posts.published_at <=', $now)
+                ->groupBy('tags.id')
+                ->orderBy('tags.name', 'ASC')
+                ->findAll(),
             'profiles'   => $profileModel
                 ->whereIn('type', ['bupati', 'wakil-bupati', 'sekda'])
                 ->where('slug IS NOT NULL')

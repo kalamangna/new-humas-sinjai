@@ -7,6 +7,15 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2026-11-13]
+### Fixed
+- **SEO Canonical & Sitemap**: Menyelaraskan canonical URL beranda dengan sitemap dan konfigurasi `base_url` guna mengeliminasi duplikasi canonical versi Google.
+- **Pencegahan Soft 404 & Thin Content**: Menambahkan arahan meta robots `noindex, follow` secara otomatis pada halaman kategori dan tag yang tidak memiliki artikel terpublikasi, serta pada halaman hasil pencarian (`/search`).
+- **Sitemap Optimization**: Membatasi entri kategori dan tag pada `sitemap.xml` hanya untuk entri yang memiliki artikel terpublikasi aktif guna mengoptimalkan crawl budget.
+
+### Security
+- **Robots.txt Crawl Protection**: Menambahkan pembatasan perayapan mesin pencari untuk endpoint API (`/api/`, `/v1/api/`) dan pencarian (`/search`, `/v1/search`) pada `public/robots.txt`.
+
 ## [2026-10-19]
 ### Security
 - **Security Headers & Information Disclosure**: Menyembunyikan header `X-Powered-By` melalui konfigurasi `.htaccess` dan penanganan *runtime* pada `public/index.php` guna mencegah kebocoran versi PHP.

@@ -1,6 +1,10 @@
 User-agent: *
-Disallow: /v1/admin/
 Disallow: /admin/
+Disallow: /v1/admin/
+Disallow: /api/
+Disallow: /v1/api/
+Disallow: /search
+Disallow: /v1/search
 Allow: /
 
 Sitemap: https://humas.sinjaikab.go.id/v1/sitemap.xml

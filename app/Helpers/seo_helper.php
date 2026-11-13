@@ -12,7 +12,17 @@ if (!function_exists('generate_seo_tags')) {
         $author = isset($data['author']) ? esc($data['author']) : 'Humas Sinjai';
         $image = isset($data['image']) ? $data['image'] : base_url('meta.png');
         $url = current_url();
-        $canonical = rtrim($url, '/');
+        $baseUrlTrimmed = rtrim(base_url(), '/');
+
+        if (!empty($data['canonical'])) {
+            $canonical = $data['canonical'];
+        } elseif (rtrim($url, '/') === $baseUrlTrimmed) {
+            $canonical = base_url();
+        } else {
+            $canonical = rtrim($url, '/');
+        }
+
+        $robots = !empty($data['robots']) ? esc($data['robots']) : 'index, follow, max-image-preview:large';
         
         $ext = strtolower(pathinfo(parse_url($image, PHP_URL_PATH) ?? '', PATHINFO_EXTENSION));
         if ($ext === 'png') {
@@ -29,14 +39,14 @@ if (!function_exists('generate_seo_tags')) {
             '<meta name="keywords" content="' . $keywords . '">',
             '<meta name="author" content="' . $author . '">',
             '<meta name="image" content="' . $image . '">',
-            '<meta name="robots" content="index, follow, max-image-preview:large">',
+            '<meta name="robots" content="' . $robots . '">',
             '<link rel="canonical" href="' . $canonical . '">',
             '',
             '<!-- Open Graph -->',
             '<meta property="og:title" content="' . $title . '">',
             '<meta property="og:description" content="' . $description . '">',
             '<meta property="og:type" content="' . (isset($data['type']) ? $data['type'] : 'article') . '">',
-            '<meta property="og:url" content="' . $url . '">',
+            '<meta property="og:url" content="' . $canonical . '">',
             '<meta property="og:image" content="' . $image . '">',
             '<meta property="og:image:width" content="1200">',
             '<meta property="og:image:height" content="630">',

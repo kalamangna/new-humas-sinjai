@@ -17,6 +17,9 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Anti-Reconnaissance & Panel Obfuscation**: Mengubah respon akses rute `/admin` dan sub-jalurnya bagi pengguna tanpa sesi login menjadi HTTP 404 Not Found murni guna mencegah kebocoran keberadaan panel admin dan rute login.
 - **Robots.txt Crawl Protection**: Menambahkan pembatasan perayapan mesin pencari untuk endpoint API (`/api/`, `/v1/api/`) dan pencarian (`/search`, `/v1/search`) pada `public/robots.txt`.
 
+### Removed
+- **Temporary & Obsolete Files**: Menghapus draf berkas laporan insiden lama (`laporan_insiden_siber_2026-09-11.md`) dan skrip observasi SSH kadaluwarsa (`check_prod_logs.exp`) dari repositori.
+
 ## [2026-10-19]
 ### Security
 - **Security Headers & Information Disclosure**: Menyembunyikan header `X-Powered-By` melalui konfigurasi `.htaccess` dan penanganan *runtime* pada `public/index.php` guna mencegah kebocoran versi PHP.

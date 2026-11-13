@@ -21,7 +21,8 @@ class AdminFilter implements FilterInterface
                     'message' => 'Unauthorized'
                 ]);
             }
-            return redirect()->to(base_url('masuk'))->with('error', 'You do not have permission to access this page.');
+            // Sembunyikan panel admin dan rute login dari scanner publik dengan respon 404 murni
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
         // Restrict 'author' role

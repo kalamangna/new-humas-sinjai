@@ -107,11 +107,12 @@ class GoogleAnalyticsModel extends Model
         return array_slice($filteredData, 0, $limit);
     }
 
-    public function getTrafficSources(?string $startDate = null, ?string $endDate = null): array
+    public function getTrafficSources(?string $startDate = null, ?string $endDate = null, int $limit = 25): array
     {
         $config = [
             'dimensions' => ['sessionSource', 'sessionMedium'],
             'metrics' => ['sessions', 'screenPageViews', 'totalUsers'],
+            'order_bys' => [['metric' => 'sessions', 'desc' => true]],
         ];
 
         if ($startDate && $endDate) {
@@ -120,8 +121,7 @@ class GoogleAnalyticsModel extends Model
 
         $data = $this->gaService->runReport($config);
 
-        // Map array ke format yang diinginkan
-        return array_map(function ($item) {
+        $mapped = array_map(function ($item) {
             return [
                 'sessionSource' => $item['dimensions'][0] ?? 'Unknown',
                 'sessionMedium' => $item['dimensions'][1] ?? 'Unknown',
@@ -130,13 +130,16 @@ class GoogleAnalyticsModel extends Model
                 'totalUsers' => (int)($item['metrics'][2] ?? 0),
             ];
         }, $data);
+
+        return array_slice($mapped, 0, $limit);
     }
 
-    public function getGeoData(?string $startDate = null, ?string $endDate = null): array
+    public function getGeoData(?string $startDate = null, ?string $endDate = null, int $limit = 50): array
     {
         $config = [
             'dimensions' => ['country', 'region', 'city'],
             'metrics' => ['sessions', 'totalUsers'],
+            'order_bys' => [['metric' => 'totalUsers', 'desc' => true]],
         ];
 
         if ($startDate && $endDate) {
@@ -145,8 +148,7 @@ class GoogleAnalyticsModel extends Model
 
         $data = $this->gaService->runReport($config);
 
-        // Map array ke format yang diinginkan
-        return array_map(function ($item) {
+        $mapped = array_map(function ($item) {
             return [
                 'country' => $item['dimensions'][0] ?? 'Unknown',
                 'region' => $item['dimensions'][1] ?? 'Unknown',
@@ -155,13 +157,16 @@ class GoogleAnalyticsModel extends Model
                 'totalUsers' => (int)($item['metrics'][1] ?? 0),
             ];
         }, $data);
+
+        return array_slice($mapped, 0, $limit);
     }
 
-    public function getDeviceData(?string $startDate = null, ?string $endDate = null): array
+    public function getDeviceData(?string $startDate = null, ?string $endDate = null, int $limit = 50): array
     {
         $config = [
             'dimensions' => ['deviceCategory', 'operatingSystem', 'browser'],
             'metrics' => ['sessions', 'screenPageViews', 'totalUsers'],
+            'order_bys' => [['metric' => 'totalUsers', 'desc' => true]],
         ];
 
         if ($startDate && $endDate) {
@@ -170,8 +175,7 @@ class GoogleAnalyticsModel extends Model
 
         $data = $this->gaService->runReport($config);
 
-        // Map array ke format yang diinginkan
-        return array_map(function ($item) {
+        $mapped = array_map(function ($item) {
             return [
                 'deviceCategory' => $item['dimensions'][0] ?? 'Unknown',
                 'operatingSystem' => $item['dimensions'][1] ?? 'Unknown',
@@ -181,6 +185,8 @@ class GoogleAnalyticsModel extends Model
                 'totalUsers' => (int)($item['metrics'][2] ?? 0),
             ];
         }, $data);
+
+        return array_slice($mapped, 0, $limit);
     }
 
     public function getPopularPosts(?string $startDate = null, ?string $endDate = null, int $limit = 10): array

@@ -38,8 +38,9 @@ class GoogleAnalyticsService
             return [];
         }
 
-        // 3. Return cached data if available (cache for 1 hour)
-        if ($cachedData = $cache->get($cacheKey)) {
+        // Kembalikan data cache jika tersedia (termasuk array kosong agar tidak memicu hit API berulang)
+        $cachedData = $cache->get($cacheKey);
+        if ($cachedData !== null) {
             return $cachedData;
         }
 

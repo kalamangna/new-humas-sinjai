@@ -197,12 +197,18 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const popularPostsData = document.getElementById('popular-posts-data');
+        const escapeHtml = (val) => String(val ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
 
         fetch('<?= base_url('api/analytics/popular-posts') ?>')
             .then(response => response.json())
             .then(data => {
                 popularPostsData.innerHTML = '';
-                if (data.length === 0) {
+                if (!Array.isArray(data) || data.length === 0) {
                     popularPostsData.innerHTML = '<tr><td colspan="2" class="px-8 py-12 text-center text-slate-400 italic font-medium">Belum ada data.</td></tr>';
                     return;
                 }
@@ -210,17 +216,17 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
                     const row = document.createElement('tr');
                     row.className = 'hover:bg-slate-50 transition-colors group';
                     row.innerHTML = `
-                        <td class="px-8 py-5 text-xs font-bold text-slate-700 truncate max-w-xs group-hover:text-blue-800 transition-colors">${item.title}</td>
+                        <td class="px-8 py-5 text-xs font-bold text-slate-700 truncate max-w-xs group-hover:text-blue-800 transition-colors">${escapeHtml(item.title)}</td>
                         <td class="px-8 py-5 text-right whitespace-nowrap">
                             <span class="px-3 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">
-                                ${item.views.toLocaleString()} Dilihat
+                                ${parseInt(item.views || 0, 10).toLocaleString()} Dilihat
                             </span>
                         </td>
                     `;
                     popularPostsData.appendChild(row);
                 });
             })
-            .catch(error => {
+            .catch(() => {
                 popularPostsData.innerHTML = '<tr><td colspan="2" class="px-8 py-12 text-center text-red-500 font-black uppercase text-[10px] tracking-widest">Gagal memuat data.</td></tr>';
             });
     });

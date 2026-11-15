@@ -7,6 +7,23 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2026-11-15]
+### Added
+- **Komponen Bersama Analitik**: Mengekstrak banner status API (`partials/analytics_error_banner.php`) dan helper skrip sub-halaman (`partials/analytics_subpage_scripts.php`) untuk penanganan error, escaping HTML, dan sinkronisasi periode aktif.
+
+### Changed
+- **Tata Letak Sebaran Lokasi & Statistik Perangkat**: Mengatur ulang halaman `geo.php` dengan proporsi negara selebar penuh beserta progress bar dan tabel rincian dengan tinggi terukur (`max-h-96`) serta header `sticky`; menambahkan ringkasan persentase di bawah grafik donat pada `device_category.php` serta kolom `No`, `Sesi`, dan `Tayangan` pada tabel.
+- **Tata Letak Overview & Sub-halaman Analitik**: Memindahkan kontainer rentang tanggal kustom pada `overview.php` ke baris tersendiri agar header tetap lega, menaikkan keterbacaan deskripsi metrik, menyelaraskan label `Sumber Kunjungan`, serta merapikan tabel pada `top_pages.php` dan `traffic_sources.php`.
+
+### Fixed
+- **Penanganan Error, Zona Waktu, & Cache Analitik**: Memperbaiki penanganan `.catch()` dan empty state pada seluruh halaman analitik, perhitungan tanggal lokal (`formatLocalDate`) pada `overview.php`, pembulatan durasi kunjungan, validasi rentang tanggal kustom inline, pengurutan dan pembatasan data pada `GoogleAnalyticsModel`, serta caching hasil kosong pada `GoogleAnalyticsService`.
+
+### Security
+- **Sanitasi Output Analitik**: Menerapkan `escapeHtml` pada seluruh data teks Google Analytics di halaman analitik dan widget artikel populer dashboard untuk mencegah potensi XSS.
+
+### Removed
+- **Dead View Analitik**: Menghapus berkas `app/Views/admin/analytics/summary.php` yang tidak terpakai dan tidak memiliki rute aktif.
+
 ## [2026-11-13]
 ### Fixed
 - **SEO Canonical & Sitemap**: Menyelaraskan canonical URL beranda dengan sitemap dan konfigurasi `base_url` guna mengeliminasi duplikasi canonical versi Google.

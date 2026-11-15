@@ -3,63 +3,56 @@
 <?= $this->section('page_title') ?>Kelola Analitik<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<div class="flex flex-col sm:flex-row items-center sm:items-end gap-3 w-full sm:w-auto">
-    <div class="flex flex-col items-center sm:items-end w-full sm:w-auto">
-        <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 pr-1 hidden sm:block">Filter Periode</span>
-        <div class="relative inline-block text-left w-full sm:w-auto" id="period-dropdown-container">
-            <button type="button" id="period-dropdown-btn" class="inline-flex items-center justify-between sm:justify-start h-10 px-4 bg-white border border-slate-200 rounded-xl shadow-sm text-[11px] font-bold text-slate-700 hover:bg-slate-50 transition-colors w-full sm:w-auto">
-                <div class="flex items-center">
-                    <i class="fa-regular fa-fw fa-calendar-days text-blue-800 mr-2 text-xs"></i>
-                    <span id="selected-period-label">Semua Waktu</span>
-                </div>
-                <i class="fa-solid fa-fw fa-chevron-down ml-3 text-[9px] opacity-50"></i>
-            </button>
-            <div id="period-dropdown-menu" class="hidden absolute right-0 mt-2 w-full sm:w-56 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2">
-                <div class="py-1">
-                    <button type="button" onclick="setPeriod('today', 'Hari Ini')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">Hari Ini</button>
-                    <button type="button" onclick="setPeriod('7daysAgo', '7 Hari Terakhir')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">7 Hari Terakhir</button>
-                    <button type="button" onclick="setPeriod('30daysAgo', '30 Hari Terakhir')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">30 Hari Terakhir</button>
-                    <button type="button" onclick="setPeriod('thisMonth', 'Bulan Ini')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">Bulan Ini</button>
-                    <button type="button" onclick="setPeriod('thisYear', 'Tahun Ini')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">Tahun Ini</button>
-                    <button type="button" onclick="setPeriod('allTime', 'Semua Waktu')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">Semua Waktu</button>
-                    <button type="button" onclick="toggleCustomDates()" class="w-full text-left px-4 py-2.5 text-xs font-black text-blue-800 hover:bg-blue-50 transition-colors">Rentang Kustom...</button>
-                </div>
+<div class="flex flex-col items-center sm:items-end w-full sm:w-auto">
+    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 pr-1 hidden sm:block">Filter Periode</span>
+    <div class="relative inline-block text-left w-full sm:w-auto" id="period-dropdown-container">
+        <button type="button" id="period-dropdown-btn" class="inline-flex items-center justify-between sm:justify-start h-10 px-4 bg-white border border-slate-200 rounded-xl shadow-sm text-[11px] font-bold text-slate-700 hover:bg-slate-50 transition-colors w-full sm:w-auto">
+            <div class="flex items-center">
+                <i class="fa-regular fa-fw fa-calendar-days text-blue-800 mr-2 text-xs"></i>
+                <span id="selected-period-label">Semua Waktu</span>
+            </div>
+            <i class="fa-solid fa-fw fa-chevron-down ml-3 text-[9px] opacity-50"></i>
+        </button>
+        <div id="period-dropdown-menu" class="hidden absolute right-0 mt-2 w-full sm:w-56 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 z-50 overflow-hidden animate-in fade-in slide-in-from-top-2">
+            <div class="py-1">
+                <button type="button" onclick="setPeriod('today', 'Hari Ini')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">Hari Ini</button>
+                <button type="button" onclick="setPeriod('7daysAgo', '7 Hari Terakhir')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">7 Hari Terakhir</button>
+                <button type="button" onclick="setPeriod('30daysAgo', '30 Hari Terakhir')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">30 Hari Terakhir</button>
+                <button type="button" onclick="setPeriod('thisMonth', 'Bulan Ini')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">Bulan Ini</button>
+                <button type="button" onclick="setPeriod('thisYear', 'Tahun Ini')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">Tahun Ini</button>
+                <button type="button" onclick="setPeriod('allTime', 'Semua Waktu')" class="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-800 transition-colors border-b border-slate-50">Semua Waktu</button>
+                <button type="button" onclick="toggleCustomDates()" class="w-full text-left px-4 py-2.5 text-xs font-black text-blue-800 hover:bg-blue-50 transition-colors">Rentang Kustom</button>
             </div>
         </div>
-    </div>
-
-    <!-- Custom Date Inputs -->
-    <div id="custom-date-container" class="hidden flex flex-col sm:flex-row items-center sm:items-end gap-3 bg-white p-3 rounded-2xl border border-blue-100 shadow-xl shadow-blue-900/5 animate-in slide-in-from-top-2 w-full sm:w-auto">
-        <div class="w-full sm:w-auto">
-            <label class="block text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 pl-1">Mulai</label>
-            <input type="date" id="start-date" class="h-9 px-3 border border-slate-200 rounded-xl text-[11px] font-bold text-slate-700 focus:ring-2 focus:ring-blue-800 outline-none w-full sm:w-auto">
-        </div>
-        <div class="w-full sm:w-auto">
-            <label class="block text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1 pl-1">Selesai</label>
-            <input type="date" id="end-date" class="h-9 px-3 border border-slate-200 rounded-xl text-[11px] font-bold text-slate-700 focus:ring-2 focus:ring-blue-800 outline-none w-full sm:w-auto">
-        </div>
-        <button type="button" onclick="applyCustomDates()" id="apply-custom-btn" class="inline-flex items-center justify-center h-9 px-4 bg-blue-800 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20 w-full sm:w-auto">
-            <span id="apply-text">OK</span>
-            <div id="apply-spinner" class="hidden w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-        </button>
     </div>
 </div>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
-<!-- GA API Error Notice -->
-<div id="ga-error-container" class="hidden mb-8">
-    <div class="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-2xl flex items-center shadow-sm">
-        <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-            <i class="fa-solid fa-fw fa-triangle-exclamation text-lg"></i>
+<!-- Custom Date Inputs -->
+<div id="custom-date-container" class="hidden mb-6 bg-white p-4 sm:p-5 rounded-2xl border border-blue-100 shadow-sm">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3 flex-1">
+            <div class="w-full sm:w-auto">
+                <label for="start-date" class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1 pl-1">Tanggal Mulai</label>
+                <input type="date" id="start-date" class="h-10 px-3 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:ring-2 focus:ring-blue-800 outline-none w-full sm:w-auto">
+            </div>
+            <div class="w-full sm:w-auto">
+                <label for="end-date" class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1 pl-1">Tanggal Selesai</label>
+                <input type="date" id="end-date" class="h-10 px-3 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:ring-2 focus:ring-blue-800 outline-none w-full sm:w-auto">
+            </div>
+            <button type="button" onclick="applyCustomDates()" id="apply-custom-btn" class="inline-flex items-center justify-center h-10 px-5 bg-blue-800 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-900 transition-all shadow-sm w-full sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed">
+                <span id="apply-text">Terapkan Tanggal</span>
+                <div id="apply-spinner" class="hidden w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin ml-2"></div>
+            </button>
         </div>
-        <div>
-            <h5 class="text-sm font-black text-amber-900 uppercase tracking-wider mb-0.5">Koneksi API Terganggu</h5>
-            <p class="text-[11px] font-bold text-amber-700/80 leading-tight" id="ga-error-message"></p>
-        </div>
+        <button type="button" onclick="toggleCustomDates()" class="inline-flex items-center justify-center h-10 px-4 bg-slate-100 text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 transition-colors w-full sm:w-auto">Tutup</button>
     </div>
+    <p id="custom-date-error" class="hidden text-xs font-bold text-rose-600 mt-2 pl-1"></p>
 </div>
+
+<?= $this->include('partials/analytics_error_banner') ?>
 
 <!-- Metrics Grid -->
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
@@ -74,7 +67,7 @@
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Total Pengunjung</p>
             </div>
         </div>
-        <p class="mt-4 sm:mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Akumulasi individu unik yang mengakses portal berita.</p>
+        <p class="mt-4 sm:mt-6 text-xs text-slate-500 font-medium leading-relaxed">Akumulasi individu unik yang mengakses portal berita.</p>
     </div>
 
     <!-- Pengunjung Baru -->
@@ -88,7 +81,7 @@
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Pengunjung Baru</p>
             </div>
         </div>
-        <p class="mt-4 sm:mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Pengunjung yang baru pertama kali tercatat dalam sistem.</p>
+        <p class="mt-4 sm:mt-6 text-xs text-slate-500 font-medium leading-relaxed">Pengunjung yang baru pertama kali tercatat dalam sistem.</p>
     </div>
 
     <!-- Tampilan Berita -->
@@ -102,7 +95,7 @@
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Tampilan Halaman</p>
             </div>
         </div>
-        <p class="mt-4 sm:mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Total akumulasi pembacaan seluruh konten berita.</p>
+        <p class="mt-4 sm:mt-6 text-xs text-slate-500 font-medium leading-relaxed">Total akumulasi pembacaan seluruh konten berita.</p>
     </div>
 
     <!-- Sesi Kunjungan -->
@@ -116,7 +109,7 @@
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Sesi Kunjungan</p>
             </div>
         </div>
-        <p class="mt-4 sm:mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Jumlah periode interaksi aktif user di situs.</p>
+        <p class="mt-4 sm:mt-6 text-xs text-slate-500 font-medium leading-relaxed">Jumlah periode interaksi aktif user di situs.</p>
     </div>
 
     <!-- Rasio Pantulan -->
@@ -130,7 +123,7 @@
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Rasio Pantulan</p>
             </div>
         </div>
-        <p class="mt-4 sm:mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Persentase pengunjung yang hanya membuka satu halaman.</p>
+        <p class="mt-4 sm:mt-6 text-xs text-slate-500 font-medium leading-relaxed">Persentase pengunjung yang hanya membuka satu halaman.</p>
     </div>
 
     <!-- Rata-rata Durasi -->
@@ -144,7 +137,7 @@
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Durasi Kunjungan</p>
             </div>
         </div>
-        <p class="mt-4 sm:mt-6 text-[10px] text-slate-400 font-medium leading-relaxed">Rata-rata waktu yang dihabiskan pengunjung di portal.</p>
+        <p class="mt-4 sm:mt-6 text-xs text-slate-500 font-medium leading-relaxed">Rata-rata waktu yang dihabiskan pengunjung di portal.</p>
     </div>
 </div>
 
@@ -195,7 +188,7 @@
             </a>
             <a href="<?= base_url('admin/analytics/traffic-sources') ?>" class="group bg-white/5 border border-white/10 p-5 sm:p-8 rounded-2xl sm:rounded-3xl hover:bg-emerald-600 transition-all text-center">
                 <i class="fa-solid fa-fw fa-globe text-2xl sm:text-3xl text-emerald-500 group-hover:text-white mb-3 sm:mb-4 transition-colors"></i>
-                <p class="text-[10px] font-black text-white uppercase tracking-widest">Sumber Lalu Lintas</p>
+                <p class="text-[10px] font-black text-white uppercase tracking-widest">Sumber Kunjungan</p>
             </a>
             <a href="<?= base_url('admin/analytics/geo') ?>" class="group bg-white/5 border border-white/10 p-5 sm:p-8 rounded-2xl sm:rounded-3xl hover:bg-sky-600 transition-all text-center">
                 <i class="fa-solid fa-fw fa-map-marker-alt text-2xl sm:text-3xl text-sky-500 group-hover:text-white mb-3 sm:mb-4 transition-colors"></i>
@@ -209,11 +202,46 @@
     </div>
 </div>
 
+<?= $this->include('partials/analytics_subpage_scripts') ?>
+
 <script>
     let currentStartDate = '2023-07-01';
     let currentEndDate = 'today';
     let postChart = null;
     let userChart = null;
+
+    function formatLocalDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function showCustomDateError(message) {
+        const errorEl = document.getElementById('custom-date-error');
+        const startInput = document.getElementById('start-date');
+        const endInput = document.getElementById('end-date');
+        if (errorEl) {
+            errorEl.textContent = message;
+            errorEl.classList.remove('hidden');
+        }
+        [startInput, endInput].forEach(el => {
+            if (el) el.classList.add('border-rose-500');
+        });
+    }
+
+    function clearCustomDateError() {
+        const errorEl = document.getElementById('custom-date-error');
+        const startInput = document.getElementById('start-date');
+        const endInput = document.getElementById('end-date');
+        if (errorEl) {
+            errorEl.textContent = '';
+            errorEl.classList.add('hidden');
+        }
+        [startInput, endInput].forEach(el => {
+            if (el) el.classList.remove('border-rose-500');
+        });
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
         const dropdownBtn = document.getElementById('period-dropdown-btn');
@@ -228,19 +256,30 @@
             dropdownMenu.classList.add('hidden');
         });
 
+        // Pertahankan periode dari query string saat kembali dari sub-halaman
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('start_date')) {
+            currentStartDate = params.get('start_date');
+        }
+        if (params.has('end_date')) {
+            currentEndDate = params.get('end_date');
+        }
+        document.getElementById('selected-period-label').innerText = window.AnalyticsHelpers.formatPeriodLabel(currentStartDate, currentEndDate);
+        updateAdvancedLinks();
+
         loadAllData();
     });
 
     function setPeriod(period, periodLabel) {
         document.getElementById('selected-period-label').innerText = periodLabel;
         document.getElementById('custom-date-container').classList.add('hidden');
-        
-        const now = new Date();
-        const formatDate = (date) => date.toISOString().split('T')[0];
+        clearCustomDateError();
 
-        switch(period) {
+        const now = new Date();
+
+        switch (period) {
             case 'today':
-                currentStartDate = formatDate(now);
+                currentStartDate = formatLocalDate(now);
                 currentEndDate = 'today';
                 break;
             case '7daysAgo':
@@ -252,11 +291,11 @@
                 currentEndDate = 'today';
                 break;
             case 'thisMonth':
-                currentStartDate = formatDate(new Date(now.getFullYear(), now.getMonth(), 1));
+                currentStartDate = formatLocalDate(new Date(now.getFullYear(), now.getMonth(), 1));
                 currentEndDate = 'today';
                 break;
             case 'thisYear':
-                currentStartDate = formatDate(new Date(now.getFullYear(), 0, 1));
+                currentStartDate = formatLocalDate(new Date(now.getFullYear(), 0, 1));
                 currentEndDate = 'today';
                 break;
             case 'allTime':
@@ -271,6 +310,7 @@
     }
 
     function toggleCustomDates() {
+        clearCustomDateError();
         document.getElementById('custom-date-container').classList.toggle('hidden');
     }
 
@@ -279,32 +319,39 @@
         const end = document.getElementById('end-date').value;
 
         if (!start || !end) {
-            alert('Silakan pilih tanggal mulai dan selesai.');
+            showCustomDateError('Pilih tanggal mulai dan tanggal selesai terlebih dahulu.');
             return;
         }
+
+        if (start > end) {
+            showCustomDateError('Tanggal mulai tidak boleh melebihi tanggal selesai.');
+            return;
+        }
+
+        clearCustomDateError();
 
         const applyBtn = document.getElementById('apply-custom-btn');
         const applyText = document.getElementById('apply-text');
         const applySpinner = document.getElementById('apply-spinner');
 
         if (applyBtn) applyBtn.disabled = true;
-        if (applyText) applyText.classList.add('hidden');
+        if (applyText) applyText.textContent = 'Memuat...';
         if (applySpinner) applySpinner.classList.remove('hidden');
 
         currentStartDate = start;
         currentEndDate = end;
-        document.getElementById('selected-period-label').innerText = `${start} s/d ${end}`;
-        
+        document.getElementById('selected-period-label').innerText = `${start} sampai ${end}`;
+
         updateAdvancedLinks();
-        
-        // Wrapped in loadAllData logic but we want to know when it's done to reset the button
-        loadOverview().finally(() => {
+
+        window.AnalyticsHelpers.checkApiStatus();
+        resetMetricSpinners();
+
+        Promise.allSettled([loadOverview(), loadPostStats(), loadUserStats()]).finally(() => {
             if (applyBtn) applyBtn.disabled = false;
-            if (applyText) applyText.classList.remove('hidden');
+            if (applyText) applyText.textContent = 'Terapkan Tanggal';
             if (applySpinner) applySpinner.classList.add('hidden');
         });
-        loadPostStats();
-        loadUserStats();
     }
 
     function updateAdvancedLinks() {
@@ -318,30 +365,7 @@
         });
     }
 
-    function checkApiStatus() {
-        const errorContainer = document.getElementById('ga-error-container');
-        const errorMessage = document.getElementById('ga-error-message');
-
-        fetch('<?= base_url('api/analytics/api-status') ?>')
-            .then(r => r.json())
-            .then(data => {
-                if (data.is_throttled) {
-                    errorMessage.textContent = data.message;
-                    errorContainer.classList.remove('hidden');
-                } else {
-                    errorContainer.classList.add('hidden');
-                }
-            })
-            .catch(() => {
-                errorMessage.textContent = 'Gagal memverifikasi status koneksi API Google Analytics.';
-                errorContainer.classList.remove('hidden');
-            });
-    }
-
-    function loadAllData() {
-        checkApiStatus();
-        
-        // Reset metrics to loading state with spinners
+    function resetMetricSpinners() {
         const metrics = [
             { id: 'total-users', color: 'border-t-blue-800' },
             { id: 'new-users', color: 'border-t-emerald-600' },
@@ -355,6 +379,11 @@
             const el = document.getElementById(m.id);
             if (el) el.innerHTML = `<div class="w-6 h-6 border-2 border-slate-100 ${m.color} rounded-full animate-spin ml-auto mb-1"></div>`;
         });
+    }
+
+    function loadAllData() {
+        window.AnalyticsHelpers.checkApiStatus();
+        resetMetricSpinners();
 
         loadOverview();
         loadPostStats();
@@ -366,46 +395,46 @@
         url.searchParams.set('start_date', currentStartDate);
         url.searchParams.set('end_date', currentEndDate);
 
-        return fetch(url)
-            .then(response => response.json())
+        return window.AnalyticsHelpers.fetchJson(url)
             .then(data => {
-                if (data.status === 'error') throw new Error(data.message);
-                const {
-                    totalUsers,
-                    newUsers,
-                    sessions,
-                    screenPageViews,
-                    bounceRate,
-                    averageSessionDuration
-                } = data[0];
-                document.getElementById('total-users').innerHTML = parseInt(totalUsers).toLocaleString();
-                document.getElementById('new-users').innerHTML = parseInt(newUsers).toLocaleString();
-                document.getElementById('sessions').innerHTML = parseInt(sessions).toLocaleString();
-                document.getElementById('screen-page-views').innerHTML = parseInt(screenPageViews).toLocaleString();
-                document.getElementById('bounce-rate').innerHTML = `${(parseFloat(bounceRate) * 100).toFixed(1)}%`;
+                const summary = Array.isArray(data) && data.length > 0 ? data[0] : {};
+                const totalUsers = parseInt(summary.totalUsers || 0, 10);
+                const newUsers = parseInt(summary.newUsers || 0, 10);
+                const sessions = parseInt(summary.sessions || 0, 10);
+                const screenPageViews = parseInt(summary.screenPageViews || 0, 10);
+                const bounceRate = parseFloat(summary.bounceRate || 0);
+                const averageSessionDuration = parseFloat(summary.averageSessionDuration || 0);
 
-                const duration = parseFloat(averageSessionDuration);
-                if (duration < 60) {
-                    document.getElementById('average-session-duration').innerHTML = `${duration.toFixed(0)} dtk`;
+                document.getElementById('total-users').textContent = totalUsers.toLocaleString();
+                document.getElementById('new-users').textContent = newUsers.toLocaleString();
+                document.getElementById('sessions').textContent = sessions.toLocaleString();
+                document.getElementById('screen-page-views').textContent = screenPageViews.toLocaleString();
+                document.getElementById('bounce-rate').textContent = `${(bounceRate * 100).toFixed(1)}%`;
+
+                const totalSeconds = Math.round(averageSessionDuration);
+                if (totalSeconds < 60) {
+                    document.getElementById('average-session-duration').textContent = `${totalSeconds} dtk`;
                 } else {
-                    const minutes = Math.floor(duration / 60);
-                    const seconds = (duration % 60).toFixed(0);
-                    document.getElementById('average-session-duration').innerHTML = `${minutes}m ${seconds}s`;
+                    const minutes = Math.floor(totalSeconds / 60);
+                    const seconds = totalSeconds % 60;
+                    document.getElementById('average-session-duration').textContent = `${minutes}m ${seconds}d`;
                 }
             })
             .catch((err) => {
                 console.error(err);
-                
-                const errorContainer = document.getElementById("ga-error-container");
-                const errorMessage = document.getElementById("ga-error-message");
-                errorMessage.textContent = "Gagal memuat data statistik. Silakan coba beberapa saat lagi atau periksa kuota API Anda.";
-                errorContainer.classList.remove("hidden");
+                window.AnalyticsHelpers.showError('Gagal memuat ringkasan statistik. Coba beberapa saat lagi atau periksa kuota API.');
 
-                ["total-users", "new-users", "sessions", "screen-page-views", "bounce-rate", "average-session-duration"].forEach(id => {
+                ['total-users', 'new-users', 'sessions', 'screen-page-views', 'bounce-rate', 'average-session-duration'].forEach(id => {
                     const el = document.getElementById(id);
-                    if (el) el.textContent = "ERR";
+                    if (el) el.textContent = '-';
                 });
-            });    }
+            });
+    }
+
+    function renderChartEmptyState(chartEl, message, isError = false) {
+        const textColor = isError ? 'text-rose-600' : 'text-slate-400';
+        chartEl.innerHTML = `<div class="h-64 flex items-center justify-center text-xs font-bold ${textColor} text-center px-4">${window.AnalyticsHelpers.escapeHtml(message)}</div>`;
+    }
 
     function loadPostStats() {
         const url = new URL('<?= base_url('api/analytics/monthly-post-stats') ?>');
@@ -417,13 +446,22 @@
         spinner.classList.remove('hidden');
         chartEl.classList.add('hidden');
 
-        fetch(url)
-            .then(response => response.json())
+        return window.AnalyticsHelpers.fetchJson(url)
             .then(data => {
                 spinner.classList.add('hidden');
                 chartEl.classList.remove('hidden');
-                const sorted = data;
 
+                if (postChart) {
+                    postChart.destroy();
+                    postChart = null;
+                }
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    renderChartEmptyState(chartEl, 'Belum ada data tren tayangan pada periode ini.');
+                    return;
+                }
+
+                chartEl.innerHTML = '';
                 const options = {
                     chart: {
                         type: 'area',
@@ -436,16 +474,16 @@
                     stroke: { curve: 'smooth', width: 3 },
                     series: [{
                         name: 'Tayangan Berita',
-                        data: sorted.map(i => i.screenPageViews)
+                        data: data.map(i => i.screenPageViews)
                     }],
                     xaxis: {
-                        categories: sorted.map(i => i.formatted_date),
+                        categories: data.map(i => i.formatted_date),
                         axisBorder: { show: false },
                         axisTicks: { show: false },
                         labels: { style: { colors: '#94a3b8', fontSize: '10px', fontWeight: 600 } }
                     },
                     yaxis: {
-                        labels: { 
+                        labels: {
                             style: { colors: '#94a3b8', fontSize: '10px', fontWeight: 600 },
                             formatter: (val) => val.toLocaleString()
                         }
@@ -463,9 +501,18 @@
                     }
                 };
 
-                if (postChart) postChart.destroy();
                 postChart = new ApexCharts(chartEl, options);
                 postChart.render();
+            })
+            .catch((err) => {
+                console.error(err);
+                spinner.classList.add('hidden');
+                chartEl.classList.remove('hidden');
+                if (postChart) {
+                    postChart.destroy();
+                    postChart = null;
+                }
+                renderChartEmptyState(chartEl, 'Gagal memuat grafik tren tayangan berita.', true);
             });
     }
 
@@ -479,13 +526,22 @@
         spinner.classList.remove('hidden');
         chartEl.classList.add('hidden');
 
-        fetch(url)
-            .then(response => response.json())
+        return window.AnalyticsHelpers.fetchJson(url)
             .then(data => {
                 spinner.classList.add('hidden');
                 chartEl.classList.remove('hidden');
-                const sorted = data;
 
+                if (userChart) {
+                    userChart.destroy();
+                    userChart = null;
+                }
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    renderChartEmptyState(chartEl, 'Belum ada data tren pengunjung pada periode ini.');
+                    return;
+                }
+
+                chartEl.innerHTML = '';
                 const options = {
                     chart: {
                         type: 'area',
@@ -498,16 +554,16 @@
                     stroke: { curve: 'smooth', width: 3 },
                     series: [{
                         name: 'Pengunjung',
-                        data: sorted.map(i => i.totalUsers)
+                        data: data.map(i => i.totalUsers)
                     }],
                     xaxis: {
-                        categories: sorted.map(i => i.formatted_date),
+                        categories: data.map(i => i.formatted_date),
                         axisBorder: { show: false },
                         axisTicks: { show: false },
                         labels: { style: { colors: '#94a3b8', fontSize: '10px', fontWeight: 600 } }
                     },
                     yaxis: {
-                        labels: { 
+                        labels: {
                             style: { colors: '#94a3b8', fontSize: '10px', fontWeight: 600 },
                             formatter: (val) => val.toLocaleString()
                         }
@@ -525,9 +581,18 @@
                     }
                 };
 
-                if (userChart) userChart.destroy();
                 userChart = new ApexCharts(chartEl, options);
                 userChart.render();
+            })
+            .catch((err) => {
+                console.error(err);
+                spinner.classList.add('hidden');
+                chartEl.classList.remove('hidden');
+                if (userChart) {
+                    userChart.destroy();
+                    userChart = null;
+                }
+                renderChartEmptyState(chartEl, 'Gagal memuat grafik pertumbuhan pengunjung.', true);
             });
     }
 </script>

@@ -219,7 +219,7 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
                         <td class="px-8 py-5 text-xs font-bold text-slate-700 truncate max-w-xs group-hover:text-blue-800 transition-colors">${escapeHtml(item.title)}</td>
                         <td class="px-8 py-5 text-right whitespace-nowrap">
                             <span class="px-3 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">
-                                ${parseInt(item.views || 0, 10).toLocaleString()} Dilihat
+                                ${parseInt(item.views || 0, 10).toLocaleString('id-ID')} Dilihat
                             </span>
                         </td>
                     `;

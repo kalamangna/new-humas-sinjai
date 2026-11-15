@@ -103,7 +103,7 @@
             el.innerHTML = '';
             topData.labels.forEach((label, idx) => {
                 const val = topData.series[idx] || 0;
-                const pct = topData.total > 0 ? ((val / topData.total) * 100).toFixed(1) : '0.0';
+                const pct = topData.total > 0 ? ((val / topData.total) * 100).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : '0,0';
                 const color = colors[idx] || '#94a3b8';
                 el.innerHTML += `
                     <div class="flex items-center justify-between text-xs gap-2">
@@ -113,7 +113,7 @@
                         </div>
                         <div class="flex items-center gap-2 flex-shrink-0">
                             <span class="text-slate-400 font-medium">${pct}%</span>
-                            <span class="font-bold text-slate-900">${val.toLocaleString()}</span>
+                            <span class="font-bold text-slate-900">${val.toLocaleString('id-ID')}</span>
                         </div>
                     </div>
                 `;
@@ -173,12 +173,12 @@
                                         fontWeight: 900,
                                         color: isDark ? '#f8fafc' : '#0f172a',
                                         offsetY: 5,
-                                        formatter: (val) => parseInt(val, 10).toLocaleString()
+                                        formatter: (val) => parseInt(val, 10).toLocaleString('id-ID')
                                     },
                                     total: {
                                         show: true,
                                         label: 'TOTAL',
-                                        formatter: (w) => w.globals.seriesTotals.reduce((a, b) => a + b, 0).toLocaleString()
+                                        formatter: (w) => w.globals.seriesTotals.reduce((a, b) => a + b, 0).toLocaleString('id-ID')
                                     }
                                 }
                             }
@@ -221,11 +221,11 @@
                         </td>
                         <td class="px-4 sm:px-6 py-3.5 text-xs font-semibold text-slate-700">${escapeHtml(item.operatingSystem || '-')}</td>
                         <td class="px-4 sm:px-6 py-3.5 text-xs text-slate-600">${escapeHtml(item.browser || '-')}</td>
-                        <td class="px-4 sm:px-6 py-3.5 text-right text-xs font-bold text-slate-700">${parseInt(item.sessions || 0, 10).toLocaleString()}</td>
-                        <td class="px-4 sm:px-6 py-3.5 text-right text-xs font-bold text-slate-700">${parseInt(item.screenPageViews || 0, 10).toLocaleString()}</td>
+                        <td class="px-4 sm:px-6 py-3.5 text-right text-xs font-bold text-slate-700">${parseInt(item.sessions || 0, 10).toLocaleString('id-ID')}</td>
+                        <td class="px-4 sm:px-6 py-3.5 text-right text-xs font-bold text-slate-700">${parseInt(item.screenPageViews || 0, 10).toLocaleString('id-ID')}</td>
                         <td class="px-4 sm:px-6 py-3.5 text-right">
                             <span class="px-2.5 py-1 bg-amber-50 text-amber-700 text-[10px] font-black rounded-lg border border-amber-100">
-                                ${parseInt(item.totalUsers || 0, 10).toLocaleString()} User
+                                ${parseInt(item.totalUsers || 0, 10).toLocaleString('id-ID')} User
                             </span>
                         </td>
                     `;

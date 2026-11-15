@@ -405,11 +405,11 @@
                 const bounceRate = parseFloat(summary.bounceRate || 0);
                 const averageSessionDuration = parseFloat(summary.averageSessionDuration || 0);
 
-                document.getElementById('total-users').textContent = totalUsers.toLocaleString();
-                document.getElementById('new-users').textContent = newUsers.toLocaleString();
-                document.getElementById('sessions').textContent = sessions.toLocaleString();
-                document.getElementById('screen-page-views').textContent = screenPageViews.toLocaleString();
-                document.getElementById('bounce-rate').textContent = `${(bounceRate * 100).toFixed(1)}%`;
+                document.getElementById('total-users').textContent = totalUsers.toLocaleString('id-ID');
+                document.getElementById('new-users').textContent = newUsers.toLocaleString('id-ID');
+                document.getElementById('sessions').textContent = sessions.toLocaleString('id-ID');
+                document.getElementById('screen-page-views').textContent = screenPageViews.toLocaleString('id-ID');
+                document.getElementById('bounce-rate').textContent = `${(bounceRate * 100).toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
 
                 const totalSeconds = Math.round(averageSessionDuration);
                 if (totalSeconds < 60) {
@@ -485,7 +485,7 @@
                     yaxis: {
                         labels: {
                             style: { colors: '#94a3b8', fontSize: '10px', fontWeight: 600 },
-                            formatter: (val) => val.toLocaleString()
+                            formatter: (val) => Math.round(val).toLocaleString('id-ID')
                         }
                     },
                     colors: ['#1e40af'],
@@ -497,7 +497,7 @@
                     tooltip: {
                         theme: 'light',
                         x: { show: true },
-                        y: { formatter: (val) => val.toLocaleString() + ' Dilihat' }
+                        y: { formatter: (val) => val.toLocaleString('id-ID') + ' Dilihat' }
                     }
                 };
 
@@ -565,7 +565,7 @@
                     yaxis: {
                         labels: {
                             style: { colors: '#94a3b8', fontSize: '10px', fontWeight: 600 },
-                            formatter: (val) => val.toLocaleString()
+                            formatter: (val) => Math.round(val).toLocaleString('id-ID')
                         }
                     },
                     colors: ['#059669'],
@@ -577,7 +577,7 @@
                     tooltip: {
                         theme: 'light',
                         x: { show: true },
-                        y: { formatter: (val) => val.toLocaleString() + ' Pengunjung' }
+                        y: { formatter: (val) => val.toLocaleString('id-ID') + ' Pengunjung' }
                     }
                 };
 

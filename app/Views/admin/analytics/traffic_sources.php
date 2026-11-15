@@ -91,11 +91,11 @@
                         <td class="px-4 sm:px-6 py-3.5">
                             <span class="px-2 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider rounded border border-slate-200">${escapeHtml(item.sessionMedium || 'Tanpa Media')}</span>
                         </td>
-                        <td class="px-4 sm:px-6 py-3.5 text-right text-xs font-bold text-slate-700">${parseInt(item.sessions || 0, 10).toLocaleString()}</td>
-                        <td class="px-4 sm:px-6 py-3.5 text-right text-xs font-bold text-slate-700">${parseInt(item.screenPageViews || 0, 10).toLocaleString()}</td>
+                        <td class="px-4 sm:px-6 py-3.5 text-right text-xs font-bold text-slate-700">${parseInt(item.sessions || 0, 10).toLocaleString('id-ID')}</td>
+                        <td class="px-4 sm:px-6 py-3.5 text-right text-xs font-bold text-slate-700">${parseInt(item.screenPageViews || 0, 10).toLocaleString('id-ID')}</td>
                         <td class="px-4 sm:px-6 py-3.5 text-right">
                             <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-black rounded-lg border border-emerald-100">
-                                ${parseInt(item.totalUsers || 0, 10).toLocaleString()} User
+                                ${parseInt(item.totalUsers || 0, 10).toLocaleString('id-ID')} User
                             </span>
                         </td>
                     `;

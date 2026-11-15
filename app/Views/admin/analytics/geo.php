@@ -125,8 +125,12 @@
                                 labels: {
                                     show: true,
                                     name: { show: true, fontSize: '12px', fontWeight: 700 },
-                                    value: { show: true, fontSize: '20px', fontWeight: 900, formatter: (val) => parseInt(val, 10).toLocaleString() },
-                                    total: { show: true, label: 'TOTAL' }
+                                    value: { show: true, fontSize: '20px', fontWeight: 900, formatter: (val) => parseInt(val, 10).toLocaleString('id-ID') },
+                                    total: {
+                                        show: true,
+                                        label: 'TOTAL',
+                                        formatter: (w) => w.globals.seriesTotals.reduce((a, b) => a + b, 0).toLocaleString('id-ID')
+                                    }
                                 }
                             }
                         }
@@ -137,7 +141,9 @@
 
                 countryBreakdownEl.innerHTML = '';
                 topCountries.forEach(([label, count], idx) => {
-                    const percent = grandTotalUsers > 0 ? ((count / grandTotalUsers) * 100).toFixed(1) : '0.0';
+                    const percentNum = grandTotalUsers > 0 ? (count / grandTotalUsers) * 100 : 0;
+                    const percentWidth = percentNum.toFixed(1);
+                    const percentLabel = percentNum.toLocaleString('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
                     const barColor = chartColors[idx] || '#94a3b8';
                     countryBreakdownEl.innerHTML += `
                         <div>
@@ -147,12 +153,12 @@
                                     <span class="font-bold text-slate-800 truncate">${escapeHtml(label)}</span>
                                 </div>
                                 <div class="flex items-center gap-3 flex-shrink-0">
-                                    <span class="text-slate-500 font-semibold">${percent}%</span>
-                                    <span class="font-black text-slate-900">${count.toLocaleString()} User</span>
+                                    <span class="text-slate-500 font-semibold">${percentLabel}%</span>
+                                    <span class="font-black text-slate-900">${count.toLocaleString('id-ID')} User</span>
                                 </div>
                             </div>
                             <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
-                                <div class="h-2 rounded-full transition-all" style="width: ${percent}%; background-color: ${barColor}"></div>
+                                <div class="h-2 rounded-full transition-all" style="width: ${percentWidth}%; background-color: ${barColor}"></div>
                             </div>
                         </div>
                     `;
@@ -171,10 +177,10 @@
                         <td class="px-4 sm:px-6 py-3.5 text-xs font-bold text-slate-900">${escapeHtml(item.country || 'Tidak Diketahui')}</td>
                         <td class="px-4 sm:px-6 py-3.5 text-xs font-medium text-slate-600">${escapeHtml(item.region || '-')}</td>
                         <td class="px-4 sm:px-6 py-3.5 text-xs text-slate-500">${escapeHtml(item.city || '-')}</td>
-                        <td class="px-4 sm:px-6 py-3.5 text-right text-xs font-bold text-slate-700">${parseInt(item.sessions || 0, 10).toLocaleString()}</td>
+                        <td class="px-4 sm:px-6 py-3.5 text-right text-xs font-bold text-slate-700">${parseInt(item.sessions || 0, 10).toLocaleString('id-ID')}</td>
                         <td class="px-4 sm:px-6 py-3.5 text-right">
                             <span class="px-2.5 py-1 bg-sky-50 text-sky-700 text-[10px] font-black rounded-lg border border-sky-100">
-                                ${parseInt(item.totalUsers || 0, 10).toLocaleString()} User
+                                ${parseInt(item.totalUsers || 0, 10).toLocaleString('id-ID')} User
                             </span>
                         </td>
                     `;

@@ -12,6 +12,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Komponen Bersama Analitik**: Mengekstrak banner status API (`partials/analytics_error_banner.php`) dan helper skrip sub-halaman (`partials/analytics_subpage_scripts.php`) untuk penanganan error, escaping HTML, dan sinkronisasi periode aktif.
 
 ### Changed
+- **Format Angka Pemisah Indonesia**: Menggunakan lokalisasi `id-ID` (titik untuk ribuan dan koma untuk desimal) pada seluruh metrik, grafik, persentase, dan tabel di halaman analitik serta widget artikel populer dashboard.
 - **Tata Letak Sebaran Lokasi & Statistik Perangkat**: Mengatur ulang halaman `geo.php` dengan proporsi negara selebar penuh beserta progress bar dan tabel rincian dengan tinggi terukur (`max-h-96`) serta header `sticky`; menambahkan ringkasan persentase di bawah grafik donat pada `device_category.php` serta kolom `No`, `Sesi`, dan `Tayangan` pada tabel.
 - **Tata Letak Overview & Sub-halaman Analitik**: Memindahkan kontainer rentang tanggal kustom pada `overview.php` ke baris tersendiri agar header tetap lega, menaikkan keterbacaan deskripsi metrik, menyelaraskan label `Sumber Kunjungan`, serta merapikan tabel pada `top_pages.php` dan `traffic_sources.php`.
 

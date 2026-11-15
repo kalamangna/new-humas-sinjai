@@ -90,11 +90,11 @@
                             </span>
                         </td>
                         <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-right text-xs sm:text-sm font-bold text-slate-700 whitespace-nowrap">
-                            ${parseInt(page.screenPageViews || 0, 10).toLocaleString()} <span class="text-[9px] sm:text-[10px] text-slate-400 font-medium uppercase tracking-tighter ml-1">Dilihat</span>
+                            ${parseInt(page.screenPageViews || 0, 10).toLocaleString('id-ID')} <span class="text-[9px] sm:text-[10px] text-slate-400 font-medium uppercase tracking-tighter ml-1">Dilihat</span>
                         </td>
                         <td class="px-4 sm:px-6 py-3.5 sm:py-4 text-right whitespace-nowrap">
                             <span class="px-2.5 sm:px-3 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">
-                                ${parseInt(page.totalUsers || 0, 10).toLocaleString()} User
+                                ${parseInt(page.totalUsers || 0, 10).toLocaleString('id-ID')} User
                             </span>
                         </td>
                     `;

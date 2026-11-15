@@ -4,7 +4,7 @@
 
 <?= $this->section('content') ?>
 
-<form action="<?= base_url('admin/settings/update') ?>" method="post">
+<form action="<?= base_url('admin/settings/update') ?>" method="post" id="settings-form">
     <?= csrf_field() ?>
 
     <div class="bg-white rounded-2xl sm:rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
@@ -53,17 +53,21 @@
                                     <?php elseif ($setting['type'] === 'image'): ?>
                                         <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                                             <div class="w-16 h-16 sm:w-20 sm:h-20 bg-slate-100 rounded-xl sm:rounded-2xl border border-slate-200 flex items-center justify-center overflow-hidden flex-shrink-0">
-                                                <img src="<?= base_url($setting['value']) ?>" class="max-w-full max-h-full object-contain">
+                                                <?php if (!empty($setting['value'])): ?>
+                                                    <img src="<?= base_url($setting['value']) ?>" alt="<?= esc($setting['label']) ?>" class="max-w-full max-h-full object-contain">
+                                                <?php else: ?>
+                                                    <i class="fa-solid fa-fw fa-image text-slate-300"></i>
+                                                <?php endif; ?>
                                             </div>
                                             <input type="text" name="settings[<?= $setting['key'] ?>]" value="<?= esc($setting['value']) ?>"
                                                 class="flex-1 min-w-0 bg-slate-50 border-slate-200 rounded-xl px-4 sm:px-5 py-2.5 sm:py-3 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-blue-800 focus:border-transparent transition-all">
                                         </div>
-                                        <p class="mt-2 text-[9px] text-slate-400 font-medium italic">*Masukkan path file di folder public (contoh: logo.png)</p>
+                                        <p class="mt-2 text-[10px] text-slate-400 font-medium italic">Path berkas di folder public, contoh: logo.png</p>
 
                                     <?php elseif ($setting['type'] === 'json'): ?>
                                         <div class="p-4 sm:p-6 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-200 border-dashed">
                                             <p class="text-[9px] font-black text-amber-600 uppercase tracking-widest mb-3 sm:mb-4 flex items-center">
-                                                <i class="fa-solid fa-fw fa-triangle-exclamation mr-2"></i> Pengaturan JSON (Raw)
+                                                <i class="fa-solid fa-fw fa-triangle-exclamation mr-2"></i> Pengaturan JSON Mentah
                                             </p>
                                             <textarea name="settings[<?= $setting['key'] ?>]" rows="6"
                                                 class="w-full bg-white border-slate-200 rounded-xl px-4 sm:px-5 py-2.5 sm:py-3 text-xs font-mono text-slate-600 focus:ring-2 focus:ring-blue-800 focus:border-transparent transition-all"><?= esc($setting['value']) ?></textarea>
@@ -79,8 +83,9 @@
 
         <!-- Footer Actions -->
         <div class="bg-slate-50 border-t border-slate-200 px-4 sm:px-8 py-4 sm:py-6 flex justify-end">
-            <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 bg-blue-800 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20 text-center">
-                <i class="fa-solid fa-fw fa-floppy-disk mr-2 sm:mr-3"></i> Simpan
+            <button type="submit" id="save-settings-btn" class="w-full sm:w-auto inline-flex items-center justify-center h-11 px-6 sm:px-8 bg-blue-800 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20 text-center disabled:opacity-60 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-fw fa-floppy-disk mr-2 sm:mr-3" id="save-settings-icon"></i>
+                <span id="save-settings-text">Simpan Pengaturan</span>
             </button>
         </div>
     </div>
@@ -102,6 +107,16 @@
         const activeBtn = document.getElementById('tab-btn-' + groupId);
         activeBtn.classList.remove('border-transparent', 'text-slate-400');
         activeBtn.classList.add('border-blue-800', 'text-blue-800');
+    }
+
+    const settingsForm = document.getElementById('settings-form');
+    if (settingsForm) {
+        settingsForm.addEventListener('submit', function() {
+            const btn = document.getElementById('save-settings-btn');
+            const text = document.getElementById('save-settings-text');
+            if (btn) btn.disabled = true;
+            if (text) text.textContent = 'Menyimpan...';
+        });
     }
 </script>
 

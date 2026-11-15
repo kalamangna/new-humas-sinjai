@@ -14,13 +14,13 @@
 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 mb-6 sm:mb-8">
     <form action="<?= base_url('admin/tags') ?>" method="get" class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         <div class="sm:col-span-2 lg:col-span-3">
-            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Cari</label>
-            <input type="text" name="search" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Masukkan ..." value="<?= esc($filters['search'] ?? '') ?>">
+            <label for="tag-search" class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Cari</label>
+            <input id="tag-search" type="text" name="search" class="w-full h-10 px-4 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Infrastruktur" value="<?= esc($filters['search'] ?? '') ?>">
         </div>
         <div class="flex flex-col justify-end">
             <div class="flex items-center space-x-2">
-                <button type="submit" class="flex-1 px-4 py-2.5 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all">Cari</button>
-                <a href="<?= base_url('admin/tags') ?>" class="px-4 py-2.5 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200 text-center">Reset</a>
+                <button type="submit" class="flex-1 inline-flex items-center justify-center h-10 px-4 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all">Filter</button>
+                <a href="<?= base_url('admin/tags') ?>" class="inline-flex items-center justify-center h-10 px-4 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200 text-center">Reset</a>
             </div>
         </div>
     </form>
@@ -32,7 +32,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Total</p>
-                <h3 class="text-2xl sm:text-3xl font-black mt-1"><?= $total_tags ?? '0' ?></h3>
+                <h3 class="text-2xl sm:text-3xl font-black mt-1"><?= number_format($total_tags ?? 0, 0, ',', '.') ?></h3>
             </div>
             <i class="fa-solid fa-fw fa-tags text-2xl sm:text-3xl opacity-30"></i>
         </div>
@@ -41,7 +41,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest opacity-70">Total Berita</p>
-                <h3 class="text-2xl sm:text-3xl font-black mt-1"><?= $total_posts ?? '0' ?></h3>
+                <h3 class="text-2xl sm:text-3xl font-black mt-1"><?= number_format($total_posts ?? 0, 0, ',', '.') ?></h3>
             </div>
             <i class="fa-solid fa-fw fa-newspaper text-2xl sm:text-3xl opacity-30"></i>
         </div>
@@ -82,22 +82,22 @@
                             </td>
                             <td class="px-4 sm:px-6 py-3 sm:py-4">
                                 <span class="px-2.5 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">
-                                    <?= $tag['post_count'] ?? '0' ?> Berita
+                                    <?= number_format($tag['post_count'] ?? 0, 0, ',', '.') ?> Berita
                                 </span>
                             </td>
                             <td class="px-4 sm:px-6 py-3 sm:py-4 text-right space-x-1 whitespace-nowrap w-1">
-                                <a href="<?= base_url('admin/tags/' . $tag['id'] . '/edit') ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
+                                <a href="<?= base_url('admin/tags/' . $tag['id'] . '/edit') ?>" aria-label="Ubah tag" title="Ubah tag" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
                                     <i class="fa-solid fa-fw fa-pen-to-square"></i>
                                 </a>
                                 <form action="<?= base_url('admin/tags/' . $tag['id']) ?>" method="post" class="inline">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <?= csrf_field() ?>
-                                    <button type="submit" class="p-2 bg-slate-100 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                    <button type="submit" aria-label="Hapus tag" title="Hapus tag" class="p-2 bg-slate-100 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm" onclick="return confirm('Hapus tag ini? Tag yang dihapus akan dilepaskan dari berita terkait.')">
                                         <i class="fa-solid fa-fw fa-trash"></i>
                                     </button>
                                 </form>
                                 <?php if (($tag['post_count'] ?? 0) > 0): ?>
-                                    <a href="<?= base_url('tag/' . esc($tag['slug'])) ?>" target="_blank" class="inline-flex items-center p-2 bg-slate-100 text-sky-600 rounded-lg hover:bg-sky-600 hover:text-white transition-all shadow-sm">
+                                    <a href="<?= base_url('tag/' . esc($tag['slug'])) ?>" target="_blank" rel="noopener noreferrer" aria-label="Lihat halaman tag" title="Lihat halaman tag" class="inline-flex items-center p-2 bg-slate-100 text-sky-600 rounded-lg hover:bg-sky-600 hover:text-white transition-all shadow-sm">
                                         <i class="fa-solid fa-fw fa-up-right-from-square"></i>
                                     </a>
                                 <?php endif; ?>
@@ -123,7 +123,7 @@
 <?php if (isset($pager) && $pager->getPageCount() > 1) : ?>
     <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-            Total: <span class="text-slate-900"><?= number_format($pager->getTotal()) ?></span> Tag
+            Total: <span class="text-slate-900"><?= number_format($pager->getTotal(), 0, ',', '.') ?></span> Tag
         </div>
         <div>
             <?= $pager->links('default', 'custom_pager') ?>

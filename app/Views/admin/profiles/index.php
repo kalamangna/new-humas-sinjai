@@ -14,12 +14,12 @@
 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 mb-6 sm:mb-8">
     <form action="<?= base_url('admin/profiles') ?>" method="get" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <div>
-            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Cari</label>
-            <input type="text" name="search" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Masukkan nama, jabatan, instansi..." value="<?= esc($filters['search'] ?? '') ?>">
+            <label for="profile-search" class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Cari</label>
+            <input id="profile-search" type="text" name="search" class="w-full h-10 px-4 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Nama, jabatan, atau instansi" value="<?= esc($filters['search'] ?? '') ?>">
         </div>
         <div>
-            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Tipe</label>
-            <select name="type" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none">
+            <label for="profile-type" class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Tipe</label>
+            <select id="profile-type" name="type" class="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none">
                 <option value="">Semua Tipe</option>
                 <option value="bupati" <?= ($filters['type'] ?? '') == 'bupati' ? 'selected' : '' ?>>Bupati</option>
                 <option value="wakil-bupati" <?= ($filters['type'] ?? '') == 'wakil-bupati' ? 'selected' : '' ?>>Wakil Bupati</option>
@@ -33,8 +33,8 @@
         </div>
         <div class="flex flex-col justify-end sm:col-span-2 lg:col-span-1">
             <div class="flex items-center space-x-2">
-                <button type="submit" class="flex-1 px-4 py-2.5 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all">Cari</button>
-                <a href="<?= base_url('admin/profiles') ?>" class="px-4 py-2.5 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200 text-center">Reset</a>
+                <button type="submit" class="flex-1 inline-flex items-center justify-center h-10 px-4 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all">Filter</button>
+                <a href="<?= base_url('admin/profiles') ?>" class="inline-flex items-center justify-center h-10 px-4 bg-slate-100 text-slate-600 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200 text-center">Reset</a>
             </div>
         </div>
     </form>
@@ -101,13 +101,13 @@
                                 <?php endif; ?>
                             </td>
                             <td class="px-4 sm:px-6 py-3 sm:py-4 text-right space-x-1 whitespace-nowrap w-1">
-                                <a href="<?= base_url('admin/profiles/' . $profile['id'] . '/edit') ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
+                                <a href="<?= base_url('admin/profiles/' . $profile['id'] . '/edit') ?>" aria-label="Ubah profil" title="Ubah profil" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
                                     <i class="fa-solid fa-fw fa-pen-to-square text-xs"></i>
                                 </a>
                                 <form action="<?= base_url('admin/profiles/' . $profile['id']) ?>" method="post" class="inline">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <?= csrf_field() ?>
-                                    <button type="submit" class="p-2 bg-slate-100 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                    <button type="submit" aria-label="Hapus profil" title="Hapus profil" class="p-2 bg-slate-100 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm" onclick="return confirm('Hapus profil ini? Data profil yang dihapus tidak dapat dikembalikan.')">
                                         <i class="fa-solid fa-fw fa-trash text-xs"></i>
                                     </button>
                                 </form>
@@ -133,7 +133,7 @@
 <?php if (isset($pager) && $pager->getPageCount('profiles') > 1) : ?>
     <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-            Total: <span class="text-slate-900"><?= number_format($pager->getTotal('profiles')) ?></span>
+            Total: <span class="text-slate-900"><?= number_format($pager->getTotal('profiles'), 0, ',', '.') ?></span>
         </div>
         <div>
             <?= $pager->only(['search', 'type'])->links('profiles', 'custom_pager') ?>

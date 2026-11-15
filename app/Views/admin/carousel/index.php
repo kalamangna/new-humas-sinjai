@@ -28,22 +28,26 @@
                                 <span class="w-8 h-8 bg-slate-100 text-slate-600 font-black rounded-lg flex items-center justify-center border border-slate-200 text-xs sm:text-sm"><?= esc($slide['slide_order']) ?></span>
                             </td>
                             <td class="px-4 sm:px-6 py-3 sm:py-4">
-                                <div class="w-36 sm:w-48 h-18 sm:h-24 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm">
+                                <div class="w-36 sm:w-48 h-16 sm:h-24 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm">
                                     <?php
                                     $slidePath = $slide['image_path'] ?? '';
                                     $slideSrc = filter_var($slidePath, FILTER_VALIDATE_URL) ? $slidePath : (!empty($slidePath) ? base_url($slidePath) : '');
                                     ?>
-                                    <img src="<?= $slideSrc ?>" class="w-full h-full object-cover">
+                                    <?php if (!empty($slideSrc)) : ?>
+                                        <img src="<?= $slideSrc ?>" alt="Slide <?= esc($slide['slide_order']) ?>" class="w-full h-full object-cover">
+                                    <?php else : ?>
+                                        <div class="w-full h-full flex items-center justify-center"><i class="fa-solid fa-fw fa-image text-slate-300"></i></div>
+                                    <?php endif; ?>
                                 </div>
                             </td>
                             <td class="px-4 sm:px-6 py-3 sm:py-4 text-right space-x-1 whitespace-nowrap w-1">
-                                <a href="<?= base_url('admin/carousel/' . $slide['id'] . '/edit') ?>" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
+                                <a href="<?= base_url('admin/carousel/' . $slide['id'] . '/edit') ?>" aria-label="Ubah slide" title="Ubah slide" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
                                     <i class="fa-solid fa-fw fa-pen-to-square"></i>
                                 </a>
                                 <form action="<?= base_url('admin/carousel/' . $slide['id']) ?>" method="post" class="inline">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <?= csrf_field() ?>
-                                    <button type="submit" class="p-2 bg-slate-100 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                    <button type="submit" aria-label="Hapus slide" title="Hapus slide" class="p-2 bg-slate-100 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm" onclick="return confirm('Hapus slide ini? Slide tidak akan tampil lagi di halaman utama.')">
                                         <i class="fa-solid fa-fw fa-trash"></i>
                                     </button>
                                 </form>

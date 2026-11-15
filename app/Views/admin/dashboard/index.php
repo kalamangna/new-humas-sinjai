@@ -3,8 +3,8 @@
 <?= $this->section('page_title') ?>Dashboard<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<button class="inline-flex items-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-widest text-slate-700 hover:bg-slate-50 transition-colors shadow-sm" onclick="window.location.reload()">
-    <i class="fa-solid fa-fw fa-arrows-rotate mr-2 text-blue-600"></i>Refresh
+<button type="button" class="inline-flex items-center h-10 px-4 bg-white border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-widest text-slate-700 hover:bg-slate-50 transition-colors shadow-sm" onclick="window.location.reload()">
+    <i class="fa-solid fa-fw fa-arrows-rotate mr-2 text-blue-600"></i>Muat Ulang Data
 </button>
 <?= $this->endSection() ?>
 
@@ -28,7 +28,7 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
                     <i class="fa-solid fa-fw fa-newspaper text-lg sm:text-xl"></i>
                 </div>
                 <div class="ml-4 sm:ml-5">
-                    <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tighter"><?= $postCount ?? '0' ?></h3>
+                    <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tighter"><?= number_format($postCount ?? 0, 0, ',', '.') ?></h3>
                     <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest mt-0.5">Total Berita</p>
                 </div>
             </div>
@@ -44,7 +44,7 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
                     <i class="fa-solid fa-fw fa-folder text-lg sm:text-xl"></i>
                 </div>
                 <div class="ml-4 sm:ml-5">
-                    <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tighter"><?= $categoryCount ?? '0' ?></h3>
+                    <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tighter"><?= number_format($categoryCount ?? 0, 0, ',', '.') ?></h3>
                     <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest mt-0.5">Total Kategori</p>
                 </div>
             </div>
@@ -60,7 +60,7 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
                     <i class="fa-solid fa-fw fa-tags text-lg sm:text-xl"></i>
                 </div>
                 <div class="ml-4 sm:ml-5">
-                    <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tighter"><?= $tagCount ?? '0' ?></h3>
+                    <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tighter"><?= number_format($tagCount ?? 0, 0, ',', '.') ?></h3>
                     <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest mt-0.5">Total Tag</p>
                 </div>
             </div>
@@ -78,7 +78,7 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
                     <i class="fa-solid fa-fw fa-users text-lg sm:text-xl"></i>
                 </div>
                 <div class="ml-4 sm:ml-5">
-                    <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tighter"><?= $userCount ?? '0' ?></h3>
+                    <h3 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tighter"><?= number_format($userCount ?? 0, 0, ',', '.') ?></h3>
                     <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest mt-0.5">Total User</p>
                 </div>
             </div>
@@ -175,7 +175,7 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
                     <?php if (!empty($recentPosts)) : ?>
                         <?php foreach ($recentPosts as $post) : ?>
                             <tr class="hover:bg-slate-50 transition-colors group">
-                                <td class="px-5 sm:px-8 py-4 sm:py-5 text-xs font-bold text-slate-700 truncate max-w-[180px] sm:max-w-xs group-hover:text-blue-800 transition-colors"><?= esc($post['title']) ?></td>
+                                <td class="px-5 sm:px-8 py-4 sm:py-5 text-xs font-bold text-slate-700 truncate max-w-[180px] sm:max-w-xs group-hover:text-blue-800 transition-colors" title="<?= esc($post['title']) ?>"><?= esc($post['title']) ?></td>
                                 <td class="px-5 sm:px-8 py-4 sm:py-5 text-right whitespace-nowrap">
                                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-tighter italic">
                                         <?= format_date($post['published_at'], 'date_only') ?>
@@ -205,18 +205,25 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
             .replace(/'/g, '&#39;');
 
         fetch('<?= base_url('api/analytics/popular-posts') ?>')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('Network error');
+                return response.json();
+            })
             .then(data => {
                 popularPostsData.innerHTML = '';
+                if (data && !Array.isArray(data) && data.status === 'error') {
+                    throw new Error(data.message || 'Analytics error');
+                }
                 if (!Array.isArray(data) || data.length === 0) {
                     popularPostsData.innerHTML = '<tr><td colspan="2" class="px-8 py-12 text-center text-slate-400 italic font-medium">Belum ada data.</td></tr>';
                     return;
                 }
-                data.forEach(item => {
+                data.slice(0, 5).forEach(item => {
                     const row = document.createElement('tr');
+                    const titleText = escapeHtml(item.title);
                     row.className = 'hover:bg-slate-50 transition-colors group';
                     row.innerHTML = `
-                        <td class="px-8 py-5 text-xs font-bold text-slate-700 truncate max-w-xs group-hover:text-blue-800 transition-colors">${escapeHtml(item.title)}</td>
+                        <td class="px-8 py-5 text-xs font-bold text-slate-700 truncate max-w-xs group-hover:text-blue-800 transition-colors" title="${titleText}">${titleText}</td>
                         <td class="px-8 py-5 text-right whitespace-nowrap">
                             <span class="px-3 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">
                                 ${parseInt(item.views || 0, 10).toLocaleString('id-ID')} Dilihat

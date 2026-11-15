@@ -16,7 +16,6 @@ class Dashboard extends BaseController
         $tagModel = new TagModel();
         $userModel = new UserModel();
 
-        $lastPost = $postModel->orderBy('published_at', 'DESC')->first();
         $data = [
             'postCount' => $postModel->countAllResults(),
             'categoryCount' => $categoryModel->countAllResults(),
@@ -29,7 +28,6 @@ class Dashboard extends BaseController
                 ->orderBy('posts.published_at', 'DESC')
                 ->limit(5)
                 ->findAll(),
-            'lastPostUpdate' => $lastPost ? format_date($lastPost['published_at']) : 'N/A',
         ];
 
         return $this->render('admin/dashboard/index', $data);

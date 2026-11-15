@@ -5,14 +5,14 @@
 <?= $this->section('page_actions') ?>
 <div class="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
     <!-- Year Select -->
-    <select id="year-select" class="bg-white border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider px-3 sm:px-4 py-2 focus:ring-2 focus:ring-blue-800 outline-none shadow-sm transition-all text-slate-700 flex-1 sm:flex-initial">
+    <select id="year-select" aria-label="Pilih tahun laporan" class="h-10 bg-white border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider px-3 sm:px-4 focus:ring-2 focus:ring-blue-800 outline-none shadow-sm transition-all text-slate-700 flex-1 sm:flex-initial">
         <?php for($y = $maxYear; $y >= $minYear; $y--): ?>
             <option value="<?= $y ?>" <?= $y == $year ? 'selected' : '' ?>><?= $y ?></option>
         <?php endfor; ?>
     </select>
 
     <!-- Month Select -->
-    <select id="month-select" class="bg-white border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider px-3 sm:px-4 py-2 focus:ring-2 focus:ring-blue-800 outline-none shadow-sm transition-all text-slate-700 flex-1 sm:flex-initial">
+    <select id="month-select" aria-label="Pilih bulan laporan" class="h-10 bg-white border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider px-3 sm:px-4 focus:ring-2 focus:ring-blue-800 outline-none shadow-sm transition-all text-slate-700 flex-1 sm:flex-initial">
         <?php 
         $limitMonth = ($year == $currentYear) ? $currentMonth : 12;
         for($m = 1; $m <= $limitMonth; $m++): 
@@ -24,7 +24,7 @@
         <?php endfor; ?>
     </select>
 
-    <a href="<?= base_url("admin/reports/download-pdf/{$year}/" . str_pad($month, 2, '0', STR_PAD_LEFT)) ?>" id="download-pdf-btn" class="inline-flex items-center justify-center px-4 py-2 bg-rose-600 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-rose-700 transition-all shadow-lg shadow-rose-900/20 w-full sm:w-auto">
+    <a href="<?= base_url("admin/reports/download-pdf/{$year}/" . str_pad($month, 2, '0', STR_PAD_LEFT)) ?>" id="download-pdf-btn" class="inline-flex items-center justify-center h-10 px-4 bg-rose-600 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-rose-700 transition-all shadow-lg shadow-rose-900/20 w-full sm:w-auto">
         <i class="fa-solid fa-fw fa-file-pdf mr-2" id="btn-icon"></i>
         <div id="loading-spinner" class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
         Unduh PDF
@@ -48,7 +48,7 @@
             </div>
             <div class="bg-white px-5 sm:px-6 py-3 sm:py-4 rounded-2xl border border-slate-200 shadow-sm text-center md:text-right">
                 <p class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Berita</p>
-                <h4 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tighter"><?= count($posts) ?> <span class="text-xs sm:text-sm font-bold text-slate-400 uppercase">Berita</span></h4>
+                <h4 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tighter"><?= number_format(count($posts), 0, ',', '.') ?> <span class="text-xs sm:text-sm font-bold text-slate-400 uppercase">Berita</span></h4>
             </div>
         </div>
     </div>
@@ -69,26 +69,26 @@
                 <?php if (!empty($posts)): ?>
                     <?php foreach ($posts as $post): ?>
                         <tr class="hover:bg-slate-50 transition-colors group">
-                            <td class="px-8 py-6">
+                            <td class="px-4 sm:px-8 py-4 sm:py-6">
                                 <div class="font-bold text-slate-900 tracking-tight text-xs leading-relaxed max-w-xs group-hover:text-blue-800 transition-colors">
                                     <?= esc($post['title']) ?>
                                 </div>
                             </td>
-                            <td class="px-8 py-6">
+                            <td class="px-4 sm:px-8 py-4 sm:py-6">
                                 <p class="text-[10px] text-slate-500 leading-relaxed max-w-sm line-clamp-2 font-medium">
                                     <?= word_limiter(strip_tags($post['content']), 20) ?>
                                 </p>
                             </td>
-                            <td class="px-8 py-6">
+                            <td class="px-4 sm:px-8 py-4 sm:py-6">
                                 <span class="px-3 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100 whitespace-nowrap">
-                                    <?= number_format($post['views']) ?> Dilihat
+                                    <?= number_format($post['views'] ?? 0, 0, ',', '.') ?> Dilihat
                                 </span>
                             </td>
-                            <td class="px-8 py-6 text-[10px] font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap">
+                            <td class="px-4 sm:px-8 py-4 sm:py-6 text-[10px] font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap">
                                 <?= format_date($post['published_at'], 'date_only') ?>
                             </td>
-                            <td class="px-8 py-6 text-right">
-                                <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>" target="_blank" class="inline-flex items-center p-2 bg-slate-100 text-slate-400 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all shadow-sm">
+                            <td class="px-4 sm:px-8 py-4 sm:py-6 text-right">
+                                <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>" target="_blank" rel="noopener noreferrer" aria-label="Lihat berita" title="Lihat berita" class="inline-flex items-center p-2 bg-slate-100 text-slate-400 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all shadow-sm">
                                     <i class="fa-solid fa-fw fa-up-right-from-square text-xs"></i>
                                 </a>
                             </td>

@@ -110,11 +110,12 @@ class AuditLogService
         $this->createTableIfNotExists();
         $today = date('Y-m-d 00:00:00');
 
+        // Reset query di setiap penghitungan agar kondisi where tidak saling menumpuk
         return [
-            'total'      => $this->logModel->countAllResults(false),
-            'today'      => $this->logModel->where('created_at >=', $today)->countAllResults(false),
-            'auth'       => $this->logModel->where('module', 'auth')->countAllResults(false),
-            'activities' => $this->logModel->where('module !=', 'auth')->countAllResults(false),
+            'total'      => $this->logModel->countAllResults(),
+            'today'      => $this->logModel->where('created_at >=', $today)->countAllResults(),
+            'auth'       => $this->logModel->where('module', 'auth')->countAllResults(),
+            'activities' => $this->logModel->where('module !=', 'auth')->countAllResults(),
         ];
     }
 

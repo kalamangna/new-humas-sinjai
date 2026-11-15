@@ -17,6 +17,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Tata Letak Overview & Sub-halaman Analitik**: Memindahkan kontainer rentang tanggal kustom pada `overview.php` ke baris tersendiri agar header tetap lega, menaikkan keterbacaan deskripsi metrik, menyelaraskan label `Sumber Kunjungan`, serta merapikan tabel pada `top_pages.php` dan `traffic_sources.php`.
 
 ### Fixed
+- **Statistik & UI Halaman Audit Log**: Memperbaiki `AuditLogService::getStats()` agar mereset query di setiap penghitungan sehingga jumlah `Autentikasi` dan `Aktivitas Konten` akurat; merapikan tinggi elemen filter (`h-10`), format angka pemisah Indonesia, label kolom `Alamat IP dan Perangkat`, badge modul `settings`, serta tombol `Reset` pada empty state.
 - **Penanganan Error, Zona Waktu, & Cache Analitik**: Memperbaiki penanganan `.catch()` dan empty state pada seluruh halaman analitik, perhitungan tanggal lokal (`formatLocalDate`) pada `overview.php`, pembulatan durasi kunjungan, validasi rentang tanggal kustom inline, pengurutan dan pembatasan data pada `GoogleAnalyticsModel`, serta caching hasil kosong pada `GoogleAnalyticsService`.
 
 ### Security

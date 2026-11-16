@@ -9,7 +9,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [2026-11-17]
 ### Changed
-- **Standardisasi UI & Konsistensi Halaman Publik**: Menyeragamkan komponen header halaman, kartu empty state, format pemisah angka Indonesia (`number_format(..., 0, ',', '.')`), informasi pagination, indikator navigasi aktif di `navbar.php`, atribut `rel="noopener noreferrer"` serta `aria-label` pada seluruh tautan eksternal/media sosial, visibilitas tombol `Salin Kode` di layar ponsel pada `widget_guide.php`, serta animasi equalizer dan aksesibilitas pemutar pada `live/radio.php`.
+- **Standardisasi UI & Konsistensi Halaman Publik**: Menyeragamkan komponen header halaman, kartu empty state, format pemisah angka Indonesia (`number_format(..., 0, ',', '.')`), informasi pagination, indikator navigasi aktif di `navbar.php`, atribut `rel="noopener noreferrer"` serta `aria-label` pada seluruh tautan eksternal/media sosial, visibilitas tombol `Salin Kode` di layar ponsel dan teks umpan balik `Kode Disalin` pada `widget_guide.php`, teks umpan balik `Tautan Disalin` pada `posts/detail.php`, serta animasi equalizer dan aksesibilitas pemutar pada `live/radio.php`.
 
 ### Fixed
 - **Pagination Detail Kategori Publik**: Memperbaiki pemanggilan grup pager `'posts'` pada `frontend/categories/detail.php` agar navigasi halaman kategori berfungsi sesuai konfigurasi `PostService`.

@@ -202,7 +202,7 @@
 
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = btn.innerText;
-                btn.innerText = 'Kode Widget Disalin';
+                btn.innerText = 'Kode Disalin';
                 btn.classList.add('bg-emerald-600');
                 btn.classList.remove('bg-blue-800');
 

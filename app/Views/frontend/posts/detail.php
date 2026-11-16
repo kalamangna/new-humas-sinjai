@@ -302,7 +302,7 @@
         const url = window.location.href;
         navigator.clipboard.writeText(url).then(() => {
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-fw fa-check mr-2"></i>Tautan Berita Disalin';
+            btn.innerHTML = '<i class="fa-solid fa-fw fa-check mr-2"></i>Tautan Disalin';
             btn.classList.replace('bg-slate-100', 'bg-emerald-600');
             btn.classList.add('text-white');
             btn.classList.remove('text-slate-700', 'border-slate-200');

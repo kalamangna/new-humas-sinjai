@@ -38,9 +38,9 @@ class ProfileService extends BaseService
         $isImageOptional = $isUpdate || !$hasBioAndImage;
 
         if ($isImageOptional) {
-            $rules['image'] = ['label' => 'Foto', 'rules' => 'permit_empty|max_size[image,2048]|is_image[image]'];
+            $rules['image'] = ['label' => 'Foto', 'rules' => 'permit_empty|max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png,image/webp]'];
         } else {
-            $rules['image'] = ['label' => 'Foto', 'rules' => 'uploaded[image]|max_size[image,2048]|is_image[image]'];
+            $rules['image'] = ['label' => 'Foto', 'rules' => 'uploaded[image]|max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png,image/webp]'];
         }
 
         return $rules;

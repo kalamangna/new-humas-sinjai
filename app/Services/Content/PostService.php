@@ -45,9 +45,11 @@ class PostService extends BaseService
             'tags'       => 'required'
         ];
 
-        // Only require thumbnail upload if it's a new post AND no pasted thumbnail provided
+        // Wajib unggah thumbnail hanya saat membuat berita baru tanpa data tempelan base64, namun tetap validasi jika file baru dikirim
         if (!$isUpdate && !$hasPastedThumbnail) {
             $rules['thumbnail'] = 'uploaded[thumbnail]|max_size[thumbnail,2048]|is_image[thumbnail]|mime_in[thumbnail,image/jpg,image/jpeg,image/png,image/webp]';
+        } else {
+            $rules['thumbnail'] = 'permit_empty|max_size[thumbnail,2048]|is_image[thumbnail]|mime_in[thumbnail,image/jpg,image/jpeg,image/png,image/webp]';
         }
 
         return $rules;

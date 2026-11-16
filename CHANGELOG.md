@@ -7,6 +7,16 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2026-11-17]
+### Fixed
+- **Isolasi Status Berita Publik**: Menambahkan filter `status = 'published'` pada halaman kategori publik (`Home::category`), penghitungan jumlah berita di halaman daftar kategori serta tag publik (`Home::categories`, `Home::tags`), dan kueri laporan bulanan (`PostModel::getPostsByMonthYear`) agar berita berstatus `draft` tidak bocor ke publik atau laporan.
+
+### Security
+- **Validasi Server-Side & Proteksi Akun Manajemen User**: Menambahkan validasi ketat (`name`, `email` unik, `password` minimal 8 karakter, dan whitelist `role` `admin`/`author`) serta pembatasan field eksplisit pada `Users::create()` dan `Users::update()`, disertai pemblokiran penghapusan atau penurunan role akun sendiri pada `Users::delete()` dan `Users::update()`.
+- **Validasi Upload & Pemrosesan Gambar**: Menambahkan aturan validasi `is_image`, `mime_in`, dan `max_size` saat pembaruan berita (`PostService`), slide (`CarouselService`), dan profil (`ProfileService`); menerapkan whitelist ekstensi, batas ukuran payload base64, serta verifikasi `getimagesize()` pada `Posts::generateArticleImages()`.
+- **Sanitasi HTML & Keamanan Widget RSS**: Menghapus atribut berbahaya `srcdoc` dan `formaction` pada `BaseService::sanitizeHtml()`; menambahkan fungsi `escapeHtml()`, validasi skema URL `http`/`https`, `rel="noopener noreferrer"` pada `public/rss-widget/loader.js`, serta timeout cURL dan flag `LIBXML_NONET | LIBXML_NOCDATA` pada `public/rss-widget/index.php`.
+- **CSRF Berbasis Sesi, Hardening Proxy, & Proteksi `.htaccess`**: Mengubah penyimpanan token CSRF menjadi berbasis sesi (`$csrfProtection = 'session'` pada `Config\Security`), membatasi pencocokan ID numerik pada `PostModel::getPosts()` hanya untuk akses admin internal, menerapkan whitelist `tipe` dan timeout pada proxy wilayah `Profiles`, serta menambahkan pemblokiran berkas sensitif dan header `X-Content-Type-Options: nosniff` serta `Referrer-Policy` pada `public/.htaccess`.
+
 ## [2026-11-15]
 ### Added
 - **Komponen Bersama Analitik**: Mengekstrak banner status API (`partials/analytics_error_banner.php`) dan helper skrip sub-halaman (`partials/analytics_subpage_scripts.php`) untuk penanganan error, escaping HTML, dan sinkronisasi periode aktif.

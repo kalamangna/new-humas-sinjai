@@ -224,19 +224,33 @@ class Posts extends BaseController
         try {
             $tempPath = null;
             $extension = 'jpg';
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
 
             if ($source instanceof \CodeIgniter\HTTP\Files\UploadedFile) {
                 if (!$source->isValid()) return null;
                 $tempPath = $source->getRealPath();
-                $extension = $source->getExtension();
+                $ext = strtolower($source->getExtension() ?: $source->guessExtension() ?: 'jpg');
+                $extension = in_array($ext, $allowedExtensions, true) ? $ext : 'jpg';
             } elseif (is_string($source) && strpos($source, 'data:image') === 0) {
-                $parts = explode(',', $source);
-                $data = base64_decode($parts[1]);
-                $tempPath = WRITEPATH . 'cache/' . uniqid() . '.tmp';
+                $parts = explode(',', $source, 2);
+                if (count($parts) !== 2 || strlen($parts[1]) > 4 * 1024 * 1024) {
+                    return null;
+                }
+                $data = base64_decode($parts[1], true);
+                if ($data === false) {
+                    return null;
+                }
+                $tempPath = WRITEPATH . 'cache/' . bin2hex(random_bytes(8)) . '.tmp';
                 file_put_contents($tempPath, $data);
             }
 
             if (!$tempPath || !file_exists($tempPath)) return null;
+
+            // Pastikan file benar-benar gambar yang valid sebelum diproses GD
+            if (@getimagesize($tempPath) === false) {
+                if (is_string($source)) @unlink($tempPath);
+                return null;
+            }
 
             $subDir = date('Y/m');
             $paths = [

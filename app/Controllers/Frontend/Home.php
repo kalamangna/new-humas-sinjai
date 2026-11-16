@@ -90,7 +90,7 @@ class Home extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the category: ' . $slug);
         }
 
-        $result = $this->postService->getAdminPosts(['category' => $category['id']], 12);
+        $result = $this->postService->getAdminPosts(['category' => $category['id'], 'status' => 'published'], 12);
 
         $data = [
             'category'    => $category,
@@ -193,8 +193,9 @@ class Home extends BaseController
     {
         $categoryModel = new CategoryModel();
         $allCategories = $categoryModel
-            ->select('categories.*, COUNT(post_categories.post_id) as post_count')
+            ->select('categories.*, COUNT(posts.id) as post_count')
             ->join('post_categories', 'post_categories.category_id = categories.id', 'left')
+            ->join('posts', 'posts.id = post_categories.post_id AND posts.status = "published"', 'left')
             ->groupBy('categories.id')
             ->orderBy('categories.name', 'ASC')
             ->findAll();
@@ -228,8 +229,9 @@ class Home extends BaseController
         $tagModel = new TagModel();
         $data = [
             'tags' => $tagModel
-                ->select('tags.*, COUNT(post_tags.post_id) as post_count')
+                ->select('tags.*, COUNT(posts.id) as post_count')
                 ->join('post_tags', 'post_tags.tag_id = tags.id', 'left')
+                ->join('posts', 'posts.id = post_tags.post_id AND posts.status = "published"', 'left')
                 ->groupBy('tags.id')
                 ->orderBy('tags.name', 'ASC')
                 ->findAll(),

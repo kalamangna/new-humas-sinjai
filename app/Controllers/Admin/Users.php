@@ -37,12 +37,30 @@ class Users extends BaseController
 
     public function create()
     {
-        $postData = $this->request->getPost();
-        if ($this->userService->createUser($postData)) {
-            audit_log('users', 'create', 'Menambah user: ' . ($postData['name'] ?? ''));
+        $validationRules = [
+            'name'     => 'required|min_length[3]|max_length[255]',
+            'email'    => 'required|valid_email|is_unique[users.email]',
+            'password' => 'required|min_length[8]',
+            'role'     => 'required|in_list[admin,author]',
+        ];
+
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $userData = [
+            'name'     => trim((string) $this->request->getPost('name')),
+            'email'    => trim((string) $this->request->getPost('email')),
+            'password' => (string) $this->request->getPost('password'),
+            'role'     => (string) $this->request->getPost('role'),
+        ];
+
+        if ($this->userService->createUser($userData)) {
+            audit_log('users', 'create', 'Menambah user: ' . $userData['name']);
             return redirect()->to(base_url('admin/users'))->with('success', 'User berhasil dibuat.');
         }
-        return redirect()->back()->withInput()->with('errors', 'Failed to create user.');
+
+        return redirect()->back()->withInput()->with('error', 'Gagal membuat user baru.');
     }
 
     public function show($id = null)
@@ -65,22 +83,66 @@ class Users extends BaseController
 
     public function update($id = null)
     {
-        $postData = $this->request->getPost();
-        if ($this->userService->updateUser((int)$id, $postData)) {
-            audit_log('users', 'update', 'Mengubah user: ' . ($postData['name'] ?? "#{$id}"));
+        $id = (int) $id;
+        $user = $this->userService->getUserById($id);
+        if (!$user) {
+            return redirect()->to(base_url('admin/users'))->with('error', 'User tidak ditemukan.');
+        }
+
+        $validationRules = [
+            'name'  => 'required|min_length[3]|max_length[255]',
+            'email' => 'required|valid_email|is_unique[users.email,id,' . $id . ']',
+            'role'  => 'required|in_list[admin,author]',
+        ];
+
+        if ($this->request->getPost('password')) {
+            $validationRules['password'] = 'min_length[8]';
+        }
+
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $role = (string) $this->request->getPost('role');
+        if ($id === (int) session()->get('user_id') && $role !== 'admin') {
+            return redirect()->back()->withInput()->with('error', 'Role akun yang sedang digunakan tidak dapat diubah.');
+        }
+
+        $updateData = [
+            'name'  => trim((string) $this->request->getPost('name')),
+            'email' => trim((string) $this->request->getPost('email')),
+            'role'  => $role,
+        ];
+
+        if ($this->request->getPost('password')) {
+            $updateData['password'] = (string) $this->request->getPost('password');
+        }
+
+        if ($this->userService->updateUser($id, $updateData)) {
+            audit_log('users', 'update', 'Mengubah user: ' . $updateData['name']);
             return redirect()->to(base_url('admin/users'))->with('success', 'User berhasil diperbarui.');
         }
-        return redirect()->back()->withInput()->with('errors', 'Failed to update user.');
+
+        return redirect()->back()->withInput()->with('error', 'Gagal memperbarui data user.');
     }
 
     public function delete($id = null)
     {
-        $user = $this->userService->getUserById((int)$id);
-        if ($this->userService->deleteUser((int)$id)) {
+        $id = (int) $id;
+        if ($id === (int) session()->get('user_id')) {
+            return redirect()->to(base_url('admin/users'))->with('error', 'Akun yang sedang digunakan tidak dapat dihapus.');
+        }
+
+        $user = $this->userService->getUserById($id);
+        if (!$user) {
+            return redirect()->to(base_url('admin/users'))->with('error', 'User tidak ditemukan.');
+        }
+
+        if ($this->userService->deleteUser($id)) {
             audit_log('users', 'delete', 'Menghapus user: ' . ($user['name'] ?? "#{$id}"));
             return redirect()->to(base_url('admin/users'))->with('success', 'User berhasil dihapus.');
         }
-        return redirect()->to(base_url('admin/users'))->with('error', 'Error deleting user.');
+        return redirect()->to(base_url('admin/users'))->with('error', 'Gagal menghapus user.');
     }
 
     public function profile()

@@ -7,12 +7,24 @@ $rss_url = 'https://humas.sinjaikab.go.id/v1/rss';
 function load_rss($url)
 {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0');
+    curl_setopt_array($ch, [
+        CURLOPT_URL            => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_USERAGENT      => 'Mozilla/5.0',
+        CURLOPT_CONNECTTIMEOUT => 5,
+        CURLOPT_TIMEOUT        => 10,
+        CURLOPT_PROTOCOLS      => CURLPROTO_HTTPS | CURLPROTO_HTTP,
+        CURLOPT_SSL_VERIFYPEER => true,
+        CURLOPT_FOLLOWLOCATION => false,
+    ]);
     $data = curl_exec($ch);
     curl_close($ch);
-    return simplexml_load_string($data);
+
+    if ($data === false || empty($data)) {
+        return false;
+    }
+
+    return @simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NONET | LIBXML_NOCDATA);
 }
 
 $rss = load_rss($rss_url);

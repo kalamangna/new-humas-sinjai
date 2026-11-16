@@ -25,7 +25,9 @@ class CarouselService extends BaseService
         ];
 
         if (!$isUpdate) {
-            $rules['image'] = 'uploaded[image]|max_size[image,2048]|is_image[image]';
+            $rules['image'] = 'uploaded[image]|max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png,image/webp]';
+        } else {
+            $rules['image'] = 'permit_empty|max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png,image/webp]';
         }
 
         return $rules;

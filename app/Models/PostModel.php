@@ -63,13 +63,13 @@ class PostModel extends Model
             return $this->addGAData($posts);
         }
 
-        if (is_numeric($slug)) {
+        if (!$publishedOnly && is_numeric($slug)) {
             $builder->groupStart()
                 ->where('posts.slug', (string)$slug)
                 ->orWhere('posts.id', (int)$slug)
             ->groupEnd();
         } else {
-            $builder->where('posts.slug', $slug);
+            $builder->where('posts.slug', (string)$slug);
         }
 
         $post = $builder->first();
@@ -160,7 +160,8 @@ class PostModel extends Model
 
     public function getPostsByMonthYear($month, $year)
     {
-        $posts = $this->where('MONTH(published_at)', $month)
+        $posts = $this->where('status', 'published')
+            ->where('MONTH(published_at)', $month)
             ->where('YEAR(published_at)', $year)
             ->findAll();
 

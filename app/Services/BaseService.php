@@ -74,7 +74,10 @@ class BaseService
         $html = preg_replace('#</?(applet|embed|object|form|base|meta|link|svg|math|canvas)(.*?)>#is', '', $html);
 
         // Remove javascript:, vbscript:, and data:text/html URIs
-        $html = preg_replace('#(javascript|vbscript|data\s*:\s*text/html):#is', '$1-blocked:', $html);
+        $html = preg_replace('#(javascript|vbscript|data\s*:\s*text/html)\s*:#is', '$1-blocked:', $html);
+
+        // Hapus atribut srcdoc dan formaction untuk mencegah eksekusi skrip via iframe
+        $html = preg_replace('#\s*(srcdoc|formaction)\s*=\s*(".*?"|\'.*?\'|[^\s>]+)#is', '', $html);
 
         // Remove inline event handlers (onload, onerror, onclick, etc.)
         $html = preg_replace('#\s*on[a-zA-Z]+\s*=\s*(".*?"|\'.*?\'|[^\s>]+)#is', '', $html);

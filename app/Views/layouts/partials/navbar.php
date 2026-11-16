@@ -11,7 +11,7 @@
                         Beranda
                     </a>
 
-                    <a href="<?= base_url('posts') ?>" class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider <?= url_is('posts') ? 'bg-blue-800 shadow-inner' : 'hover:bg-blue-800 transition-colors' ?>">
+                    <a href="<?= base_url('posts') ?>" class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider <?= (url_is('posts*') || url_is('post/*')) ? 'bg-blue-800 shadow-inner' : 'hover:bg-blue-800 transition-colors' ?>">
                         Berita
                     </a>
                     <a href="<?= base_url('program-prioritas') ?>" class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider <?= url_is('program-prioritas') ? 'bg-blue-800 shadow-inner' : 'hover:bg-blue-800 transition-colors' ?>">
@@ -20,7 +20,7 @@
 
                     <!-- Dropdown Kategori -->
                     <div class="relative group">
-                        <button aria-haspopup="true" aria-expanded="false" class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition-all inline-flex items-center">
+                        <button aria-haspopup="true" aria-expanded="false" class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider inline-flex items-center <?= (url_is('categories*') || url_is('category/*')) ? 'bg-blue-800 shadow-inner' : 'hover:bg-blue-800 transition-all' ?>">
                             Kategori
                             <i class="fa-solid fa-fw fa-chevron-down ml-2 text-[10px] opacity-50"></i>
                         </button>
@@ -57,7 +57,7 @@
 
                     <!-- Dropdown Profil -->
                     <div class="relative group">
-                        <button aria-haspopup="true" aria-expanded="false" class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition-all inline-flex items-center">
+                        <button aria-haspopup="true" aria-expanded="false" class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider inline-flex items-center <?= url_is('profil/*') ? 'bg-blue-800 shadow-inner' : 'hover:bg-blue-800 transition-all' ?>">
                             Profil
                             <i class="fa-solid fa-fw fa-chevron-down ml-2 text-[10px] opacity-50"></i>
                         </button>
@@ -74,7 +74,7 @@
 
                     <!-- Dropdown Live -->
                     <div class="relative group">
-                        <button aria-haspopup="true" aria-expanded="false" class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition-all inline-flex items-center">
+                        <button aria-haspopup="true" aria-expanded="false" class="px-3 py-2 rounded-lg text-sm font-bold uppercase tracking-wider inline-flex items-center <?= url_is('live/*') ? 'bg-blue-800 shadow-inner' : 'hover:bg-blue-800 transition-all' ?>">
                             <span class="relative flex h-2 w-2 mr-2">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
@@ -115,13 +115,13 @@
     <div id="mobile-menu" class="hidden xl:hidden bg-blue-950 px-4 pt-4 pb-8 space-y-2 border-t border-blue-800 max-h-[calc(100vh-5rem)] overflow-y-auto">
         <a href="<?= base_url('/') ?>" class="block px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest <?= url_is('/') ? 'bg-blue-800 text-white shadow-lg' : 'text-blue-200 hover:bg-blue-900 hover:text-white' ?>">Beranda</a>
 
-        <a href="<?= base_url('posts') ?>" class="block px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest <?= url_is('posts') ? 'bg-blue-800 text-white shadow-lg' : 'text-blue-200 hover:bg-blue-900 hover:text-white' ?>">Berita</a>
+        <a href="<?= base_url('posts') ?>" class="block px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest <?= (url_is('posts*') || url_is('post/*')) ? 'bg-blue-800 text-white shadow-lg' : 'text-blue-200 hover:bg-blue-900 hover:text-white' ?>">Berita</a>
 
         <a href="<?= base_url('program-prioritas') ?>" class="block px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest <?= url_is('program-prioritas') ? 'bg-blue-800 text-white shadow-lg' : 'text-blue-200 hover:bg-blue-900 hover:text-white' ?>">Program</a>
 
         <!-- Mobile Kategori Collapsible -->
         <div class="py-2">
-            <button type="button" id="mobile-categories-button" aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
+            <button type="button" id="mobile-categories-button" aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest transition-all <?= (url_is('categories*') || url_is('category/*')) ? 'bg-blue-800 text-white shadow-lg' : 'text-blue-200 hover:bg-blue-900 hover:text-white' ?>">
                 <span>Kategori</span>
                 <i class="fa-solid fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-categories-arrow"></i>
             </button>
@@ -148,7 +148,7 @@
 
         <!-- Mobile Profil Collapsible -->
         <div class="py-2">
-            <button type="button" id="mobile-profile-button" aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
+            <button type="button" id="mobile-profile-button" aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest transition-all <?= url_is('profil/*') ? 'bg-blue-800 text-white shadow-lg' : 'text-blue-200 hover:bg-blue-900 hover:text-white' ?>">
                 <span>Profil</span>
                 <i class="fa-solid fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-profile-arrow"></i>
             </button>
@@ -163,7 +163,7 @@
 
         <!-- Mobile Live Collapsible -->
         <div class="py-2">
-            <button type="button" id="mobile-live-button" aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest text-blue-200 hover:bg-blue-900 hover:text-white transition-all">
+            <button type="button" id="mobile-live-button" aria-haspopup="true" aria-expanded="false" class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-black uppercase tracking-widest transition-all <?= url_is('live/*') ? 'bg-blue-800 text-white shadow-lg' : 'text-blue-200 hover:bg-blue-900 hover:text-white' ?>">
                 <span class="flex items-center">
                     <span class="relative flex h-2 w-2 mr-2">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>

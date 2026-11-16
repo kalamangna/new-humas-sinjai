@@ -8,7 +8,11 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ## [2026-11-17]
+### Changed
+- **Standardisasi UI & Konsistensi Halaman Publik**: Menyeragamkan komponen header halaman, kartu empty state, format pemisah angka Indonesia (`number_format(..., 0, ',', '.')`), informasi pagination, indikator navigasi aktif di `navbar.php`, atribut `rel="noopener noreferrer"` serta `aria-label` pada seluruh tautan eksternal/media sosial, visibilitas tombol `Salin Kode` di layar ponsel pada `widget_guide.php`, serta animasi equalizer dan aksesibilitas pemutar pada `live/radio.php`.
+
 ### Fixed
+- **Pagination Detail Kategori Publik**: Memperbaiki pemanggilan grup pager `'posts'` pada `frontend/categories/detail.php` agar navigasi halaman kategori berfungsi sesuai konfigurasi `PostService`.
 - **Isolasi Status Berita Publik**: Menambahkan filter `status = 'published'` pada halaman kategori publik (`Home::category`), penghitungan jumlah berita di halaman daftar kategori serta tag publik (`Home::categories`, `Home::tags`), dan kueri laporan bulanan (`PostModel::getPostsByMonthYear`) agar berita berstatus `draft` tidak bocor ke publik atau laporan.
 
 ### Security

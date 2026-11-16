@@ -46,7 +46,7 @@
                             <i class="fa-solid fa-fw fa-tag mr-3 text-slate-300 group-hover:text-sky-300 transition-colors"></i>
                             <span class="font-bold text-sm tracking-tight"><?= esc($tag['name']) ?></span>
                             <span class="ml-4 px-2 py-0.5 bg-slate-200 text-slate-500 text-[10px] font-black rounded-lg group-hover:bg-blue-900 group-hover:text-white transition-all">
-                                <?= number_format($tag['post_count']) ?>
+                                <?= number_format($tag['post_count'] ?? 0, 0, ',', '.') ?>
                             </span>
                         </a>
                     <?php endforeach; ?>
@@ -55,14 +55,13 @@
         </div>
     <?php else : ?>
         <!-- Empty State -->
-        <div class="text-center py-20 max-w-xl mx-auto">
-            <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
-                <i class="fa-solid fa-fw fa-tags text-3xl"></i>
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-12 text-center max-w-xl mx-auto">
+            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
+                <i class="fa-solid fa-fw fa-tags text-2xl"></i>
             </div>
-            <h2 class="text-xl font-bold text-slate-900 mb-2">Belum Ada Tag</h2>
-            <p class="text-slate-500 text-sm mb-6">Saat ini sistem belum memiliki kata kunci atau tag untuk klasifikasi berita. Silakan kembali lagi nanti.</p>
-            <a href="<?= base_url() ?>" class="inline-flex items-center px-6 py-2.5 bg-slate-100 text-slate-600 font-bold uppercase tracking-widest text-[10px] rounded-lg hover:bg-slate-200 transition-all">
-                <i class="fa-solid fa-fw fa-house mr-2"></i>Beranda
+            <h2 class="text-xl font-black text-slate-900 mb-6 tracking-tight uppercase">Belum ada tag berita</h2>
+            <a href="<?= base_url('/') ?>" class="inline-flex items-center h-11 px-6 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-blue-900 transition-all shadow-sm">
+                <i class="fa-solid fa-fw fa-house mr-2"></i>Kembali ke Beranda
             </a>
         </div>
     <?php endif; ?>

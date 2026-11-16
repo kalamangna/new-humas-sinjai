@@ -18,19 +18,19 @@
                 </div>
                 <div class="flex space-x-6">
                     <?php if ($fb = get_setting('social_facebook')): ?>
-                        <a href="<?= esc($fb) ?>" target="_blank" aria-label="Kunjungi Facebook Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-facebook-f text-xl"></i></a>
+                        <a href="<?= esc($fb) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Facebook Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-facebook-f text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($ig = get_setting('social_instagram')): ?>
-                        <a href="<?= esc($ig) ?>" target="_blank" aria-label="Kunjungi Instagram Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-instagram text-xl"></i></a>
+                        <a href="<?= esc($ig) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Instagram Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-instagram text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($yt = get_setting('social_youtube')): ?>
-                        <a href="<?= esc($yt) ?>" target="_blank" aria-label="Kunjungi Kanal YouTube Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-youtube text-xl"></i></a>
+                        <a href="<?= esc($yt) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Kanal YouTube Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-youtube text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($tk = get_setting('social_tiktok')): ?>
-                        <a href="<?= esc($tk) ?>" target="_blank" aria-label="Kunjungi TikTok Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-tiktok text-xl"></i></a>
+                        <a href="<?= esc($tk) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi TikTok Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-tiktok text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($tw = get_setting('social_twitter')): ?>
-                        <a href="<?= esc($tw) ?>" target="_blank" aria-label="Kunjungi X Twitter Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-x-twitter text-xl"></i></a>
+                        <a href="<?= esc($tw) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi X Twitter Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-x-twitter text-xl"></i></a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                 <h3 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-10 flex items-center">
                     <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>Pengaduan
                 </h3>
-                <a href="https://lapor.go.id/" target="_blank" class="inline-block bg-white p-4 rounded-2xl shadow-2xl hover:shadow-blue-900/20 transition-all hover:-translate-y-1">
+                <a href="https://lapor.go.id/" target="_blank" rel="noopener noreferrer" class="inline-block bg-white p-4 rounded-2xl shadow-2xl hover:shadow-blue-900/20 transition-all hover:-translate-y-1">
                     <img loading="lazy" decoding="async" src="<?= base_url('lapor.png') ?>" alt="Lapor" width="200" height="56" class="h-14 w-auto">
                 </a>
                 <p class="mt-6 text-[10px] font-black text-blue-500 uppercase tracking-widest italic">Sampaikan Aspirasi Anda</p>

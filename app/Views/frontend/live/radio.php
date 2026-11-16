@@ -27,10 +27,13 @@
     </nav>
 
     <!-- Header Section -->
-    <div class="text-center mb-12">
-
-        <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight uppercase mb-6"><?= esc($title) ?></h1>
-        <div class="mt-8 w-24 h-2 bg-blue-800 mx-auto rounded-full shadow-lg shadow-blue-900/20"></div>
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-slate-200 pb-6">
+        <div>
+            <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight uppercase flex items-center">
+                <?= esc($title) ?>
+            </h1>
+        </div>
+        <div class="hidden md:block w-24 h-1.5 bg-blue-900 rounded-full shadow-lg shadow-blue-900/20"></div>
     </div>
 
     <!-- Player Section -->
@@ -40,7 +43,7 @@
             <div class="relative w-64 h-64 mx-auto mb-10">
                 <div class="absolute inset-0 bg-blue-900 rounded-[3rem] rotate-6 opacity-5 group-hover:rotate-12 transition-transform duration-700"></div>
                 
-                <button id="play-btn" class="relative w-64 h-64 bg-slate-900 rounded-[3rem] flex flex-col items-center justify-center shadow-2xl ring-4 ring-slate-50 overflow-hidden hover:scale-105 active:scale-95 transition-all duration-500 group/btn">
+                <button type="button" id="play-btn" aria-label="Putar atau hentikan siaran radio" class="relative w-64 h-64 bg-slate-900 rounded-[3rem] flex flex-col items-center justify-center shadow-2xl ring-4 ring-slate-50 overflow-hidden hover:scale-105 active:scale-95 transition-all duration-500 group/btn">
                     <img src="<?= base_url('sbfm.png') ?>" class="absolute w-48 h-auto opacity-20 group-hover/btn:scale-110 transition-transform duration-[3s] object-contain" alt="Logo">
                     
                     <div class="relative z-10 flex flex-col items-center space-y-6">
@@ -83,8 +86,8 @@
 
                 <div class="space-y-6">
                     <div class="flex items-center space-x-4 bg-slate-50 px-6 py-4 rounded-2xl border border-slate-100">
-                        <button id="mute-btn" class="text-slate-400 hover:text-blue-800 transition-colors"><i id="volume-icon" class="fa-solid fa-volume-high text-base"></i></button>
-                        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1" class="flex-1 accent-blue-800 h-1 bg-slate-200 rounded-full cursor-pointer appearance-none">
+                        <button type="button" id="mute-btn" aria-label="Bisukan atau aktifkan suara" class="text-slate-400 hover:text-blue-800 transition-colors"><i id="volume-icon" class="fa-solid fa-volume-high text-base"></i></button>
+                        <input type="range" id="volume-slider" aria-label="Pengatur volume radio" min="0" max="1" step="0.01" value="1" class="flex-1 accent-blue-800 h-1 bg-slate-200 rounded-full cursor-pointer appearance-none">
                     </div>
                 </div>
             </div>
@@ -160,7 +163,8 @@
             showLoading(false);
             
             equalizer.classList.add('playing');
-            equalizer.classList.replace('opacity-50', 'opacity-100');
+            equalizer.classList.remove('opacity-20', 'opacity-50');
+            equalizer.classList.add('opacity-100');
             if (iconContainer) iconContainer.classList.add('scale-110');
             
             if (badge) badge.classList.replace('bg-slate-50', 'bg-red-50');
@@ -178,7 +182,8 @@
             }
 
             equalizer.classList.remove('playing');
-            equalizer.classList.replace('opacity-100', 'opacity-50');
+            equalizer.classList.remove('opacity-100');
+            equalizer.classList.add('opacity-20');
             if (iconContainer) iconContainer.classList.remove('scale-110');
 
             if (badge) badge.classList.replace('bg-red-50', 'bg-slate-50');

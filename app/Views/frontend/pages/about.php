@@ -27,11 +27,13 @@
     </nav>
 
     <!-- Header Section -->
-    <div class="text-center mb-8">
-        <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight uppercase">
-            Tentang Kami
-        </h1>
-        <div class="mt-4 w-24 h-2 bg-blue-800 mx-auto rounded-full"></div>
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-slate-200 pb-6">
+        <div>
+            <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight uppercase flex items-center">
+                Tentang Kami
+            </h1>
+        </div>
+        <div class="hidden md:block w-24 h-1.5 bg-blue-900 rounded-full shadow-lg shadow-blue-900/20"></div>
     </div>
 
     <!-- Visi Misi Section -->
@@ -80,19 +82,19 @@
                 <!-- Social Connections -->
                 <div class="flex items-center justify-center lg:justify-start gap-4 mt-4">
                     <?php if ($fb = get_setting('social_facebook')): ?>
-                        <a href="<?= esc($fb) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-facebook-f text-sm"></i></a>
+                        <a href="<?= esc($fb) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Facebook Kami" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-facebook-f text-sm"></i></a>
                     <?php endif; ?>
                     <?php if ($ig = get_setting('social_instagram')): ?>
-                        <a href="<?= esc($ig) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-instagram text-sm"></i></a>
+                        <a href="<?= esc($ig) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Instagram Kami" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-instagram text-sm"></i></a>
                     <?php endif; ?>
                     <?php if ($tk = get_setting('social_tiktok')): ?>
-                        <a href="<?= esc($tk) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-tiktok text-sm"></i></a>
+                        <a href="<?= esc($tk) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi TikTok Kami" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-tiktok text-sm"></i></a>
                     <?php endif; ?>
                     <?php if ($yt = get_setting('social_youtube')): ?>
-                        <a href="<?= esc($yt) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-youtube text-sm"></i></a>
+                        <a href="<?= esc($yt) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Kanal YouTube Kami" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-youtube text-sm"></i></a>
                     <?php endif; ?>
                     <?php if ($tw = get_setting('social_twitter')): ?>
-                        <a href="<?= esc($tw) ?>" target="_blank" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-x-twitter text-sm"></i></a>
+                        <a href="<?= esc($tw) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi X Kami" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-x-twitter text-sm"></i></a>
                     <?php endif; ?>
                 </div>
             </div>

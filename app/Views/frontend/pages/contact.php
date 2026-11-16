@@ -27,11 +27,13 @@
     </nav>
 
     <!-- Header Section -->
-    <div class="text-center mb-8">
-        <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tight uppercase">
-            Hubungi Kami
-        </h1>
-        <div class="mt-4 w-24 h-2 bg-blue-800 mx-auto rounded-full shadow-lg shadow-blue-900/20"></div>
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-slate-200 pb-6">
+        <div>
+            <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight uppercase flex items-center">
+                Hubungi Kami
+            </h1>
+        </div>
+        <div class="hidden md:block w-24 h-1.5 bg-blue-900 rounded-full shadow-lg shadow-blue-900/20"></div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-8">
@@ -60,7 +62,7 @@
                     <p class="text-slate-900 font-bold leading-relaxed tracking-tight text-lg">
                         <?= esc(get_setting('contact_email')) ?>
                     </p>
-                    <p class="text-slate-500 text-xs mt-1 font-medium uppercase tracking-wider">Layanan surat elektronik 24/7</p>
+                    <p class="text-slate-500 text-xs mt-1 font-medium uppercase tracking-wider">Layanan surat elektronik setiap hari</p>
                 </div>
             </div>
 
@@ -73,19 +75,19 @@
                     <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Koneksi Digital</h2>
                     <div class="flex flex-wrap gap-3 mt-2">
                         <?php if ($fb = get_setting('social_facebook')): ?>
-                            <a href="<?= esc($fb) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-facebook-f text-sm"></i></a>
+                            <a href="<?= esc($fb) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Facebook Kami" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-facebook-f text-sm"></i></a>
                         <?php endif; ?>
                         <?php if ($ig = get_setting('social_instagram')): ?>
-                            <a href="<?= esc($ig) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-instagram text-sm"></i></a>
+                            <a href="<?= esc($ig) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Instagram Kami" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-instagram text-sm"></i></a>
                         <?php endif; ?>
                         <?php if ($tk = get_setting('social_tiktok')): ?>
-                            <a href="<?= esc($tk) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-tiktok text-sm"></i></a>
+                            <a href="<?= esc($tk) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi TikTok Kami" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-tiktok text-sm"></i></a>
                         <?php endif; ?>
                         <?php if ($yt = get_setting('social_youtube')): ?>
-                            <a href="<?= esc($yt) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-youtube text-sm"></i></a>
+                            <a href="<?= esc($yt) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Kanal YouTube Kami" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-youtube text-sm"></i></a>
                         <?php endif; ?>
                         <?php if ($tw = get_setting('social_twitter')): ?>
-                            <a href="<?= esc($tw) ?>" target="_blank" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-x-twitter text-sm"></i></a>
+                            <a href="<?= esc($tw) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi X Kami" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-x-twitter text-sm"></i></a>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -95,11 +97,12 @@
         <!-- Map Section -->
         <div class="lg:col-span-7">
             <div class="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden h-full min-h-[450px] relative">
-                <iframe src="<?= get_setting('contact_map_embed') ?>"
+                <iframe src="<?= esc(get_setting('contact_map_embed')) ?>"
+                    title="Peta Lokasi Kantor"
                     class="absolute inset-0 w-full h-full border-0 grayscale opacity-80"
                     allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <div class="absolute bottom-6 right-6">
-                    <a href="<?= get_setting('contact_map_link') ?>" target="_blank" class="px-6 py-3 bg-blue-800 text-white font-black text-[10px] uppercase tracking-widest rounded-xl shadow-xl hover:bg-blue-900 transition-all flex items-center">
+                    <a href="<?= esc(get_setting('contact_map_link')) ?>" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-blue-800 text-white font-black text-[10px] uppercase tracking-widest rounded-xl shadow-xl hover:bg-blue-900 transition-all flex items-center">
                         <i class="fa-solid fa-fw fa-directions mr-2 text-base"></i>Buka Navigasi
                     </a>
                 </div>
@@ -112,8 +115,8 @@
         <div class="absolute top-0 left-0 w-64 h-64 bg-blue-800/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
         <div class="relative z-10">
             <h2 class="text-2xl md:text-4xl font-black text-white mb-6 tracking-tight uppercase">Punya Pengaduan atau Aspirasi?</h2>
-            <p class="text-slate-400 mb-8 max-w-2xl mx-auto font-medium leading-relaxed">Gunakan layanan aspirasi dan pengaduan online rakyat (LAPOR!) untuk menyampaikan keluhan anda secara langsung kepada pihak berwenang.</p>
-            <a href="https://lapor.go.id/" target="_blank" class="inline-block bg-white p-5 rounded-2xl hover:shadow-2xl hover:shadow-blue-900/40 transition-all hover:-translate-y-1">
+            <p class="text-slate-400 mb-8 max-w-2xl mx-auto font-medium leading-relaxed">Gunakan Layanan Aspirasi dan Pengaduan Online Rakyat untuk menyampaikan aspirasi atau pengaduan secara langsung kepada instansi berwenang.</p>
+            <a href="https://lapor.go.id/" target="_blank" rel="noopener noreferrer" class="inline-block bg-white p-5 rounded-2xl hover:shadow-2xl hover:shadow-blue-900/40 transition-all hover:-translate-y-1">
                 <img loading="lazy" src="<?= base_url('lapor.png') ?>" alt="Lapor" class="h-16 w-auto">
             </a>
             <p class="mt-8 text-blue-500 font-black text-[10px] uppercase tracking-widest italic">#BeraniLAPORUntukPerubahan</p>

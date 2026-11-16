@@ -179,14 +179,13 @@
             </div>
 
         <?php else: ?>
-            <div class="bg-white rounded-[3rem] p-20 text-center shadow-sm border border-slate-200">
-                <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200">
-                    <i class="fa-solid fa-fw fa-inbox text-5xl"></i>
+            <div class="bg-white rounded-3xl p-12 sm:p-16 text-center shadow-sm border border-slate-200 max-w-xl mx-auto">
+                <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
+                    <i class="fa-solid fa-fw fa-inbox text-2xl"></i>
                 </div>
-                <h2 class="text-3xl font-black text-slate-900 mb-4 tracking-tight uppercase">Belum Ada Informasi</h2>
-                <p class="text-slate-500 mb-8 max-w-md mx-auto leading-relaxed font-medium">Saat ini belum ada pembaruan berita yang tersedia. Silakan periksa kembali dalam beberapa saat.</p>
-                <a href="<?= base_url() ?>" class="text-blue-900 font-black uppercase tracking-widest text-xs hover:underline flex items-center justify-center">
-                    <i class="fa-solid fa-fw fa-arrows-rotate mr-3"></i> Muat Ulang Halaman
+                <h2 class="text-xl font-black text-slate-900 mb-6 tracking-tight uppercase">Belum ada berita yang diterbitkan</h2>
+                <a href="<?= base_url('/') ?>" class="inline-flex items-center h-11 px-6 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-blue-900 transition-all shadow-sm">
+                    <i class="fa-solid fa-fw fa-arrows-rotate mr-2"></i>Muat Ulang Halaman
                 </a>
             </div>
         <?php endif; ?>    
@@ -312,7 +311,7 @@
                                 </span>
                                 <span class="flex items-center text-orange-700 bg-orange-50 px-2 py-1 rounded-md">
                                     <i class="fa-regular fa-fw fa-eye mr-1.5"></i>
-                                    <?= number_format($popular['views'] ?? 0) ?>
+                                    <?= number_format($popular['views'] ?? 0, 0, ',', '.') ?>
                                 </span>
                             </div>
                         </div>

@@ -50,7 +50,7 @@
                 <i class="fa-solid fa-fw fa-circle-info text-white text-xl"></i>
             </div>
             <p class="text-slate-700 font-bold uppercase tracking-wider text-[11px]">
-                Ditemukan <span class="text-blue-800 text-lg mx-1"><?= number_format(count($posts)) ?></span> Berita yang relevan dengan pencarian anda.
+                Ditemukan <span class="text-blue-800 text-lg mx-1"><?= number_format(count($posts), 0, ',', '.') ?></span> Berita yang relevan dengan pencarian anda.
             </p>
         </div>
 
@@ -65,7 +65,7 @@
         <?php if (isset($pager) && $pager->getPageCount() > 1) : ?>
             <div class="mt-12 flex flex-col md:flex-row items-center justify-between border-t-2 border-slate-100 pt-12">
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                    Menampilkan <span class="text-slate-900"><?= number_format(count($posts)) ?></span> Data Hasil Penelusuran.
+                    Menampilkan <span class="text-slate-900"><?= number_format(count($posts), 0, ',', '.') ?></span> Data Hasil Penelusuran.
                 </div>
                 <div>
                     <?= $pager->links('default', 'custom_pager') ?>
@@ -75,21 +75,18 @@
 
     <?php else : ?>
         <!-- No Results -->
-        <div class="text-center py-12 bg-white rounded-[3rem] border border-slate-200 shadow-sm px-8 max-w-4xl mx-auto">
-            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200">
-                <i class="fa-solid fa-fw fa-magnifying-glass-minus text-5xl"></i>
+        <div class="text-center py-12 bg-white rounded-3xl border border-slate-200 shadow-sm px-8 max-w-4xl mx-auto">
+            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
+                <i class="fa-solid fa-fw fa-magnifying-glass-minus text-2xl"></i>
             </div>
-            <h2 class="text-3xl font-black text-slate-900 mb-4 tracking-tight uppercase">Data Tidak Ditemukan</h2>
-            <p class="text-slate-500 mb-8 max-w-xl mx-auto leading-relaxed font-medium">
-                Mohon maaf, sistem tidak menemukan informasi yang sesuai dengan kata kunci <span class="text-blue-800 font-black italic">"<?= esc($query) ?>"</span>. Silakan gunakan kata kunci yang lebih spesifik atau umum.
+            <h2 class="text-xl font-black text-slate-900 mb-3 tracking-tight uppercase">Tidak ada berita untuk "<?= esc($query) ?>"</h2>
+            <p class="text-slate-500 text-sm mb-6 max-w-xl mx-auto leading-relaxed font-medium">
+                Gunakan kata kunci yang lebih singkat atau telusuri daftar berita melalui beranda.
             </p>
 
-            <div class="flex flex-wrap gap-4 justify-center mb-10">
-                <a href="<?= base_url('/') ?>" class="inline-flex items-center px-8 py-4 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
-                    <i class="fa-solid fa-fw fa-house mr-3 text-base"></i>Beranda
-                </a>
-                <a href="<?= base_url('categories') ?>" class="inline-flex items-center px-8 py-4 bg-slate-100 text-slate-700 font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-slate-200 transition-all border border-slate-200">
-                    <i class="fa-solid fa-fw fa-folder mr-3 text-base"></i>Semua Kategori
+            <div class="flex justify-center mb-10">
+                <a href="<?= base_url('/') ?>" class="inline-flex items-center h-11 px-6 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-blue-900 transition-all shadow-sm">
+                    <i class="fa-solid fa-fw fa-house mr-2"></i>Kembali ke Beranda
                 </a>
             </div>
 

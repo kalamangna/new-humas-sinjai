@@ -47,7 +47,7 @@
         <?php if (isset($pager) && $pager->getPageCount() > 1) : ?>
             <div class="mt-10 flex flex-col md:flex-row items-center justify-between border-t-2 border-slate-100 pt-12">
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                    Menampilkan <span class="text-slate-900"><?= number_format($pager->getCurrentPage() * $pager->getPerPage() - ($pager->getPerPage() - 1)) ?>-<?= number_format(min($pager->getCurrentPage() * $pager->getPerPage(), $pager->getTotal())) ?></span> Data Program
+                    Menampilkan <span class="text-slate-900"><?= number_format($pager->getCurrentPage() * $pager->getPerPage() - ($pager->getPerPage() - 1), 0, ',', '.') ?>-<?= number_format(min($pager->getCurrentPage() * $pager->getPerPage(), $pager->getTotal()), 0, ',', '.') ?></span> dari <span class="text-blue-800"><?= number_format($pager->getTotal(), 0, ',', '.') ?></span> Program
                 </div>
                 <div>
                     <?= $pager->links('default', 'custom_pager') ?>
@@ -56,14 +56,13 @@
         <?php endif; ?>
 
     <?php else: ?>
-        <div class="text-center py-20 max-w-xl mx-auto">
-            <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
-                <i class="fa-solid fa-fw fa-inbox text-3xl"></i>
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-12 text-center max-w-xl mx-auto">
+            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
+                <i class="fa-solid fa-fw fa-inbox text-2xl"></i>
             </div>
-            <h2 class="text-xl font-bold text-slate-900 mb-2">Data Belum Tersedia</h2>
-            <p class="text-slate-500 text-sm mb-6">Saat ini belum ada data program prioritas yang tersedia dalam sistem. Silakan periksa kembali beberapa saat lagi.</p>
-            <a href="<?= base_url() ?>" class="inline-flex items-center px-6 py-2.5 bg-slate-100 text-slate-600 font-bold uppercase tracking-widest text-[10px] rounded-lg hover:bg-slate-200 transition-all">
-                <i class="fa-solid fa-fw fa-house mr-2"></i>Beranda
+            <h2 class="text-xl font-black text-slate-900 mb-6 tracking-tight uppercase">Belum ada publikasi program prioritas</h2>
+            <a href="<?= base_url('/') ?>" class="inline-flex items-center h-11 px-6 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-blue-900 transition-all shadow-sm">
+                <i class="fa-solid fa-fw fa-house mr-2"></i>Kembali ke Beranda
             </a>
         </div>
     <?php endif; ?>

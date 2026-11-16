@@ -66,7 +66,7 @@
                         <?php if (!empty($post['views'])) : ?>
                             <div class="flex items-center">
                                 <i class="fa-regular fa-fw fa-eye mr-2 text-blue-700"></i>
-                                <span><?= number_format($post['views']) ?></span>
+                                <span><?= number_format($post['views'], 0, ',', '.') ?></span>
                             </div>
                         <?php endif; ?>
 
@@ -127,25 +127,25 @@
                             ?>
 
                             <!-- WhatsApp -->
-                            <a href="https://api.whatsapp.com/send?text=<?= urlencode($share_url) ?>" target="_blank"
+                            <a href="https://api.whatsapp.com/send?text=<?= urlencode($share_url) ?>" target="_blank" rel="noopener noreferrer"
                                 class="inline-flex items-center px-5 py-2.5 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
                                 <i class="fa-brands fa-fw fa-whatsapp mr-2 text-sm"></i>WhatsApp
                             </a>
 
                             <!-- Facebook -->
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($share_url) ?>" target="_blank"
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($share_url) ?>" target="_blank" rel="noopener noreferrer"
                                 class="inline-flex items-center px-5 py-2.5 bg-[#1877F2] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
                                 <i class="fa-brands fa-fw fa-facebook mr-2 text-sm"></i>Facebook
                             </a>
 
-                            <!-- Twitter/X -->
-                            <a href="https://twitter.com/intent/tweet?url=<?= urlencode($share_url) ?>" target="_blank"
+                            <!-- X -->
+                            <a href="https://twitter.com/intent/tweet?url=<?= urlencode($share_url) ?>" target="_blank" rel="noopener noreferrer"
                                 class="inline-flex items-center px-5 py-2.5 bg-slate-950 text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:bg-black transition-all shadow-sm">
-                                <i class="fa-brands fa-fw fa-x-twitter mr-2 text-sm"></i>Twitter
+                                <i class="fa-brands fa-fw fa-x-twitter mr-2 text-sm"></i>X
                             </a>
 
                             <!-- Telegram -->
-                            <a href="https://t.me/share/url?url=<?= urlencode($share_url) ?>" target="_blank"
+                            <a href="https://t.me/share/url?url=<?= urlencode($share_url) ?>" target="_blank" rel="noopener noreferrer"
                                 class="inline-flex items-center px-5 py-2.5 bg-[#0088cc] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
                                 <i class="fa-brands fa-fw fa-telegram mr-2 text-sm"></i>Telegram
                             </a>
@@ -187,8 +187,14 @@
                             $relThumbPath = $related['thumbnail'] ?? '';
                             $relThumbSrc = filter_var($relThumbPath, FILTER_VALIDATE_URL) ? $relThumbPath : (!empty($relThumbPath) ? base_url($relThumbPath) : '');
                             ?>
-                            <a href="<?= base_url('post/' . esc($related['slug'])) ?>" class="group block relative rounded-2xl overflow-hidden aspect-video border border-slate-200 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
-                                <img loading="lazy" src="<?= $relThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Related" width="400" height="300">
+                            <a href="<?= base_url('post/' . esc($related['slug'])) ?>" class="group block relative rounded-2xl overflow-hidden aspect-video border border-slate-200 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 bg-slate-800">
+                                <?php if (!empty($relThumbSrc)) : ?>
+                                    <img loading="lazy" src="<?= $relThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="<?= esc($related['title']) ?>" width="400" height="300">
+                                <?php else : ?>
+                                    <div class="w-full h-full flex items-center justify-center text-slate-600">
+                                        <i class="fa-solid fa-fw fa-image text-3xl"></i>
+                                    </div>
+                                <?php endif; ?>
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent p-6 flex flex-col justify-end">
                                     <h3 class="text-white font-bold leading-tight group-hover:text-sky-300 transition-colors tracking-tight"><?= esc($related['title']) ?></h3>
                                     <div class="mt-3 text-[10px] font-bold text-slate-300 uppercase tracking-widest flex items-center">
@@ -224,7 +230,7 @@
                             <a href="<?= base_url('post/' . esc($recent['slug'])) ?>" class="group flex gap-5">
                                 <div class="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden shadow-md border border-slate-100">
                                     <?php if (!empty($recThumbSrc)) : ?>
-                                        <img loading="lazy" src="<?= $recThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="Recent" width="400" height="300">
+                                        <img loading="lazy" src="<?= $recThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="<?= esc($recent['title']) ?>" width="400" height="300">
                                     <?php else: ?>
                                         <div class="w-full h-full bg-slate-50 flex items-center justify-center">
                                             <i class="fa-solid fa-fw fa-image text-slate-200"></i>
@@ -264,7 +270,7 @@
                             <a href="<?= base_url('post/' . esc($popular['slug'])) ?>" class="group flex gap-5">
                                 <div class="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden shadow-md border border-slate-100">
                                     <?php if (!empty($popThumbSrc)) : ?>
-                                        <img loading="lazy" src="<?= $popThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="Popular" width="400" height="300">
+                                        <img loading="lazy" src="<?= $popThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="<?= esc($popular['title']) ?>" width="400" height="300">
                                     <?php else: ?>
                                         <div class="w-full h-full bg-slate-50 flex items-center justify-center">
                                             <i class="fa-solid fa-fw fa-image text-slate-200"></i>
@@ -277,7 +283,7 @@
                                     </h3>
                                     <div class="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center justify-between">
                                         <span><?= format_date($popular['published_at'] ?? 'now', 'date_only') ?></span>
-                                        <span class="flex items-center text-orange-700"><i class="fa-regular fa-fw fa-eye mr-1"></i><?= number_format($popular['views']) ?></span>
+                                        <span class="flex items-center text-orange-700"><i class="fa-regular fa-fw fa-eye mr-1"></i><?= number_format($popular['views'], 0, ',', '.') ?></span>
                                     </div>
                                 </div>
                             </a>
@@ -296,7 +302,7 @@
         const url = window.location.href;
         navigator.clipboard.writeText(url).then(() => {
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-fw fa-check mr-2"></i>Tersalin!';
+            btn.innerHTML = '<i class="fa-solid fa-fw fa-check mr-2"></i>Tautan Berita Disalin';
             btn.classList.replace('bg-slate-100', 'bg-emerald-600');
             btn.classList.add('text-white');
             btn.classList.remove('text-slate-700', 'border-slate-200');

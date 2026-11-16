@@ -93,7 +93,7 @@
                                                     ?>
                                                     <?php if (!empty($imgSrc)) : ?>
                                                         <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-slate-100 mb-2">
-                                                            <img loading="lazy" src="<?= $imgSrc ?>" class="w-full h-full object-cover">
+                                                            <img loading="lazy" src="<?= $imgSrc ?>" alt="<?= esc($profile['name'] ?: $profile['position']) ?>" class="w-full h-full object-cover">
                                                         </div>
                                                     <?php endif; ?>
                                                     <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors whitespace-nowrap"><?= $profile['name'] ? esc($profile['name']) : '-' ?></div>
@@ -124,14 +124,13 @@
             <?php endforeach; ?>
         </div>
     <?php else : ?>
-        <div class="text-center py-20 max-w-xl mx-auto">
-            <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
-                <i class="fa-solid fa-fw fa-users-slash text-3xl"></i>
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-12 text-center max-w-xl mx-auto">
+            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
+                <i class="fa-solid fa-fw fa-users-slash text-2xl"></i>
             </div>
-            <h2 class="text-xl font-bold text-slate-900 mb-2">Data Belum Tersedia</h2>
-            <p class="text-slate-500 text-sm mb-6">Daftar <?= esc($seo['title']) ?> saat ini belum tersedia dalam basis data kami. Silakan kembali beberapa saat lagi.</p>
-            <a href="<?= base_url() ?>" class="inline-flex items-center px-6 py-2.5 bg-slate-100 text-slate-600 font-bold uppercase tracking-widest text-[10px] rounded-lg hover:bg-slate-200 transition-all">
-                <i class="fa-solid fa-fw fa-house mr-2"></i>Beranda
+            <h2 class="text-xl font-black text-slate-900 mb-6 tracking-tight uppercase">Data profil pejabat belum tersedia</h2>
+            <a href="<?= base_url('/') ?>" class="inline-flex items-center h-11 px-6 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-blue-900 transition-all shadow-sm">
+                <i class="fa-solid fa-fw fa-house mr-2"></i>Kembali ke Beranda
             </a>
         </div>
     <?php endif; ?>

@@ -55,33 +55,27 @@
         </div>
 
         <!-- Pagination -->
-        <?php if (isset($pager) && $pager->getPageCount() > 1) : ?>
+        <?php if (isset($pager) && $pager->getPageCount('posts') > 1) : ?>
             <div class="mt-12 flex flex-col md:flex-row items-center justify-between border-t-2 border-slate-100 pt-12">
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                    Menampilkan Arsip Berita dalam kategori <span class="text-blue-800"><?= esc($category['name'] ?? '') ?></span>.
+                    Menampilkan <span class="text-slate-900"><?= number_format($pager->getCurrentPage('posts') * $pager->getPerPage('posts') - ($pager->getPerPage('posts') - 1), 0, ',', '.') ?>-<?= number_format(min($pager->getCurrentPage('posts') * $pager->getPerPage('posts'), $pager->getTotal('posts')), 0, ',', '.') ?></span> dari <span class="text-blue-800"><?= number_format($pager->getTotal('posts'), 0, ',', '.') ?></span> Berita
                 </div>
                 <div>
-                    <?= $pager->links('default', 'custom_pager') ?>
+                    <?= $pager->links('posts', 'custom_pager') ?>
                 </div>
             </div>
         <?php endif; ?>
 
     <?php else : ?>
         <!-- Empty State -->
-        <div class="text-center py-24 bg-white rounded-[3rem] border border-slate-200 shadow-sm px-8 max-w-2xl mx-auto">
-            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10 text-slate-200">
-                <i class="fa-solid fa-fw fa-folder-open text-5xl"></i>
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-12 text-center max-w-xl mx-auto">
+            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
+                <i class="fa-solid fa-fw fa-folder-open text-2xl"></i>
             </div>
-            <h2 class="text-3xl font-black text-slate-900 mb-4 tracking-tight uppercase">Berita Tidak Ditemukan</h2>
-            <p class="text-slate-500 mb-8 leading-relaxed font-medium">Maaf, saat ini belum tersedia berita dalam kategori ini. Silakan jelajahi kategori lainnya atau kembali ke beranda.</p>
-            <div class="flex flex-wrap gap-4 justify-center">
-                <a href="<?= base_url('/') ?>" class="inline-flex items-center px-8 py-4 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-blue-900 transition-all shadow-xl shadow-blue-900/10">
-                    <i class="fa-solid fa-fw fa-house mr-3 text-base"></i>Beranda
-                </a>
-                <a href="<?= base_url('categories') ?>" class="inline-flex items-center px-8 py-4 bg-slate-100 text-slate-700 font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-slate-200 transition-all border border-slate-200">
-                    <i class="fa-solid fa-fw fa-folder-tree mr-3 text-base"></i>Semua Kategori
-                </a>
-            </div>
+            <h2 class="text-xl font-black text-slate-900 mb-6 tracking-tight uppercase">Belum ada berita di kategori ini</h2>
+            <a href="<?= base_url('categories') ?>" class="inline-flex items-center h-11 px-6 bg-blue-800 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-blue-900 transition-all shadow-sm">
+                <i class="fa-solid fa-fw fa-folder-tree mr-2"></i>Lihat Semua Kategori
+            </a>
         </div>
     <?php endif; ?>
 </div>

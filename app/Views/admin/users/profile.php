@@ -21,7 +21,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 border-b border-slate-100 pb-6 sm:pb-8">
                     <div>
                         <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Email Terdaftar</label>
-                        <p class="text-slate-900 font-bold tracking-tight"><?= esc($user['email']) ?></p>
+                        <p class="text-slate-900 font-bold tracking-tight break-all"><?= esc($user['email']) ?></p>
                     </div>
                     <div>
                         <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Tanggal Bergabung</label>

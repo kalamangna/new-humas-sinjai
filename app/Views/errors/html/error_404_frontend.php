@@ -1,11 +1,11 @@
 <?= $this->extend('layouts/frontend') ?>
 
 <?= $this->section('content') ?>
-<div class="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto px-4 py-12 sm:py-24 sm:px-6 lg:px-8">
     <div class="text-center">
-        <h1 class="text-9xl font-black text-blue-800 opacity-10">404</h1>
-        <div class="relative -mt-20">
-            <h2 class="text-4xl font-black text-slate-900 tracking-tight mb-4">Halaman Tidak Ditemukan</h2>
+        <h1 class="text-7xl sm:text-9xl font-black text-blue-800 opacity-10">404</h1>
+        <div class="relative -mt-12 sm:-mt-20">
+            <h2 class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight mb-4">Halaman Tidak Ditemukan</h2>
             <p class="text-lg text-slate-500 font-medium max-w-lg mx-auto leading-relaxed mb-12">
                 Maaf, portal kami tidak dapat menemukan informasi yang anda cari. Pastikan alamat yang anda masukkan sudah benar.
             </p>

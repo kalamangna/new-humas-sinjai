@@ -64,10 +64,10 @@
                                 <table class="w-full text-left border-collapse table-auto">
                                     <thead>
                                         <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-black text-slate-500 uppercase tracking-widest">
-                                            <th class="px-8 py-5 whitespace-nowrap text-center w-1">No</th>
-                                            <th class="px-8 py-5 whitespace-nowrap">Nama Pejabat</th>
-                                            <th class="px-8 py-5 whitespace-nowrap">Jabatan</th>
-                                            <th class="px-8 py-5 whitespace-nowrap">
+                                            <th class="px-4 sm:px-6 md:px-8 py-3.5 sm:py-5 whitespace-nowrap text-center w-1">No</th>
+                                            <th class="px-4 sm:px-6 md:px-8 py-3.5 sm:py-5 whitespace-nowrap">Nama Pejabat</th>
+                                            <th class="px-4 sm:px-6 md:px-8 py-3.5 sm:py-5 whitespace-nowrap">Jabatan</th>
+                                            <th class="px-4 sm:px-6 md:px-8 py-3.5 sm:py-5 whitespace-nowrap">
                                                 <?php
                                                 if (strpos($groupName, 'Eselon') !== false) echo 'OPD';
                                                 elseif ($groupName == 'Lurah') echo 'Kelurahan';
@@ -76,17 +76,17 @@
                                                 ?>
                                             </th>
                                             <?php if ($groupName == 'Kepala Desa' || $groupName == 'Lurah') : ?>
-                                                <th class="px-8 py-5 whitespace-nowrap">Kecamatan</th>
+                                                <th class="px-4 sm:px-6 md:px-8 py-3.5 sm:py-5 whitespace-nowrap">Kecamatan</th>
                                             <?php endif; ?>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-100">
                                         <?php $no = 1; foreach ($profiles as $profile) : ?>
                                             <tr class="hover:bg-slate-50 transition-colors group">
-                                                <td class="px-8 py-6 text-center text-sm font-black text-slate-400 w-1">
+                                                <td class="px-4 sm:px-6 md:px-8 py-4 sm:py-6 text-center text-sm font-black text-slate-400 w-1">
                                                     <?= $no++ ?>
                                                 </td>
-                                                <td class="px-8 py-6">
+                                                <td class="px-4 sm:px-6 md:px-8 py-4 sm:py-6">
                                                     <?php
                                                     $imgPath = $profile['image'] ?? '';
                                                     $imgSrc = filter_var($imgPath, FILTER_VALIDATE_URL) ? $imgPath : (!empty($imgPath) ? base_url($imgPath) : '');
@@ -98,16 +98,16 @@
                                                     <?php endif; ?>
                                                     <div class="font-bold text-slate-900 group-hover:text-blue-800 transition-colors whitespace-nowrap"><?= $profile['name'] ? esc($profile['name']) : '-' ?></div>
                                                 </td>
-                                                <td class="px-8 py-6 text-sm text-slate-600 font-medium leading-relaxed whitespace-nowrap">
+                                                <td class="px-4 sm:px-6 md:px-8 py-4 sm:py-6 text-sm text-slate-600 font-medium leading-relaxed whitespace-nowrap">
                                                     <?= esc($profile['position'] ?? '-') ?>
                                                 </td>
-                                                <td class="px-8 py-6 text-sm text-slate-600 font-medium whitespace-nowrap">
+                                                <td class="px-4 sm:px-6 md:px-8 py-4 sm:py-6 text-sm text-slate-600 font-medium whitespace-nowrap">
                                                     <span class="px-3 py-1 bg-slate-100 rounded-lg text-xs border border-slate-200">
                                                         <?= esc($profile['institution'] ?? '-') ?>
                                                     </span>
                                                 </td>
                                                 <?php if ($groupName == 'Kepala Desa' || $groupName == 'Lurah') : ?>
-                                                    <td class="px-8 py-6 text-sm text-slate-600 font-medium whitespace-nowrap">
+                                                    <td class="px-4 sm:px-6 md:px-8 py-4 sm:py-6 text-sm text-slate-600 font-medium whitespace-nowrap">
                                                         <span class="px-3 py-1 bg-slate-50 rounded-lg text-[10px] font-bold text-slate-500 uppercase tracking-widest border border-slate-200">
                                                             <?= esc($profile['kecamatan'] ?? '-') ?>
                                                         </span>
@@ -124,7 +124,7 @@
             <?php endforeach; ?>
         </div>
     <?php else : ?>
-        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-12 text-center max-w-xl mx-auto">
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-12 text-center max-w-xl mx-auto">
             <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
                 <i class="fa-solid fa-fw fa-users-slash text-2xl"></i>
             </div>

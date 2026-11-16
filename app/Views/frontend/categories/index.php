@@ -41,19 +41,19 @@
             <?php foreach ($categories as $category) : ?>
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
                     <!-- Category Header -->
-                    <div class="px-8 py-8 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+                    <div class="px-5 sm:px-8 py-5 sm:py-8 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
                         <div class="flex items-center">
-                            <div class="p-4 bg-blue-800 text-white rounded-2xl shadow-lg shadow-blue-900/20 mr-6">
+                            <div class="p-3 sm:p-4 bg-blue-800 text-white rounded-2xl shadow-lg shadow-blue-900/20 mr-4 sm:mr-6">
                                 <i class="fa-solid fa-fw fa-folder-open text-xl"></i>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-black text-slate-900 tracking-tight"><?= esc($category['name']) ?></h2>
+                                <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight"><?= esc($category['name']) ?></h2>
                                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Kategori Utama</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="p-8 md:p-12">
+                    <div class="p-5 sm:p-8 md:p-12">
                         <?php if (isset($subCategories[$category['id']])) : ?>
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 <?php foreach ($subCategories[$category['id']] as $subCategory) : ?>
@@ -80,7 +80,7 @@
         </div>
     <?php else : ?>
         <!-- Empty State -->
-        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-12 text-center max-w-xl mx-auto">
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-12 text-center max-w-xl mx-auto">
             <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
                 <i class="fa-solid fa-fw fa-folder-minus text-2xl"></i>
             </div>

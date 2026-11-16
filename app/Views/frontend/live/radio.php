@@ -38,13 +38,13 @@
 
     <!-- Player Section -->
     <div class="max-w-xl mx-auto mb-10">
-        <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden p-8 md:p-12 text-center group hover:shadow-xl transition-all duration-500">
+        <div class="bg-white rounded-3xl sm:rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden p-6 sm:p-8 md:p-12 text-center group hover:shadow-xl transition-all duration-500">
             <!-- Integrated Radio Visual & Play Button -->
-            <div class="relative w-64 h-64 mx-auto mb-10">
+            <div class="relative w-52 h-52 sm:w-64 sm:h-64 mx-auto mb-10">
                 <div class="absolute inset-0 bg-blue-900 rounded-[3rem] rotate-6 opacity-5 group-hover:rotate-12 transition-transform duration-700"></div>
                 
-                <button type="button" id="play-btn" aria-label="Putar atau hentikan siaran radio" class="relative w-64 h-64 bg-slate-900 rounded-[3rem] flex flex-col items-center justify-center shadow-2xl ring-4 ring-slate-50 overflow-hidden hover:scale-105 active:scale-95 transition-all duration-500 group/btn">
-                    <img src="<?= base_url('sbfm.png') ?>" class="absolute w-48 h-auto opacity-20 group-hover/btn:scale-110 transition-transform duration-[3s] object-contain" alt="Logo">
+                <button type="button" id="play-btn" aria-label="Putar atau hentikan siaran radio" class="relative w-52 h-52 sm:w-64 sm:h-64 bg-slate-900 rounded-[3rem] flex flex-col items-center justify-center shadow-2xl ring-4 ring-slate-50 overflow-hidden hover:scale-105 active:scale-95 transition-all duration-500 group/btn">
+                    <img src="<?= base_url('sbfm.png') ?>" class="absolute w-36 sm:w-48 h-auto opacity-20 group-hover/btn:scale-110 transition-transform duration-[3s] object-contain" alt="Logo">
                     
                     <div class="relative z-10 flex flex-col items-center space-y-6">
                         <!-- 1. Equalizer (Top) -->

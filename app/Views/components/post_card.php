@@ -1,4 +1,4 @@
-<article class="group bg-white rounded-[2.5rem] shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col border border-slate-200 h-full">
+<article class="group bg-white rounded-3xl sm:rounded-[2.5rem] shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col border border-slate-200 h-full">
     <!-- Image Container -->
     <div class="relative w-full aspect-video overflow-hidden bg-slate-100">
         <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>" class="block h-full">
@@ -19,7 +19,7 @@
     </div>
 
     <!-- Content -->
-    <div class="p-10 flex flex-col flex-1">
+    <div class="p-5 sm:p-8 lg:p-10 flex flex-col flex-1">
         <h2 class="text-xl font-bold text-slate-900 mb-5 line-clamp-2 leading-tight group-hover:text-blue-900 transition-colors tracking-tight">
             <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>">
                 <?= esc($post['title']) ?>

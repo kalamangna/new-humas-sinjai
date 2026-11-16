@@ -11,23 +11,23 @@
 <?= $this->section('content') ?>
 <div class="max-w-3xl">
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="px-8 py-10 bg-slate-50 border-b border-slate-200">
+        <div class="px-5 sm:px-8 py-6 sm:py-10 bg-slate-50 border-b border-slate-200">
             <div class="flex items-center">
-                <div class="w-20 h-20 bg-blue-100 text-blue-800 rounded-3xl flex items-center justify-center text-3xl font-black mr-6">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-blue-100 text-blue-800 rounded-3xl flex items-center justify-center text-2xl sm:text-3xl font-black mr-4 sm:mr-6 flex-shrink-0">
                     <?= substr($user['name'] ?? 'A', 0, 1) ?>
                 </div>
                 <div>
-                    <h2 class="text-2xl font-black text-slate-900 tracking-tight"><?= esc($user['name']) ?></h2>
+                    <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight"><?= esc($user['name']) ?></h2>
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1"><?= $user['role'] === 'admin' ? 'Admin' : ($user['role'] === 'author' ? 'Penulis' : esc($user['role'])) ?></p>
                 </div>
             </div>
         </div>
         
-        <div class="p-8 space-y-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="p-5 sm:p-8 space-y-6 sm:space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                 <div>
                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Alamat Email</label>
-                    <p class="text-sm font-bold text-slate-700"><?= esc($user['email']) ?></p>
+                    <p class="text-sm font-bold text-slate-700 break-all"><?= esc($user['email']) ?></p>
                 </div>
                 <div>
                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Status Akun</label>

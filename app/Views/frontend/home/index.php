@@ -50,7 +50,7 @@
 </section>
 
 <!-- Featured News Grid -->
-<section class="pt-16 md:pt-24 pb-12 md:pb-20 bg-slate-50">
+<section class="pt-10 sm:pt-16 md:pt-24 pb-10 sm:pb-12 md:pb-20 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-slate-200 pb-6">
@@ -68,7 +68,7 @@
                 <!-- Kiri: Headline Utama (65%) -->
                 <div class="lg:col-span-8">
                     <?php $headline = $posts[0]; ?>
-                    <article class="group bg-white rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-slate-200 h-full flex flex-col">
+                    <article class="group bg-white rounded-3xl sm:rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-slate-200 h-full flex flex-col">
                         <div class="relative aspect-video overflow-hidden bg-slate-100">
                             <a href="<?= base_url('post/' . esc($headline['slug'] ?? '')) ?>" class="block h-full w-full">
                                 <?php 
@@ -91,7 +91,7 @@
                                 <?php endif; ?>
                             </a>
                         </div>
-                        <div class="p-8 md:p-10 flex flex-col flex-1">
+                        <div class="p-5 sm:p-8 md:p-10 flex flex-col flex-1">
                             <?php if (!empty($headline['categories'])) : ?>
                                 <div class="flex flex-wrap gap-2 mb-4">
                                     <?php foreach ($headline['categories'] as $category) : ?>
@@ -102,7 +102,7 @@
                                 </div>
                             <?php endif; ?>
 
-                            <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-5 line-clamp-3 leading-tight group-hover:text-blue-900 transition-colors tracking-tight">
+                            <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mb-5 line-clamp-3 leading-tight group-hover:text-blue-900 transition-colors tracking-tight">
                                 <a href="<?= base_url('post/' . esc($headline['slug'] ?? '')) ?>">
                                     <?= esc($headline['title']) ?>
                                 </a>
@@ -130,8 +130,8 @@
                 <div class="lg:col-span-4 flex flex-col space-y-6">
                     <?php foreach ($posts as $index => $post): ?>
                         <?php if ($index > 0 && $index <= 4): ?>
-                            <article class="group bg-white rounded-3xl p-4 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-100 flex gap-5 items-center">
-                                <div class="flex-shrink-0 w-28 h-28 md:w-32 md:h-32 rounded-2xl overflow-hidden bg-slate-50 relative">
+                            <article class="group bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-4 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-100 flex gap-3.5 sm:gap-5 items-center">
+                                <div class="flex-shrink-0 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-2xl overflow-hidden bg-slate-50 relative">
                                     <a href="<?= base_url('post/' . esc($post['slug'] ?? '')) ?>" class="block h-full w-full">
                                         <?php 
                                             $pThumbPath = $post['thumbnail'] ?? '';
@@ -172,14 +172,14 @@
 
             <!-- View All -->
             <div class="mt-12 text-center">
-                <a href="<?= base_url('posts') ?>" class="inline-flex items-center px-12 py-6 bg-blue-900 text-white font-black uppercase tracking-[0.3em] text-xs rounded-2xl shadow-2xl shadow-blue-900/30 hover:bg-blue-950 hover:-translate-y-1 transition-all duration-300">
+                <a href="<?= base_url('posts') ?>" class="inline-flex items-center justify-center w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 bg-blue-900 text-white font-black uppercase tracking-[0.3em] text-xs rounded-2xl shadow-2xl shadow-blue-900/30 hover:bg-blue-950 hover:-translate-y-1 transition-all duration-300">
                     <i class="fa-solid fa-fw fa-list-ul mr-4"></i>
                     Lihat Semua Berita
                 </a>
             </div>
 
         <?php else: ?>
-            <div class="bg-white rounded-3xl p-12 sm:p-16 text-center shadow-sm border border-slate-200 max-w-xl mx-auto">
+            <div class="bg-white rounded-3xl p-6 sm:p-12 md:p-16 text-center shadow-sm border border-slate-200 max-w-xl mx-auto">
                 <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
                     <i class="fa-solid fa-fw fa-inbox text-2xl"></i>
                 </div>
@@ -193,7 +193,7 @@
 </section>
 
 <!-- Program Prioritas Section -->
-<section class="py-16 md:py-24 bg-white">
+<section class="py-10 sm:py-16 md:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-slate-100 pb-6">
@@ -214,7 +214,7 @@
             
             <!-- View All -->
             <div class="mt-12 text-center">
-                <a href="<?= base_url('program-prioritas') ?>" class="inline-flex items-center px-12 py-6 bg-blue-900 text-white font-black uppercase tracking-[0.3em] text-xs rounded-2xl shadow-2xl shadow-blue-900/30 hover:bg-blue-950 hover:-translate-y-1 transition-all duration-300">
+                <a href="<?= base_url('program-prioritas') ?>" class="inline-flex items-center justify-center w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 bg-blue-900 text-white font-black uppercase tracking-[0.3em] text-xs rounded-2xl shadow-2xl shadow-blue-900/30 hover:bg-blue-950 hover:-translate-y-1 transition-all duration-300">
                     <i class="fa-solid fa-fw fa-star mr-4"></i>
                     Lihat Semua Program
                 </a>
@@ -249,7 +249,7 @@
 </section>
 
 <!-- Popular News Section -->
-<section class="py-16 md:py-24 bg-slate-50">
+<section class="py-10 sm:py-16 md:py-24 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-slate-200 pb-6">

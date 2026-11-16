@@ -36,30 +36,30 @@
         <div class="hidden md:block w-24 h-1.5 bg-blue-900 rounded-full shadow-lg shadow-blue-900/20"></div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-8">
         <!-- Contact Info Cards -->
         <div class="lg:col-span-5 space-y-8">
             <!-- Address Card -->
-            <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex items-start group hover:border-blue-800 transition-all duration-300">
-                <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center flex-shrink-0 mr-6 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300 shadow-sm">
+            <div class="bg-white p-5 sm:p-8 rounded-3xl sm:rounded-[2.5rem] border border-slate-200 shadow-sm flex items-start group hover:border-blue-800 transition-all duration-300">
+                <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center flex-shrink-0 mr-4 sm:mr-6 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300 shadow-sm">
                     <i class="fa-solid fa-fw fa-map-marker-alt text-xl"></i>
                 </div>
-                <div>
+                <div class="min-w-0 flex-1">
                     <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Alamat Kantor</h2>
-                    <p class="text-slate-900 font-bold leading-relaxed tracking-tight text-lg">
+                    <p class="text-slate-900 font-bold leading-relaxed tracking-tight text-base sm:text-lg break-words">
                         <?= esc(get_setting('contact_address')) ?>
                     </p>
                 </div>
             </div>
 
             <!-- Email Card -->
-            <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex items-start group hover:border-blue-800 transition-all duration-300">
-                <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center flex-shrink-0 mr-6 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300 shadow-sm">
+            <div class="bg-white p-5 sm:p-8 rounded-3xl sm:rounded-[2.5rem] border border-slate-200 shadow-sm flex items-start group hover:border-blue-800 transition-all duration-300">
+                <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center flex-shrink-0 mr-4 sm:mr-6 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300 shadow-sm">
                     <i class="fa-solid fa-fw fa-envelope text-xl"></i>
                 </div>
-                <div>
+                <div class="min-w-0 flex-1">
                     <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Email Resmi</h2>
-                    <p class="text-slate-900 font-bold leading-relaxed tracking-tight text-lg">
+                    <p class="text-slate-900 font-bold leading-relaxed tracking-tight text-base sm:text-lg break-all">
                         <?= esc(get_setting('contact_email')) ?>
                     </p>
                     <p class="text-slate-500 text-xs mt-1 font-medium uppercase tracking-wider">Layanan surat elektronik setiap hari</p>
@@ -67,11 +67,11 @@
             </div>
 
             <!-- Social Card -->
-            <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex items-start group hover:border-blue-800 transition-all duration-300">
-                <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center flex-shrink-0 mr-6 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300 shadow-sm">
+            <div class="bg-white p-5 sm:p-8 rounded-3xl sm:rounded-[2.5rem] border border-slate-200 shadow-sm flex items-start group hover:border-blue-800 transition-all duration-300">
+                <div class="w-14 h-14 bg-blue-50 text-blue-800 rounded-2xl flex items-center justify-center flex-shrink-0 mr-4 sm:mr-6 group-hover:bg-blue-800 group-hover:text-white transition-all duration-300 shadow-sm">
                     <i class="fa-solid fa-fw fa-share-nodes text-xl"></i>
                 </div>
-                <div>
+                <div class="min-w-0 flex-1">
                     <h2 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Koneksi Digital</h2>
                     <div class="flex flex-wrap gap-3 mt-2">
                         <?php if ($fb = get_setting('social_facebook')): ?>
@@ -96,12 +96,12 @@
 
         <!-- Map Section -->
         <div class="lg:col-span-7">
-            <div class="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden h-full min-h-[450px] relative">
+            <div class="bg-white rounded-3xl sm:rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden h-full min-h-[320px] sm:min-h-[450px] relative">
                 <iframe src="<?= esc(get_setting('contact_map_embed')) ?>"
                     title="Peta Lokasi Kantor"
                     class="absolute inset-0 w-full h-full border-0 grayscale opacity-80"
                     allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                <div class="absolute bottom-6 right-6">
+                <div class="absolute bottom-4 right-4 sm:bottom-6 sm:right-6">
                     <a href="<?= esc(get_setting('contact_map_link')) ?>" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-blue-800 text-white font-black text-[10px] uppercase tracking-widest rounded-xl shadow-xl hover:bg-blue-900 transition-all flex items-center">
                         <i class="fa-solid fa-fw fa-directions mr-2 text-base"></i>Buka Navigasi
                     </a>
@@ -111,7 +111,7 @@
     </div>
 
     <!-- Complaint Section -->
-    <div class="bg-slate-900 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
+    <div class="bg-slate-900 rounded-3xl sm:rounded-[3rem] p-6 sm:p-12 md:p-20 text-center relative overflow-hidden">
         <div class="absolute top-0 left-0 w-64 h-64 bg-blue-800/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
         <div class="relative z-10">
             <h2 class="text-2xl md:text-4xl font-black text-white mb-6 tracking-tight uppercase">Punya Pengaduan atau Aspirasi?</h2>

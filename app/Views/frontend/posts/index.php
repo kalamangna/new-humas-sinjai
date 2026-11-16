@@ -45,7 +45,7 @@
 
         <!-- Pagination -->
         <?php if (isset($pager) && $pager->getPageCount() > 1) : ?>
-            <div class="mt-10 flex flex-col md:flex-row items-center justify-between border-t-2 border-slate-100 pt-12">
+            <div class="mt-10 flex flex-col md:flex-row items-center justify-between gap-4 border-t-2 border-slate-100 pt-8 md:pt-12">
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
                     Menampilkan <span class="text-slate-900"><?= number_format($pager->getCurrentPage() * $pager->getPerPage() - ($pager->getPerPage() - 1), 0, ',', '.') ?>-<?= number_format(min($pager->getCurrentPage() * $pager->getPerPage(), $pager->getTotal()), 0, ',', '.') ?></span> dari <span class="text-blue-800"><?= number_format($pager->getTotal(), 0, ',', '.') ?></span> Berita
                 </div>
@@ -56,7 +56,7 @@
         <?php endif; ?>
 
     <?php else : ?>
-        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-12 text-center max-w-xl mx-auto">
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-12 text-center max-w-xl mx-auto">
             <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
                 <i class="fa-solid fa-fw fa-inbox text-2xl"></i>
             </div>

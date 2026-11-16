@@ -133,16 +133,16 @@
                             <div class="grid grid-cols-1 gap-1">
                                 <?php if (isset($subCategories[$category['id']])) : ?>
                                     <?php foreach ($subCategories[$category['id']] as $subCategory) : ?>
-                                        <a href="<?= base_url('category/' . esc($subCategory['slug'])) ?>" class="px-2 py-1.5 text-xs font-bold text-blue-100 hover:text-white block"><?= esc($subCategory['name']) ?></a>
+                                        <a href="<?= base_url('category/' . esc($subCategory['slug'])) ?>" class="px-2 py-2.5 min-h-10 flex items-center text-xs font-bold text-blue-100 hover:text-white"><?= esc($subCategory['name']) ?></a>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <a href="<?= base_url('category/' . esc($category['slug'])) ?>" class="px-2 py-1.5 text-xs font-bold text-blue-100 hover:text-white block"><?= esc($category['name']) ?></a>
+                                    <a href="<?= base_url('category/' . esc($category['slug'])) ?>" class="px-2 py-2.5 min-h-10 flex items-center text-xs font-bold text-blue-100 hover:text-white"><?= esc($category['name']) ?></a>
                                 <?php endif; ?>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
-                <a href="<?= base_url('categories') ?>" class="block px-2 py-2 text-[10px] font-black text-sky-400 uppercase tracking-widest border-t border-blue-900/50 mt-2">Lihat Semua Kategori</a>
+                <a href="<?= base_url('categories') ?>" class="flex items-center min-h-10 px-2 py-2.5 text-[10px] font-black text-sky-400 uppercase tracking-widest border-t border-blue-900/50 mt-2">Lihat Semua Kategori</a>
             </div>
         </div>
 
@@ -153,11 +153,11 @@
                 <i class="fa-solid fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-profile-arrow"></i>
             </button>
             <div id="mobile-profile-menu" class="hidden pl-4 pr-2 mt-2 space-y-1 border-l-2 border-blue-800 ml-4">
-                <a href="<?= base_url('profil/bupati') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Bupati Sinjai</a>
-                <a href="<?= base_url('profil/wakil-bupati') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Wakil Bupati</a>
-                <a href="<?= base_url('profil/sekda') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Sekretaris Daerah</a>
+                <a href="<?= base_url('profil/bupati') ?>" class="flex items-center min-h-10 px-2 py-2.5 text-xs font-bold text-blue-100 hover:text-white">Bupati Sinjai</a>
+                <a href="<?= base_url('profil/wakil-bupati') ?>" class="flex items-center min-h-10 px-2 py-2.5 text-xs font-bold text-blue-100 hover:text-white">Wakil Bupati</a>
+                <a href="<?= base_url('profil/sekda') ?>" class="flex items-center min-h-10 px-2 py-2.5 text-xs font-bold text-blue-100 hover:text-white">Sekretaris Daerah</a>
                 <div class="border-t border-blue-900/50 my-2"></div>
-                <a href="<?= base_url('profil/pejabat-daerah') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Pejabat Daerah</a>
+                <a href="<?= base_url('profil/pejabat-daerah') ?>" class="flex items-center min-h-10 px-2 py-2.5 text-xs font-bold text-blue-100 hover:text-white">Pejabat Daerah</a>
             </div>
         </div>
 
@@ -174,8 +174,8 @@
                 <i class="fa-solid fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-live-arrow"></i>
             </button>
             <div id="mobile-live-menu" class="hidden pl-4 pr-2 mt-2 space-y-1 border-l-2 border-blue-800 ml-4">
-                <a href="<?= base_url('live/radio') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Suara Bersatu FM</a>
-                <a href="<?= base_url('live/tv') ?>" class="block px-2 py-2 text-xs font-bold text-blue-100 hover:text-white">Sinjai TV</a>
+                <a href="<?= base_url('live/radio') ?>" class="flex items-center min-h-10 px-2 py-2.5 text-xs font-bold text-blue-100 hover:text-white">Suara Bersatu FM</a>
+                <a href="<?= base_url('live/tv') ?>" class="flex items-center min-h-10 px-2 py-2.5 text-xs font-bold text-blue-100 hover:text-white">Sinjai TV</a>
             </div>
         </div>
 

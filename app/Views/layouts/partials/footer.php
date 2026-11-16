@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="bg-slate-950 text-slate-400 mt-20 border-t-8 border-blue-900">
+<footer class="bg-slate-950 text-slate-400 mt-12 md:mt-20 border-t-8 border-blue-900">
     <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 items-start">
             <!-- Info -->
@@ -16,28 +16,28 @@
                     <img loading="lazy" src="<?= base_url('Logo_BerAKHLAK.png') ?>" alt="ASN BerAKHLAK" width="120" height="30" class="h-8 w-auto">
                     <img loading="lazy" src="<?= base_url('Logo_EVP.png') ?>" alt="EVP" width="120" height="30" class="h-8 w-auto">
                 </div>
-                <div class="flex space-x-6">
+                <div class="flex flex-wrap gap-3">
                     <?php if ($fb = get_setting('social_facebook')): ?>
-                        <a href="<?= esc($fb) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Facebook Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-facebook-f text-xl"></i></a>
+                        <a href="<?= esc($fb) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Facebook Kami" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-blue-900 inline-flex items-center justify-center hover:text-sky-400 transition-all"><i class="fa-brands fa-fw fa-facebook-f text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($ig = get_setting('social_instagram')): ?>
-                        <a href="<?= esc($ig) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Instagram Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-instagram text-xl"></i></a>
+                        <a href="<?= esc($ig) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Instagram Kami" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-blue-900 inline-flex items-center justify-center hover:text-sky-400 transition-all"><i class="fa-brands fa-fw fa-instagram text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($yt = get_setting('social_youtube')): ?>
-                        <a href="<?= esc($yt) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Kanal YouTube Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-youtube text-xl"></i></a>
+                        <a href="<?= esc($yt) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Kanal YouTube Kami" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-blue-900 inline-flex items-center justify-center hover:text-sky-400 transition-all"><i class="fa-brands fa-fw fa-youtube text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($tk = get_setting('social_tiktok')): ?>
-                        <a href="<?= esc($tk) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi TikTok Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-tiktok text-xl"></i></a>
+                        <a href="<?= esc($tk) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi TikTok Kami" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-blue-900 inline-flex items-center justify-center hover:text-sky-400 transition-all"><i class="fa-brands fa-fw fa-tiktok text-xl"></i></a>
                     <?php endif; ?>
                     <?php if ($tw = get_setting('social_twitter')): ?>
-                        <a href="<?= esc($tw) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi X Twitter Kami" class="hover:text-sky-400 transition-all hover:scale-110"><i class="fa-brands fa-fw fa-x-twitter text-xl"></i></a>
+                        <a href="<?= esc($tw) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi X Twitter Kami" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-blue-900 inline-flex items-center justify-center hover:text-sky-400 transition-all"><i class="fa-brands fa-fw fa-x-twitter text-xl"></i></a>
                     <?php endif; ?>
                 </div>
             </div>
 
             <!-- Links -->
             <div class="text-left">
-                <h3 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-10 flex items-center">
+                <h3 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-5 sm:mb-8 lg:mb-10 flex items-center">
                     <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>Navigasi
                 </h3>
                 <ul class="space-y-4 text-xs font-bold uppercase tracking-widest">
@@ -51,7 +51,7 @@
 
             <!-- Contact -->
             <div class="text-left">
-                <h3 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-10 flex items-center">
+                <h3 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-5 sm:mb-8 lg:mb-10 flex items-center">
                     <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>Kontak
                 </h3>
                 <ul class="space-y-6 text-sm font-medium">
@@ -61,14 +61,14 @@
                     </li>
                     <li class="flex items-center">
                         <div class="bg-blue-900/50 p-2 rounded-lg mr-4 flex-shrink-0"><i class="fa-solid fa-fw fa-envelope text-sky-500"></i></div>
-                        <span class="text-xs"><?= esc(get_setting('contact_email')) ?></span>
+                        <span class="text-xs break-all"><?= esc(get_setting('contact_email')) ?></span>
                     </li>
                 </ul>
             </div>
 
             <!-- Lapor -->
             <div class="text-left">
-                <h3 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-10 flex items-center">
+                <h3 class="text-white font-black text-xs uppercase tracking-[0.3em] mb-5 sm:mb-8 lg:mb-10 flex items-center">
                     <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>Pengaduan
                 </h3>
                 <a href="https://lapor.go.id/" target="_blank" rel="noopener noreferrer" class="inline-block bg-white p-4 rounded-2xl shadow-2xl hover:shadow-blue-900/20 transition-all hover:-translate-y-1">
@@ -78,7 +78,7 @@
             </div>
         </div>
 
-        <div class="border-t border-slate-900 mt-20 pt-10 flex flex-col md:flex-row justify-between items-center text-center md:text-left text-[10px] tracking-[0.2em] uppercase font-black space-y-4 md:space-y-0">
+        <div class="border-t border-slate-900 mt-12 md:mt-20 pt-8 md:pt-10 flex flex-col md:flex-row justify-between items-center text-center md:text-left text-[10px] tracking-[0.2em] uppercase font-black space-y-4 md:space-y-0">
             <p class="text-slate-400">&copy; <?= date('Y') ?> <?= esc(get_setting('site_name')) ?></p>
             <p class="text-slate-400 text-[8px]"><?= esc(get_setting('developer_name')) ?></p>
         </div>

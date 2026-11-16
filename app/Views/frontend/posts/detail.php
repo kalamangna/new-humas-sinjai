@@ -34,18 +34,18 @@
         </ol>
     </nav>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
         <!-- Main Content -->
         <div class="lg:col-span-8">
             <article class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden mb-8">
                 <!-- Post Header -->
-                <div class="p-8 md:p-12">
-                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 leading-snug md:leading-tight mb-8 tracking-tight">
+                <div class="p-5 sm:p-8 md:p-12">
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 leading-snug md:leading-tight mb-8 tracking-tight">
                         <?= esc($post['title']) ?>
                     </h1>
 
                     <!-- Post Meta -->
-                    <div class="flex flex-wrap items-center gap-6 text-[10px] font-black uppercase tracking-widest text-slate-500 mb-10 pb-8 border-b border-slate-200">
+                    <div class="flex flex-wrap items-center gap-3 sm:gap-6 text-[10px] font-black uppercase tracking-widest text-slate-500 mb-6 sm:mb-10 pb-6 sm:pb-8 border-b border-slate-200">
                         <div class="flex items-center">
                             <i class="fa-regular fa-fw fa-calendar-days mr-2 text-blue-700"></i>
                             <span>
@@ -128,31 +128,31 @@
 
                             <!-- WhatsApp -->
                             <a href="https://api.whatsapp.com/send?text=<?= urlencode($share_url) ?>" target="_blank" rel="noopener noreferrer"
-                                class="inline-flex items-center px-5 py-2.5 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
+                                class="inline-flex items-center min-h-10 px-4 sm:px-5 py-2.5 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
                                 <i class="fa-brands fa-fw fa-whatsapp mr-2 text-sm"></i>WhatsApp
                             </a>
 
                             <!-- Facebook -->
                             <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($share_url) ?>" target="_blank" rel="noopener noreferrer"
-                                class="inline-flex items-center px-5 py-2.5 bg-[#1877F2] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
+                                class="inline-flex items-center min-h-10 px-4 sm:px-5 py-2.5 bg-[#1877F2] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
                                 <i class="fa-brands fa-fw fa-facebook mr-2 text-sm"></i>Facebook
                             </a>
 
                             <!-- X -->
                             <a href="https://twitter.com/intent/tweet?url=<?= urlencode($share_url) ?>" target="_blank" rel="noopener noreferrer"
-                                class="inline-flex items-center px-5 py-2.5 bg-slate-950 text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:bg-black transition-all shadow-sm">
+                                class="inline-flex items-center min-h-10 px-4 sm:px-5 py-2.5 bg-slate-950 text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:bg-black transition-all shadow-sm">
                                 <i class="fa-brands fa-fw fa-x-twitter mr-2 text-sm"></i>X
                             </a>
 
                             <!-- Telegram -->
                             <a href="https://t.me/share/url?url=<?= urlencode($share_url) ?>" target="_blank" rel="noopener noreferrer"
-                                class="inline-flex items-center px-5 py-2.5 bg-[#0088cc] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
+                                class="inline-flex items-center min-h-10 px-4 sm:px-5 py-2.5 bg-[#0088cc] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
                                 <i class="fa-brands fa-fw fa-telegram mr-2 text-sm"></i>Telegram
                             </a>
 
                             <!-- Copy Link -->
                             <button onclick="copyToClipboard(this)"
-                                class="inline-flex items-center px-5 py-2.5 bg-slate-100 text-slate-700 font-bold text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-200 transition-all border border-slate-200 shadow-sm">
+                                class="inline-flex items-center min-h-10 px-4 sm:px-5 py-2.5 bg-slate-100 text-slate-700 font-bold text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-200 transition-all border border-slate-200 shadow-sm">
                                 <i class="fa-solid fa-fw fa-link mr-2"></i>Salin Tautan
                             </button>
                         </div>
@@ -176,7 +176,7 @@
             </article>
 
             <!-- Berita Terkait -->
-            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-12">
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-5 sm:p-8 md:p-12">
                 <h2 class="text-lg font-black text-slate-900 uppercase tracking-widest mb-10 flex items-center">
                     <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>Berita Terkait
                 </h2>
@@ -212,22 +212,22 @@
         </div>
 
         <!-- Sidebar -->
-        <aside class="lg:col-span-4 space-y-12 sticky top-28 h-fit">
+        <aside class="lg:col-span-4 space-y-8 lg:space-y-12 lg:sticky lg:top-28 h-fit">
             <!-- Berita Terbaru Widget -->
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="p-8 border-b border-slate-100 bg-slate-50/50">
+                <div class="p-5 sm:p-8 border-b border-slate-100 bg-slate-50/50">
                     <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
                         <i class="fa-solid fa-fw fa-clock-rotate-left mr-3 text-blue-800"></i>Berita Terbaru
                     </h2>
                 </div>
-                <div class="p-8 space-y-8">
+                <div class="p-5 sm:p-8 space-y-6 sm:space-y-8">
                     <?php if (!empty($recent_posts)) : ?>
                         <?php foreach ($recent_posts as $recent) : ?>
                             <?php
                             $recThumbPath = $recent['thumbnail'] ?? '';
                             $recThumbSrc = filter_var($recThumbPath, FILTER_VALIDATE_URL) ? $recThumbPath : (!empty($recThumbPath) ? base_url($recThumbPath) : '');
                             ?>
-                            <a href="<?= base_url('post/' . esc($recent['slug'])) ?>" class="group flex gap-5">
+                            <a href="<?= base_url('post/' . esc($recent['slug'])) ?>" class="group flex gap-3.5 sm:gap-5">
                                 <div class="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden shadow-md border border-slate-100">
                                     <?php if (!empty($recThumbSrc)) : ?>
                                         <img loading="lazy" src="<?= $recThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="<?= esc($recent['title']) ?>" width="400" height="300">
@@ -237,7 +237,7 @@
                                         </div>
                                     <?php endif; ?>
                                 </div>
-                                <div class="flex-1">
+                                <div class="flex-1 min-w-0">
                                     <h3 class="text-sm font-bold text-slate-900 line-clamp-2 group-hover:text-blue-800 transition-colors leading-snug tracking-tight">
                                         <?= esc($recent['title']) ?>
                                     </h3>
@@ -255,19 +255,19 @@
 
             <!-- Berita Terpopuler Widget -->
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="p-8 border-b border-slate-100 bg-slate-50/50">
+                <div class="p-5 sm:p-8 border-b border-slate-100 bg-slate-50/50">
                     <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.2em] flex items-center">
                         <i class="fa-solid fa-fw fa-fire mr-3 text-orange-700"></i>Berita Populer
                     </h2>
                 </div>
-                <div class="p-8 space-y-8">
+                <div class="p-5 sm:p-8 space-y-6 sm:space-y-8">
                     <?php if (!empty($popular_posts)) : ?>
                         <?php foreach ($popular_posts as $popular) : ?>
                             <?php
                             $popThumbPath = $popular['thumbnail'] ?? '';
                             $popThumbSrc = filter_var($popThumbPath, FILTER_VALIDATE_URL) ? $popThumbPath : (!empty($popThumbPath) ? base_url($popThumbPath) : '');
                             ?>
-                            <a href="<?= base_url('post/' . esc($popular['slug'])) ?>" class="group flex gap-5">
+                            <a href="<?= base_url('post/' . esc($popular['slug'])) ?>" class="group flex gap-3.5 sm:gap-5">
                                 <div class="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden shadow-md border border-slate-100">
                                     <?php if (!empty($popThumbSrc)) : ?>
                                         <img loading="lazy" src="<?= $popThumbSrc ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="<?= esc($popular['title']) ?>" width="400" height="300">
@@ -277,7 +277,7 @@
                                         </div>
                                     <?php endif; ?>
                                 </div>
-                                <div class="flex-1">
+                                <div class="flex-1 min-w-0">
                                     <h3 class="text-sm font-bold text-slate-900 line-clamp-2 group-hover:text-blue-800 transition-colors leading-snug tracking-tight">
                                         <?= esc($popular['title']) ?>
                                     </h3>

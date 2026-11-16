@@ -28,8 +28,8 @@
 
     <?php if (!empty($profile)) : ?>
         <div class="max-w-4xl mx-auto">
-            <article class="bg-white rounded-[3rem] shadow-sm border border-slate-200 overflow-hidden">
-                <div class="p-8 md:p-16">
+            <article class="bg-white rounded-3xl sm:rounded-[3rem] shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-5 sm:p-8 md:p-16">
                     <!-- Profile Header -->
                     <div class="text-center mb-10">
                         <div class="relative inline-block mb-10">
@@ -73,7 +73,7 @@
 
                     <!-- Profile Content -->
                     <?php if (!empty($profile['bio'])) : ?>
-                        <div class="border-t border-slate-100 pt-16">
+                        <div class="border-t border-slate-100 pt-8 sm:pt-12 md:pt-16">
                             <h2 class="text-xs font-black text-slate-900 uppercase tracking-[0.3em] mb-10 flex items-center justify-center lg:justify-start">
                                 <span class="w-2 h-6 bg-blue-800 mr-4 rounded-full"></span>Biografi & Profil Lengkap
                             </h2>
@@ -89,7 +89,7 @@
             </article>
         </div>
     <?php else : ?>
-        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-12 text-center max-w-xl mx-auto">
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-12 text-center max-w-xl mx-auto">
             <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
                 <i class="fa-solid fa-fw fa-user-slash text-2xl"></i>
             </div>

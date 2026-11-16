@@ -38,7 +38,7 @@
 
     <!-- Visi Misi Section -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-10">
-        <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 relative overflow-hidden group hover:shadow-xl transition-all duration-500">
+        <div class="bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-sm border border-slate-200 relative overflow-hidden group hover:shadow-xl transition-all duration-500">
             <div class="absolute top-0 right-0 p-8 text-slate-50 opacity-10 group-hover:opacity-20 transition-opacity">
                 <i class="fa-solid fa-fw fa-bullseye text-9xl"></i>
             </div>
@@ -51,7 +51,7 @@
             </p>
         </div>
 
-        <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 relative overflow-hidden group hover:shadow-xl transition-all duration-500">
+        <div class="bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-sm border border-slate-200 relative overflow-hidden group hover:shadow-xl transition-all duration-500">
             <div class="absolute top-0 right-0 p-8 text-slate-50 opacity-10 group-hover:opacity-20 transition-opacity">
                 <i class="fa-solid fa-fw fa-list-check text-9xl"></i>
             </div>
@@ -73,14 +73,14 @@
     </div>
 
     <!-- Main Description -->
-    <div class="bg-white rounded-[3rem] shadow-sm border border-slate-200 overflow-hidden mb-10">
+    <div class="bg-white rounded-3xl sm:rounded-[3rem] shadow-sm border border-slate-200 overflow-hidden mb-10">
         <div class="grid grid-cols-1 lg:grid-cols-12">
-            <div class="lg:col-span-5 bg-slate-50 p-12 lg:p-16 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-slate-200">
-                <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-8 leading-tight text-center lg:text-left tracking-tight uppercase"><?= esc(get_setting('site_name')) ?></h2>
+            <div class="lg:col-span-5 bg-slate-50 p-6 sm:p-10 lg:p-16 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-slate-200">
+                <h2 class="text-2xl sm:text-3xl md:text-5xl font-black text-slate-900 mb-8 leading-tight text-center lg:text-left tracking-tight uppercase"><?= esc(get_setting('site_name')) ?></h2>
                 <div class="w-20 h-2 bg-blue-800 rounded-full mx-auto lg:mx-0 mb-8"></div>
 
                 <!-- Social Connections -->
-                <div class="flex items-center justify-center lg:justify-start gap-4 mt-4">
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 mt-4">
                     <?php if ($fb = get_setting('social_facebook')): ?>
                         <a href="<?= esc($fb) ?>" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Facebook Kami" class="w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-800 hover:text-white transition-all shadow-sm"><i class="fa-brands fa-fw fa-facebook-f text-sm"></i></a>
                     <?php endif; ?>
@@ -98,7 +98,7 @@
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="lg:col-span-7 p-12 lg:p-16">
+            <div class="lg:col-span-7 p-6 sm:p-10 lg:p-16">
                 <div class="prose prose-slate lg:prose-lg max-w-none text-slate-600 font-medium leading-relaxed">
                     <p class="mb-8">
                         <?= esc(get_setting('about_description_1')) ?>
@@ -108,7 +108,7 @@
                     </p>
                 </div>
 
-                <div class="mt-16">
+                <div class="mt-10 sm:mt-16">
                     <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.3em] mb-10 flex items-center border-b border-slate-50 pb-6">
                         <i class="fa-solid fa-fw fa-layer-group mr-3 text-blue-800"></i>TUGAS POKOK & FUNGSI
                     </h3>
@@ -142,7 +142,7 @@
         <?php
         $teams = get_setting('about_teams', []);
         foreach ($teams as $team): ?>
-            <div class="bg-white text-center p-10 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-500 group">
+            <div class="bg-white text-center p-6 sm:p-8 md:p-10 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-500 group">
                 <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-8 border-2 border-slate-100 group-hover:bg-blue-800 group-hover:border-blue-900 transition-all duration-500 shadow-inner">
                     <i class="fa-solid fa-fw <?= esc($team[2]) ?> text-slate-300 text-3xl group-hover:text-white transition-colors duration-500"></i>
                 </div>

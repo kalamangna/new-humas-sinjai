@@ -45,8 +45,8 @@
 
     <?php if (!empty($posts)) : ?>
         <!-- Info Alert -->
-        <div class="bg-blue-50 border-l-4 border-blue-800 p-6 mb-8 rounded-r-2xl shadow-sm flex items-center">
-            <div class="bg-blue-800 p-2 rounded-lg mr-5 shadow-lg shadow-blue-900/20">
+        <div class="bg-blue-50 border-l-4 border-blue-800 p-4 sm:p-6 mb-8 rounded-r-2xl shadow-sm flex items-center">
+            <div class="bg-blue-800 p-2 rounded-lg mr-3.5 sm:mr-5 flex-shrink-0 shadow-lg shadow-blue-900/20">
                 <i class="fa-solid fa-fw fa-circle-info text-white text-xl"></i>
             </div>
             <p class="text-slate-700 font-bold uppercase tracking-wider text-[11px]">
@@ -63,7 +63,7 @@
 
         <!-- Pagination -->
         <?php if (isset($pager) && $pager->getPageCount() > 1) : ?>
-            <div class="mt-12 flex flex-col md:flex-row items-center justify-between border-t-2 border-slate-100 pt-12">
+            <div class="mt-10 md:mt-12 flex flex-col md:flex-row items-center justify-between gap-4 border-t-2 border-slate-100 pt-8 md:pt-12">
                 <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
                     Menampilkan <span class="text-slate-900"><?= number_format(count($posts), 0, ',', '.') ?></span> Data Hasil Penelusuran.
                 </div>
@@ -75,7 +75,7 @@
 
     <?php else : ?>
         <!-- No Results -->
-        <div class="text-center py-12 bg-white rounded-3xl border border-slate-200 shadow-sm px-8 max-w-4xl mx-auto">
+        <div class="text-center py-8 sm:py-12 bg-white rounded-3xl border border-slate-200 shadow-sm px-4 sm:px-8 max-w-4xl mx-auto">
             <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
                 <i class="fa-solid fa-fw fa-magnifying-glass-minus text-2xl"></i>
             </div>
@@ -91,7 +91,7 @@
             </div>
 
             <!-- Search Tips -->
-            <div class="max-w-3xl mx-auto bg-slate-50 rounded-[2rem] p-10 border border-slate-100 text-left">
+            <div class="max-w-3xl mx-auto bg-slate-50 rounded-[2rem] p-5 sm:p-8 md:p-10 border border-slate-100 text-left">
                 <h3 class="text-xs font-black text-slate-900 uppercase tracking-[0.3em] mb-8 flex items-center">
                     <i class="fa-solid fa-fw fa-lightbulb text-yellow-500 mr-3 text-lg"></i> Panduan Optimasi Pencarian
                 </h3>

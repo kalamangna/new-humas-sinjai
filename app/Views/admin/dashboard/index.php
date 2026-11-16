@@ -215,7 +215,7 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
                     throw new Error(data.message || 'Analytics error');
                 }
                 if (!Array.isArray(data) || data.length === 0) {
-                    popularPostsData.innerHTML = '<tr><td colspan="2" class="px-8 py-12 text-center text-slate-400 italic font-medium">Belum ada data.</td></tr>';
+                    popularPostsData.innerHTML = '<tr><td colspan="2" class="px-5 sm:px-8 py-12 text-center text-slate-400 italic font-medium">Belum ada data.</td></tr>';
                     return;
                 }
                 data.slice(0, 5).forEach(item => {
@@ -223,8 +223,8 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
                     const titleText = escapeHtml(item.title);
                     row.className = 'hover:bg-slate-50 transition-colors group';
                     row.innerHTML = `
-                        <td class="px-8 py-5 text-xs font-bold text-slate-700 truncate max-w-xs group-hover:text-blue-800 transition-colors" title="${titleText}">${titleText}</td>
-                        <td class="px-8 py-5 text-right whitespace-nowrap">
+                        <td class="px-5 sm:px-8 py-4 sm:py-5 text-xs font-bold text-slate-700 truncate max-w-[180px] sm:max-w-xs group-hover:text-blue-800 transition-colors" title="${titleText}">${titleText}</td>
+                        <td class="px-5 sm:px-8 py-4 sm:py-5 text-right whitespace-nowrap">
                             <span class="px-3 py-1 bg-blue-50 text-blue-800 text-[10px] font-black rounded-lg border border-blue-100">
                                 ${parseInt(item.views || 0, 10).toLocaleString('id-ID')} Dilihat
                             </span>
@@ -234,7 +234,7 @@ if ($isPenulis) $gridCols = 'lg:grid-cols-3';
                 });
             })
             .catch(() => {
-                popularPostsData.innerHTML = '<tr><td colspan="2" class="px-8 py-12 text-center text-red-500 font-black uppercase text-[10px] tracking-widest">Gagal memuat data.</td></tr>';
+                popularPostsData.innerHTML = '<tr><td colspan="2" class="px-5 sm:px-8 py-12 text-center text-red-500 font-black uppercase text-[10px] tracking-widest">Gagal memuat data.</td></tr>';
             });
     });
 </script>

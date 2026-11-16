@@ -38,11 +38,11 @@
 
     <?php if (!empty($tags)) : ?>
         <div class="max-w-5xl mx-auto">
-            <div class="bg-white rounded-[3rem] shadow-sm border border-slate-200 p-10 md:p-16">
+            <div class="bg-white rounded-3xl sm:rounded-[3rem] shadow-sm border border-slate-200 p-5 sm:p-10 md:p-16">
                 <div class="flex flex-wrap gap-4 justify-center">
                     <?php foreach ($tags as $tag) : ?>
                         <a href="<?= base_url('tag/' . esc($tag['slug'])) ?>"
-                            class="inline-flex items-center px-6 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-700 hover:bg-blue-800 hover:text-white hover:border-blue-900 transition-all group shadow-sm">
+                            class="inline-flex items-center px-4 sm:px-6 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-700 hover:bg-blue-800 hover:text-white hover:border-blue-900 transition-all group shadow-sm">
                             <i class="fa-solid fa-fw fa-tag mr-3 text-slate-300 group-hover:text-sky-300 transition-colors"></i>
                             <span class="font-bold text-sm tracking-tight"><?= esc($tag['name']) ?></span>
                             <span class="ml-4 px-2 py-0.5 bg-slate-200 text-slate-500 text-[10px] font-black rounded-lg group-hover:bg-blue-900 group-hover:text-white transition-all">
@@ -55,7 +55,7 @@
         </div>
     <?php else : ?>
         <!-- Empty State -->
-        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-12 text-center max-w-xl mx-auto">
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-12 text-center max-w-xl mx-auto">
             <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 text-slate-300">
                 <i class="fa-solid fa-fw fa-tags text-2xl"></i>
             </div>

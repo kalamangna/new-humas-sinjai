@@ -9,6 +9,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [2026-11-17]
 ### Changed
+- **Responsivitas Mobile dan Tablet**: Menyesuaikan padding, jarak grid, tipografi, radius kartu, proporsi tabel, pembungkus teks panjang, serta ukuran area sentuh minimal `h-10` pada komponen bersama (`pagination.php`, `post_card.php`), tata letak navigasi dan footer (`navbar.php`, `footer.php`), seluruh halaman publik (`home`, `posts`, `categories`, `tags`, `search`, `profiles`, `about`, `contact`, `widget_guide`, `program_prioritas`, `live/radio`, `error_404_frontend`), serta formulir kategori dan tag, profil pengguna, dan tabel dashboard admin.
 - **Standardisasi UI & Konsistensi Halaman Publik**: Menyeragamkan komponen header halaman, kartu empty state, format pemisah angka Indonesia (`number_format(..., 0, ',', '.')`), informasi pagination, indikator navigasi aktif di `navbar.php`, atribut `rel="noopener noreferrer"` serta `aria-label` pada seluruh tautan eksternal/media sosial, visibilitas tombol `Salin Kode` di layar ponsel dan teks umpan balik `Kode Disalin` pada `widget_guide.php`, teks umpan balik `Tautan Disalin` pada `posts/detail.php`, serta animasi equalizer dan aksesibilitas pemutar pada `live/radio.php`.
 
 ### Fixed

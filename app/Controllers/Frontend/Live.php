@@ -37,8 +37,12 @@ class Live extends BaseController
 
     public function tv()
     {
-        // Get live stream data from the service
-        $liveStreamData = $this->facebookService->getLiveStreamData();
+        // Pemanggilan Facebook Graph API dinonaktifkan sementara hingga izin Live Video API selesai
+        // $liveStreamData = $this->facebookService->getLiveStreamData();
+        $liveStreamData = [
+            'isLive'   => false,
+            'embedUrl' => null,
+        ];
         
         $data = [
             'title'      => 'Sinjai TV',

@@ -42,22 +42,24 @@
 
             <!-- Live Section Wrapper -->
             <div id="live-section" class="aspect-video w-full bg-black relative">
-                <!-- Facebook Live Embed -->
-                <iframe id="facebook-live-iframe" src="<?= esc($stream_url) ?>"
-                        class="absolute inset-0 w-full h-full"
-                        style="border:none;overflow:hidden"
-                        scrolling="no"
-                        frameborder="0"
-                        allowfullscreen="true"
-                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                        aria-label="Siaran Langsung Sinjai TV"
-                        tabindex="0">
-                </iframe>
-
-                <!-- Overlay -->
-                <div id="live-overlay" class="absolute inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center transition-opacity duration-500 ease-in-out opacity-100 <?= $is_live ? 'hidden opacity-0' : '' ?>">
-                    <span class="text-white text-2xl md:text-4xl font-bold uppercase tracking-wide">OFF AIR</span>
-                </div>
+                <?php if ($is_live && !empty($stream_url)) : ?>
+                    <!-- Facebook Live Embed -->
+                    <iframe id="facebook-live-iframe" src="<?= esc($stream_url) ?>"
+                            class="absolute inset-0 w-full h-full"
+                            style="border:none;overflow:hidden"
+                            scrolling="no"
+                            frameborder="0"
+                            allowfullscreen="true"
+                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                            aria-label="Siaran Langsung Sinjai TV"
+                            tabindex="0">
+                    </iframe>
+                <?php else : ?>
+                    <!-- Overlay -->
+                    <div id="live-overlay" class="absolute inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center">
+                        <span class="text-white text-2xl md:text-4xl font-bold uppercase tracking-wide">OFF AIR</span>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

@@ -8,7 +8,11 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ## [2026-11-19]
+### Changed
+- **Halaman Live Sinjai TV**: Menonaktifkan sementara pemanggilan Facebook Graph API pada `Live::tv()` sambil menunggu penyelesaian izin Live Video API agar halaman tetap dapat diakses dengan status `OFF AIR` tanpa memicu error di log server.
+
 ### Fixed
+- **Embed Iframe Kosong pada Sinjai TV**: Merender elemen `<iframe>` pada `frontend/live/tv.php` hanya ketika `$is_live` bernilai benar dan `$stream_url` tersedia, sehingga mencegah pemuatan ulang halaman di dalam iframe saat status `OFF AIR`.
 - **Integrasi Facebook Graph API (Sinjai TV)**: Memperbaiki pengiriman parameter query pada `FacebookService::getLiveStreamData()` agar dibungkus dalam key `query` sesuai spesifikasi `CURLRequest` CodeIgniter 4, menonaktifkan `http_errors` dengan batas waktu 5 detik, serta menyimpan cache status fallback 60 detik saat terjadi kegagalan agar tidak memicu error HTTP 403 berulang di log server.
 - **Beban Koneksi Database pada `BaseController`**: Menambahkan caching 1 jam (`global_categories`) untuk pemuatan daftar kategori global di `BaseController::initController()` disertai invalidasi cache otomatis melalui callback `afterInsert`, `afterUpdate`, dan `afterDelete` pada `CategoryModel` guna mencegah lonjakan koneksi MySQL (`Too many connections`).
 

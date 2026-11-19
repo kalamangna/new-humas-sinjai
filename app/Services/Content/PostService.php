@@ -64,7 +64,7 @@ class PostService extends BaseService
 
         try {
             $title = $data['title'] ?? '';
-            $slug = url_title($title, '-', true);
+            $slug = $this->createAsciiSlug($title);
 
             // Sanitize content to prevent Stored XSS
             if (isset($data['content'])) {
@@ -171,7 +171,10 @@ class PostService extends BaseService
 
         $tagIds = [];
         foreach ($tagNames as $name) {
-            $slug = url_title($name, '-', true);
+            $slug = $this->createAsciiSlug($name);
+            if ($slug === '') {
+                continue;
+            }
             $tag = $this->tagModel->where('slug', $slug)->first();
             
             if (!$tag) {

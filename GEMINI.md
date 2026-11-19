@@ -9,12 +9,12 @@
     - **Field Order**: The `Tipe` dropdown is now the first field in the profile creation/edit form.
     - **Dynamic Visibility**: 
         - For **Lurah** and **Kepala Desa**, geographical inputs (`Kecamatan` dropdown, `Kelurahan`/`Desa` dropdown acting as the Institution) are shown and dynamically populated from a remote API. `Bio` and `Image` are hidden.
-    - **Placeholders**: The `Instansi / OPD` field has dynamic placeholders and its label changes to **"Desa"** or **"Kelurahan"** when the type is set to `Kepala Desa` or `Lurah`, respectively.
+    - **Placeholders**: The `Instansi atau OPD` field has dynamic placeholders and its label changes to **"Desa"**, **"Kelurahan"**, or **"Kecamatan"** when the type is set to `Kepala Desa`, `Lurah`, or `Camat`, respectively.
     - **Pagination & Search**: The admin profiles list includes a search bar (name, position, institution) and type-based filtering with 20 items per page.
     - **Sorting Logic**: 
         - Profiles are generally sorted by `type` (ASC), then `order` (ASC), with a fallback to `created_at` (ASC).
         - **Lurah** and **Kepala Desa** profiles are specifically sorted by their `kecamatan` (ASC), then by their Kelurahan/Desa (`institution` ASC).
-        - **Urutan Tampil** (manual ordering) is only visible and applicable for `forkopimda`, `eselon-ii`, and `eselon-iii`. For others, it is hidden and set to 0.
+        - **Urutan Tampil** (manual ordering) is only visible and applicable for `forkopimda`, `asisten-staf-ahli`, `kepala-opd`, `kabag-setda`, and `camat`. For others, it is hidden and set to 0.
     - **Validation Feedback**: Admin forms use the `needs-validation` Bootstrap pattern for real-time validity checks. Error messages are displayed **inline** under each specific field with red border highlights.
 - **Frontend Display**:
     - **Sequential Numbering**: Tables in the frontend profile list include a "No" column.
@@ -23,7 +23,7 @@
 ## 🛠 Database & System
 - **Profile Slug Generation**: Automatic unique slug generation is reserved ONLY for `bupati`, `wakil-bupati`, and `sekda` types to support their dedicated profile detail pages. For all other types, the slug is set to `NULL`.
 - **Proxy API**: Internal routes `/admin/profiles/get_kecamatan` and `/admin/profiles/get_wilayah` act as proxies to bypass CORS when fetching geographical data from `apps.sinjaikab.go.id`.
-- **Deployment Pipeline**: Sistem menggunakan integrasi **GitHub Webhook** ke server production. Setiap perubahan kode cukup di-**push** ke GitHub repository (`git push origin main`) dan server akan otomatis tersinkronisasi. Akses **FTP hanya digunakan untuk observasi / membaca kondisi server dan log**, bukan untuk deployment berkas.
+- **Deployment Pipeline**: Sistem menggunakan integrasi **GitHub Webhook** ke server production. Setiap perubahan kode cukup di-**push** ke GitHub repository (`git push origin main`) dan server akan otomatis tersinkronisasi. Akses **FTP hanya digunakan untuk observasi (membaca kondisi server/log) serta pembersihan/maintenance berkas lama** atas instruksi pengguna, bukan untuk deployment/upload berkas kode.
 - **SQL Export & Updates**: 
     - A clean SQL dump utility exists to export personnel data without IDs for production synchronization.
     - Cumulative database changes are tracked in `database_updates_YYYY_MM_DD.sql` files for manual synchronization.

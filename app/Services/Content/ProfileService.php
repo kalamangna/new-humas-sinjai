@@ -30,7 +30,7 @@ class ProfileService extends BaseService
             'bio'       => ['label' => 'Biografi', 'rules' => $hasBioAndImage ? 'required' : 'permit_empty'],
             'order'     => in_array($type, ['bupati', 'wakil-bupati', 'sekda', 'kepala-desa', 'lurah']) ? 'permit_empty|integer' : 'required|integer',
             'kecamatan' => ['label' => 'Kecamatan', 'rules' => in_array($type, ['kepala-desa', 'lurah']) ? 'required|max_length[100]' : 'permit_empty|max_length[100]'],
-            'institution' => ['label' => ($type === 'kepala-desa' ? 'Desa' : ($type === 'lurah' ? 'Kelurahan' : 'Instansi / OPD')), 'rules' => 'required'],
+            'institution' => ['label' => ($type === 'kepala-desa' ? 'Desa' : ($type === 'lurah' ? 'Kelurahan' : ($type === 'camat' ? 'Kecamatan' : 'Instansi'))), 'rules' => 'required'],
             'kelurahan' => ['label' => 'Kelurahan', 'rules' => 'permit_empty|max_length[100]'],
             'desa'      => ['label' => 'Desa', 'rules' => 'permit_empty|max_length[100]'],
         ];
@@ -73,11 +73,11 @@ class ProfileService extends BaseService
             $position = trim($data['position'] ?? '');
             
             $slugBase = ($name !== '' && $name !== '-') ? $name : ($position !== '' ? $position : 'profile');
-            $slug = url_title($slugBase, '-', true);
+            $slug = $this->createAsciiSlug($slugBase);
             
             // If url_title still returns empty (e.g. all special chars), fallback to a random string or position slug
             if (empty($slug)) {
-                $slug = url_title($position ?: 'profile', '-', true) ?: 'profile-' . time();
+                $slug = $this->createAsciiSlug($position ?: 'profile') ?: 'profile-' . time();
             }
 
             if (!$id) {

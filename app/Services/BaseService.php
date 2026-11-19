@@ -84,4 +84,18 @@ class BaseService
 
         return $html;
     }
+
+    /**
+     * Hasilkan slug ASCII murni agar selalu lolos validasi karakter URI router CI4
+     */
+    protected function createAsciiSlug(string $text): string
+    {
+        helper(['text', 'url']);
+
+        $normalized = convert_accented_characters($text);
+        $slug = url_title($normalized, '-', true);
+        $slug = preg_replace('/[^a-zA-Z0-9\-_]/', '', $slug);
+
+        return trim((string) $slug, '-');
+    }
 }

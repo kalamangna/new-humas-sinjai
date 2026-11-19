@@ -243,9 +243,22 @@
                 if (kelurahanContainer) kelurahanContainer.style.display = 'none';
                 if (desaContainer) desaContainer.style.display = 'none';
                 if (kecamatanSelect && kecamatanSelect.value) fetchWilayah(kecamatanSelect.value, 'Desa', institutionSelect, institutionSelect.dataset.selected);
+            } else if (type === 'camat') {
+                institutionLabel.innerHTML = 'Kecamatan <span class="text-red-600">*</span>';
+                institutionInput.placeholder = 'Contoh: Sinjai Utara';
+                institutionInput.style.display = 'block';
+                institutionInput.disabled = false;
+                institutionInput.required = true;
+                institutionSelect.style.display = 'none';
+                institutionSelect.disabled = true;
+                institutionSelect.required = false;
+                if (kecamatanContainer) kecamatanContainer.style.display = 'none';
+                if (kecamatanSelect) kecamatanSelect.required = false;
+                if (kelurahanContainer) kelurahanContainer.style.display = 'none';
+                if (desaContainer) desaContainer.style.display = 'none';
             } else {
-                institutionLabel.innerHTML = 'Instansi / OPD <span class="text-red-600">*</span>';
-                institutionInput.placeholder = 'Masukkan instansi / OPD';
+                institutionLabel.innerHTML = 'Instansi atau OPD <span class="text-red-600">*</span>';
+                institutionInput.placeholder = 'Contoh: Dinas Komunikasi, Informatika, dan Persandian';
                 institutionInput.style.display = 'block';
                 institutionInput.disabled = false;
                 institutionInput.required = true;

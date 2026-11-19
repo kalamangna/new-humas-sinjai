@@ -25,7 +25,7 @@ class TagService extends BaseService
     public function saveTag(array $data, ?int $id = null): bool
     {
         if (empty($data['slug'])) {
-            $data['slug'] = url_title($data['name'], '-', true);
+            $data['slug'] = $this->createAsciiSlug($data['name']);
         }
 
         if ($id) {

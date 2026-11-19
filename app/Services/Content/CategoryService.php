@@ -25,7 +25,7 @@ class CategoryService extends BaseService
     public function saveCategory(array $data, ?int $id = null): bool
     {
         if (empty($data['slug'])) {
-            $data['slug'] = url_title($data['name'], '-', true);
+            $data['slug'] = $this->createAsciiSlug($data['name']);
         }
 
         if (isset($data['parent_id']) && empty($data['parent_id'])) {

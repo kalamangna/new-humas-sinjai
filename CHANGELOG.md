@@ -7,6 +7,11 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2026-11-19]
+### Fixed
+- **Integrasi Facebook Graph API (Sinjai TV)**: Memperbaiki pengiriman parameter query pada `FacebookService::getLiveStreamData()` agar dibungkus dalam key `query` sesuai spesifikasi `CURLRequest` CodeIgniter 4, menonaktifkan `http_errors` dengan batas waktu 5 detik, serta menyimpan cache status fallback 60 detik saat terjadi kegagalan agar tidak memicu error HTTP 403 berulang di log server.
+- **Beban Koneksi Database pada `BaseController`**: Menambahkan caching 1 jam (`global_categories`) untuk pemuatan daftar kategori global di `BaseController::initController()` disertai invalidasi cache otomatis melalui callback `afterInsert`, `afterUpdate`, dan `afterDelete` pada `CategoryModel` guna mencegah lonjakan koneksi MySQL (`Too many connections`).
+
 ## [2026-11-17]
 ### Changed
 - **Responsivitas Mobile dan Tablet**: Menyesuaikan padding, jarak grid, tipografi, radius kartu, proporsi tabel, pembungkus teks panjang, serta ukuran area sentuh minimal `h-10` pada komponen bersama (`pagination.php`, `post_card.php`), tata letak navigasi dan footer (`navbar.php`, `footer.php`), seluruh halaman publik (`home`, `posts`, `categories`, `tags`, `search`, `profiles`, `about`, `contact`, `widget_guide`, `program_prioritas`, `live/radio`, `error_404_frontend`), serta formulir kategori dan tag, profil pengguna, dan tabel dashboard admin.

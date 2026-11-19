@@ -61,8 +61,11 @@ abstract class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
 
-        $categoryModel = new \App\Models\CategoryModel();
-        $allCategories = $categoryModel->orderBy('name', 'ASC')->findAll();
+        // Cache daftar kategori global untuk mengurangi beban koneksi MySQL pada setiap request
+        $allCategories = cache()->remember('global_categories', 3600, static function () {
+            $categoryModel = new CategoryModel();
+            return $categoryModel->orderBy('name', 'ASC')->findAll();
+        });
 
         $categories = [];
         $subCategories = [];

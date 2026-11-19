@@ -60,24 +60,35 @@ class FacebookService
             'access_token' => $accessToken,
         ];
 
+        $fallbackData = ['isLive' => false, 'embedUrl' => null];
+
         try {
-            $response = $this->httpClient->get($apiUrl, $queryParams);
+            // Parameter query wajib dibungkus key 'query' agar terkirim oleh CURLRequest CI4,
+            // dan http_errors dinonaktifkan agar respons error JSON dari Graph API bisa dibaca.
+            $response = $this->httpClient->get($apiUrl, [
+                'query'       => $queryParams,
+                'http_errors' => false,
+                'timeout'     => 5,
+            ]);
 
             if ($response->getStatusCode() !== 200) {
                 log_message('error', 'Facebook Graph API Error: HTTP Status ' . $response->getStatusCode() . ' - ' . $response->getBody());
-                return ['isLive' => false, 'embedUrl' => null];
+                $this->cache->save($cacheKey, $fallbackData, 60);
+                return $fallbackData;
             }
 
             $result = json_decode($response->getBody(), true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 log_message('error', 'Facebook Graph API Error: Invalid JSON response - ' . json_last_error_msg());
-                return ['isLive' => false, 'embedUrl' => null];
+                $this->cache->save($cacheKey, $fallbackData, 60);
+                return $fallbackData;
             }
 
             if (isset($result['error'])) {
                 log_message('error', 'Facebook Graph API Error: ' . $result['error']['message']);
-                return ['isLive' => false, 'embedUrl' => null];
+                $this->cache->save($cacheKey, $fallbackData, 60);
+                return $fallbackData;
             }
 
             if (!empty($result['data'])) {
@@ -94,13 +105,14 @@ class FacebookService
             }
 
             // No live video found
-            $data = ['isLive' => false, 'embedUrl' => null];
-            $this->cache->save($cacheKey, $data, 60); // Cache the 'not live' status too
-            return $data;
+            $this->cache->save($cacheKey, $fallbackData, 60); // Cache the 'not live' status too
+            return $fallbackData;
 
         } catch (Exception $e) {
             log_message('error', 'Facebook Graph API Exception: ' . $e->getMessage());
-            return ['isLive' => false, 'embedUrl' => null];
+            // Cache status gagal sementara untuk mencegah permintaan berulang ke API saat gangguan
+            $this->cache->save($cacheKey, $fallbackData, 60);
+            return $fallbackData;
         }
     }
 }

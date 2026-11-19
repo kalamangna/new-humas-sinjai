@@ -10,6 +10,16 @@ class CategoryModel extends Model
     protected $primaryKey = 'id';
     protected $allowedFields = ['name', 'slug', 'parent_id'];
 
+    protected $afterInsert = ['clearCategoriesCache'];
+    protected $afterUpdate = ['clearCategoriesCache'];
+    protected $afterDelete = ['clearCategoriesCache'];
+
+    protected function clearCategoriesCache(array $data): array
+    {
+        cache()->delete('global_categories');
+        return $data;
+    }
+
     public function getAllWithDetails(array $filters = [])
     {
         $builder = $this->select('categories.*, p.name as parent_name')

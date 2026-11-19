@@ -39,7 +39,7 @@ class ProfileModel extends Model
     protected $validationRules      = [
         'name'     => 'permit_empty|max_length[255]',
         'slug'     => 'permit_empty|max_length[255]|is_unique[profiles.slug,id,{id}]',
-        'type'     => 'required|in_list[bupati,wakil-bupati,sekda,forkopimda,eselon-ii,eselon-iii,lurah,kepala-desa]',
+        'type'     => 'required|in_list[bupati,wakil-bupati,sekda,forkopimda,asisten-staf-ahli,kepala-opd,kabag-setda,camat,lurah,kepala-desa]',
         'order'    => 'permit_empty|integer',
     ];
     protected $validationMessages   = [];

@@ -25,8 +25,10 @@
                 <option value="wakil-bupati" <?= ($filters['type'] ?? '') == 'wakil-bupati' ? 'selected' : '' ?>>Wakil Bupati</option>
                 <option value="sekda" <?= ($filters['type'] ?? '') == 'sekda' ? 'selected' : '' ?>>Sekretaris Daerah</option>
                 <option value="forkopimda" <?= ($filters['type'] ?? '') == 'forkopimda' ? 'selected' : '' ?>>Forkopimda</option>
-                <option value="eselon-ii" <?= ($filters['type'] ?? '') == 'eselon-ii' ? 'selected' : '' ?>>Eselon II</option>
-                <option value="eselon-iii" <?= ($filters['type'] ?? '') == 'eselon-iii' ? 'selected' : '' ?>>Eselon III</option>
+                <option value="asisten-staf-ahli" <?= ($filters['type'] ?? '') == 'asisten-staf-ahli' ? 'selected' : '' ?>>Asisten dan Staf Ahli</option>
+                <option value="kepala-opd" <?= ($filters['type'] ?? '') == 'kepala-opd' ? 'selected' : '' ?>>Kepala OPD</option>
+                <option value="kabag-setda" <?= ($filters['type'] ?? '') == 'kabag-setda' ? 'selected' : '' ?>>Kepala Bagian Setda</option>
+                <option value="camat" <?= ($filters['type'] ?? '') == 'camat' ? 'selected' : '' ?>>Camat</option>
                 <option value="lurah" <?= ($filters['type'] ?? '') == 'lurah' ? 'selected' : '' ?>>Lurah</option>
                 <option value="kepala-desa" <?= ($filters['type'] ?? '') == 'kepala-desa' ? 'selected' : '' ?>>Kepala Desa</option>
             </select>
@@ -81,8 +83,10 @@
                                     'wakil-bupati' => 'Wakil Bupati',
                                     'sekda' => 'Sekretaris Daerah',
                                     'forkopimda' => 'Forkopimda',
-                                    'eselon-ii' => 'Eselon II',
-                                    'eselon-iii' => 'Eselon III',
+                                    'asisten-staf-ahli' => 'Asisten dan Staf Ahli',
+                                    'kepala-opd' => 'Kepala OPD',
+                                    'kabag-setda' => 'Kepala Bagian Setda',
+                                    'camat' => 'Camat',
                                     'lurah' => 'Lurah',
                                     'kepala-desa' => 'Kepala Desa',
                                 ];
@@ -92,7 +96,7 @@
                                 </span>
                             </td>
                             <td class="px-4 sm:px-6 py-3 sm:py-4 w-1 text-center">
-                                <?php if (in_array($profile['type'], ['forkopimda', 'eselon-ii', 'eselon-iii'])) : ?>
+                                <?php if (in_array($profile['type'], ['forkopimda', 'asisten-staf-ahli', 'kepala-opd', 'kabag-setda', 'camat'])) : ?>
                                     <span class="px-2.5 py-1 bg-slate-50 text-slate-500 font-mono text-[10px] font-bold rounded-lg border border-slate-200">
                                         <?= esc($profile['order']) ?>
                                     </span>

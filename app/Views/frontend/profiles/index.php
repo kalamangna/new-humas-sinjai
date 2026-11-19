@@ -49,7 +49,7 @@
     <?php if ($hasData) : ?>
         <div class="max-w-5xl mx-auto">
             <?php
-            $displayOrder = ['Forkopimda', 'Eselon II', 'Eselon III', 'Lurah', 'Kepala Desa'];
+            $displayOrder = ['Forkopimda', 'Asisten dan Staf Ahli', 'Kepala OPD', 'Kepala Bagian Setda', 'Camat', 'Lurah', 'Kepala Desa'];
             foreach ($displayOrder as $groupName) :
                 $profiles = $groupedProfiles[$groupName] ?? [];
                 if (!empty($profiles)) : ?>
@@ -69,7 +69,8 @@
                                             <th class="px-4 sm:px-6 md:px-8 py-3.5 sm:py-5 whitespace-nowrap">Jabatan</th>
                                             <th class="px-4 sm:px-6 md:px-8 py-3.5 sm:py-5 whitespace-nowrap">
                                                 <?php
-                                                if (strpos($groupName, 'Eselon') !== false) echo 'OPD';
+                                                if ($groupName == 'Kepala OPD') echo 'OPD';
+                                                elseif ($groupName == 'Camat') echo 'Kecamatan';
                                                 elseif ($groupName == 'Lurah') echo 'Kelurahan';
                                                 elseif ($groupName == 'Kepala Desa') echo 'Desa';
                                                 else echo 'Instansi';

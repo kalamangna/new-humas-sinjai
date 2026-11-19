@@ -9,6 +9,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [2026-11-19]
 ### Changed
+- **Perombakan Kategori Profil Pejabat Daerah**: Mengubah tipe profil `eselon-ii` dan `eselon-iii` menjadi 4 kategori spesifik (`asisten-staf-ahli`, `kepala-opd`, `kabag-setda`, dan `camat`) di seluruh validasi model (`ProfileModel`), layanan (`ProfileService`), tampilan publik (`/profil/pejabat-daerah`), panel admin profil, migrasi database (`RestructureEselonCategoriesInProfiles`), serta skrip sinkronisasi `database_updates_2026_11_19.sql`.
 - **Halaman Live Sinjai TV**: Menonaktifkan sementara pemanggilan Facebook Graph API pada `Live::tv()` sambil menunggu penyelesaian izin Live Video API agar halaman tetap dapat diakses dengan status `OFF AIR` tanpa memicu error di log server.
 
 ### Fixed

@@ -38,7 +38,7 @@ class Page extends BaseController
         }
 
         // Check if it's a valid type
-        $validTypes = ['bupati', 'wakil-bupati', 'sekda', 'forkopimda', 'eselon-ii', 'eselon-iii', 'lurah', 'kepala-desa'];
+        $validTypes = ['bupati', 'wakil-bupati', 'sekda', 'forkopimda', 'asisten-staf-ahli', 'kepala-opd', 'kabag-setda', 'camat', 'lurah', 'kepala-desa'];
         
         if (!in_array($type, $validTypes)) {
              // Fallback: check if it's a slug for a specific profile
@@ -60,7 +60,7 @@ class Page extends BaseController
         $data['seo']['title'] = $title;
 
         if ($type == 'forkopimda') {
-            $officials = $model->whereIn('type', ['forkopimda', 'eselon-ii', 'eselon-iii', 'lurah', 'kepala-desa'])
+            $officials = $model->whereIn('type', ['forkopimda', 'asisten-staf-ahli', 'kepala-opd', 'kabag-setda', 'camat', 'lurah', 'kepala-desa'])
                                ->orderBy('type', 'ASC')
                                ->orderBy('order', 'ASC')
                                ->orderBy('created_at', 'ASC')
@@ -68,16 +68,20 @@ class Page extends BaseController
             
             $data['groupedProfiles'] = [
                 'Forkopimda' => [],
-                'Eselon II' => [],
-                'Eselon III' => [],
+                'Asisten dan Staf Ahli' => [],
+                'Kepala OPD' => [],
+                'Kepala Bagian Setda' => [],
+                'Camat' => [],
                 'Lurah' => [],
                 'Kepala Desa' => []
             ];
 
             foreach ($officials as $official) {
                 if ($official['type'] == 'forkopimda') $data['groupedProfiles']['Forkopimda'][] = $official;
-                elseif ($official['type'] == 'eselon-ii') $data['groupedProfiles']['Eselon II'][] = $official;
-                elseif ($official['type'] == 'eselon-iii') $data['groupedProfiles']['Eselon III'][] = $official;
+                elseif ($official['type'] == 'asisten-staf-ahli') $data['groupedProfiles']['Asisten dan Staf Ahli'][] = $official;
+                elseif ($official['type'] == 'kepala-opd') $data['groupedProfiles']['Kepala OPD'][] = $official;
+                elseif ($official['type'] == 'kabag-setda') $data['groupedProfiles']['Kepala Bagian Setda'][] = $official;
+                elseif ($official['type'] == 'camat') $data['groupedProfiles']['Camat'][] = $official;
                 elseif ($official['type'] == 'lurah') $data['groupedProfiles']['Lurah'][] = $official;
                 elseif ($official['type'] == 'kepala-desa') $data['groupedProfiles']['Kepala Desa'][] = $official;
             }

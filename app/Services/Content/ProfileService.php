@@ -20,7 +20,7 @@ class ProfileService extends BaseService
 
     public function getValidationRules(?string $type = null, bool $isUpdate = false): array
     {
-        $hideImageTypes = ['forkopimda', 'eselon-ii', 'eselon-iii', 'lurah', 'kepala-desa'];
+        $hideImageTypes = ['forkopimda', 'asisten-staf-ahli', 'kepala-opd', 'kabag-setda', 'camat', 'lurah', 'kepala-desa'];
         $hasBioAndImage = !in_array($type, $hideImageTypes);
 
         $rules = [

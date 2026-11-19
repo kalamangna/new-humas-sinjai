@@ -37,8 +37,10 @@
                                 <option value="wakil-bupati" <?= old('type', $profile['type']) == 'wakil-bupati' ? 'selected' : '' ?>>Wakil Bupati</option>
                                 <option value="sekda" <?= old('type', $profile['type']) == 'sekda' ? 'selected' : '' ?>>Sekda</option>
                                 <option value="forkopimda" <?= old('type', $profile['type']) == 'forkopimda' ? 'selected' : '' ?>>Forkopimda</option>
-                                <option value="eselon-ii" <?= old('type', $profile['type']) == 'eselon-ii' ? 'selected' : '' ?>>Eselon II</option>
-                                <option value="eselon-iii" <?= old('type', $profile['type']) == 'eselon-iii' ? 'selected' : '' ?>>Eselon III</option>
+                                <option value="asisten-staf-ahli" <?= old('type', $profile['type']) == 'asisten-staf-ahli' ? 'selected' : '' ?>>Asisten dan Staf Ahli</option>
+                                <option value="kepala-opd" <?= old('type', $profile['type']) == 'kepala-opd' ? 'selected' : '' ?>>Kepala OPD</option>
+                                <option value="kabag-setda" <?= old('type', $profile['type']) == 'kabag-setda' ? 'selected' : '' ?>>Kepala Bagian Setda</option>
+                                <option value="camat" <?= old('type', $profile['type']) == 'camat' ? 'selected' : '' ?>>Camat</option>
                                 <option value="lurah" <?= old('type', $profile['type']) == 'lurah' ? 'selected' : '' ?>>Lurah</option>
                                 <option value="kepala-desa" <?= old('type', $profile['type']) == 'kepala-desa' ? 'selected' : '' ?>>Kepala Desa</option>
                             </select>
@@ -188,7 +190,7 @@
         function toggleFields() {
             if (!typeSelect || !institutionLabel || !institutionInput || !institutionSelect) return;
 
-            const hideList = ['forkopimda', 'eselon-ii', 'eselon-iii', 'lurah', 'kepala-desa'];
+            const hideList = ['forkopimda', 'asisten-staf-ahli', 'kepala-opd', 'kabag-setda', 'camat', 'lurah', 'kepala-desa'];
             const isHidden = hideList.includes(typeSelect.value);
             
             if (bioContainer) {
@@ -209,7 +211,7 @@
                 positionInput.classList.remove('bg-slate-100', 'text-slate-500');
             }
 
-            const isManualOrderType = ['forkopimda', 'eselon-ii', 'eselon-iii'].includes(type);
+            const isManualOrderType = ['forkopimda', 'asisten-staf-ahli', 'kepala-opd', 'kabag-setda', 'camat'].includes(type);
             if (orderContainer) orderContainer.style.display = !isManualOrderType ? 'none' : 'block';
             if (orderInput) orderInput.required = isManualOrderType;
             

@@ -13,6 +13,8 @@ use App\Models\UserModel;
 
 class PostService extends BaseService
 {
+    public const MAX_CATEGORIES = 3;
+
     protected $postModel;
     protected $postCategoryModel;
     protected $postTagModel;
@@ -151,6 +153,13 @@ class PostService extends BaseService
     {
         // For updates, clear existing first
         $this->postCategoryModel->where('post_id', $postId)->delete();
+
+        // Pastikan relasi kategori unik dan tidak melebihi batas maksimal per berita
+        $categoryIds = array_slice(
+            array_values(array_unique(array_filter(array_map('intval', $categoryIds)))),
+            0,
+            self::MAX_CATEGORIES
+        );
 
         if (!empty($categoryIds)) {
             $catsToInsert = array_map(fn($catId) => [

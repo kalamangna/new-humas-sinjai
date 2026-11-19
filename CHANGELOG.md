@@ -8,6 +8,9 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ## [2026-11-19]
+### Added
+- **Batas Maksimal 3 Kategori Berita**: Menambahkan validasi batas maksimal 3 kategori per berita (`PostService::MAX_CATEGORIES`) pada `Posts::create()`, `Posts::update()`, dan deduplikasi relasi pada `PostService::syncCategories()`, disertai penghitung pilihan langsung, penonaktifan kotak centang saat batas tercapai, dan pesan galat kontekstual pada `admin/posts/new.php` serta `admin/posts/edit.php`.
+
 ### Changed
 - **Form Admin Profil Tipe `Camat` & Dokumentasi Proyek**: Menyesuaikan label kolom instansi menjadi `Kecamatan` beserta placeholder contoh nyata saat memilih tipe `Camat` pada `admin/profiles/new.php`, `admin/profiles/edit.php`, dan `ProfileService`, mengganti label `Instansi / OPD` menjadi `Instansi atau OPD`, serta memperbarui dokumentasi `GEMINI.md`.
 - **Perombakan Kategori Profil Pejabat Daerah**: Mengubah tipe profil `eselon-ii` dan `eselon-iii` menjadi 4 kategori spesifik (`asisten-staf-ahli`, `kepala-opd`, `kabag-setda`, dan `camat`) di seluruh validasi model (`ProfileModel`), layanan (`ProfileService`), tampilan publik (`/profil/pejabat-daerah`), panel admin profil, migrasi database (`RestructureEselonCategoriesInProfiles`), serta skrip sinkronisasi `database_updates_2026_11_19.sql`.

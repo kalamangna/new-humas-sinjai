@@ -83,8 +83,11 @@
                     <!-- Category & Tags -->
                     <div class="space-y-6 sm:space-y-8">
                         <div class="space-y-4">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kategori <span class="text-red-600">*</span></label>
-                            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-6 h-48 overflow-y-auto space-y-4 scrollbar-thin">
+                            <div class="flex items-center justify-between gap-2">
+                                <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kategori <span class="text-red-600">*</span></label>
+                                <span id="category-counter" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Maksimal 3 kategori</span>
+                            </div>
+                            <div class="bg-slate-50 border <?= session('errors.categories') ? 'border-red-500' : 'border-slate-200' ?> rounded-2xl p-4 sm:p-6 h-48 overflow-y-auto space-y-4 scrollbar-thin">
                                 <?php foreach ($categories as $category) : ?>
                                     <div>
                                         <h6 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2"><?= esc($category['name']) ?></h6>
@@ -101,6 +104,9 @@
                                     </div>
                                 <?php endforeach; ?>
                             </div>
+                            <?php if (session('errors.categories')) : ?>
+                                <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest"><?= esc(session('errors.categories')) ?></p>
+                            <?php endif; ?>
                         </div>
 
                         <div class="space-y-4">
@@ -240,6 +246,34 @@
                 this.innerHTML = '<i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2"></i>Sarankan Tag';
             });
     };
+
+    const maxCategories = 3;
+    const categoryCheckboxes = document.querySelectorAll('input[name="categories[]"]');
+    const categoryCounter = document.getElementById('category-counter');
+
+    function updateCategoryLimit() {
+        const checkedCount = Array.from(categoryCheckboxes).filter(cb => cb.checked).length;
+        const limitReached = checkedCount >= maxCategories;
+
+        categoryCheckboxes.forEach(cb => {
+            if (!cb.checked) {
+                cb.disabled = limitReached;
+                const label = cb.closest('label');
+                if (label) {
+                    label.classList.toggle('opacity-50', limitReached);
+                    label.classList.toggle('cursor-not-allowed', limitReached);
+                    label.classList.toggle('cursor-pointer', !limitReached);
+                }
+            }
+        });
+
+        if (categoryCounter) {
+            categoryCounter.textContent = `Dipilih ${checkedCount} dari ${maxCategories} kategori`;
+        }
+    }
+
+    categoryCheckboxes.forEach(cb => cb.addEventListener('change', updateCategoryLimit));
+    updateCategoryLimit();
 </script>
 
 <?= $this->endSection() ?>

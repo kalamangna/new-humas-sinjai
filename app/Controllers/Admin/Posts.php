@@ -53,9 +53,20 @@ class Posts extends BaseController
     public function create()
     {
         $pastedThumbnail = $this->request->getPost('pasted_thumbnail');
+        $selectedCategories = array_values(array_unique(array_filter((array) $this->request->getPost('categories'))));
         
         if (!$this->postService->validate($this->request->getPost(), $this->postService->getValidationRules(false, !empty($pastedThumbnail)))) {
-            return redirect()->back()->withInput()->with('errors', $this->postService->getErrors());
+            $errors = $this->postService->getErrors();
+            if (count($selectedCategories) > PostService::MAX_CATEGORIES) {
+                $errors['categories'] = 'Maksimal ' . PostService::MAX_CATEGORIES . ' kategori dapat dipilih untuk satu berita.';
+            }
+            return redirect()->back()->withInput()->with('errors', $errors);
+        }
+
+        if (count($selectedCategories) > PostService::MAX_CATEGORIES) {
+            return redirect()->back()->withInput()->with('errors', [
+                'categories' => 'Maksimal ' . PostService::MAX_CATEGORIES . ' kategori dapat dipilih untuk satu berita.',
+            ]);
         }
 
         $title = $this->request->getPost('title');
@@ -126,8 +137,20 @@ class Posts extends BaseController
             return redirect()->to(base_url('admin/posts'))->with('error', 'Anda tidak memiliki hak akses untuk memperbarui berita ini.');
         }
 
+        $selectedCategories = array_values(array_unique(array_filter((array) $this->request->getPost('categories'))));
+
         if (!$this->postService->validate($this->request->getPost(), $this->postService->getValidationRules(true))) {
-            return redirect()->back()->withInput()->with('errors', $this->postService->getErrors());
+            $errors = $this->postService->getErrors();
+            if (count($selectedCategories) > PostService::MAX_CATEGORIES) {
+                $errors['categories'] = 'Maksimal ' . PostService::MAX_CATEGORIES . ' kategori dapat dipilih untuk satu berita.';
+            }
+            return redirect()->back()->withInput()->with('errors', $errors);
+        }
+
+        if (count($selectedCategories) > PostService::MAX_CATEGORIES) {
+            return redirect()->back()->withInput()->with('errors', [
+                'categories' => 'Maksimal ' . PostService::MAX_CATEGORIES . ' kategori dapat dipilih untuk satu berita.',
+            ]);
         }
 
         // Handle Image

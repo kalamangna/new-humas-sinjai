@@ -5,6 +5,7 @@ namespace App\Filters;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Filters\FilterInterface;
+use App\Controllers\Auth\Login;
 
 class AdminFilter implements FilterInterface
 {
@@ -24,6 +25,24 @@ class AdminFilter implements FilterInterface
             // Sembunyikan panel admin dan rute login dari scanner publik dengan respon 404 murni
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
+
+        // Validasi batas tidak aktif (idle timeout) di sisi server
+        $lastActivity = (int) session()->get('last_activity');
+        if ($lastActivity > 0 && (time() - $lastActivity) > Login::IDLE_TIMEOUT_SECONDS) {
+            session()->remove(['user_id', 'name', 'email', 'role', 'isLoggedIn', 'last_activity']);
+            session()->regenerate(true);
+
+            if ($request->isAJAX() || strpos($uri, 'api/') !== false) {
+                return service('response')->setStatusCode(401)->setJSON([
+                    'status' => 'error',
+                    'message' => 'Sesi berakhir. Silakan login kembali.'
+                ]);
+            }
+
+            return redirect()->to(base_url('masuk'))->with('error', 'Sesi berakhir. Silakan login kembali.');
+        }
+
+        session()->set('last_activity', time());
 
         // Restrict 'author' role
         if ($role === 'author') {

@@ -7,6 +7,8 @@ use App\Models\UserModel;
 
 class Login extends BaseController
 {
+    public const IDLE_TIMEOUT_SECONDS = 1800;
+
     public function index()
     {
         if (session()->get('isLoggedIn')) {
@@ -50,6 +52,7 @@ class Login extends BaseController
                 'email' => $user['email'],
                 'role' => $user['role'],
                 'isLoggedIn' => true,
+                'last_activity' => time(),
             ]);
 
             // Catat audit log login sukses
@@ -73,10 +76,25 @@ class Login extends BaseController
 
     public function logout()
     {
-        if (session('isLoggedIn')) {
+        $isTimeout = $this->request->getGet('reason') === 'timeout';
+
+        if (session('isLoggedIn') && !$isTimeout) {
             audit_log('auth', 'logout', 'Logout dari sistem');
         }
+
+        if ($isTimeout) {
+            // Hapus data autentikasi dan regenerasi ID sesi agar flashdata tetap terbawa ke halaman login
+            session()->remove(['user_id', 'name', 'email', 'role', 'isLoggedIn', 'last_activity']);
+            session()->regenerate(true);
+            return redirect()->to(base_url('masuk'))->with('error', 'Sesi berakhir. Silakan login kembali.');
+        }
+
         session()->destroy();
         return redirect()->to(base_url('masuk'));
+    }
+
+    public function ping()
+    {
+        return $this->response->setJSON(['status' => 'ok']);
     }
 }

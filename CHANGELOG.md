@@ -11,6 +11,9 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - **Auto Logout Panel Admin (30 Menit)**: Menambahkan mekanisme auto logout setelah 30 menit tidak aktif untuk seluruh role (`admin` dan `author`) di sisi server (`AdminFilter`, `Auth`, `Login::IDLE_TIMEOUT_SECONDS`) maupun browser (`scripts_admin.php`), lengkap dengan sinkronisasi aktivitas dan logout antar tab via `localStorage`, deteksi aktivitas pada iframe editor, endpoint keep-alive `GET admin/session/ping` saat penulis aktif, serta pengalihan ke halaman login dengan pesan singkat tanpa mencatat auto logout ke `audit_logs` dan tetap mempertahankan respons `404` untuk pengunjung tanpa sesi.
 
+### Fixed
+- **Tombol Sarankan Tag (`GeminiService` & Form Berita Admin)**: Memperbarui rantai model di `GeminiService::MODEL_CHAIN` menjadi `gemini-3.5-flash-lite`, `gemini-flash-lite-latest`, `gemini-2.5-flash-lite`, dan `gemini-2.5-flash` (menggantikan model yang timeout/404), menurunkan batas `timeout` menjadi 10 detik, menggunakan `mb_substr()` UTF-8 pada `prepareContent()`, serta menambahkan pengecekan `r.ok`, penanganan `401`, validasi array sebelum mereset tag lama, dan `.catch()` pada `admin/posts/new.php` serta `admin/posts/edit.php`.
+
 ## [2026-11-19]
 ### Added
 - **Batas Maksimal 3 Kategori Berita**: Menambahkan validasi batas maksimal 3 kategori per berita (`PostService::MAX_CATEGORIES`) pada `Posts::create()`, `Posts::update()`, dan deduplikasi relasi pada `PostService::syncCategories()`, disertai penghitung pilihan langsung, penonaktifan kotak centang saat batas tercapai, dan pesan galat kontekstual pada `admin/posts/new.php` serta `admin/posts/edit.php`.

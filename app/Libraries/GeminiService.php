@@ -15,11 +15,10 @@ class GeminiService
      * Jika semua gagal, fallback ke tag hardcoded.
      */
     private const MODEL_CHAIN = [
-        'gemini-3.6-flash',       // Terbaru & tercepat
-        'gemini-3.5-flash',       // Stabil terbaru
-        'gemini-2.5-flash',       // Proven stable
-        'gemini-2.5-flash-lite',  // Fallback ringan
-        'gemini-2.0-flash',       // Generasi sebelumnya
+        'gemini-3.5-flash-lite',    // Terbaru & cepat (~1 detik)
+        'gemini-flash-lite-latest', // Alias otomatis versi Lite terbaru
+        'gemini-2.5-flash-lite',    // Fallback Lite stabil
+        'gemini-2.5-flash',         // Fallback penuh stabil
     ];
 
     private const HARDCODED_FALLBACK = [
@@ -84,7 +83,7 @@ class GeminiService
         // Exceptions bubble up ke suggestTags untuk trigger next model dalam chain.
         $response = $this->httpClient->post($url, [
             'json'        => $payload,
-            'timeout'     => 30,
+            'timeout'     => 10,
             'http_errors' => true,
         ]);
 
@@ -114,7 +113,7 @@ class GeminiService
 
     private function prepareContent(string $content): string
     {
-        return substr(strip_tags($content), 0, self::MAX_CONTENT_LENGTH);
+        return mb_substr(strip_tags($content), 0, self::MAX_CONTENT_LENGTH, 'UTF-8');
     }
 
     private function buildPrompt(string $title, string $content): string

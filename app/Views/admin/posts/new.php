@@ -216,9 +216,10 @@
 
     // Suggest logic
     document.getElementById('suggest-tags-btn').onclick = function() {
-        const title = document.getElementById('title').value;
-        const content = tinymce.get('content').getContent();
-        if (!title || !content) return alert('Isi data dahulu.');
+        const title = (document.getElementById('title')?.value || '').trim();
+        const editor = typeof tinymce !== 'undefined' ? tinymce.get('content') : null;
+        const content = (editor ? editor.getContent() : (document.getElementById('content')?.value || '')).trim();
+        if (!title || !content) return alert('Isi judul dan konten berita terlebih dahulu.');
 
         this.disabled = true;
         this.innerHTML = '<i class="fa-solid fa-fw fa-circle-notch fa-spin mr-2"></i>Menganalisa...';
@@ -235,11 +236,25 @@
                     content
                 })
             })
-            .then(r => r.json()).then(data => {
-                // Reset tag lama sebelum menambahkan hasil saran
+            .then(async r => {
+                if (r.status === 401) {
+                    window.location.href = '<?= base_url('masuk') ?>';
+                    return null;
+                }
+                if (!r.ok) {
+                    throw new Error('HTTP ' + r.status);
+                }
+                return r.json();
+            })
+            .then(data => {
+                if (!Array.isArray(data) || data.length === 0) return;
+                // Reset tag lama hanya setelah saran baru valid diterima
                 tagContainer.querySelectorAll('.tag-badge').forEach(b => b.remove());
                 updateTagsInput();
                 data.forEach(addTag);
+            })
+            .catch(() => {
+                alert('Gagal memuat saran tag. Silakan coba lagi.');
             })
             .finally(() => {
                 this.disabled = false;

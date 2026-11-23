@@ -21,10 +21,28 @@ class GeminiService
         'gemini-2.5-flash',         // Fallback penuh stabil
     ];
 
+    private const MAX_SUGGESTED_TAGS = 5;
+
+    private const GENERIC_TAG_BLOCKLIST = [
+        'sinjai',
+        'berita sinjai',
+        'kabupaten sinjai',
+        'pemkab sinjai',
+        'pemerintah sinjai',
+        'pemerintah kabupaten sinjai',
+        'pemerintah daerah',
+        'berita daerah',
+        'berita daerah sinjai',
+        'sinjai hari ini',
+        'humas sinjai',
+        'berita',
+        'daerah',
+        'informasi',
+        'informasi publik',
+    ];
+
     private const HARDCODED_FALLBACK = [
-        'Sinjai', 'Berita Sinjai', 'Kabupaten Sinjai', 'Pemerintah Daerah',
-        'Humas Sinjai', 'Informasi Publik', 'Sulawesi Selatan', 'Diskominfo Sinjai',
-        'Bupati Sinjai', 'Berita Daerah',
+        'Sulawesi Selatan', 'Diskominfo Sinjai', 'Bupati Sinjai', 'Pelayanan Publik', 'Pembangunan Daerah',
     ];
 
     private string $apiKey;
@@ -210,17 +228,19 @@ Konten: \"%s\"",
     private function buildPrompt(string $title, string $content): string
     {
         return sprintf(
-            "Berdasarkan judul dan konten berita di bawah ini, hasilkan 10 tag SEO singkat dan relevan.
+            "Berdasarkan judul dan konten berita pemerintah daerah di bawah ini, hasilkan tepat %d tag SEO singkat, spesifik, dan relevan.
 
-            Aturan:
-            - Tampilkan hanya daftar tag, pisahkan dengan koma.
-            - Jangan berikan penjelasan, pengantar, atau kalimat tambahan.
-            - Jangan beri nomor atau bullet.
-            - Gunakan kata atau frasa pendek yang umum dipakai di berita Indonesia.
-            - Mulai langsung dari daftar tag, tanpa teks lain.
+Aturan:
+- Tampilkan hanya daftar tag dipisahkan koma, tanpa penjelasan, nomor, bullet, atau tanda pagar (#).
+- Gunakan format Title Case (huruf kapital di awal kata penting) dengan panjang 1 sampai 3 kata per tag.
+- Prioritaskan entitas yang dapat dipakai ulang pada berita lain: nama OPD atau lembaga, nama program, lokasi kecamatan atau desa, dan topik inti.
+- DILARANG menggunakan tag generik situs seperti: Sinjai, Berita Sinjai, Kabupaten Sinjai, Pemkab Sinjai, Pemerintah Daerah, Berita Daerah, Sinjai Hari Ini, Berita, Daerah, Informasi.
+- DILARANG mengulang konsep yang sama dengan variasi singkatan dan kepanjangan dalam satu daftar (pilih salah satu bentuk yang paling umum, misalnya cukup 'Kejari Sinjai' atau 'Makan Bergizi Gratis', jangan keduanya).
+- DILARANG menghasilkan tag berupa angka saja.
 
-            Judul: \"%s\"
-            Konten: \"%s\"",
+Judul: \"%s\"
+Konten: \"%s\"",
+            self::MAX_SUGGESTED_TAGS,
             $title,
             $content
         );
@@ -238,7 +258,30 @@ Konten: \"%s\"",
 
     private function parseTags(string $tagsString): array
     {
-        $tags = array_filter(array_map('trim', explode(',', $tagsString)));
-        return array_values($tags);
+        $rawTags = explode(',', $tagsString);
+        $cleanTags = [];
+        $seen = [];
+
+        foreach ($rawTags as $raw) {
+            $tag = trim(ltrim(trim($raw), '#-*• '));
+            $tag = preg_replace('/\s+/', ' ', $tag);
+            if ($tag === '' || mb_strlen($tag, 'UTF-8') < 2 || ctype_digit($tag)) {
+                continue;
+            }
+
+            $normalized = mb_strtolower($tag, 'UTF-8');
+            if (in_array($normalized, self::GENERIC_TAG_BLOCKLIST, true) || isset($seen[$normalized])) {
+                continue;
+            }
+
+            $seen[$normalized] = true;
+            $cleanTags[] = $tag;
+
+            if (count($cleanTags) >= self::MAX_SUGGESTED_TAGS) {
+                break;
+            }
+        }
+
+        return $cleanTags;
     }
 }

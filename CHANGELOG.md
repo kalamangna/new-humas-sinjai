@@ -18,6 +18,9 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - **Logic Berita Terkait (`PostModel::getRelatedNewsOptimized`)**: Menggabungkan pencocokan kategori (bobot 3) dan tag (bobot 1) dalam satu kueri skor ber-`GROUP BY post_id` untuk menghilangkan bug duplikasi `post_id` dan dominasi tag generik, mengisolasi query builder pada fallback fulltext dan berita terbaru, menyertakan `$limit` pada kunci cache, menormalisasi urutan `FIELD(id, ...)` dengan escape `false`, serta meneruskan `$tagIds` dari `Home::post()` untuk menghemat 1 kueri SQL.
 
+### Removed
+- **Input Tag Manual Form Berita Admin**: Menghapus kolom input tag manual beserta tombol tambah pada `admin/posts/new.php` dan `admin/posts/edit.php` agar pengisian tag terpusat melalui fitur `Sarankan Tag` AI.
+
 ## [2026-11-21]
 ### Added
 - **Auto Logout Panel Admin (30 Menit)**: Menambahkan mekanisme auto logout setelah 30 menit tidak aktif untuk seluruh role (`admin` dan `author`) di sisi server (`AdminFilter`, `Auth`, `Login::IDLE_TIMEOUT_SECONDS`) maupun browser (`scripts_admin.php`), lengkap dengan sinkronisasi aktivitas dan logout antar tab via `localStorage`, deteksi aktivitas pada iframe editor, endpoint keep-alive `GET admin/session/ping` saat penulis aktif, serta pengalihan ke halaman login dengan pesan singkat tanpa mencatat auto logout ke `audit_logs` dan tetap mempertahankan respons `404` untuk pengunjung tanpa sesi.

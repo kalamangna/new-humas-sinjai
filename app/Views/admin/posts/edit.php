@@ -138,10 +138,6 @@
                             </div>
                             <input type="hidden" name="tags" id="tags-input" value="<?= esc(implode(',', $displayTags)) ?>">
 
-                            <div class="flex gap-2">
-                                <input type="text" id="manual-tag-input" class="flex-1 min-w-0 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-800" placeholder="Tambah tag manual...">
-                                <button type="button" id="add-manual-tag-btn" class="p-2 bg-slate-800 text-white rounded-xl hover:bg-slate-950 transition-all flex-shrink-0"><i class="fa-solid fa-fw fa-plus"></i></button>
-                            </div>
                             <button type="button" id="suggest-tags-btn" class="w-full py-3 bg-blue-50 text-blue-800 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-100 transition-all border border-blue-100">
                                 <i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Tag
                             </button>
@@ -203,7 +199,6 @@
     // Tag logic
     const tagContainer = document.getElementById('tag-container');
     const tagsInput = document.getElementById('tags-input');
-    const manualTagInput = document.getElementById('manual-tag-input');
 
     function updateTagsInput() {
         const tags = Array.from(tagContainer.querySelectorAll('.tag-badge')).map(b => b.dataset.tag);
@@ -224,10 +219,6 @@
         updateTagsInput();
     }
 
-    document.getElementById('add-manual-tag-btn').onclick = () => {
-        addTag(manualTagInput.value.trim());
-        manualTagInput.value = '';
-    };
     document.querySelectorAll('.remove-tag').forEach(btn => btn.onclick = () => {
         btn.closest('.tag-badge').remove();
         updateTagsInput();

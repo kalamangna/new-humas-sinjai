@@ -58,6 +58,38 @@ class PostService extends BaseService
     }
 
     /**
+     * Pesan validasi singkat dan kontekstual untuk form berita
+     */
+    public function getValidationMessages(): array
+    {
+        return [
+            'title' => [
+                'required'   => 'Judul berita wajib diisi.',
+                'min_length' => 'Judul berita minimal 3 karakter.',
+                'max_length' => 'Judul berita maksimal 255 karakter.',
+            ],
+            'content' => [
+                'required' => 'Isi berita wajib diisi.',
+            ],
+            'categories' => [
+                'required' => 'Pilih minimal 1 kategori berita.',
+            ],
+            'tags' => [
+                'required' => 'Tag berita wajib diisi. Klik Sarankan Tag.',
+            ],
+            'status' => [
+                'required' => 'Status berita wajib dipilih.',
+            ],
+            'thumbnail' => [
+                'uploaded' => 'Gambar berita wajib diunggah.',
+                'max_size' => 'Gambar berita maksimal 2 MB.',
+                'is_image' => 'Berkas harus berupa gambar.',
+                'mime_in'  => 'Format gambar harus JPG, PNG, atau WebP.',
+            ],
+        ];
+    }
+
+    /**
      * Unified Save (Create or Update)
      */
     public function savePost(array $data, array $relations, ?int $id = null): bool

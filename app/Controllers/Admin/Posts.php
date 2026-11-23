@@ -55,17 +55,21 @@ class Posts extends BaseController
         $pastedThumbnail = $this->request->getPost('pasted_thumbnail');
         $selectedCategories = array_values(array_unique(array_filter((array) $this->request->getPost('categories'))));
         
-        if (!$this->postService->validate($this->request->getPost(), $this->postService->getValidationRules(false, !empty($pastedThumbnail)))) {
+        if (!$this->postService->validate(
+            $this->request->getPost(),
+            $this->postService->getValidationRules(false, !empty($pastedThumbnail)),
+            $this->postService->getValidationMessages()
+        )) {
             $errors = $this->postService->getErrors();
             if (count($selectedCategories) > PostService::MAX_CATEGORIES) {
-                $errors['categories'] = 'Maksimal ' . PostService::MAX_CATEGORIES . ' kategori dapat dipilih untuk satu berita.';
+                $errors['categories'] = 'Kategori berita maksimal ' . PostService::MAX_CATEGORIES . ' pilihan.';
             }
             return redirect()->back()->withInput()->with('errors', $errors);
         }
 
         if (count($selectedCategories) > PostService::MAX_CATEGORIES) {
             return redirect()->back()->withInput()->with('errors', [
-                'categories' => 'Maksimal ' . PostService::MAX_CATEGORIES . ' kategori dapat dipilih untuk satu berita.',
+                'categories' => 'Kategori berita maksimal ' . PostService::MAX_CATEGORIES . ' pilihan.',
             ]);
         }
 
@@ -77,7 +81,7 @@ class Posts extends BaseController
         $imagePaths = $this->generateArticleImages($thumbnailSource, $slug);
 
         if (!$imagePaths && ($this->request->getFile('thumbnail')->getName() !== '' || !empty($pastedThumbnail))) {
-            return redirect()->back()->withInput()->with('error', 'Gagal memproses gambar berita.');
+            return redirect()->back()->withInput()->with('error', 'Gambar berita gagal diproses. Pastikan format JPG, PNG, atau WebP maksimal 2 MB.');
         }
 
         $data = [
@@ -139,17 +143,21 @@ class Posts extends BaseController
 
         $selectedCategories = array_values(array_unique(array_filter((array) $this->request->getPost('categories'))));
 
-        if (!$this->postService->validate($this->request->getPost(), $this->postService->getValidationRules(true))) {
+        if (!$this->postService->validate(
+            $this->request->getPost(),
+            $this->postService->getValidationRules(true),
+            $this->postService->getValidationMessages()
+        )) {
             $errors = $this->postService->getErrors();
             if (count($selectedCategories) > PostService::MAX_CATEGORIES) {
-                $errors['categories'] = 'Maksimal ' . PostService::MAX_CATEGORIES . ' kategori dapat dipilih untuk satu berita.';
+                $errors['categories'] = 'Kategori berita maksimal ' . PostService::MAX_CATEGORIES . ' pilihan.';
             }
             return redirect()->back()->withInput()->with('errors', $errors);
         }
 
         if (count($selectedCategories) > PostService::MAX_CATEGORIES) {
             return redirect()->back()->withInput()->with('errors', [
-                'categories' => 'Maksimal ' . PostService::MAX_CATEGORIES . ' kategori dapat dipilih untuk satu berita.',
+                'categories' => 'Kategori berita maksimal ' . PostService::MAX_CATEGORIES . ' pilihan.',
             ]);
         }
 

@@ -45,10 +45,10 @@ class BaseService
     /**
      * Validate data against rules
      */
-    public function validate(array $data, array $rules): bool
+    public function validate(array $data, array $rules, array $messages = []): bool
     {
         $validation = \Config\Services::validation();
-        $validation->setRules($rules);
+        $validation->setRules($rules, $messages);
 
         if (!$validation->run($data)) {
             $this->errors = $validation->getErrors();

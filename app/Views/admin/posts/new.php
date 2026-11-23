@@ -33,7 +33,7 @@
                         class="w-full px-4 sm:px-6 py-3 sm:py-4 bg-slate-50 border-2 border-slate-100 rounded-xl sm:rounded-2xl text-base sm:text-xl font-bold text-slate-900 placeholder-slate-300 focus:border-blue-800 focus:bg-white outline-none transition-all <?= (isset(session('errors')['title'])) ? 'border-red-500' : '' ?>"
                         value="<?= old('title') ?>" placeholder="Masukkan judul">
                     <?php if (isset(session('errors')['title'])) : ?>
-                        <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['title'] ?></p>
+                        <p class="text-xs font-bold text-red-600"><?= esc(session('errors')['title']) ?></p>
                     <?php endif; ?>
                 </div>
 
@@ -41,10 +41,10 @@
                 <div class="space-y-3 sm:space-y-4">
                     <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Isi <span class="text-red-600">*</span></label>
                     <div class="max-w-full overflow-hidden <?= (isset(session('errors')['content'])) ? 'ring-2 ring-red-500 rounded-2xl' : '' ?>">
-                        <textarea name="content" id="content" rows="20" class="w-full"></textarea>
+                        <textarea name="content" id="content" rows="20" class="w-full"><?= esc(old('content')) ?></textarea>
                     </div>
                     <?php if (isset(session('errors')['content'])) : ?>
-                        <p class="text-[10px] font-bold text-red-600 uppercase tracking-wider"><?= session('errors')['content'] ?></p>
+                        <p class="text-xs font-bold text-red-600"><?= esc(session('errors')['content']) ?></p>
                     <?php endif; ?>
                 </div>
 
@@ -54,11 +54,12 @@
                     <div class="space-y-6">
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Gambar <span class="text-red-600">*</span></label>
+                            <?php $oldPastedThumbnail = (string) old('pasted_thumbnail'); ?>
                             <div class="flex items-center space-x-2">
                                 <label class="flex-1 cursor-pointer min-w-0">
-                                    <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
+                                    <div class="flex items-center px-4 py-3 bg-slate-50 border-2 border-dashed <?= session('errors.thumbnail') ? 'border-red-500' : 'border-slate-200' ?> rounded-xl hover:border-blue-800 hover:bg-slate-100 transition-all">
                                         <i class="fa-solid fa-fw fa-image text-slate-400 mr-3 flex-shrink-0"></i>
-                                        <span class="text-xs sm:text-sm font-bold text-slate-500 truncate" id="file-name">Pilih ...</span>
+                                        <span class="text-xs sm:text-sm font-bold text-slate-500 truncate" id="file-name"><?= $oldPastedThumbnail !== '' ? 'Gambar Clipboard' : 'Pilih ...' ?></span>
                                         <input type="file" name="thumbnail" id="thumbnail" class="hidden" accept="image/*" onchange="previewImage('thumbnail', 'thumbnail-preview', 'thumbnail-preview-container'); document.getElementById('file-name').innerText = this.files[0].name;">
                                     </div>
                                 </label>
@@ -66,17 +67,20 @@
                                     <i class="fa-solid fa-fw fa-paste"></i>
                                 </button>
                             </div>
-                            <input type="hidden" name="pasted_thumbnail" id="pasted_thumbnail">
+                            <input type="hidden" name="pasted_thumbnail" id="pasted_thumbnail" value="<?= esc($oldPastedThumbnail) ?>">
                             <p class="text-[10px] text-slate-400 font-medium">Maksimal 2MB.</p>
+                            <?php if (session('errors.thumbnail')) : ?>
+                                <p class="text-xs font-bold text-red-600"><?= esc(session('errors.thumbnail')) ?></p>
+                            <?php endif; ?>
 
-                            <div id="thumbnail-preview-container" class="mt-4 hidden ring-4 ring-slate-50 rounded-2xl overflow-hidden shadow-xl border border-slate-200">
-                                <img id="thumbnail-preview" class="w-full h-auto">
+                            <div id="thumbnail-preview-container" class="mt-4 <?= $oldPastedThumbnail !== '' ? '' : 'hidden' ?> ring-4 ring-slate-50 rounded-2xl overflow-hidden shadow-xl border border-slate-200">
+                                <img id="thumbnail-preview" src="<?= esc($oldPastedThumbnail) ?>" class="w-full h-auto">
                             </div>
                         </div>
 
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Keterangan</label>
-                            <input type="text" name="thumbnail_caption" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Masukkan keterangan">
+                            <input type="text" name="thumbnail_caption" value="<?= esc(old('thumbnail_caption')) ?>" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-800 outline-none" placeholder="Masukkan keterangan">
                         </div>
                     </div>
 
@@ -108,13 +112,13 @@
                                 <i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Kategori
                             </button>
                             <?php if (session('errors.categories')) : ?>
-                                <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest"><?= esc(session('errors.categories')) ?></p>
+                                <p class="text-xs font-bold text-red-600"><?= esc(session('errors.categories')) ?></p>
                             <?php endif; ?>
                         </div>
 
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tag <span class="text-red-600">*</span></label>
-                            <div id="tag-container" class="bg-slate-50 border border-slate-200 rounded-2xl p-4 min-h-[100px] flex flex-wrap gap-2 text-[10px] font-black uppercase tracking-widest">
+                            <div id="tag-container" class="bg-slate-50 border <?= session('errors.tags') ? 'border-red-500' : 'border-slate-200' ?> rounded-2xl p-4 min-h-[100px] flex flex-wrap gap-2 text-[10px] font-black uppercase tracking-widest">
                                 <?php
                                 $oldTags = old('tags');
                                 $displayTags = !is_null($oldTags) ? (is_array($oldTags) ? $oldTags : explode(',', $oldTags)) : [];
@@ -132,6 +136,9 @@
                             <button type="button" id="suggest-tags-btn" class="w-full py-3 bg-blue-50 text-blue-800 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-100 transition-all border border-blue-100">
                                 <i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Tag
                             </button>
+                            <?php if (session('errors.tags')) : ?>
+                                <p class="text-xs font-bold text-red-600"><?= esc(session('errors.tags')) ?></p>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -155,6 +162,13 @@
 <?= $this->include('partials/admin_validation_script') ?>
 
 <script>
+    // Pastikan isi TinyMCE selalu tersinkron ke textarea sebelum form dikirim
+    document.querySelector('form[action="<?= base_url('admin/posts') ?>"]')?.addEventListener('submit', () => {
+        if (typeof tinymce !== 'undefined') {
+            tinymce.triggerSave();
+        }
+    });
+
     // Clipboard paste logic
     document.getElementById('paste-thumbnail-btn').addEventListener('click', async () => {
         try {

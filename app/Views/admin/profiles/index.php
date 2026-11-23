@@ -21,16 +21,9 @@
             <label for="profile-type" class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Tipe</label>
             <select id="profile-type" name="type" class="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none">
                 <option value="">Semua Tipe</option>
-                <option value="bupati" <?= ($filters['type'] ?? '') == 'bupati' ? 'selected' : '' ?>>Bupati</option>
-                <option value="wakil-bupati" <?= ($filters['type'] ?? '') == 'wakil-bupati' ? 'selected' : '' ?>>Wakil Bupati</option>
-                <option value="sekda" <?= ($filters['type'] ?? '') == 'sekda' ? 'selected' : '' ?>>Sekretaris Daerah</option>
-                <option value="forkopimda" <?= ($filters['type'] ?? '') == 'forkopimda' ? 'selected' : '' ?>>Forkopimda</option>
-                <option value="asisten-staf-ahli" <?= ($filters['type'] ?? '') == 'asisten-staf-ahli' ? 'selected' : '' ?>>Asisten dan Staf Ahli</option>
-                <option value="kepala-opd" <?= ($filters['type'] ?? '') == 'kepala-opd' ? 'selected' : '' ?>>Kepala OPD</option>
-                <option value="kabag-setda" <?= ($filters['type'] ?? '') == 'kabag-setda' ? 'selected' : '' ?>>Kepala Bagian Setda</option>
-                <option value="camat" <?= ($filters['type'] ?? '') == 'camat' ? 'selected' : '' ?>>Camat</option>
-                <option value="lurah" <?= ($filters['type'] ?? '') == 'lurah' ? 'selected' : '' ?>>Lurah</option>
-                <option value="kepala-desa" <?= ($filters['type'] ?? '') == 'kepala-desa' ? 'selected' : '' ?>>Kepala Desa</option>
+                <?php foreach (\App\Services\Content\ProfileService::TYPE_LABELS as $typeKey => $typeLabel) : ?>
+                    <option value="<?= esc($typeKey) ?>" <?= ($filters['type'] ?? '') == $typeKey ? 'selected' : '' ?>><?= esc($typeLabel) ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <div class="flex flex-col justify-end sm:col-span-2 lg:col-span-1">
@@ -77,26 +70,12 @@
                                 <div class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter mt-0.5"><?= esc($profile['institution'] ?? '-') ?></div>
                             </td>
                             <td class="px-4 sm:px-6 py-3 sm:py-4 w-1">
-                                <?php
-                                $typeLabels = [
-                                    'bupati' => 'Bupati',
-                                    'wakil-bupati' => 'Wakil Bupati',
-                                    'sekda' => 'Sekretaris Daerah',
-                                    'forkopimda' => 'Forkopimda',
-                                    'asisten-staf-ahli' => 'Asisten dan Staf Ahli',
-                                    'kepala-opd' => 'Kepala OPD',
-                                    'kabag-setda' => 'Kepala Bagian Setda',
-                                    'camat' => 'Camat',
-                                    'lurah' => 'Lurah',
-                                    'kepala-desa' => 'Kepala Desa',
-                                ];
-                                ?>
                                 <span class="px-2.5 py-1 bg-slate-100 text-slate-600 text-[9px] font-black uppercase tracking-widest rounded-lg border border-slate-200">
-                                    <?= ($typeLabels[$profile['type']] ?? $profile['type']) ?>
+                                    <?= esc(\App\Services\Content\ProfileService::TYPE_LABELS[$profile['type']] ?? $profile['type']) ?>
                                 </span>
                             </td>
                             <td class="px-4 sm:px-6 py-3 sm:py-4 w-1 text-center">
-                                <?php if (in_array($profile['type'], ['forkopimda', 'asisten-staf-ahli', 'kepala-opd', 'kabag-setda', 'camat'])) : ?>
+                                <?php if (in_array($profile['type'], \App\Services\Content\ProfileService::MANUAL_ORDER_TYPES, true)) : ?>
                                     <span class="px-2.5 py-1 bg-slate-50 text-slate-500 font-mono text-[10px] font-bold rounded-lg border border-slate-200">
                                         <?= esc($profile['order']) ?>
                                     </span>

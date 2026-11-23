@@ -49,9 +49,7 @@
     <?php if ($hasData) : ?>
         <div class="max-w-5xl mx-auto">
             <?php
-            $displayOrder = ['Forkopimda', 'Asisten dan Staf Ahli', 'Kepala OPD', 'Kepala Bagian Setda', 'Camat', 'Lurah', 'Kepala Desa'];
-            foreach ($displayOrder as $groupName) :
-                $profiles = $groupedProfiles[$groupName] ?? [];
+            foreach ($groupedProfiles as $groupName => $profiles) :
                 if (!empty($profiles)) : ?>
                     <div class="mb-10">
                         <div class="flex items-center mb-8">

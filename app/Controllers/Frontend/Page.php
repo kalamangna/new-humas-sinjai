@@ -3,6 +3,7 @@
 namespace App\Controllers\Frontend;
 
 use App\Models\ProfileModel;
+use App\Services\Content\ProfileService;
 
 class Page extends BaseController
 {
@@ -38,7 +39,7 @@ class Page extends BaseController
         }
 
         // Check if it's a valid type
-        $validTypes = ['bupati', 'wakil-bupati', 'sekda', 'forkopimda', 'asisten-staf-ahli', 'kepala-opd', 'kabag-setda', 'camat', 'lurah', 'kepala-desa'];
+        $validTypes = array_keys(ProfileService::TYPE_LABELS);
         
         if (!in_array($type, $validTypes)) {
              // Fallback: check if it's a slug for a specific profile
@@ -60,30 +61,23 @@ class Page extends BaseController
         $data['seo']['title'] = $title;
 
         if ($type == 'forkopimda') {
-            $officials = $model->whereIn('type', ['forkopimda', 'asisten-staf-ahli', 'kepala-opd', 'kabag-setda', 'camat', 'lurah', 'kepala-desa'])
+            $officials = $model->whereIn('type', ProfileService::OFFICIAL_DIRECTORY_TYPES)
                                ->orderBy('type', 'ASC')
                                ->orderBy('order', 'ASC')
                                ->orderBy('created_at', 'ASC')
                                ->findAll();
             
-            $data['groupedProfiles'] = [
-                'Forkopimda' => [],
-                'Asisten dan Staf Ahli' => [],
-                'Kepala OPD' => [],
-                'Kepala Bagian Setda' => [],
-                'Camat' => [],
-                'Lurah' => [],
-                'Kepala Desa' => []
-            ];
+            $data['groupedProfiles'] = [];
+            foreach (ProfileService::OFFICIAL_DIRECTORY_TYPES as $officialType) {
+                $groupLabel = ProfileService::TYPE_LABELS[$officialType] ?? $officialType;
+                $data['groupedProfiles'][$groupLabel] = [];
+            }
 
             foreach ($officials as $official) {
-                if ($official['type'] == 'forkopimda') $data['groupedProfiles']['Forkopimda'][] = $official;
-                elseif ($official['type'] == 'asisten-staf-ahli') $data['groupedProfiles']['Asisten dan Staf Ahli'][] = $official;
-                elseif ($official['type'] == 'kepala-opd') $data['groupedProfiles']['Kepala OPD'][] = $official;
-                elseif ($official['type'] == 'kabag-setda') $data['groupedProfiles']['Kepala Bagian Setda'][] = $official;
-                elseif ($official['type'] == 'camat') $data['groupedProfiles']['Camat'][] = $official;
-                elseif ($official['type'] == 'lurah') $data['groupedProfiles']['Lurah'][] = $official;
-                elseif ($official['type'] == 'kepala-desa') $data['groupedProfiles']['Kepala Desa'][] = $official;
+                $groupLabel = ProfileService::TYPE_LABELS[$official['type']] ?? null;
+                if ($groupLabel !== null && isset($data['groupedProfiles'][$groupLabel])) {
+                    $data['groupedProfiles'][$groupLabel][] = $official;
+                }
             }
             
             // Custom sorting for Lurah (by Kecamatan, then Kelurahan/Institution)

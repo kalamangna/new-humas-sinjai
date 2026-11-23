@@ -117,17 +117,12 @@ class Profiles extends BaseController
 
     public function get_kecamatan()
     {
-        try {
-            $client = \Config\Services::curlrequest();
-            $response = $client->get('https://apps.sinjaikab.go.id/api/pegawai/get_kecamatan', [
-                'timeout'         => 10,
-                'connect_timeout' => 5,
-            ]);
-            return $this->response->setJSON($response->getBody());
-        } catch (\Throwable $e) {
-            log_message('error', '[Profiles::get_kecamatan] ' . $e->getMessage());
+        $data = $this->profileService->getKecamatan();
+        if ($data === null) {
             return $this->response->setStatusCode(502)->setJSON([]);
         }
+
+        return $this->response->setJSON($data);
     }
 
     public function get_wilayah()
@@ -137,17 +132,11 @@ class Profiles extends BaseController
             return $this->response->setStatusCode(400)->setJSON([]);
         }
 
-        try {
-            $client = \Config\Services::curlrequest();
-            $response = $client->get('https://apps.sinjaikab.go.id/api/pegawai/get_wilayah', [
-                'query'           => ['tipe' => $tipe],
-                'timeout'         => 10,
-                'connect_timeout' => 5,
-            ]);
-            return $this->response->setJSON($response->getBody());
-        } catch (\Throwable $e) {
-            log_message('error', '[Profiles::get_wilayah] ' . $e->getMessage());
+        $data = $this->profileService->getWilayah($tipe);
+        if ($data === null) {
             return $this->response->setStatusCode(502)->setJSON([]);
         }
+
+        return $this->response->setJSON($data);
     }
 }

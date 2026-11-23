@@ -39,9 +39,14 @@ class ProfileModel extends Model
     protected $validationRules      = [
         'name'     => 'permit_empty|max_length[255]',
         'slug'     => 'permit_empty|max_length[255]|is_unique[profiles.slug,id,{id}]',
-        'type'     => 'required|in_list[bupati,wakil-bupati,sekda,forkopimda,asisten-staf-ahli,kepala-opd,kabag-setda,camat,lurah,kepala-desa]',
+        'type'     => 'required',
         'order'    => 'permit_empty|integer',
     ];
+
+    protected function initialize(): void
+    {
+        $this->validationRules['type'] = 'required|in_list[' . implode(',', array_keys(\App\Services\Content\ProfileService::TYPE_LABELS)) . ']';
+    }
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;

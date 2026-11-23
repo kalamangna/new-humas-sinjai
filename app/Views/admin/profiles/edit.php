@@ -33,16 +33,9 @@
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Tipe <span class="text-red-600">*</span></label>
                             <select name="type" id="type" required class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.type') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer">
-                                <option value="bupati" <?= old('type', $profile['type']) == 'bupati' ? 'selected' : '' ?>>Bupati</option>
-                                <option value="wakil-bupati" <?= old('type', $profile['type']) == 'wakil-bupati' ? 'selected' : '' ?>>Wakil Bupati</option>
-                                <option value="sekda" <?= old('type', $profile['type']) == 'sekda' ? 'selected' : '' ?>>Sekda</option>
-                                <option value="forkopimda" <?= old('type', $profile['type']) == 'forkopimda' ? 'selected' : '' ?>>Forkopimda</option>
-                                <option value="asisten-staf-ahli" <?= old('type', $profile['type']) == 'asisten-staf-ahli' ? 'selected' : '' ?>>Asisten dan Staf Ahli</option>
-                                <option value="kepala-opd" <?= old('type', $profile['type']) == 'kepala-opd' ? 'selected' : '' ?>>Kepala OPD</option>
-                                <option value="kabag-setda" <?= old('type', $profile['type']) == 'kabag-setda' ? 'selected' : '' ?>>Kepala Bagian Setda</option>
-                                <option value="camat" <?= old('type', $profile['type']) == 'camat' ? 'selected' : '' ?>>Camat</option>
-                                <option value="lurah" <?= old('type', $profile['type']) == 'lurah' ? 'selected' : '' ?>>Lurah</option>
-                                <option value="kepala-desa" <?= old('type', $profile['type']) == 'kepala-desa' ? 'selected' : '' ?>>Kepala Desa</option>
+                                <?php foreach (\App\Services\Content\ProfileService::TYPE_LABELS as $typeKey => $typeLabel) : ?>
+                                    <option value="<?= esc($typeKey) ?>" <?= old('type', $profile['type']) == $typeKey ? 'selected' : '' ?>><?= esc($typeLabel) ?></option>
+                                <?php endforeach; ?>
                             </select>
                             <?php if (session('errors.type')) : ?>
                                 <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mt-2 ml-1 flex items-center">
@@ -64,12 +57,7 @@
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Jabatan <span class="text-red-600">*</span></label>
                             <input type="text" name="position" id="position_input" required class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.position') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('position', $profile['position']) ?>">
-                            <?php $selectedPosition = old('position', $profile['position'] ?? 'Kepala Desa') ?: 'Kepala Desa'; ?>
-                            <select name="position" id="position_select" class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.position') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer hidden" disabled>
-                                <?php foreach (\App\Services\Content\ProfileService::KEPALA_DESA_POSITIONS as $posOption) : ?>
-                                    <option value="<?= esc($posOption) ?>" <?= $selectedPosition === $posOption ? 'selected' : '' ?>><?= esc($posOption) ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                            <select name="position" id="position_select" class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.position') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer hidden" disabled data-selected="<?= esc(old('position', $profile['position'] ?? '')) ?>"></select>
                             <?php if (session('errors.position')) : ?>
                                 <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mt-2 ml-1 flex items-center">
                                     <i class="fa-solid fa-circle-exclamation mr-2"></i><?= session('errors.position') ?>
@@ -101,16 +89,6 @@
                                     <i class="fa-solid fa-circle-exclamation mr-2"></i><?= session('errors.institution') ?>
                                 </p>
                             <?php endif; ?>
-                        </div>
-                        
-                        <div id="kelurahan-container" class="space-y-4 hidden">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Kelurahan</label>
-                            <input type="text" name="kelurahan" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('kelurahan', $profile['kelurahan'] ?? '') ?>" placeholder="Nama Kelurahan">
-                        </div>
-                        
-                        <div id="desa-container" class="space-y-4 hidden">
-                            <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Desa</label>
-                            <input type="text" name="desa" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('desa', $profile['desa'] ?? '') ?>" placeholder="Nama Desa">
                         </div>
                     </div>
 
@@ -189,16 +167,53 @@
         const bioContainer = document.getElementById('bio-container');
         const imageContainer = document.getElementById('image-container');
         const kecamatanContainer = document.getElementById('kecamatan-container');
-        const kelurahanContainer = document.getElementById('kelurahan-container');
-        const desaContainer = document.getElementById('desa-container');
         const kecamatanSelect = document.getElementById('kecamatan_select');
         const orderContainer = document.getElementById('order-container');
         const orderInput = document.getElementById('order_input');
+        const staticPositions = <?= json_encode(\App\Services\Content\ProfileService::STATIC_POSITIONS, JSON_UNESCAPED_UNICODE) ?>;
+        const hideList = <?= json_encode(\App\Services\Content\ProfileService::OFFICIAL_DIRECTORY_TYPES) ?>;
+        const manualOrderTypes = <?= json_encode(\App\Services\Content\ProfileService::MANUAL_ORDER_TYPES) ?>;
+        let kecamatanList = [];
+
+        function normalizeRegionName(value) {
+            return (value || '').trim().toLowerCase().replace(/\s+/g, '');
+        }
+
+        function populateKecamatanInstitution() {
+            if (!kecamatanList.length) {
+                institutionInput.placeholder = 'Contoh: Sinjai Utara';
+                institutionInput.style.display = 'block';
+                institutionInput.disabled = false;
+                institutionInput.required = true;
+                institutionSelect.style.display = 'none';
+                institutionSelect.disabled = true;
+                institutionSelect.required = false;
+                return;
+            }
+
+            const selectedInstitution = institutionSelect.dataset.selected || institutionInput.value || '';
+            institutionInput.style.display = 'none';
+            institutionInput.disabled = true;
+            institutionInput.required = false;
+
+            institutionSelect.innerHTML = '<option value="">Pilih Kecamatan...</option>';
+            kecamatanList.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.kecamatan_nama;
+                option.textContent = item.kecamatan_nama;
+                if (normalizeRegionName(item.kecamatan_nama) === normalizeRegionName(selectedInstitution)) {
+                    option.selected = true;
+                }
+                institutionSelect.appendChild(option);
+            });
+            institutionSelect.style.display = 'block';
+            institutionSelect.disabled = false;
+            institutionSelect.required = true;
+        }
 
         function toggleFields() {
             if (!typeSelect || !institutionLabel || !institutionInput || !institutionSelect) return;
 
-            const hideList = ['forkopimda', 'asisten-staf-ahli', 'kepala-opd', 'kabag-setda', 'camat', 'lurah', 'kepala-desa'];
             const isHidden = hideList.includes(typeSelect.value);
             
             if (bioContainer) {
@@ -217,16 +232,29 @@
                 positionInput.readOnly = false;
                 positionInput.classList.remove('bg-slate-100', 'text-slate-500');
 
-                if (type === 'kepala-desa') {
+                if (staticPositions[type]) {
+                    const options = staticPositions[type];
+                    const selectedPos = positionSelect.dataset.selected || '';
+                    positionSelect.innerHTML = '';
+                    options.forEach(pos => {
+                        const option = document.createElement('option');
+                        option.value = pos;
+                        option.textContent = pos;
+                        if (pos === selectedPos) {
+                            option.selected = true;
+                        }
+                        positionSelect.appendChild(option);
+                    });
+                    if (!options.includes(selectedPos)) {
+                        positionSelect.value = options[0];
+                    }
+
                     positionInput.style.display = 'none';
                     positionInput.disabled = true;
                     positionInput.required = false;
                     positionSelect.style.display = 'block';
                     positionSelect.disabled = false;
                     positionSelect.required = true;
-                    if (!positionSelect.value) {
-                        positionSelect.value = 'Kepala Desa';
-                    }
                 } else {
                     positionInput.style.display = 'block';
                     positionInput.disabled = false;
@@ -237,7 +265,7 @@
                 }
             }
 
-            const isManualOrderType = ['forkopimda', 'asisten-staf-ahli', 'kepala-opd', 'kabag-setda', 'camat'].includes(type);
+            const isManualOrderType = manualOrderTypes.includes(type);
             if (orderContainer) orderContainer.style.display = !isManualOrderType ? 'none' : 'block';
             if (orderInput) orderInput.required = isManualOrderType;
             
@@ -252,8 +280,6 @@
                 institutionSelect.innerHTML = '<option value="">Pilih Kelurahan...</option>';
                 if (kecamatanContainer) kecamatanContainer.style.display = 'block';
                 if (kecamatanSelect) kecamatanSelect.required = true;
-                if (kelurahanContainer) kelurahanContainer.style.display = 'none';
-                if (desaContainer) desaContainer.style.display = 'none';
                 if (kecamatanSelect && kecamatanSelect.value) fetchWilayah(kecamatanSelect.value, 'Kelurahan', institutionSelect, institutionSelect.dataset.selected);
             } else if (type === 'kepala-desa') {
                 institutionLabel.innerHTML = 'Desa <span class="text-red-600">*</span>';
@@ -266,22 +292,12 @@
                 institutionSelect.innerHTML = '<option value="">Pilih Desa...</option>';
                 if (kecamatanContainer) kecamatanContainer.style.display = 'block';
                 if (kecamatanSelect) kecamatanSelect.required = true;
-                if (kelurahanContainer) kelurahanContainer.style.display = 'none';
-                if (desaContainer) desaContainer.style.display = 'none';
                 if (kecamatanSelect && kecamatanSelect.value) fetchWilayah(kecamatanSelect.value, 'Desa', institutionSelect, institutionSelect.dataset.selected);
             } else if (type === 'camat') {
                 institutionLabel.innerHTML = 'Kecamatan <span class="text-red-600">*</span>';
-                institutionInput.placeholder = 'Contoh: Sinjai Utara';
-                institutionInput.style.display = 'block';
-                institutionInput.disabled = false;
-                institutionInput.required = true;
-                institutionSelect.style.display = 'none';
-                institutionSelect.disabled = true;
-                institutionSelect.required = false;
                 if (kecamatanContainer) kecamatanContainer.style.display = 'none';
                 if (kecamatanSelect) kecamatanSelect.required = false;
-                if (kelurahanContainer) kelurahanContainer.style.display = 'none';
-                if (desaContainer) desaContainer.style.display = 'none';
+                populateKecamatanInstitution();
             } else {
                 institutionLabel.innerHTML = 'Instansi atau OPD <span class="text-red-600">*</span>';
                 institutionInput.placeholder = 'Contoh: Dinas Komunikasi, Informatika, dan Persandian';
@@ -293,8 +309,6 @@
                 institutionSelect.required = false;
                 if (kecamatanContainer) kecamatanContainer.style.display = 'none';
                 if (kecamatanSelect) kecamatanSelect.required = false;
-                if (kelurahanContainer) kelurahanContainer.style.display = 'none';
-                if (desaContainer) desaContainer.style.display = 'none';
             }
         }
 
@@ -305,13 +319,14 @@
                 
                 kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan...</option>';
                 const selectedKecamatan = kecamatanSelect.dataset.selected;
+                kecamatanList = Array.isArray(data) ? data : [];
                 
-                if (data && data.length > 0) {
-                    data.forEach(item => {
+                if (kecamatanList.length > 0) {
+                    kecamatanList.forEach(item => {
                         const option = document.createElement('option');
                         option.value = item.kecamatan_nama; 
                         option.textContent = item.kecamatan_nama;
-                        if (item.kecamatan_nama === selectedKecamatan) {
+                        if (normalizeRegionName(item.kecamatan_nama) === normalizeRegionName(selectedKecamatan)) {
                             option.selected = true;
                         }
                         kecamatanSelect.appendChild(option);
@@ -335,8 +350,8 @@
                 if (data && data.length > 0) {
                     const selectedValueInAttr = selectElement.dataset.selected;
                     data.forEach(item => {
-                        const itemKecamatan = (item.kecamatan_nama || '').trim().toLowerCase();
-                        const targetKecamatan = kecamatan.trim().toLowerCase();
+                        const itemKecamatan = normalizeRegionName(item.kecamatan_nama);
+                        const targetKecamatan = normalizeRegionName(kecamatan);
 
                         if (!item.kecamatan_nama || itemKecamatan === targetKecamatan) {
                             const option = document.createElement('option');
@@ -358,6 +373,11 @@
             }
         }
 
+        if (positionSelect) {
+            positionSelect.addEventListener('change', () => {
+                positionSelect.dataset.selected = positionSelect.value;
+            });
+        }
         typeSelect.addEventListener('change', toggleFields);
         kecamatanSelect.addEventListener('change', () => {
             if (typeSelect.value === 'kepala-desa') {

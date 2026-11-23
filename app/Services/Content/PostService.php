@@ -232,8 +232,15 @@ class PostService extends BaseService
             $builder->like('posts.title', $filters['search']);
         }
         if (!empty($filters['category'])) {
-            $builder->whereIn('posts.id', function ($subquery) use ($filters) {
-                $subquery->select('post_id')->from('post_categories')->where('category_id', $filters['category']);
+            // Sertakan seluruh sub-kategori agar halaman kategori induk tetap menampilkan berita turunannya
+            $childIds = array_column(
+                $this->categoryModel->select('id')->where('parent_id', $filters['category'])->findAll(),
+                'id'
+            );
+            $categoryIds = array_merge([(int) $filters['category']], array_map('intval', $childIds));
+
+            $builder->whereIn('posts.id', function ($subquery) use ($categoryIds) {
+                $subquery->select('post_id')->from('post_categories')->whereIn('category_id', $categoryIds);
             });
         }
         if (!empty($filters['author'])) {

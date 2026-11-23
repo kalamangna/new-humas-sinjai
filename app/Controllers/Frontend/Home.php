@@ -84,18 +84,21 @@ class Home extends BaseController
 
     public function category($slug)
     {
-        $category = (new CategoryModel())->where('slug', $slug)->first();
+        $categoryModel = new CategoryModel();
+        $category = $categoryModel->where('slug', $slug)->first();
 
         if (empty($category)) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Cannot find the category: ' . $slug);
         }
 
+        $childCategories = $categoryModel->where('parent_id', $category['id'])->orderBy('name', 'ASC')->findAll();
         $result = $this->postService->getAdminPosts(['category' => $category['id'], 'status' => 'published'], 12);
 
         $data = [
-            'category'    => $category,
-            'posts'       => $result['posts'],
-            'pager'       => $result['pager'],
+            'category'        => $category,
+            'childCategories' => $childCategories,
+            'posts'           => $result['posts'],
+            'pager'           => $result['pager'],
         ];
 
         $data['seo'] = $this->seoData;

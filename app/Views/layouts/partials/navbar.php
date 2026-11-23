@@ -24,31 +24,20 @@
                             Kategori
                             <i class="fa-solid fa-fw fa-chevron-down ml-2 text-[10px] opacity-50"></i>
                         </button>
-                        <div class="absolute left-0 mt-0 w-72 rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-1 transition-all duration-200 z-50">
-                            <div class="py-2 max-h-[80vh] overflow-y-auto scrollbar-thin">
-                                <?php if (isset($categories)): ?>
-                                    <?php foreach ($categories as $category) : ?>
-                                        <div class="px-4 py-2 mt-2">
-                                            <span class="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] border-b border-slate-50 pb-1 mb-1">
+                        <div class="absolute left-0 mt-0 w-max max-w-2xl rounded-xl shadow-2xl bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-1 transition-all duration-200 z-50">
+                            <div class="p-3">
+                                <?php if (!empty($categories)): ?>
+                                    <div class="grid grid-cols-2 gap-x-2 gap-y-1">
+                                        <?php foreach ($categories as $category) : ?>
+                                            <a href="<?= base_url('category/' . esc($category['slug'])) ?>" class="block px-3 py-2 rounded-lg text-xs font-bold whitespace-nowrap transition-colors <?= url_is('category/' . $category['slug']) ? 'bg-blue-50 text-blue-900' : 'text-slate-700 hover:bg-blue-50 hover:text-blue-800' ?>">
                                                 <?= esc($category['name']) ?>
-                                            </span>
-                                            <?php if (isset($subCategories[$category['id']])) : ?>
-                                                <?php foreach ($subCategories[$category['id']] as $subCategory) : ?>
-                                                    <a href="<?= base_url('category/' . esc($subCategory['slug'])) ?>" class="block py-2 text-xs font-bold text-slate-700 hover:text-blue-800 transition-colors">
-                                                        <?= esc($subCategory['name']) ?>
-                                                    </a>
-                                                <?php endforeach; ?>
-                                            <?php else: ?>
-                                                <a href="<?= base_url('category/' . esc($category['slug'])) ?>" class="block py-2 text-xs font-bold text-slate-700 hover:text-blue-800 transition-colors">
-                                                    <?= esc($category['name']) ?>
-                                                </a>
-                                            <?php endif; ?>
-                                        </div>
-                                    <?php endforeach; ?>
+                                            </a>
+                                        <?php endforeach; ?>
+                                    </div>
                                 <?php endif; ?>
-                                <div class="border-t border-slate-100 mt-2 pt-2">
-                                    <a href="<?= base_url('categories') ?>" class="block px-4 py-3 text-xs font-black text-blue-800 hover:bg-blue-50 uppercase tracking-widest">
-                                        Semua Kategori
+                                <div class="border-t border-slate-100 mt-3 pt-2">
+                                    <a href="<?= base_url('categories') ?>" class="block px-3 py-2.5 rounded-lg text-xs font-black text-blue-800 hover:bg-blue-50 uppercase tracking-widest">
+                                        Lihat Semua Kategori
                                     </a>
                                 </div>
                             </div>
@@ -125,21 +114,12 @@
                 <span>Kategori</span>
                 <i class="fa-solid fa-fw fa-chevron-down text-[10px] transition-transform duration-300" id="mobile-categories-arrow"></i>
             </button>
-            <div id="mobile-categories-menu" class="hidden pl-4 pr-2 mt-2 space-y-4 border-l-2 border-blue-800 ml-4">
-                <?php if (isset($categories)): ?>
+            <div id="mobile-categories-menu" class="hidden pl-4 pr-2 mt-2 space-y-1 border-l-2 border-blue-800 ml-4">
+                <?php if (!empty($categories)): ?>
                     <?php foreach ($categories as $category) : ?>
-                        <div>
-                            <p class="px-2 text-[9px] font-black text-blue-500 uppercase tracking-[0.2em] mb-2"><?= esc($category['name']) ?></p>
-                            <div class="grid grid-cols-1 gap-1">
-                                <?php if (isset($subCategories[$category['id']])) : ?>
-                                    <?php foreach ($subCategories[$category['id']] as $subCategory) : ?>
-                                        <a href="<?= base_url('category/' . esc($subCategory['slug'])) ?>" class="px-2 py-2.5 min-h-10 flex items-center text-xs font-bold text-blue-100 hover:text-white"><?= esc($subCategory['name']) ?></a>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <a href="<?= base_url('category/' . esc($category['slug'])) ?>" class="px-2 py-2.5 min-h-10 flex items-center text-xs font-bold text-blue-100 hover:text-white"><?= esc($category['name']) ?></a>
-                                <?php endif; ?>
-                            </div>
-                        </div>
+                        <a href="<?= base_url('category/' . esc($category['slug'])) ?>" class="px-2 py-2.5 min-h-10 flex items-center rounded-lg text-xs font-bold transition-colors <?= url_is('category/' . $category['slug']) ? 'bg-blue-800 text-white' : 'text-blue-100 hover:text-white' ?>">
+                            <?= esc($category['name']) ?>
+                        </a>
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <a href="<?= base_url('categories') ?>" class="flex items-center min-h-10 px-2 py-2.5 text-[10px] font-black text-sky-400 uppercase tracking-widest border-t border-blue-900/50 mt-2">Lihat Semua Kategori</a>

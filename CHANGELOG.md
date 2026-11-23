@@ -7,6 +7,10 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2026-11-23]
+### Changed
+- **Perapian Menu Kategori Navbar dan Halaman Kategori Induk**: Menyederhanakan dropdown `Kategori` pada `layouts/partials/navbar.php` agar hanya menampilkan kategori induk dalam tata letak grid 2 kolom di desktop dan daftar ringkas ramah sentuh di mobile lengkap dengan penanda aktif, menyertakan seluruh sub-kategori secara otomatis pada filter kategori `PostService::getAdminPosts()`, serta menampilkan tombol filter sub-kategori pada halaman detail kategori induk (`Home::category` dan `frontend/categories/detail.php`).
+
 ## [2026-11-21]
 ### Added
 - **Auto Logout Panel Admin (30 Menit)**: Menambahkan mekanisme auto logout setelah 30 menit tidak aktif untuk seluruh role (`admin` dan `author`) di sisi server (`AdminFilter`, `Auth`, `Login::IDLE_TIMEOUT_SECONDS`) maupun browser (`scripts_admin.php`), lengkap dengan sinkronisasi aktivitas dan logout antar tab via `localStorage`, deteksi aktivitas pada iframe editor, endpoint keep-alive `GET admin/session/ping` saat penulis aktif, serta pengalihan ke halaman login dengan pesan singkat tanpa mencatat auto logout ke `audit_logs` dan tetap mempertahankan respons `404` untuk pengunjung tanpa sesi.

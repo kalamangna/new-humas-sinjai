@@ -34,7 +34,7 @@
     </nav>
 
     <!-- Header Section -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-slate-200 pb-6">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6 border-b border-slate-200 pb-6">
         <div>
             <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight uppercase flex items-center">
                 Kategori: <?= esc($category['name'] ?? 'Kategori') ?>
@@ -45,6 +45,16 @@
         </div>
         <div class="hidden md:block w-24 h-1.5 bg-blue-900 rounded-full shadow-lg shadow-blue-900/20"></div>
     </div>
+
+    <?php if (!empty($childCategories)) : ?>
+        <div class="flex flex-wrap gap-2 mb-10">
+            <?php foreach ($childCategories as $child) : ?>
+                <a href="<?= base_url('category/' . esc($child['slug'])) ?>" class="inline-flex items-center min-h-10 px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 hover:border-blue-800 hover:text-blue-800 transition-colors">
+                    <?= esc($child['name']) ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
     <!-- Posts Grid -->
     <?php if (!empty($posts)) : ?>

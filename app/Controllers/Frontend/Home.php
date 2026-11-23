@@ -62,10 +62,11 @@ class Home extends BaseController
             'recent_posts'  => $this->postService->getRecentPosts(5),
             'popular_posts' => $this->postService->getPopularPosts(5),
             'related_posts' => (new \App\Models\PostModel())->getRelatedNewsOptimized(
-                $post['id'], 
-                array_column($post['categories'], 'id'), 
-                $post['title'], 
-                4
+                $post['id'],
+                array_column($post['categories'] ?? [], 'id'),
+                $post['title'],
+                4,
+                array_column($post['tags'] ?? [], 'id')
             )
         ];
 

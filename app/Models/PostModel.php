@@ -192,68 +192,86 @@ class PostModel extends Model
 
     /**
      * Optimized Related News Feature
-     * Priority: 1. Tags matching count, 2. Same category, 3. Fulltext similarity, 4. Latest fallback
+     * Priority: 1. Skor gabungan kecocokan kategori & tag, 2. Fulltext judul, 3. Berita terbaru
      *
-     * @param int $currentId ID of the news to exclude
-     * @param array $categoryIds Array of category IDs from the current news
-     * @param string $title Title of the current news for fulltext fallback
-     * @param int $limit Number of results (default 4)
+     * @param int        $currentId   ID berita yang dikecualikan
+     * @param array      $categoryIds Daftar ID kategori berita saat ini
+     * @param string     $title       Judul berita untuk fallback fulltext
+     * @param int        $limit       Jumlah hasil (default 4)
+     * @param array|null $tagIds      Daftar ID tag opsional agar tidak kueri ulang
      * @return array
      */
-    public function getRelatedNewsOptimized(int $currentId, array $categoryIds, string $title, int $limit = 4)
+    public function getRelatedNewsOptimized(int $currentId, array $categoryIds, string $title, int $limit = 4, ?array $tagIds = null)
     {
-        // Use cache to save resources if same news is accessed frequently
-        $cacheKey = "related_news_{$currentId}";
+        $limit = max(1, $limit);
+        $cacheKey = "related_news_{$currentId}_{$limit}";
         if ($cached = cache($cacheKey)) {
             return $cached;
         }
 
+        $categoryIds = array_values(array_unique(array_filter(array_map('intval', $categoryIds))));
+        if ($tagIds === null) {
+            $tagIds = array_column($this->getPostTags($currentId), 'id');
+        }
+        $tagIds = array_values(array_unique(array_filter(array_map('intval', $tagIds))));
+
         $relatedIds = [];
 
-        // --- PHASE 1: TAG-BASED (Primary) ---
-        // Fetch tag IDs for current post
-        $tagIds = array_column($this->getPostTags($currentId), 'id');
-        
-        if (!empty($tagIds)) {
-            $tagMatches = $this->db->table('post_tags')
-                ->select('post_id, COUNT(*) as match_count')
-                ->whereIn('tag_id', $tagIds)
-                ->where('post_id !=', $currentId)
-                ->join('posts', 'posts.id = post_tags.post_id')
-                ->where('posts.status', 'published')
-                ->groupBy('post_id')
-                ->orderBy('match_count', 'DESC')
-                ->orderBy('posts.published_at', 'DESC')
-                ->limit($limit)
-                ->get()
-                ->getResultArray();
-            
-            $relatedIds = array_column($tagMatches, 'post_id');
-        }
+        // --- PHASE 1: SKOR GABUNGAN KATEGORI (bobot 3) + TAG (bobot 1) ---
+        // Menggabungkan kategori dan tag mencegah tag generik (mis. "Sinjai") mendominasi hasil lintas topik.
+        if (!empty($categoryIds) || !empty($tagIds)) {
+            $joins = [];
+            $scoreParts = [];
+            $matchConditions = [];
+            $bindings = [];
 
-        // --- PHASE 2: CATEGORY-BASED (Secondary) ---
-        if (count($relatedIds) < $limit && !empty($categoryIds)) {
-            $catMatches = $this->db->table('post_categories')
-                ->select('post_id')
-                ->whereIn('category_id', $categoryIds)
-                ->where('post_id !=', $currentId);
-            
-            if (!empty($relatedIds)) {
-                $catMatches->whereNotIn('post_id', $relatedIds);
+            if (!empty($categoryIds)) {
+                $catPlaceholders = implode(',', array_fill(0, count($categoryIds), '?'));
+                $joins[] = "LEFT JOIN (
+                    SELECT post_id, COUNT(*) AS cat_matches
+                    FROM post_categories
+                    WHERE category_id IN ({$catPlaceholders}) AND post_id != ?
+                    GROUP BY post_id
+                ) cat ON cat.post_id = p.id";
+                $scoreParts[] = '(COALESCE(cat.cat_matches, 0) * 3)';
+                $matchConditions[] = 'cat.cat_matches IS NOT NULL';
+                $bindings = array_merge($bindings, $categoryIds, [$currentId]);
             }
 
-            $catMatches->join('posts', 'posts.id = post_categories.post_id')
-                ->where('posts.status', 'published')
-                ->orderBy('posts.published_at', 'DESC')
-                ->limit($limit - count($relatedIds));
-            
-            $catIds = array_column($catMatches->get()->getResultArray(), 'post_id');
-            $relatedIds = array_merge($relatedIds, $catIds);
+            if (!empty($tagIds)) {
+                $tagPlaceholders = implode(',', array_fill(0, count($tagIds), '?'));
+                $joins[] = "LEFT JOIN (
+                    SELECT post_id, COUNT(*) AS tag_matches
+                    FROM post_tags
+                    WHERE tag_id IN ({$tagPlaceholders}) AND post_id != ?
+                    GROUP BY post_id
+                ) tag ON tag.post_id = p.id";
+                $scoreParts[] = 'COALESCE(tag.tag_matches, 0)';
+                $matchConditions[] = 'tag.tag_matches IS NOT NULL';
+                $bindings = array_merge($bindings, $tagIds, [$currentId]);
+            }
+
+            $scoreExpr = implode(' + ', $scoreParts);
+            $whereMatch = implode(' OR ', $matchConditions);
+            $joinSql = implode("\n", $joins);
+
+            $sql = "SELECT p.id, ({$scoreExpr}) AS relevance_score
+                    FROM posts p
+                    {$joinSql}
+                    WHERE p.status = 'published'
+                      AND p.id != ?
+                      AND ({$whereMatch})
+                    ORDER BY relevance_score DESC, p.published_at DESC
+                    LIMIT ?";
+            $bindings[] = $currentId;
+            $bindings[] = $limit;
+
+            $scoredMatches = $this->db->query($sql, $bindings)->getResultArray();
+            $relatedIds = array_map('intval', array_column($scoredMatches, 'id'));
         }
 
-        // --- PHASE 3: FULLTEXT SEARCH (Third Fallback) ---
-        // Gunakan BOOLEAN MODE agar tidak terpengaruh threshold 50% NATURAL LANGUAGE MODE
-        // yang menyebabkan kata umum diabaikan pada DB dengan jumlah artikel sedikit.
+        // --- PHASE 2: FULLTEXT SEARCH (Fallback) ---
+        // Menggunakan builder terpisah agar kegagalan FULLTEXT tidak membocorkan state ke query berikutnya.
         if (count($relatedIds) < $limit && !empty($title)) {
             try {
                 $words = preg_split('/\s+/', strip_tags($title));
@@ -263,7 +281,8 @@ class PostModel extends Model
                 $booleanQuery = $this->db->escapeString(implode(' ', $cleanKeywords));
 
                 if (!empty($booleanQuery)) {
-                    $ftMatches = $this->select('id')
+                    $ftMatches = $this->db->table('posts')
+                        ->select('id')
                         ->where('id !=', $currentId)
                         ->where('status', 'published');
 
@@ -275,42 +294,42 @@ class PostModel extends Model
                         ->orderBy("MATCH(title, content) AGAINST('{$booleanQuery}' IN BOOLEAN MODE)", 'DESC', false)
                         ->limit($limit - count($relatedIds));
 
-                    $ftIds = array_column($ftMatches->findAll(), 'id');
+                    $ftIds = array_map('intval', array_column($ftMatches->get()->getResultArray(), 'id'));
                     $relatedIds = array_merge($relatedIds, $ftIds);
                 }
             } catch (\Exception $e) {
-                // FULLTEXT index mungkin belum ada di production, lanjut ke Phase 4
                 log_message('warning', '[getRelatedNewsOptimized] FULLTEXT search failed: ' . $e->getMessage());
             }
         }
 
-        // --- PHASE 4: LATEST NEWS (Final Fallback) ---
+        // --- PHASE 3: LATEST NEWS (Final Fallback) ---
         if (count($relatedIds) < $limit) {
-            $latestMatches = $this->select('id')
+            $latestMatches = $this->db->table('posts')
+                ->select('id')
                 ->where('id !=', $currentId)
                 ->where('status', 'published');
-            
+
             if (!empty($relatedIds)) {
                 $latestMatches->whereNotIn('id', $relatedIds);
             }
 
             $latestMatches->orderBy('published_at', 'DESC')
                 ->limit($limit - count($relatedIds));
-            
-            $latestIds = array_column($latestMatches->findAll(), 'id');
+
+            $latestIds = array_map('intval', array_column($latestMatches->get()->getResultArray(), 'id'));
             $relatedIds = array_merge($relatedIds, $latestIds);
         }
 
-        // Fetch complete data only for the finalized IDs
+        $relatedIds = array_values(array_unique(array_filter($relatedIds)));
         if (empty($relatedIds)) {
             return [];
         }
 
         $finalResults = $this->whereIn('id', $relatedIds)
-            ->orderBy('FIELD(id, ' . implode(',', $relatedIds) . ')') // Maintain priority order
+            ->orderBy('FIELD(id, ' . implode(',', $relatedIds) . ')', '', false)
             ->findAll();
 
-        // Save to cache for 1 hour
+        // Simpan cache selama 1 jam
         cache()->save($cacheKey, $finalResults, 3600);
 
         return $finalResults;

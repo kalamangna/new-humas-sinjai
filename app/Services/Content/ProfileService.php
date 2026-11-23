@@ -8,6 +8,12 @@ use App\Models\ProfileModel;
 
 class ProfileService extends BaseService
 {
+    public const KEPALA_DESA_POSITIONS = [
+        'Kepala Desa',
+        'Plt. Kepala Desa',
+        'Pj. Kepala Desa',
+    ];
+
     protected $profileModel;
     protected $mediaService;
 
@@ -25,7 +31,12 @@ class ProfileService extends BaseService
 
         $rules = [
             'name'      => ['label' => 'Nama Lengkap', 'rules' => 'required|max_length[255]'],
-            'position'  => ['label' => 'Jabatan', 'rules' => 'required'],
+            'position'  => [
+                'label' => 'Jabatan',
+                'rules' => $type === 'kepala-desa'
+                    ? 'required|in_list[' . implode(',', self::KEPALA_DESA_POSITIONS) . ']'
+                    : 'required',
+            ],
             'type'      => ['label' => 'Tipe', 'rules' => 'required'],
             'bio'       => ['label' => 'Biografi', 'rules' => $hasBioAndImage ? 'required' : 'permit_empty'],
             'order'     => in_array($type, ['bupati', 'wakil-bupati', 'sekda', 'kepala-desa', 'lurah']) ? 'permit_empty|integer' : 'required|integer',

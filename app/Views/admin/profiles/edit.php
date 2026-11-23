@@ -63,7 +63,13 @@
 
                         <div class="space-y-4">
                             <label class="block text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">Jabatan <span class="text-red-600">*</span></label>
-                            <input type="text" name="position" required class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.position') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('position', $profile['position']) ?>">
+                            <input type="text" name="position" id="position_input" required class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.position') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none transition-all" value="<?= old('position', $profile['position']) ?>">
+                            <?php $selectedPosition = old('position', $profile['position'] ?? 'Kepala Desa') ?: 'Kepala Desa'; ?>
+                            <select name="position" id="position_select" class="w-full px-4 py-3 bg-slate-50 border <?= session('errors.position') ? 'border-red-500 ring-2 ring-red-500/10' : 'border-slate-200' ?> rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-blue-800 outline-none appearance-none cursor-pointer hidden" disabled>
+                                <?php foreach (\App\Services\Content\ProfileService::KEPALA_DESA_POSITIONS as $posOption) : ?>
+                                    <option value="<?= esc($posOption) ?>" <?= $selectedPosition === $posOption ? 'selected' : '' ?>><?= esc($posOption) ?></option>
+                                <?php endforeach; ?>
+                            </select>
                             <?php if (session('errors.position')) : ?>
                                 <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mt-2 ml-1 flex items-center">
                                     <i class="fa-solid fa-circle-exclamation mr-2"></i><?= session('errors.position') ?>
@@ -175,6 +181,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const typeSelect = document.getElementById('type');
+        const positionInput = document.getElementById('position_input');
+        const positionSelect = document.getElementById('position_select');
         const institutionLabel = document.getElementById('institution_label');
         const institutionInput = document.getElementById('institution_input');
         const institutionSelect = document.getElementById('institution_select');
@@ -204,11 +212,29 @@
             }
             
             const type = typeSelect.value;
-            const positionInput = document.querySelector('input[name="position"]');
-            
-            if (positionInput) {
+
+            if (positionInput && positionSelect) {
                 positionInput.readOnly = false;
                 positionInput.classList.remove('bg-slate-100', 'text-slate-500');
+
+                if (type === 'kepala-desa') {
+                    positionInput.style.display = 'none';
+                    positionInput.disabled = true;
+                    positionInput.required = false;
+                    positionSelect.style.display = 'block';
+                    positionSelect.disabled = false;
+                    positionSelect.required = true;
+                    if (!positionSelect.value) {
+                        positionSelect.value = 'Kepala Desa';
+                    }
+                } else {
+                    positionInput.style.display = 'block';
+                    positionInput.disabled = false;
+                    positionInput.required = true;
+                    positionSelect.style.display = 'none';
+                    positionSelect.disabled = true;
+                    positionSelect.required = false;
+                }
             }
 
             const isManualOrderType = ['forkopimda', 'asisten-staf-ahli', 'kepala-opd', 'kabag-setda', 'camat'].includes(type);

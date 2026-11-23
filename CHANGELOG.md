@@ -9,6 +9,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [2026-11-23]
 ### Added
+- **Pilihan Jabatan Plt. dan Pj. Kepala Desa (`ProfileService` & Form Profil Admin)**: Menambahkan konstanta `ProfileService::KEPALA_DESA_POSITIONS` (`Kepala Desa`, `Plt. Kepala Desa`, `Pj. Kepala Desa`) beserta validasi `in_list` khusus tipe `kepala-desa`, dropdown jabatan dinamis pada `admin/profiles/new.php` dan `admin/profiles/edit.php`, pembaruan aturan di `GEMINI.md`, serta pengujian unit `tests/unit/ProfileServiceTest.php`.
 - **Fitur Sarankan Kategori dengan AI (`GeminiService` & Form Berita Admin)**: Menambahkan metode `GeminiService::suggestCategories()`, endpoint `POST api/categories/suggest` (`Api\CategorySuggestion`), serta tombol `Sarankan Kategori` pada `admin/posts/new.php` dan `admin/posts/edit.php` untuk memilih otomatis 1 hingga 3 ID sub-kategori resmi paling relevan berdasarkan judul dan konten berita sesuai `PostService::MAX_CATEGORIES`.
 
 ### Changed

@@ -3,7 +3,7 @@
 ## 👥 Profiling & Personnel Management
 - **Lurah & Kepala Desa Integration**:
     - **Lurah** profiles are mapped to the `lurah` type. Their position is strictly "Lurah", their institution strictly contains the village/ward name (Kelurahan) and they now explicitly capture `Kecamatan`.
-    - **Kepala Desa** profiles are mapped to the `kepala-desa` type. Their position is strictly "Kepala Desa", and their institution strictly contains the village name (e.g., "Sanjai", without the "Desa" prefix).
+    - **Kepala Desa** profiles are mapped to the `kepala-desa` type. Their position can be "Kepala Desa", "Plt. Kepala Desa", or "Pj. Kepala Desa", and their institution strictly contains the village name (e.g., "Sanjai", without the "Desa" prefix).
     - **Data Integrity**: The "Pemerintah" and "Desa "/"Kelurahan " prefixes have been removed from village/ward names for these types.
 - **Admin UI Logic**:
     - **Field Order**: The `Tipe` dropdown is now the first field in the profile creation/edit form.

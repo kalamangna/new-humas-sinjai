@@ -104,6 +104,9 @@
                                     </div>
                                 <?php endforeach; ?>
                             </div>
+                            <button type="button" id="suggest-categories-btn" class="w-full py-3 bg-blue-50 text-blue-800 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-100 transition-all border border-blue-100">
+                                <i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Kategori
+                            </button>
                             <?php if (session('errors.categories')) : ?>
                                 <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest"><?= esc(session('errors.categories')) ?></p>
                             <?php endif; ?>
@@ -289,6 +292,72 @@
 
     categoryCheckboxes.forEach(cb => cb.addEventListener('change', updateCategoryLimit));
     updateCategoryLimit();
+
+    // Sarankan kategori dengan AI
+    document.getElementById('suggest-categories-btn').onclick = function() {
+        const title = (document.getElementById('title')?.value || '').trim();
+        const editor = typeof tinymce !== 'undefined' ? tinymce.get('content') : null;
+        const content = (editor ? editor.getContent() : (document.getElementById('content')?.value || '')).trim();
+        if (!title || !content) return alert('Isi judul dan konten berita terlebih dahulu.');
+
+        this.disabled = true;
+        this.innerHTML = '<i class="fa-solid fa-fw fa-circle-notch fa-spin mr-2"></i>Menganalisa...';
+
+        fetch('<?= base_url('api/categories/suggest') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: new URLSearchParams({
+                    '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
+                    title,
+                    content
+                })
+            })
+            .then(async r => {
+                if (r.status === 401) {
+                    window.location.href = '<?= base_url('masuk') ?>';
+                    return null;
+                }
+                if (!r.ok) {
+                    throw new Error('HTTP ' + r.status);
+                }
+                return r.json();
+            })
+            .then(data => {
+                if (!Array.isArray(data) || data.length === 0) {
+                    throw new Error('Empty suggestions');
+                }
+                const suggestedSet = new Set(data.slice(0, maxCategories).map(String));
+                let firstChecked = null;
+
+                categoryCheckboxes.forEach(cb => {
+                    cb.disabled = false;
+                    cb.checked = suggestedSet.has(String(cb.value));
+                    const label = cb.closest('label');
+                    if (label) {
+                        label.classList.remove('opacity-50', 'cursor-not-allowed');
+                        label.classList.add('cursor-pointer');
+                    }
+                    if (cb.checked && !firstChecked) {
+                        firstChecked = cb;
+                    }
+                });
+
+                updateCategoryLimit();
+                if (firstChecked) {
+                    firstChecked.closest('label')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            })
+            .catch(() => {
+                alert('Gagal memuat saran kategori. Silakan pilih kategori secara manual.');
+            })
+            .finally(() => {
+                this.disabled = false;
+                this.innerHTML = '<i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2 text-sm"></i>Sarankan Kategori';
+            });
+    };
 </script>
 
 <?= $this->endSection() ?>

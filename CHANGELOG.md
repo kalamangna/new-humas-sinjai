@@ -8,6 +8,9 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ## [2026-11-23]
+### Added
+- **Fitur Sarankan Kategori dengan AI (`GeminiService` & Form Berita Admin)**: Menambahkan metode `GeminiService::suggestCategories()`, endpoint `POST api/categories/suggest` (`Api\CategorySuggestion`), serta tombol `Sarankan Kategori` pada `admin/posts/new.php` dan `admin/posts/edit.php` untuk memilih otomatis 1 hingga 3 ID sub-kategori resmi paling relevan berdasarkan judul dan konten berita sesuai `PostService::MAX_CATEGORIES`.
+
 ### Changed
 - **Perapian Menu Kategori Navbar dan Halaman Kategori Induk**: Menyederhanakan dropdown `Kategori` pada `layouts/partials/navbar.php` agar hanya menampilkan kategori induk dalam tata letak grid 2 kolom di desktop dan daftar ringkas ramah sentuh di mobile lengkap dengan penanda aktif, menyertakan seluruh sub-kategori secara otomatis pada filter kategori `PostService::getAdminPosts()`, serta menampilkan tombol filter sub-kategori pada halaman detail kategori induk (`Home::category` dan `frontend/categories/detail.php`).
 

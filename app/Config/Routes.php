@@ -41,6 +41,7 @@ $routes->add('auth/login', 'Frontend\Home::error404');
 // API Routes (Protected by Admin Auth)
 $routes->group('api', ['filter' => 'admin'], static function ($routes) {
     $routes->post('tags/suggest', 'Api\TagSuggestion::suggest');
+    $routes->post('categories/suggest', 'Api\CategorySuggestion::suggest');
 
     // Analytics API
     $routes->group('analytics', static function ($routes) {

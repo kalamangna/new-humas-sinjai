@@ -42,9 +42,12 @@ class GeminiService
             return [];
         }
 
+        $prompt = $this->buildPrompt($title, $this->prepareContent($content));
+
         foreach (self::MODEL_CHAIN as $index => $model) {
             try {
-                $tags = $this->attemptSuggestion($title, $content, $model);
+                $tagsString = $this->requestPrompt($prompt, $model);
+                $tags = $this->parseTags($tagsString);
                 if ($index > 0) {
                     log_message('info', "[GeminiService] Succeeded with fallback model: {$model}.");
                 }
@@ -59,11 +62,85 @@ class GeminiService
         return self::HARDCODED_FALLBACK;
     }
 
-    private function attemptSuggestion(string $title, string $content, string $model): array
+    /**
+     * Sarankan ID sub-kategori paling relevan berdasarkan daftar sub-kategori resmi.
+     *
+     * @param array<int, array{id: int|string, name: string, parent_name: string}> $subCategories
+     * @return int[]
+     */
+    public function suggestCategories(string $title, string $content, array $subCategories, int $maxCategories = 3): array
     {
-        $response = $this->makeApiRequest($title, $content, $model);
-        $tagsString = $this->extractTagsFromResponse($response);
-        return $this->parseTags($tagsString);
+        if (!$this->validateApiKey() || empty($subCategories)) {
+            return [];
+        }
+
+        $validIds = [];
+        $categoryLines = [];
+        foreach ($subCategories as $sub) {
+            $id = (int) ($sub['id'] ?? 0);
+            if ($id <= 0) {
+                continue;
+            }
+            $validIds[$id] = true;
+            $parentName = trim((string) ($sub['parent_name'] ?? ''));
+            $name = trim((string) ($sub['name'] ?? ''));
+            $categoryLines[] = $parentName !== '' ? "{$id}: {$parentName} > {$name}" : "{$id}: {$name}";
+        }
+
+        if (empty($validIds)) {
+            return [];
+        }
+
+        $prompt = $this->buildCategoryPrompt(
+            $title,
+            $this->prepareContent($content, 800),
+            implode("\n", $categoryLines),
+            max(1, $maxCategories)
+        );
+
+        foreach (self::MODEL_CHAIN as $index => $model) {
+            try {
+                $rawResponse = $this->requestPrompt($prompt, $model);
+                $ids = $this->parseCategoryIds($rawResponse, $validIds, max(1, $maxCategories));
+                if (!empty($ids)) {
+                    if ($index > 0) {
+                        log_message('info', "[GeminiService] Category suggestion succeeded with fallback model: {$model}.");
+                    }
+                    return $ids;
+                }
+                throw new Exception('No valid category IDs returned by model');
+            } catch (Exception $e) {
+                $next = self::MODEL_CHAIN[$index + 1] ?? 'none';
+                log_message('warning', "[GeminiService] Category model {$model} failed: {$e->getMessage()}. Trying: {$next}.");
+            }
+        }
+
+        log_message('error', '[GeminiService] All models failed for category suggestion.');
+        return [];
+    }
+
+    private function requestPrompt(string $prompt, string $model): string
+    {
+        $url = $this->buildApiUrl($model);
+        $payload = [
+            'contents' => [
+                [
+                    'parts' => [
+                        ['text' => $prompt]
+                    ]
+                ]
+            ]
+        ];
+
+        // Exceptions bubble up agar caller mencoba model berikutnya dalam chain.
+        $response = $this->httpClient->post($url, [
+            'json'        => $payload,
+            'timeout'     => 10,
+            'http_errors' => true,
+        ]);
+
+        $decoded = json_decode($response->getBody(), true) ?? [];
+        return $this->extractTagsFromResponse($decoded);
     }
 
     private function validateApiKey(): bool
@@ -75,45 +152,59 @@ class GeminiService
         return true;
     }
 
-    private function makeApiRequest(string $title, string $content, string $model): array
-    {
-        $url = $this->buildApiUrl($model);
-        $payload = $this->buildRequestPayload($title, $content);
-
-        // Exceptions bubble up ke suggestTags untuk trigger next model dalam chain.
-        $response = $this->httpClient->post($url, [
-            'json'        => $payload,
-            'timeout'     => 10,
-            'http_errors' => true,
-        ]);
-
-        return json_decode($response->getBody(), true) ?? [];
-    }
-
     private function buildApiUrl(string $model): string
     {
         return self::BASE_URL . $model . ':generateContent?key=' . $this->apiKey;
     }
 
-    private function buildRequestPayload(string $title, string $content): array
+    private function prepareContent(string $content, int $maxLength = self::MAX_CONTENT_LENGTH): string
     {
-        $cleanedContent = $this->prepareContent($content);
-        $prompt = $this->buildPrompt($title, $cleanedContent);
-
-        return [
-            'contents' => [
-                [
-                    'parts' => [
-                        ['text' => $prompt]
-                    ]
-                ]
-            ]
-        ];
+        return mb_substr(strip_tags($content), 0, $maxLength, 'UTF-8');
     }
 
-    private function prepareContent(string $content): string
+    private function buildCategoryPrompt(string $title, string $content, string $categoryList, int $maxCategories): string
     {
-        return mb_substr(strip_tags($content), 0, self::MAX_CONTENT_LENGTH, 'UTF-8');
+        return sprintf(
+            "Berdasarkan judul dan konten berita pemerintah daerah di bawah ini, pilih 1 sampai %d ID sub-kategori yang paling relevan HANYA dari daftar resmi berikut.
+
+Aturan:
+- Kembalikan HANYA angka ID dipisahkan koma, contoh: 7, 31, 328
+- Jangan berikan penjelasan, nama kategori, bullet, atau teks lain.
+- Jangan memaksakan %d kategori jika berita hanya relevan dengan 1 atau 2 kategori.
+- Pilih kategori pejabat (misal Bupati, Wakil Bupati, Sekretaris Daerah, Staf Ahli Bupati) hanya jika pejabat tersebut benar-benar hadir atau menjadi subjek berita, bukan sekadar diwakili.
+- Bedakan Layanan Publik (pelayanan operasional langsung ke warga) dan Program Prioritas (kebijakan atau agenda program prioritas daerah).
+
+Daftar Sub-Kategori Resmi:
+%s
+
+Judul: \"%s\"
+Konten: \"%s\"",
+            $maxCategories,
+            $maxCategories,
+            $categoryList,
+            $title,
+            $content
+        );
+    }
+
+    /**
+     * @param array<int, bool> $validIds
+     * @return int[]
+     */
+    private function parseCategoryIds(string $rawResponse, array $validIds, int $maxCategories): array
+    {
+        preg_match_all('/\d+/', $rawResponse, $matches);
+        $ids = [];
+        foreach ($matches[0] ?? [] as $num) {
+            $id = (int) $num;
+            if (isset($validIds[$id]) && !in_array($id, $ids, true)) {
+                $ids[] = $id;
+                if (count($ids) >= $maxCategories) {
+                    break;
+                }
+            }
+        }
+        return $ids;
     }
 
     private function buildPrompt(string $title, string $content): string

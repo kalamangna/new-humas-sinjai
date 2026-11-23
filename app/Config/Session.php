@@ -89,7 +89,8 @@ class Session extends BaseConfig
      * when auto-regenerating the session ID. When set to FALSE, the data
      * will be later deleted by the garbage collector.
      */
-    public bool $regenerateDestroy = true;
+    // Pertahankan file sesi lama sampai GC agar request AJAX/multi-tab bersamaan tidak terkena 401 saat regenerasi ID
+    public bool $regenerateDestroy = false;
 
     /**
      * --------------------------------------------------------------------------

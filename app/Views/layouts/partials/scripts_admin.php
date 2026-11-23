@@ -60,6 +60,8 @@
         const ACTIVITY_KEY = 'admin_last_activity';
         const LOGOUT_KEY = 'admin_force_logout';
         const LOGOUT_URL = '<?= base_url('logout?reason=timeout') ?>';
+        const LOGIN_URL = '<?= base_url('masuk') ?>';
+        const MANUAL_LOGOUT_PATH = new URL('<?= base_url('logout') ?>', window.location.origin).pathname;
         const PING_URL = '<?= base_url('admin/session/ping') ?>';
 
         let lastActivity = Date.now();
@@ -70,6 +72,11 @@
         try {
             localStorage.setItem(ACTIVITY_KEY, String(lastActivity));
         } catch (e) {}
+
+        function getTimeoutLogoutUrl() {
+            const next = window.location.pathname + window.location.search;
+            return LOGOUT_URL + '&next=' + encodeURIComponent(next);
+        }
 
         function recordActivity() {
             const now = Date.now();
@@ -86,24 +93,49 @@
             if (isLoggingOut) return;
             isLoggingOut = true;
             try {
-                localStorage.setItem(LOGOUT_KEY, String(Date.now()));
+                localStorage.setItem(LOGOUT_KEY, 'timeout:' + Date.now());
             } catch (e) {}
-            window.location.href = LOGOUT_URL;
+            window.location.href = getTimeoutLogoutUrl();
+        }
+
+        function attachFrameListeners(frame) {
+            try {
+                const doc = frame.contentDocument || frame.contentWindow?.document;
+                if (doc && doc.documentElement) {
+                    ['keydown', 'mousedown', 'input'].forEach(evt => doc.addEventListener(evt, recordActivity, { passive: true }));
+                }
+            } catch (e) {}
+        }
+
+        function bindIframeActivity() {
+            document.querySelectorAll('iframe').forEach(frame => {
+                if (frame.dataset.activityBound === '1') return;
+                frame.dataset.activityBound = '1';
+                attachFrameListeners(frame);
+                frame.addEventListener('load', () => attachFrameListeners(frame));
+            });
         }
 
         const activityEvents = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click'];
         activityEvents.forEach(evt => document.addEventListener(evt, recordActivity, { passive: true }));
 
-        // Deteksi aktivitas di dalam iframe editor (misal TinyMCE) bila same-origin
-        window.addEventListener('load', () => {
-            document.querySelectorAll('iframe').forEach(frame => {
-                try {
-                    const doc = frame.contentDocument || frame.contentWindow?.document;
-                    if (doc) {
-                        ['keydown', 'mousedown', 'input'].forEach(evt => doc.addEventListener(evt, recordActivity, { passive: true }));
-                    }
-                } catch (e) {}
-            });
+        // Deteksi aktivitas di dalam iframe editor (misal TinyMCE) termasuk yang dimuat asinkron
+        window.addEventListener('load', bindIframeActivity);
+        if (typeof MutationObserver !== 'undefined' && document.body) {
+            const iframeObserver = new MutationObserver(bindIframeActivity);
+            iframeObserver.observe(document.body, { childList: true, subtree: true });
+        }
+
+        // Sinkronisasi logout manual ke seluruh tab admin yang terbuka
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a[href]');
+            if (!link) return;
+            try {
+                const targetUrl = new URL(link.href, window.location.origin);
+                if (targetUrl.origin === window.location.origin && targetUrl.pathname === MANUAL_LOGOUT_PATH && !targetUrl.searchParams.has('reason')) {
+                    localStorage.setItem(LOGOUT_KEY, 'manual:' + Date.now());
+                }
+            } catch (err) {}
         });
 
         window.addEventListener('storage', (e) => {
@@ -115,12 +147,13 @@
             } else if (e.key === LOGOUT_KEY && e.newValue) {
                 if (!isLoggingOut) {
                     isLoggingOut = true;
-                    window.location.href = LOGOUT_URL;
+                    window.location.href = e.newValue.startsWith('manual:') ? LOGIN_URL : getTimeoutLogoutUrl();
                 }
             }
         });
 
-        setInterval(() => {
+        function checkIdleAndPing() {
+            bindIframeActivity();
             const now = Date.now();
             if (now - lastActivity >= IDLE_TIMEOUT_MS) {
                 triggerLogout();
@@ -140,6 +173,14 @@
                     }
                 }).catch(() => {});
             }
-        }, CHECK_INTERVAL_MS);
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                checkIdleAndPing();
+            }
+        });
+
+        setInterval(checkIdleAndPing, CHECK_INTERVAL_MS);
     })();
 </script>

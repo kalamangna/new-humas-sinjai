@@ -29,14 +29,28 @@ class AdminFilter implements FilterInterface
         // Validasi batas tidak aktif (idle timeout) di sisi server
         $lastActivity = (int) session()->get('last_activity');
         if ($lastActivity > 0 && (time() - $lastActivity) > Login::IDLE_TIMEOUT_SECONDS) {
+            $isApiOrAjax = $request->isAJAX() || strpos($uri, 'api/') !== false;
+            $safeTarget = null;
+
+            if (!$isApiOrAjax && strtolower($request->getMethod()) === 'get') {
+                $currentPath = ltrim($request->getUri()->getPath(), '/');
+                $query = $request->getUri()->getQuery();
+                $target = $query !== '' ? $currentPath . '?' . $query : $currentPath;
+                $safeTarget = Login::sanitizeRedirectPath($target);
+            }
+
             session()->remove(['user_id', 'name', 'email', 'role', 'isLoggedIn', 'last_activity']);
             session()->regenerate(true);
 
-            if ($request->isAJAX() || strpos($uri, 'api/') !== false) {
+            if ($isApiOrAjax) {
                 return service('response')->setStatusCode(401)->setJSON([
                     'status' => 'error',
                     'message' => 'Sesi berakhir. Silakan login kembali.'
                 ]);
+            }
+
+            if ($safeTarget !== null) {
+                session()->set('redirect_after_login', $safeTarget);
             }
 
             return redirect()->to(base_url('masuk'))->with('error', 'Sesi berakhir. Silakan login kembali.');

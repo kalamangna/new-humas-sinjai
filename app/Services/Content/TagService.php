@@ -55,6 +55,38 @@ class TagService extends BaseService
     }
 
     /**
+     * Gabungkan tag sumber ke tag tujuan dalam satu transaksi database.
+     */
+    public function mergeTags(int $sourceId, int $targetId): bool
+    {
+        if ($sourceId <= 0 || $targetId <= 0 || $sourceId === $targetId) {
+            return false;
+        }
+
+        $source = $this->tagModel->find($sourceId);
+        $target = $this->tagModel->find($targetId);
+        if (!$source || !$target) {
+            return false;
+        }
+
+        $db = \Config\Database::connect();
+        $db->transStart();
+        $db->query(
+            'INSERT IGNORE INTO post_tags (post_id, tag_id) SELECT post_id, ? FROM post_tags WHERE tag_id = ?',
+            [$targetId, $sourceId]
+        );
+        $this->tagModel->delete($sourceId);
+        $db->transComplete();
+
+        if ($db->transStatus()) {
+            cache()->delete(self::PREFERRED_TAGS_CACHE_KEY);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Ambil daftar tag populer eksisting dari cache atau database untuk referensi AI.
      *
      * @return string[]

@@ -86,6 +86,15 @@
                                 </span>
                             </td>
                             <td class="px-4 sm:px-6 py-3 sm:py-4 text-right space-x-1 whitespace-nowrap w-1">
+                                <button type="button"
+                                    data-tag-id="<?= (int) $tag['id'] ?>"
+                                    data-tag-name="<?= esc($tag['name'], 'attr') ?>"
+                                    onclick="openMergeModal(this)"
+                                    aria-label="Gabungkan tag"
+                                    title="Gabungkan tag"
+                                    class="inline-flex items-center p-2 bg-slate-100 text-amber-700 rounded-lg hover:bg-amber-600 hover:text-white transition-all shadow-sm">
+                                    <i class="fa-solid fa-fw fa-code-merge"></i>
+                                </button>
                                 <a href="<?= base_url('admin/tags/' . $tag['id'] . '/edit') ?>" aria-label="Ubah tag" title="Ubah tag" class="inline-flex items-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-blue-800 hover:text-white transition-all shadow-sm">
                                     <i class="fa-solid fa-fw fa-pen-to-square"></i>
                                 </a>
@@ -130,5 +139,144 @@
         </div>
     </div>
 <?php endif; ?>
+
+<!-- Merge Tag Modal -->
+<div id="merge-tag-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 p-4" role="dialog" aria-modal="true" aria-labelledby="merge-modal-title">
+    <div class="w-full max-w-lg rounded-2xl bg-white border border-slate-200 shadow-2xl overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50">
+            <h3 id="merge-modal-title" class="text-sm font-black uppercase tracking-widest text-slate-900">Gabungkan Tag</h3>
+            <button type="button" onclick="closeMergeModal()" aria-label="Tutup modal" class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors">
+                <i class="fa-solid fa-fw fa-xmark"></i>
+            </button>
+        </div>
+        <form id="merge-tag-form" action="<?= base_url('admin/tags/merge') ?>" method="post" class="p-6 space-y-5">
+            <?= csrf_field() ?>
+            <input type="hidden" name="source_id" id="merge-source-id">
+            <input type="hidden" name="target_id" id="merge-target-id">
+
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Tag Sumber yang Akan Dihapus</p>
+                <p id="merge-source-name" class="text-base font-bold text-slate-900"></p>
+                <p class="text-xs text-slate-500 mt-1">Semua berita pada tag sumber akan dipindahkan ke tag tujuan.</p>
+            </div>
+
+            <div>
+                <label for="merge-target-search" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Cari Tag Tujuan</label>
+                <input id="merge-target-search" type="text" autocomplete="off" placeholder="Bupati Sinjai" class="w-full h-10 px-4 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 outline-none">
+                <p id="merge-selected-label" class="hidden mt-2 text-xs font-bold text-blue-800"></p>
+                <div id="merge-target-results" class="mt-2 max-h-52 overflow-y-auto divide-y divide-slate-100 border border-slate-200 rounded-lg bg-white"></div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-2 border-t border-slate-100">
+                <button type="button" onclick="closeMergeModal()" class="inline-flex items-center justify-center h-10 px-4 bg-slate-100 text-slate-700 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200">Batal</button>
+                <button type="submit" id="merge-submit-btn" disabled class="inline-flex items-center justify-center h-10 px-5 bg-blue-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-blue-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed">Gabungkan Tag</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+(() => {
+    const modal = document.getElementById('merge-tag-modal');
+    const form = document.getElementById('merge-tag-form');
+    const sourceIdInput = document.getElementById('merge-source-id');
+    const targetIdInput = document.getElementById('merge-target-id');
+    const sourceNameEl = document.getElementById('merge-source-name');
+    const searchInput = document.getElementById('merge-target-search');
+    const resultsEl = document.getElementById('merge-target-results');
+    const selectedLabel = document.getElementById('merge-selected-label');
+    const submitBtn = document.getElementById('merge-submit-btn');
+    const searchEndpoint = '<?= base_url('admin/tags/search') ?>';
+    let debounceTimer = null;
+
+    function resetSelection() {
+        targetIdInput.value = '';
+        selectedLabel.textContent = '';
+        selectedLabel.classList.add('hidden');
+        submitBtn.disabled = true;
+    }
+
+    function renderResults(items) {
+        resultsEl.innerHTML = '';
+        if (!Array.isArray(items) || items.length === 0) {
+            const empty = document.createElement('div');
+            empty.className = 'px-4 py-3 text-xs text-slate-500';
+            empty.textContent = 'Tag tujuan tidak ditemukan';
+            resultsEl.appendChild(empty);
+            return;
+        }
+
+        items.forEach((item) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'w-full px-4 py-2.5 text-left flex items-center justify-between hover:bg-blue-50 transition-colors';
+
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'text-sm font-semibold text-slate-800';
+            nameSpan.textContent = item.name;
+
+            const countSpan = document.createElement('span');
+            countSpan.className = 'px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] font-black rounded-md';
+            countSpan.textContent = `${item.post_count || 0} Berita`;
+
+            btn.appendChild(nameSpan);
+            btn.appendChild(countSpan);
+            btn.addEventListener('click', () => {
+                targetIdInput.value = item.id;
+                selectedLabel.textContent = `Tujuan terpilih: ${item.name}`;
+                selectedLabel.classList.remove('hidden');
+                submitBtn.disabled = false;
+            });
+            resultsEl.appendChild(btn);
+        });
+    }
+
+    async function fetchTargets(query) {
+        const exclude = sourceIdInput.value;
+        const url = `${searchEndpoint}?q=${encodeURIComponent(query)}&exclude=${encodeURIComponent(exclude)}`;
+        try {
+            const response = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+            if (!response.ok) return;
+            const data = await response.json();
+            renderResults(data);
+        } catch (_) {
+            resultsEl.innerHTML = '<div class="px-4 py-3 text-xs text-red-600">Gagal memuat daftar tag</div>';
+        }
+    }
+
+    window.openMergeModal = function (trigger) {
+        sourceIdInput.value = trigger.dataset.tagId || '';
+        sourceNameEl.textContent = trigger.dataset.tagName || '';
+        searchInput.value = '';
+        resetSelection();
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        fetchTargets('');
+        searchInput.focus();
+    };
+
+    window.closeMergeModal = function () {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        submitBtn.textContent = 'Gabungkan Tag';
+    };
+
+    searchInput.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => fetchTargets(searchInput.value.trim()), 250);
+    });
+
+    form.addEventListener('submit', () => {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Menggabungkan...';
+    });
+
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeMergeModal();
+        }
+    });
+})();
+</script>
 
 <?= $this->endSection() ?>

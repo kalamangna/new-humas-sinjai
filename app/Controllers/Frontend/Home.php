@@ -10,6 +10,8 @@ use App\Models\CarouselSlideModel;
 
 class Home extends BaseController
 {
+    private const MIN_INDEXABLE_TAG_POSTS = 3;
+
     protected $postService;
 
     public function __construct()
@@ -147,7 +149,8 @@ class Home extends BaseController
         if (!empty($data['posts'][0]['thumbnail'])) {
             $data['seo']['image'] = getOgImage(($data['posts'][0]['slug'] ?? '') . '.jpg', $data['posts'][0]['thumbnail']);
         }
-        if (empty($data['posts'])) {
+        $totalPublishedPosts = $data['pager'] ? (int) $data['pager']->getTotal() : count($data['posts']);
+        if ($totalPublishedPosts < self::MIN_INDEXABLE_TAG_POSTS) {
             $data['seo']['robots'] = 'noindex, follow';
         }
 
@@ -231,12 +234,17 @@ class Home extends BaseController
     public function tags()
     {
         $tagModel = new TagModel();
+        $now = date('Y-m-d H:i:s');
         $data = [
             'tags' => $tagModel
                 ->select('tags.*, COUNT(posts.id) as post_count')
-                ->join('post_tags', 'post_tags.tag_id = tags.id', 'left')
-                ->join('posts', 'posts.id = post_tags.post_id AND posts.status = "published"', 'left')
+                ->join('post_tags', 'post_tags.tag_id = tags.id')
+                ->join('posts', 'posts.id = post_tags.post_id')
+                ->where('posts.status', 'published')
+                ->where('posts.published_at <=', $now)
                 ->groupBy('tags.id')
+                ->having('COUNT(posts.id) >=', self::MIN_INDEXABLE_TAG_POSTS)
+                ->orderBy('post_count', 'DESC')
                 ->orderBy('tags.name', 'ASC')
                 ->findAll(),
         ];
@@ -293,6 +301,7 @@ class Home extends BaseController
                 ->where('posts.status', 'published')
                 ->where('posts.published_at <=', $now)
                 ->groupBy('tags.id')
+                ->having('COUNT(posts.id) >=', self::MIN_INDEXABLE_TAG_POSTS)
                 ->orderBy('tags.name', 'ASC')
                 ->findAll(),
             'profiles'   => $profileModel

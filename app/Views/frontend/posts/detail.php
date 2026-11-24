@@ -123,29 +123,36 @@
                         <div class="flex flex-wrap gap-3">
                             <?php
                             $share_url = current_url();
-                            $share_title = esc($post['title']);
+                            $buildShareUrl = static function (string $source) use ($share_url): string {
+                                $separator = str_contains($share_url, '?') ? '&' : '?';
+                                return $share_url . $separator . http_build_query([
+                                    'utm_source'   => $source,
+                                    'utm_medium'   => 'social',
+                                    'utm_campaign' => 'share',
+                                ]);
+                            };
                             ?>
 
                             <!-- WhatsApp -->
-                            <a href="https://api.whatsapp.com/send?text=<?= urlencode($share_url) ?>" target="_blank" rel="noopener noreferrer"
+                            <a href="https://api.whatsapp.com/send?text=<?= urlencode($post['title'] . ' ' . $buildShareUrl('whatsapp')) ?>" target="_blank" rel="noopener noreferrer"
                                 class="inline-flex items-center min-h-10 px-4 sm:px-5 py-2.5 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
                                 <i class="fa-brands fa-fw fa-whatsapp mr-2 text-sm"></i>WhatsApp
                             </a>
 
                             <!-- Facebook -->
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($share_url) ?>" target="_blank" rel="noopener noreferrer"
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($buildShareUrl('facebook')) ?>" target="_blank" rel="noopener noreferrer"
                                 class="inline-flex items-center min-h-10 px-4 sm:px-5 py-2.5 bg-[#1877F2] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
                                 <i class="fa-brands fa-fw fa-facebook mr-2 text-sm"></i>Facebook
                             </a>
 
                             <!-- X -->
-                            <a href="https://twitter.com/intent/tweet?url=<?= urlencode($share_url) ?>" target="_blank" rel="noopener noreferrer"
+                            <a href="https://twitter.com/intent/tweet?text=<?= urlencode($post['title']) ?>&url=<?= urlencode($buildShareUrl('x')) ?>" target="_blank" rel="noopener noreferrer"
                                 class="inline-flex items-center min-h-10 px-4 sm:px-5 py-2.5 bg-slate-950 text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:bg-black transition-all shadow-sm">
                                 <i class="fa-brands fa-fw fa-x-twitter mr-2 text-sm"></i>X
                             </a>
 
                             <!-- Telegram -->
-                            <a href="https://t.me/share/url?url=<?= urlencode($share_url) ?>" target="_blank" rel="noopener noreferrer"
+                            <a href="https://t.me/share/url?url=<?= urlencode($buildShareUrl('telegram')) ?>&text=<?= urlencode($post['title']) ?>" target="_blank" rel="noopener noreferrer"
                                 class="inline-flex items-center min-h-10 px-4 sm:px-5 py-2.5 bg-[#0088cc] text-white font-bold text-[10px] uppercase tracking-widest rounded-xl hover:opacity-90 transition-all shadow-sm">
                                 <i class="fa-brands fa-fw fa-telegram mr-2 text-sm"></i>Telegram
                             </a>

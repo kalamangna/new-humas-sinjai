@@ -96,4 +96,55 @@ class Tags extends BaseController
         }
         return redirect()->to(base_url('admin/tags'))->with('error', 'Gagal menghapus tag.');
     }
+
+    public function search()
+    {
+        $query = trim((string) $this->request->getGet('q'));
+        $exclude = (int) $this->request->getGet('exclude');
+
+        $builder = $this->tagModel->select(
+            'tags.id, tags.name, tags.slug, (SELECT COUNT(*) FROM post_tags WHERE post_tags.tag_id = tags.id) as post_count'
+        );
+
+        if ($exclude > 0) {
+            $builder->where('tags.id !=', $exclude);
+        }
+
+        if ($query !== '') {
+            $builder->groupStart()
+                ->like('tags.name', $query)
+                ->orLike('tags.slug', $query)
+                ->groupEnd();
+        }
+
+        $results = $builder
+            ->orderBy('post_count', 'DESC')
+            ->orderBy('tags.name', 'ASC')
+            ->findAll(20);
+
+        return $this->response->setJSON($results);
+    }
+
+    public function merge()
+    {
+        $sourceId = (int) $this->request->getPost('source_id');
+        $targetId = (int) $this->request->getPost('target_id');
+
+        if ($sourceId <= 0 || $targetId <= 0 || $sourceId === $targetId) {
+            return redirect()->back()->with('error', 'Pilih tag tujuan yang berbeda dari tag sumber.');
+        }
+
+        $source = $this->tagModel->find($sourceId);
+        $target = $this->tagModel->find($targetId);
+        if (!$source || !$target) {
+            return redirect()->back()->with('error', 'Tag sumber atau tag tujuan tidak ditemukan.');
+        }
+
+        if ($this->tagService->mergeTags($sourceId, $targetId)) {
+            audit_log('tags', 'merge', "Menggabungkan tag {$source['name']} ke {$target['name']}");
+            return redirect()->back()->with('success', "Tag {$source['name']} berhasil digabungkan ke {$target['name']}.");
+        }
+
+        return redirect()->back()->with('error', 'Tag gagal digabungkan. Periksa kembali tag sumber dan tujuan.');
+    }
 }

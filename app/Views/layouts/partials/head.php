@@ -22,27 +22,12 @@
     <?= generate_schema_org() ?>
     <?= $this->renderSection('schema') ?>
 
-    <!-- Google tag (gtag.js) - Deferred to idle for 0ms main thread blocking -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QEW3BM9KJ7"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-QEW3BM9KJ7');
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const loadGTM = () => {
-                if (window.gtmLoaded) return;
-                window.gtmLoaded = true;
-                const s = document.createElement('script');
-                s.async = true;
-                s.src = 'https://www.googletagmanager.com/gtag/js?id=G-QEW3BM9KJ7';
-                document.head.appendChild(s);
-            };
-            if ('requestIdleCallback' in window) {
-                requestIdleCallback(loadGTM, { timeout: 3000 });
-            } else {
-                setTimeout(loadGTM, 2000);
-            }
-        });
     </script>
 </head>

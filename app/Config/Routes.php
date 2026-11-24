@@ -92,6 +92,8 @@ $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
     $routes->resource('posts', ['controller' => 'Admin\Posts']);
     $routes->post('posts/upload_image', 'Admin\Posts::upload_image');
     $routes->resource('categories', ['controller' => 'Admin\Categories']);
+    $routes->get('tags/search', 'Admin\Tags::search');
+    $routes->post('tags/merge', 'Admin\Tags::merge');
     $routes->resource('tags', ['controller' => 'Admin\Tags']);
     
     // Profiles

@@ -8,8 +8,12 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ## [2026-11-24]
+### Added
+- **Fitur Gabung Tag Panel Admin (`Admin\Tags`, `TagService`, `admin/tags/index.php`)**: Menambahkan endpoint pencarian tag tujuan (`GET admin/tags/search`) dan penggabungan tag (`POST admin/tags/merge`) dalam satu transaksi database (`TagService::mergeTags()`) beserta pencatatan `audit_logs`, reset cache tag eksisting, serta modal terarah pada halaman Kelola Tag Admin.
+
 ### Changed
 - **Controlled Vocabulary pada Saran Tag AI (`TagModel`, `TagService`, `GeminiService`)**: Menambahkan `TagModel::getPreferredTags()` dan cache `TagService::getPreferredExistingTags()` (150 tag populer minimal 3 berita) untuk diumpankan ke prompt `GeminiService::suggestTags()`, memperluas `GENERIC_TAG_BLOCKLIST`, menormalisasi variasi huruf/spasi/tanda baca ke bentuk kanonis eksisting pada `parseTags()`, serta menambahkan pengujian unit `tests/unit/GeminiTagSuggestionTest.php`.
+- **Optimasi SEO Tag, Sitemap, UTM Bagikan, dan Pemuatan GA4 (`Home`, `detail.php`, `head.php`)**: Menetapkan batas minimal 3 berita (`Home::MIN_INDEXABLE_TAG_POSTS`) untuk pengindeksan halaman tag (`noindex, follow` otomatis untuk tag kurang dari 3 berita), menyaring halaman `/tags` dan `sitemap.xml` hanya untuk tag dengan minimal 3 berita terbit, menambahkan parameter UTM dan judul berita pada tombol bagikan WhatsApp, Facebook, X, dan Telegram di `frontend/posts/detail.php`, serta memuat `gtag.js` langsung secara non-blocking (`async`) di `layouts/partials/head.php`.
 
 ### Fixed
 - **Jumlah Berita, Statistik, dan Pencarian Kelola Tag Admin (`Admin\Tags::index`)**: Menambahkan subquery penghitung `post_count` dari `post_tags`, mengirim statistik ringkasan `total_tags` dan `total_posts`, serta mengaktifkan filter pencarian `search` berdasarkan nama dan slug tag agar halaman `admin/tags` tidak lagi menampilkan `0 Berita` dan tombol lihat halaman tag muncul sesuai jumlah berita.

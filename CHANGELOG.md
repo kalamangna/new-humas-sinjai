@@ -8,6 +8,9 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ## [2026-11-24]
+### Changed
+- **Controlled Vocabulary pada Saran Tag AI (`TagModel`, `TagService`, `GeminiService`)**: Menambahkan `TagModel::getPreferredTags()` dan cache `TagService::getPreferredExistingTags()` (150 tag populer minimal 3 berita) untuk diumpankan ke prompt `GeminiService::suggestTags()`, memperluas `GENERIC_TAG_BLOCKLIST`, menormalisasi variasi huruf/spasi/tanda baca ke bentuk kanonis eksisting pada `parseTags()`, serta menambahkan pengujian unit `tests/unit/GeminiTagSuggestionTest.php`.
+
 ### Fixed
 - **Jumlah Berita, Statistik, dan Pencarian Kelola Tag Admin (`Admin\Tags::index`)**: Menambahkan subquery penghitung `post_count` dari `post_tags`, mengirim statistik ringkasan `total_tags` dan `total_posts`, serta mengaktifkan filter pencarian `search` berdasarkan nama dan slug tag agar halaman `admin/tags` tidak lagi menampilkan `0 Berita` dan tombol lihat halaman tag muncul sesuai jumlah berita.
 

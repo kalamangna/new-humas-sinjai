@@ -39,6 +39,10 @@ class GeminiService
         'daerah',
         'informasi',
         'informasi publik',
+        'pemerintah',
+        'pemerintahan',
+        'berita terkini',
+        'berita terkini sinjai',
     ];
 
     private const HARDCODED_FALLBACK = [
@@ -54,18 +58,18 @@ class GeminiService
         $this->httpClient = Services::curlrequest();
     }
 
-    public function suggestTags(string $title, string $content): array
+    public function suggestTags(string $title, string $content, array $existingTags = []): array
     {
         if (!$this->validateApiKey()) {
             return [];
         }
 
-        $prompt = $this->buildPrompt($title, $this->prepareContent($content));
+        $prompt = $this->buildPrompt($title, $this->prepareContent($content), $existingTags);
 
         foreach (self::MODEL_CHAIN as $index => $model) {
             try {
                 $tagsString = $this->requestPrompt($prompt, $model);
-                $tags = $this->parseTags($tagsString);
+                $tags = $this->parseTags($tagsString, $existingTags);
                 if ($index > 0) {
                     log_message('info', "[GeminiService] Succeeded with fallback model: {$model}.");
                 }
@@ -225,8 +229,19 @@ Konten: \"%s\"",
         return $ids;
     }
 
-    private function buildPrompt(string $title, string $content): string
+    private function buildPrompt(string $title, string $content, array $existingTags = []): string
     {
+        $cleanExisting = array_values(array_filter(array_map(
+            static fn ($tag) => trim((string) $tag),
+            $existingTags
+        )));
+
+        $existingSection = '';
+        if (!empty($cleanExisting)) {
+            $existingSection = "\n- PRIORITASKAN menggunakan tag yang sudah ada pada Daftar Tag Eksisting di bawah dengan ejaan persis sama jika topiknya relevan. DILARANG membuat variasi ejaan/singkatan baru jika konsepnya sudah ada pada daftar tersebut.\n\nDaftar Tag Eksisting:\n"
+                . implode(', ', $cleanExisting);
+        }
+
         return sprintf(
             "Berdasarkan judul dan konten berita pemerintah daerah di bawah ini, hasilkan tepat %d tag SEO singkat, spesifik, dan relevan.
 
@@ -234,13 +249,14 @@ Aturan:
 - Tampilkan hanya daftar tag dipisahkan koma, tanpa penjelasan, nomor, bullet, atau tanda pagar (#).
 - Gunakan format Title Case (huruf kapital di awal kata penting) dengan panjang 1 sampai 3 kata per tag.
 - Prioritaskan entitas yang dapat dipakai ulang pada berita lain: nama OPD atau lembaga, nama program, lokasi kecamatan atau desa, dan topik inti.
-- DILARANG menggunakan tag generik situs seperti: Sinjai, Berita Sinjai, Kabupaten Sinjai, Pemkab Sinjai, Pemerintah Daerah, Berita Daerah, Sinjai Hari Ini, Berita, Daerah, Informasi.
+- DILARANG menggunakan tag generik situs seperti: Sinjai, Berita Sinjai, Kabupaten Sinjai, Pemkab Sinjai, Pemerintah Daerah, Berita Daerah, Sinjai Hari Ini, Berita, Daerah, Informasi, Pemerintah, Pemerintahan.
 - DILARANG mengulang konsep yang sama dengan variasi singkatan dan kepanjangan dalam satu daftar (pilih salah satu bentuk yang paling umum, misalnya cukup 'Kejari Sinjai' atau 'Makan Bergizi Gratis', jangan keduanya).
-- DILARANG menghasilkan tag berupa angka saja.
+- DILARANG menghasilkan tag berupa angka saja.%s
 
 Judul: \"%s\"
 Konten: \"%s\"",
             self::MAX_SUGGESTED_TAGS,
+            $existingSection,
             $title,
             $content
         );
@@ -256,11 +272,27 @@ Konten: \"%s\"",
         return $response['candidates'][0]['content']['parts'][0]['text'];
     }
 
-    private function parseTags(string $tagsString): array
+    private function parseTags(string $tagsString, array $existingTags = []): array
     {
+        $canonicalByLower = [];
+        $canonicalByAlnum = [];
+        foreach ($existingTags as $existing) {
+            $canonical = trim((string) $existing);
+            if ($canonical === '') {
+                continue;
+            }
+            $lowerKey = mb_strtolower($canonical, 'UTF-8');
+            $alnumKey = preg_replace('/[^a-z0-9]/u', '', $lowerKey) ?? '';
+            $canonicalByLower[$lowerKey] ??= $canonical;
+            if ($alnumKey !== '') {
+                $canonicalByAlnum[$alnumKey] ??= $canonical;
+            }
+        }
+
         $rawTags = explode(',', $tagsString);
         $cleanTags = [];
-        $seen = [];
+        $seenLower = [];
+        $seenAlnum = [];
 
         foreach ($rawTags as $raw) {
             $tag = trim(ltrim(trim($raw), '#-*• '));
@@ -269,12 +301,31 @@ Konten: \"%s\"",
                 continue;
             }
 
+            $rawLower = mb_strtolower($tag, 'UTF-8');
+            $rawAlnum = preg_replace('/[^a-z0-9]/u', '', $rawLower) ?? '';
+
+            if (isset($canonicalByLower[$rawLower])) {
+                $tag = $canonicalByLower[$rawLower];
+            } elseif ($rawAlnum !== '' && isset($canonicalByAlnum[$rawAlnum])) {
+                $tag = $canonicalByAlnum[$rawAlnum];
+            }
+
             $normalized = mb_strtolower($tag, 'UTF-8');
-            if (in_array($normalized, self::GENERIC_TAG_BLOCKLIST, true) || isset($seen[$normalized])) {
+            $alnum = preg_replace('/[^a-z0-9]/u', '', $normalized) ?? '';
+
+            if (
+                in_array($rawLower, self::GENERIC_TAG_BLOCKLIST, true)
+                || in_array($normalized, self::GENERIC_TAG_BLOCKLIST, true)
+                || isset($seenLower[$normalized])
+                || ($alnum !== '' && isset($seenAlnum[$alnum]))
+            ) {
                 continue;
             }
 
-            $seen[$normalized] = true;
+            $seenLower[$normalized] = true;
+            if ($alnum !== '') {
+                $seenAlnum[$alnum] = true;
+            }
             $cleanTags[] = $tag;
 
             if (count($cleanTags) >= self::MAX_SUGGESTED_TAGS) {

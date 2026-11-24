@@ -7,6 +7,9 @@ use App\Models\TagModel;
 
 class TagService extends BaseService
 {
+    private const PREFERRED_TAGS_CACHE_KEY = 'preferred_existing_tags';
+    private const PREFERRED_TAGS_CACHE_TTL = 3600;
+
     protected $tagModel;
 
     public function __construct()
@@ -29,20 +32,50 @@ class TagService extends BaseService
         }
 
         if ($id) {
-            return $this->tagModel->update($id, $data);
+            $result = $this->tagModel->update($id, $data);
+        } else {
+            $result = $this->tagModel->save($data);
         }
 
-        return $this->tagModel->save($data);
+        if ($result) {
+            cache()->delete(self::PREFERRED_TAGS_CACHE_KEY);
+        }
+
+        return $result;
     }
 
     public function deleteTag(int $id): bool
     {
-        return $this->tagModel->delete($id);
+        $result = $this->tagModel->delete($id);
+        if ($result) {
+            cache()->delete(self::PREFERRED_TAGS_CACHE_KEY);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Ambil daftar tag populer eksisting dari cache atau database untuk referensi AI.
+     *
+     * @return string[]
+     */
+    public function getPreferredExistingTags(int $limit = 150, int $minPosts = 3): array
+    {
+        $cached = cache(self::PREFERRED_TAGS_CACHE_KEY);
+        if (is_array($cached)) {
+            return $cached;
+        }
+
+        $tags = $this->tagModel->getPreferredTags($limit, $minPosts);
+        cache()->save(self::PREFERRED_TAGS_CACHE_KEY, $tags, self::PREFERRED_TAGS_CACHE_TTL);
+
+        return $tags;
     }
 
     public function suggestTags(string $title, string $content): array
     {
+        $existingTags = $this->getPreferredExistingTags();
         $geminiService = new \App\Libraries\GeminiService();
-        return $geminiService->suggestTags($title, $content);
+        return $geminiService->suggestTags($title, $content, $existingTags);
     }
 }

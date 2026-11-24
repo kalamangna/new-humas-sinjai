@@ -19,4 +19,22 @@ class TagModel extends Model
                     ->limit($limit)
                     ->findAll();
     }
+
+    /**
+     * Ambil daftar nama tag populer sebagai referensi controlled vocabulary AI.
+     *
+     * @return string[]
+     */
+    public function getPreferredTags(int $limit = 150, int $minPosts = 3): array
+    {
+        $rows = $this->select('tags.name, COUNT(post_tags.post_id) as post_count')
+            ->join('post_tags', 'post_tags.tag_id = tags.id')
+            ->groupBy('tags.id')
+            ->having('COUNT(post_tags.post_id) >=', max(1, $minPosts))
+            ->orderBy('post_count', 'DESC')
+            ->limit(max(1, $limit))
+            ->findAll();
+
+        return array_values(array_filter(array_column($rows, 'name')));
+    }
 }

@@ -141,7 +141,56 @@ class GeminiService
         return [];
     }
 
-    private function requestPrompt(string $prompt, string $model): string
+    /**
+     * Evaluasi kandidat tag duplikat secara semantik menggunakan Gemini.
+     *
+     * @param array<int, array{id: int, name: string, post_count: int}> $tags
+     * @return array<int, array{source_id: int, target_id: int, reason: string}>
+     */
+    public function suggestTagMerges(array $tags, int $maxSuggestions = 25): array
+    {
+        if (!$this->validateApiKey() || count($tags) < 2) {
+            return [];
+        }
+
+        $validIds = [];
+        $lines = [];
+        foreach ($tags as $tag) {
+            $id = (int) ($tag['id'] ?? 0);
+            $name = trim((string) ($tag['name'] ?? ''));
+            $count = (int) ($tag['post_count'] ?? 0);
+            if ($id <= 0 || $name === '') {
+                continue;
+            }
+            $validIds[$id] = true;
+            $lines[] = "{$id}: {$name} ({$count} berita)";
+        }
+
+        if (count($validIds) < 2) {
+            return [];
+        }
+
+        $prompt = $this->buildTagMergePrompt(implode("\n", $lines), max(1, $maxSuggestions));
+
+        foreach (self::MODEL_CHAIN as $index => $model) {
+            try {
+                $rawResponse = $this->requestPrompt($prompt, $model, 15);
+                $suggestions = $this->parseTagMergeSuggestions($rawResponse, $validIds, max(1, $maxSuggestions));
+                if ($index > 0) {
+                    log_message('info', "[GeminiService] Tag merge suggestion succeeded with fallback model: {$model}.");
+                }
+                return $suggestions;
+            } catch (Exception $e) {
+                $next = self::MODEL_CHAIN[$index + 1] ?? 'none';
+                log_message('warning', "[GeminiService] Tag merge model {$model} failed: {$e->getMessage()}. Trying: {$next}.");
+            }
+        }
+
+        log_message('error', '[GeminiService] All models failed for tag merge suggestion.');
+        return [];
+    }
+
+    private function requestPrompt(string $prompt, string $model, int $timeout = 10): string
     {
         $url = $this->buildApiUrl($model);
         $payload = [
@@ -157,7 +206,7 @@ class GeminiService
         // Exceptions bubble up agar caller mencoba model berikutnya dalam chain.
         $response = $this->httpClient->post($url, [
             'json'        => $payload,
-            'timeout'     => 10,
+            'timeout'     => $timeout,
             'http_errors' => true,
         ]);
 
@@ -227,6 +276,87 @@ Konten: \"%s\"",
             }
         }
         return $ids;
+    }
+
+    private function buildTagMergePrompt(string $tagList, int $maxSuggestions): string
+    {
+        return sprintf(
+            "Analisis daftar tag berita pemerintah daerah di bawah ini dan temukan maksimal %d pasangan tag yang benar-benar merupakan entitas atau konsep yang 100%% sama (misalnya typo, variasi ejaan, singkatan dan kepanjangannya, atau variasi nama pejabat dan OPD yang sama).
+
+Aturan ketat:
+- Pilih target_id sebagai tag dengan ejaan paling baku dan jumlah berita lebih banyak, serta source_id sebagai tag duplikat yang akan digabungkan ke target_id.
+- DILARANG menggabungkan entitas yang berbeda meskipun mirip huruf atau masih satu bidang, misalnya: Bappeda Sinjai != Bapenda Sinjai, SMAN 1 Sinjai != SMKN 1 Sinjai, Kemenag Sinjai != Kemenhaj Sinjai, Pemprov Sulsel != Porprov Sulsel, jabatan berbeda (Bupati != Wakil Bupati), atau tahun berbeda.
+- Kembalikan HANYA JSON array valid tanpa teks tambahan, dengan format:
+  [{\"source_id\": 12, \"target_id\": 5, \"reason\": \"Singkatan OPD yang sama\"}]
+- Jika tidak ada pasangan yang 100%% duplikat, kembalikan [].
+
+Daftar Tag:
+%s",
+            $maxSuggestions,
+            $tagList
+        );
+    }
+
+    /**
+     * @param array<int, bool> $validIds
+     * @return array<int, array{source_id: int, target_id: int, reason: string}>
+     */
+    private function parseTagMergeSuggestions(string $rawResponse, array $validIds, int $maxSuggestions): array
+    {
+        $cleaned = trim($rawResponse);
+        if (preg_match('/```(?:json)?\s*([\s\S]*?)\s*```/i', $cleaned, $matches)) {
+            $cleaned = trim($matches[1]);
+        }
+
+        $decoded = json_decode($cleaned, true);
+        if (!is_array($decoded)) {
+            if (preg_match('/\[[\s\S]*\]/', $cleaned, $arrayMatch)) {
+                $decoded = json_decode($arrayMatch[0], true);
+            }
+        }
+
+        if (!is_array($decoded)) {
+            throw new Exception('Invalid JSON returned by model for tag merge suggestions');
+        }
+
+        $suggestions = [];
+        $usedSources = [];
+        $usedTargets = [];
+
+        foreach ($decoded as $item) {
+            if (!is_array($item)) {
+                continue;
+            }
+            $sourceId = (int) ($item['source_id'] ?? 0);
+            $targetId = (int) ($item['target_id'] ?? 0);
+            $reason = trim((string) ($item['reason'] ?? ''));
+
+            if (
+                $sourceId <= 0
+                || $targetId <= 0
+                || $sourceId === $targetId
+                || !isset($validIds[$sourceId], $validIds[$targetId])
+                || isset($usedSources[$sourceId])
+                || isset($usedTargets[$sourceId])
+                || isset($usedSources[$targetId])
+            ) {
+                continue;
+            }
+
+            $usedSources[$sourceId] = true;
+            $usedTargets[$targetId] = true;
+            $suggestions[] = [
+                'source_id' => $sourceId,
+                'target_id' => $targetId,
+                'reason'    => $reason !== '' ? mb_substr($reason, 0, 120, 'UTF-8') : 'Duplikat semantik',
+            ];
+
+            if (count($suggestions) >= $maxSuggestions) {
+                break;
+            }
+        }
+
+        return $suggestions;
     }
 
     private function buildPrompt(string $title, string $content, array $existingTags = []): string

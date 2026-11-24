@@ -3,9 +3,14 @@
 <?= $this->section('page_title') ?>Kelola Tag<?= $this->endSection() ?>
 
 <?= $this->section('page_actions') ?>
-<a href="<?= base_url('admin/tags/new') ?>" class="inline-flex items-center px-4 py-2 bg-blue-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
-    <i class="fa-solid fa-fw fa-circle-plus mr-2"></i>Tambah Tag
-</a>
+<div class="flex flex-wrap items-center gap-2">
+    <button type="button" id="detect-ai-duplicates-btn" class="inline-flex items-center h-10 px-4 bg-slate-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-900 transition-all shadow-sm">
+        <i class="fa-solid fa-fw fa-wand-magic-sparkles mr-2"></i>Deteksi Duplikat AI
+    </button>
+    <a href="<?= base_url('admin/tags/new') ?>" class="inline-flex items-center h-10 px-4 bg-blue-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-blue-900 transition-all shadow-lg shadow-blue-900/20">
+        <i class="fa-solid fa-fw fa-circle-plus mr-2"></i>Tambah Tag
+    </a>
+</div>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -175,6 +180,41 @@
     </div>
 </div>
 
+<!-- AI Duplicate Detection Modal -->
+<div id="ai-duplicate-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 p-4" role="dialog" aria-modal="true" aria-labelledby="ai-modal-title">
+    <div class="w-full max-w-2xl rounded-2xl bg-white border border-slate-200 shadow-2xl overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50">
+            <h3 id="ai-modal-title" class="text-sm font-black uppercase tracking-widest text-slate-900">Rekomendasi Gabung Tag AI</h3>
+            <button type="button" id="ai-modal-close-btn" aria-label="Tutup modal" class="inline-flex items-center justify-center w-9 h-9 rounded-lg text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors">
+                <i class="fa-solid fa-fw fa-xmark"></i>
+            </button>
+        </div>
+
+        <div id="ai-duplicate-loading" class="p-6 space-y-3">
+            <div class="h-12 bg-slate-100 rounded-xl animate-pulse"></div>
+            <div class="h-12 bg-slate-100 rounded-xl animate-pulse"></div>
+            <div class="h-12 bg-slate-100 rounded-xl animate-pulse"></div>
+        </div>
+
+        <div id="ai-duplicate-empty" class="hidden p-8 text-center">
+            <p class="text-sm font-bold text-slate-700">Tidak ditemukan tag duplikat yang perlu digabungkan.</p>
+        </div>
+
+        <div id="ai-duplicate-error" class="hidden p-6 text-center">
+            <p id="ai-duplicate-error-text" class="text-sm font-bold text-red-600">Gagal memindai duplikat tag menggunakan AI.</p>
+        </div>
+
+        <form id="ai-merge-batch-form" action="<?= base_url('admin/tags/merge-batch') ?>" method="post" class="hidden">
+            <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id="ai-merge-csrf">
+            <div id="ai-duplicate-list" class="max-h-96 overflow-y-auto divide-y divide-slate-100 px-6"></div>
+            <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-200 bg-slate-50">
+                <button type="button" id="ai-modal-cancel-btn" class="inline-flex items-center justify-center h-10 px-4 bg-slate-100 text-slate-700 font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all border border-slate-200">Batal</button>
+                <button type="submit" id="ai-merge-submit-btn" class="inline-flex items-center justify-center h-10 px-5 bg-blue-800 text-white font-bold text-xs uppercase tracking-widest rounded-lg hover:bg-blue-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed">Gabungkan Terpilih</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
 (() => {
     const modal = document.getElementById('merge-tag-modal');
@@ -275,6 +315,133 @@
         if (event.target === modal) {
             closeMergeModal();
         }
+    });
+
+    const aiBtn = document.getElementById('detect-ai-duplicates-btn');
+    const aiModal = document.getElementById('ai-duplicate-modal');
+    const aiCloseBtn = document.getElementById('ai-modal-close-btn');
+    const aiCancelBtn = document.getElementById('ai-modal-cancel-btn');
+    const aiLoading = document.getElementById('ai-duplicate-loading');
+    const aiEmpty = document.getElementById('ai-duplicate-empty');
+    const aiError = document.getElementById('ai-duplicate-error');
+    const aiErrorText = document.getElementById('ai-duplicate-error-text');
+    const aiForm = document.getElementById('ai-merge-batch-form');
+    const aiList = document.getElementById('ai-duplicate-list');
+    const aiCsrfInput = document.getElementById('ai-merge-csrf');
+    const aiSubmitBtn = document.getElementById('ai-merge-submit-btn');
+    const detectEndpoint = '<?= base_url('admin/tags/detect-duplicates') ?>';
+    const csrfHeaderName = '<?= csrf_header() ?>';
+
+    function closeAiModal() {
+        aiModal.classList.add('hidden');
+        aiModal.classList.remove('flex');
+        aiSubmitBtn.textContent = 'Gabungkan Terpilih';
+    }
+
+    function updateAiSubmitState() {
+        const checked = aiList.querySelectorAll('input[type="checkbox"]:checked').length;
+        aiSubmitBtn.disabled = checked === 0;
+    }
+
+    function renderAiSuggestions(suggestions) {
+        aiList.innerHTML = '';
+        if (!Array.isArray(suggestions) || suggestions.length === 0) {
+            aiEmpty.classList.remove('hidden');
+            return;
+        }
+
+        suggestions.forEach((item) => {
+            const row = document.createElement('label');
+            row.className = 'flex items-start gap-3 py-3.5 cursor-pointer hover:bg-slate-50 transition-colors';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'pairs[]';
+            checkbox.value = `${item.source_id}:${item.target_id}`;
+            checkbox.checked = true;
+            checkbox.className = 'mt-1 h-4 w-4 rounded border-slate-300 text-blue-800 focus:ring-blue-800';
+            checkbox.addEventListener('change', updateAiSubmitState);
+
+            const content = document.createElement('div');
+            content.className = 'min-w-0 flex-1';
+
+            const title = document.createElement('div');
+            title.className = 'text-sm font-bold text-slate-900 flex flex-wrap items-center gap-2';
+
+            const srcSpan = document.createElement('span');
+            srcSpan.className = 'text-red-700';
+            srcSpan.textContent = `${item.source_name} · ${item.source_count || 0} Berita`;
+
+            const arrow = document.createElement('i');
+            arrow.className = 'fa-solid fa-fw fa-arrow-right text-slate-400 text-xs';
+
+            const dstSpan = document.createElement('span');
+            dstSpan.className = 'text-blue-800';
+            dstSpan.textContent = `${item.target_name} · ${item.target_count || 0} Berita`;
+
+            title.appendChild(srcSpan);
+            title.appendChild(arrow);
+            title.appendChild(dstSpan);
+
+            const reason = document.createElement('p');
+            reason.className = 'text-xs text-slate-500 mt-1';
+            reason.textContent = item.reason || '';
+
+            content.appendChild(title);
+            content.appendChild(reason);
+            row.appendChild(checkbox);
+            row.appendChild(content);
+            aiList.appendChild(row);
+        });
+
+        aiForm.classList.remove('hidden');
+        updateAiSubmitState();
+    }
+
+    aiBtn.addEventListener('click', async () => {
+        aiBtn.disabled = true;
+        aiLoading.classList.remove('hidden');
+        aiEmpty.classList.add('hidden');
+        aiError.classList.add('hidden');
+        aiForm.classList.add('hidden');
+        aiModal.classList.remove('hidden');
+        aiModal.classList.add('flex');
+
+        try {
+            const response = await fetch(detectEndpoint, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    [csrfHeaderName]: aiCsrfInput.value,
+                },
+            });
+            const data = await response.json();
+            if (data.csrf_hash) {
+                aiCsrfInput.value = data.csrf_hash;
+            }
+            if (!response.ok) {
+                throw new Error(data.error || 'Gagal memindai duplikat tag.');
+            }
+            renderAiSuggestions(data.suggestions || []);
+        } catch (err) {
+            aiErrorText.textContent = err.message || 'Gagal memindai duplikat tag menggunakan AI.';
+            aiError.classList.remove('hidden');
+        } finally {
+            aiLoading.classList.add('hidden');
+            aiBtn.disabled = false;
+        }
+    });
+
+    aiCloseBtn.addEventListener('click', closeAiModal);
+    aiCancelBtn.addEventListener('click', closeAiModal);
+    aiModal.addEventListener('click', (event) => {
+        if (event.target === aiModal) {
+            closeAiModal();
+        }
+    });
+    aiForm.addEventListener('submit', () => {
+        aiSubmitBtn.disabled = true;
+        aiSubmitBtn.textContent = 'Menggabungkan...';
     });
 })();
 </script>

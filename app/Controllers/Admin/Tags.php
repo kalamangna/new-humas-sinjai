@@ -147,4 +147,41 @@ class Tags extends BaseController
 
         return redirect()->back()->with('error', 'Tag gagal digabungkan. Periksa kembali tag sumber dan tujuan.');
     }
+
+    public function detectDuplicates()
+    {
+        try {
+            $suggestions = $this->tagService->detectDuplicateSuggestions();
+            return $this->response->setJSON([
+                'suggestions' => $suggestions,
+                'csrf_hash'   => csrf_hash(),
+            ]);
+        } catch (\Throwable $e) {
+            log_message('error', '[Admin\Tags::detectDuplicates] ' . $e->getMessage());
+            return $this->response->setStatusCode(500)->setJSON([
+                'error'     => 'Gagal memindai duplikat tag menggunakan AI.',
+                'csrf_hash' => csrf_hash(),
+            ]);
+        }
+    }
+
+    public function mergeBatch()
+    {
+        $pairs = $this->request->getPost('pairs');
+        if (!is_array($pairs) || empty($pairs)) {
+            return redirect()->to(base_url('admin/tags'))->with('error', 'Pilih minimal satu pasangan tag untuk digabungkan.');
+        }
+
+        $result = $this->tagService->mergeBatch($pairs);
+        foreach ($result['merged'] as $item) {
+            audit_log('tags', 'merge', "Menggabungkan tag {$item['source_name']} ke {$item['target_name']}");
+        }
+
+        $mergedCount = count($result['merged']);
+        if ($mergedCount > 0) {
+            return redirect()->to(base_url('admin/tags'))->with('success', "{$mergedCount} pasangan tag berhasil digabungkan.");
+        }
+
+        return redirect()->to(base_url('admin/tags'))->with('error', 'Tidak ada pasangan tag yang berhasil digabungkan.');
+    }
 }

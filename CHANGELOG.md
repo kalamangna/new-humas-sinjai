@@ -9,6 +9,7 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [2026-11-24]
 ### Added
+- **Deteksi Duplikat Tag Berbasis AI (`GeminiService`, `TagService`, `Admin\Tags`, `admin/tags/index.php`)**: Menambahkan penyaringan kandidat duplikat di PHP (`TagService::getMergeCandidateTags()`), evaluasi semantik JSON ketat melalui `GeminiService::suggestTagMerges()`, endpoint `POST admin/tags/detect-duplicates` dan `POST admin/tags/merge-batch`, tombol `Deteksi Duplikat AI` beserta modal persetujuan admin pada halaman Kelola Tag, serta pengujian unit tambahan di `tests/unit/GeminiTagSuggestionTest.php`.
 - **Fitur Gabung Tag Panel Admin (`Admin\Tags`, `TagService`, `admin/tags/index.php`)**: Menambahkan endpoint pencarian tag tujuan (`GET admin/tags/search`) dan penggabungan tag (`POST admin/tags/merge`) dalam satu transaksi database (`TagService::mergeTags()`) beserta pencatatan `audit_logs`, reset cache tag eksisting, serta modal terarah pada halaman Kelola Tag Admin.
 
 ### Changed

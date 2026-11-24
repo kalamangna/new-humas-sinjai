@@ -9,6 +9,19 @@ class TagService extends BaseService
 {
     private const PREFERRED_TAGS_CACHE_KEY = 'preferred_existing_tags';
     private const PREFERRED_TAGS_CACHE_TTL = 3600;
+    private const TARGET_TAGS_PER_POST = 5;
+    private const BACKFILL_GENERIC_BLOCKLIST = [
+        'pemerintah',
+        'pemerintahan',
+        'masyarakat sinjai',
+        'berita terkini sinjai',
+        'berita terkini',
+        'berita sinjai',
+        'humas sinjai',
+        'pemkab sinjai',
+        'kabupaten sinjai',
+        'sinjai',
+    ];
 
     protected $tagModel;
 
@@ -71,11 +84,22 @@ class TagService extends BaseService
 
         $db = \Config\Database::connect();
         $db->transStart();
+        $overlapRows = $db->query(
+            'SELECT a.post_id FROM post_tags a INNER JOIN post_tags b ON a.post_id = b.post_id WHERE a.tag_id = ? AND b.tag_id = ?',
+            [$sourceId, $targetId]
+        )->getResultArray();
+        $overlapPostIds = array_values(array_unique(array_map('intval', array_column($overlapRows, 'post_id'))));
+
         $db->query(
             'INSERT IGNORE INTO post_tags (post_id, tag_id) SELECT post_id, ? FROM post_tags WHERE tag_id = ?',
             [$targetId, $sourceId]
         );
         $this->tagModel->delete($sourceId);
+
+        if (!empty($overlapPostIds)) {
+            $this->backfillPostsToTargetTagCount($db, $overlapPostIds, self::TARGET_TAGS_PER_POST);
+        }
+
         $db->transComplete();
 
         if ($db->transStatus()) {
@@ -84,6 +108,177 @@ class TagService extends BaseService
         }
 
         return false;
+    }
+
+    /**
+     * Lengkapi berita yang jumlah tag-nya turun di bawah target akibat penggabungan tag kembar.
+     *
+     * @param \CodeIgniter\Database\BaseConnection $db
+     * @param int[]                                $postIds
+     */
+    private function backfillPostsToTargetTagCount($db, array $postIds, int $targetCount): void
+    {
+        $tagRows = $db->query(
+            'SELECT t.id, t.name, COUNT(pt.post_id) AS post_count
+             FROM tags t
+             INNER JOIN post_tags pt ON pt.tag_id = t.id
+             GROUP BY t.id
+             HAVING post_count >= 2 AND CHAR_LENGTH(t.name) >= 3
+             ORDER BY post_count DESC'
+        )->getResultArray();
+
+        $candidateTags = [];
+        foreach ($tagRows as $row) {
+            $lower = mb_strtolower(trim((string) $row['name']), 'UTF-8');
+            if (in_array($lower, self::BACKFILL_GENERIC_BLOCKLIST, true)) {
+                continue;
+            }
+            $candidateTags[] = [
+                'id'         => (int) $row['id'],
+                'name'       => (string) $row['name'],
+                'lower'      => $lower,
+                'post_count' => (int) $row['post_count'],
+            ];
+        }
+
+        if (empty($candidateTags)) {
+            return;
+        }
+
+        foreach ($postIds as $postId) {
+            $currentRows = $db->query(
+                'SELECT t.id, t.name FROM post_tags pt INNER JOIN tags t ON t.id = pt.tag_id WHERE pt.post_id = ?',
+                [$postId]
+            )->getResultArray();
+
+            $need = $targetCount - count($currentRows);
+            if ($need <= 0) {
+                continue;
+            }
+
+            $post = $db->query('SELECT title, content FROM posts WHERE id = ?', [$postId])->getRowArray();
+            if (!$post) {
+                continue;
+            }
+
+            $catRows = $db->query(
+                'SELECT c.name FROM post_categories pc INNER JOIN categories c ON c.id = pc.category_id WHERE pc.post_id = ?',
+                [$postId]
+            )->getResultArray();
+            $categoryNames = implode(' ', array_column($catRows, 'name'));
+
+            $pickedIds = $this->rankBackfillTags(
+                (string) ($post['title'] ?? ''),
+                (string) ($post['content'] ?? ''),
+                $categoryNames,
+                array_map('intval', array_column($currentRows, 'id')),
+                array_column($currentRows, 'name'),
+                $candidateTags,
+                $need
+            );
+
+            foreach ($pickedIds as $tagId) {
+                $db->query('INSERT IGNORE INTO post_tags (post_id, tag_id) VALUES (?, ?)', [$postId, $tagId]);
+            }
+        }
+    }
+
+    /**
+     * Pilih tag eksisting paling relevan untuk melengkapi kekurangan tag pada berita.
+     *
+     * @param int[]                                                               $currentTagIds
+     * @param string[]                                                            $currentTagNames
+     * @param array<int, array{id: int, name: string, lower: string, post_count: int}> $candidateTags
+     * @return int[]
+     */
+    private function rankBackfillTags(
+        string $title,
+        string $content,
+        string $categoryNames,
+        array $currentTagIds,
+        array $currentTagNames,
+        array $candidateTags,
+        int $need
+    ): array {
+        if ($need <= 0) {
+            return [];
+        }
+
+        $titleLower = mb_strtolower($title, 'UTF-8');
+        $contentLower = mb_strtolower(strip_tags($content), 'UTF-8');
+        $categoryLower = mb_strtolower($categoryNames, 'UTF-8');
+        $currentLowers = array_map(
+            static fn ($name) => mb_strtolower(trim((string) $name), 'UTF-8'),
+            $currentTagNames
+        );
+
+        $primaryScores = [];
+        $fallbackScores = [];
+
+        foreach ($candidateTags as $tag) {
+            $tagId = (int) $tag['id'];
+            if (in_array($tagId, $currentTagIds, true)) {
+                continue;
+            }
+
+            $tagLower = $tag['lower'];
+            $pattern = '/(?<![\p{L}\p{N}])' . preg_quote($tagLower, '/') . '(?![\p{L}\p{N}])/u';
+            $score = 0.0;
+
+            if (preg_match($pattern, $titleLower)) {
+                $score += 30.0 + min(10.0, strlen($tagLower) * 0.5);
+            }
+            if (preg_match($pattern, $contentLower)) {
+                $score += 12.0 + min(8.0, strlen($tagLower) * 0.3);
+            }
+            if ($categoryLower !== '' && preg_match($pattern, $categoryLower)) {
+                $score += 10.0;
+            }
+
+            if ($score <= 0.0) {
+                continue;
+            }
+
+            $totalScore = $score + min(2.0, log($tag['post_count'] + 1) * 0.3);
+            $isSubOrSuper = false;
+            foreach ($currentLowers as $curLower) {
+                if ($curLower === $tagLower || str_contains($curLower, $tagLower) || str_contains($tagLower, $curLower)) {
+                    $isSubOrSuper = true;
+                    break;
+                }
+            }
+
+            if ($isSubOrSuper) {
+                $fallbackScores[$tagId] = $totalScore;
+            } else {
+                $primaryScores[$tagId] = $totalScore;
+            }
+        }
+
+        arsort($primaryScores);
+        $picked = array_slice(array_keys($primaryScores), 0, $need);
+
+        if (count($picked) < $need) {
+            arsort($fallbackScores);
+            $picked = array_merge(
+                $picked,
+                array_slice(array_keys($fallbackScores), 0, $need - count($picked))
+            );
+        }
+
+        if (count($picked) < $need) {
+            foreach ($candidateTags as $tag) {
+                $tagId = (int) $tag['id'];
+                if (!in_array($tagId, $currentTagIds, true) && !in_array($tagId, $picked, true)) {
+                    $picked[] = $tagId;
+                    if (count($picked) >= $need) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $picked;
     }
 
     /**

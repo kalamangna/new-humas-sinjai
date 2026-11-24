@@ -20,11 +20,13 @@ final class GeminiTagSuggestionTest extends CIUnitTestCase
         $promptWithTags = $this->invokePrivate($service, 'buildPrompt', [
             'Rapat Koordinasi SPBE',
             'Diskominfo Sinjai menggelar rapat koordinasi SPBE.',
-            ['Diskominfo Sinjai', 'Pelayanan Publik', '  '],
+            ['Pemerintah', 'Diskominfo Sinjai', 'Pelayanan Publik', '  '],
         ]);
 
+        $this->assertStringContainsString('hasilkan 7 kandidat tag SEO', $promptWithTags);
         $this->assertStringContainsString('Daftar Tag Eksisting:', $promptWithTags);
         $this->assertStringContainsString('Diskominfo Sinjai, Pelayanan Publik', $promptWithTags);
+        $this->assertStringNotContainsString("Daftar Tag Eksisting:\nPemerintah", $promptWithTags);
 
         $promptWithoutTags = $this->invokePrivate($service, 'buildPrompt', [
             'Rapat Koordinasi SPBE',
@@ -106,5 +108,26 @@ final class GeminiTagSuggestionTest extends CIUnitTestCase
             ['source_id' => 11, 'target_id' => 10, 'reason' => 'Singkatan OPD sama'],
             ['source_id' => 21, 'target_id' => 20, 'reason' => 'Variasi ejaan'],
         ], $parsed);
+    }
+
+    public function testPadSuggestedTagsCompletesToFiveRelevantTags(): void
+    {
+        $service = new GeminiService('dummy-key');
+
+        $padded = $this->invokePrivate($service, 'padSuggestedTags', [
+            ['Diskominfo Sinjai', 'SPBE', 'Inovasi Daerah'],
+            'Bupati Sinjai Pimpin Rapat Pelayanan Publik',
+            'Rapat dihadiri pejabat di Makassar dan membahas pelayanan publik.',
+            ['Pemerintah', 'Makassar', 'Bupati Sinjai', 'Diskominfo Sinjai', 'Kesehatan'],
+        ]);
+
+        $this->assertCount(5, $padded);
+        $this->assertSame([
+            'Diskominfo Sinjai',
+            'SPBE',
+            'Inovasi Daerah',
+            'Makassar',
+            'Bupati Sinjai',
+        ], $padded);
     }
 }

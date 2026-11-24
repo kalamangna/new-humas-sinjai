@@ -22,6 +22,7 @@ class GeminiService
     ];
 
     private const MAX_SUGGESTED_TAGS = 5;
+    private const PROMPT_CANDIDATE_TAGS = 7;
 
     private const GENERIC_TAG_BLOCKLIST = [
         'sinjai',
@@ -70,6 +71,9 @@ class GeminiService
             try {
                 $tagsString = $this->requestPrompt($prompt, $model);
                 $tags = $this->parseTags($tagsString, $existingTags);
+                if (count($tags) < self::MAX_SUGGESTED_TAGS) {
+                    $tags = $this->padSuggestedTags($tags, $title, $content, $existingTags);
+                }
                 if ($index > 0) {
                     log_message('info', "[GeminiService] Succeeded with fallback model: {$model}.");
                 }
@@ -361,10 +365,10 @@ Daftar Tag:
 
     private function buildPrompt(string $title, string $content, array $existingTags = []): string
     {
-        $cleanExisting = array_values(array_filter(array_map(
-            static fn ($tag) => trim((string) $tag),
-            $existingTags
-        )));
+        $cleanExisting = array_values(array_filter(
+            array_map(static fn ($tag) => trim((string) $tag), $existingTags),
+            static fn ($tag) => $tag !== '' && !in_array(mb_strtolower($tag, 'UTF-8'), self::GENERIC_TAG_BLOCKLIST, true)
+        ));
 
         $existingSection = '';
         if (!empty($cleanExisting)) {
@@ -373,7 +377,7 @@ Daftar Tag:
         }
 
         return sprintf(
-            "Berdasarkan judul dan konten berita pemerintah daerah di bawah ini, hasilkan tepat %d tag SEO singkat, spesifik, dan relevan.
+            "Berdasarkan judul dan konten berita pemerintah daerah di bawah ini, hasilkan %d kandidat tag SEO singkat, spesifik, dan paling relevan (urutkan dari yang paling relevan).
 
 Aturan:
 - Tampilkan hanya daftar tag dipisahkan koma, tanpa penjelasan, nomor, bullet, atau tanda pagar (#).
@@ -385,11 +389,83 @@ Aturan:
 
 Judul: \"%s\"
 Konten: \"%s\"",
-            self::MAX_SUGGESTED_TAGS,
+            self::PROMPT_CANDIDATE_TAGS,
             $existingSection,
             $title,
             $content
         );
+    }
+
+    /**
+     * Lengkapi jumlah tag jika hasil parsing AI kurang dari MAX_SUGGESTED_TAGS
+     * menggunakan tag eksisting yang relevan dengan judul/konten lalu fallback standar.
+     *
+     * @param string[] $tags
+     * @param string[] $existingTags
+     * @return string[]
+     */
+    private function padSuggestedTags(array $tags, string $title, string $content, array $existingTags): array
+    {
+        $seenLower = [];
+        $seenAlnum = [];
+        foreach ($tags as $tag) {
+            $lower = mb_strtolower($tag, 'UTF-8');
+            $alnum = preg_replace('/[^a-z0-9]/u', '', $lower) ?? '';
+            $seenLower[$lower] = true;
+            if ($alnum !== '') {
+                $seenAlnum[$alnum] = true;
+            }
+        }
+
+        $haystack = mb_strtolower($title . ' ' . strip_tags($content), 'UTF-8');
+        $matchedExisting = [];
+        $remainingExisting = [];
+
+        foreach ($existingTags as $candidate) {
+            $name = trim((string) $candidate);
+            if ($name === '') {
+                continue;
+            }
+            $lower = mb_strtolower($name, 'UTF-8');
+            $alnum = preg_replace('/[^a-z0-9]/u', '', $lower) ?? '';
+            if (
+                in_array($lower, self::GENERIC_TAG_BLOCKLIST, true)
+                || isset($seenLower[$lower])
+                || ($alnum !== '' && isset($seenAlnum[$alnum]))
+            ) {
+                continue;
+            }
+
+            $pattern = '/(?<![\p{L}\p{N}])' . preg_quote($lower, '/') . '(?![\p{L}\p{N}])/u';
+            if (preg_match($pattern, $haystack)) {
+                $matchedExisting[] = $name;
+            } else {
+                $remainingExisting[] = $name;
+            }
+        }
+
+        $pool = array_merge($matchedExisting, $remainingExisting, self::HARDCODED_FALLBACK);
+        foreach ($pool as $candidate) {
+            if (count($tags) >= self::MAX_SUGGESTED_TAGS) {
+                break;
+            }
+            $lower = mb_strtolower($candidate, 'UTF-8');
+            $alnum = preg_replace('/[^a-z0-9]/u', '', $lower) ?? '';
+            if (
+                in_array($lower, self::GENERIC_TAG_BLOCKLIST, true)
+                || isset($seenLower[$lower])
+                || ($alnum !== '' && isset($seenAlnum[$alnum]))
+            ) {
+                continue;
+            }
+            $seenLower[$lower] = true;
+            if ($alnum !== '') {
+                $seenAlnum[$alnum] = true;
+            }
+            $tags[] = $candidate;
+        }
+
+        return $tags;
     }
 
     private function extractTagsFromResponse(array $response): string

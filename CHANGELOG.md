@@ -19,6 +19,9 @@ Format mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - **Jumlah Berita, Statistik, dan Pencarian Kelola Tag Admin (`Admin\Tags::index`)**: Menambahkan subquery penghitung `post_count` dari `post_tags`, mengirim statistik ringkasan `total_tags` dan `total_posts`, serta mengaktifkan filter pencarian `search` berdasarkan nama dan slug tag agar halaman `admin/tags` tidak lagi menampilkan `0 Berita` dan tombol lihat halaman tag muncul sesuai jumlah berita.
 
+### Removed
+- **Tombol Gabung Tag Manual Per Baris (`Routes`, `Admin\Tags`, `admin/tags/index.php`)**: Menghapus tombol ikon gabung tag per baris, modal `#merge-tag-modal`, route `tags/search` dan `tags/merge`, serta metode `Admin\Tags::search()` dan `Admin\Tags::merge()` agar alur penggabungan terpusat melalui tombol `Deteksi Duplikat` dengan copy yang ringkas dan konsisten.
+
 ## [2026-11-23]
 ### Added
 - **Pilihan Jabatan Plt. dan Pj. Kepala Desa (`ProfileService` & Form Profil Admin)**: Menambahkan konstanta `ProfileService::KEPALA_DESA_POSITIONS` (`Kepala Desa`, `Plt. Kepala Desa`, `Pj. Kepala Desa`) beserta validasi `in_list` khusus tipe `kepala-desa`, dropdown jabatan dinamis pada `admin/profiles/new.php` dan `admin/profiles/edit.php`, pembaruan aturan di `GEMINI.md`, serta pengujian unit `tests/unit/ProfileServiceTest.php`.

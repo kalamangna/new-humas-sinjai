@@ -18,9 +18,26 @@ class Tags extends BaseController
 
     public function index()
     {
+        $filters = $this->request->getGet();
+        $totalTags = $this->tagModel->countAllResults();
+        $totalPosts = (new \App\Models\PostModel())->countAllResults();
+
+        $this->tagModel->select('tags.*, (SELECT COUNT(*) FROM post_tags WHERE post_tags.tag_id = tags.id) as post_count');
+
+        $search = trim((string) ($filters['search'] ?? ''));
+        if ($search !== '') {
+            $this->tagModel->groupStart()
+                ->like('tags.name', $search)
+                ->orLike('tags.slug', $search)
+                ->groupEnd();
+        }
+
         $data = [
-            'tags' => $this->tagModel->orderBy('name', 'ASC')->paginate(20),
+            'tags' => $this->tagModel->orderBy('tags.name', 'ASC')->paginate(20),
             'pager' => $this->tagModel->pager,
+            'filters' => $filters,
+            'total_tags' => $totalTags,
+            'total_posts' => $totalPosts,
         ];
         return $this->render('admin/tags/index', $data);
     }

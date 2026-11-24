@@ -110,7 +110,7 @@ final class GeminiTagSuggestionTest extends CIUnitTestCase
         ], $parsed);
     }
 
-    public function testPadSuggestedTagsCompletesToFiveRelevantTags(): void
+    public function testPadSuggestedTagsCompletesToFiveRelevantTagsAndSkipsUnmentioned(): void
     {
         $service = new GeminiService('dummy-key');
 
@@ -118,7 +118,7 @@ final class GeminiTagSuggestionTest extends CIUnitTestCase
             ['Diskominfo Sinjai', 'SPBE', 'Inovasi Daerah'],
             'Bupati Sinjai Pimpin Rapat Pelayanan Publik',
             'Rapat dihadiri pejabat di Makassar dan membahas pelayanan publik.',
-            ['Pemerintah', 'Makassar', 'Bupati Sinjai', 'Diskominfo Sinjai', 'Kesehatan'],
+            ['Pemerintah', 'Kesehatan', 'Makassar', 'Bupati Sinjai', 'Diskominfo Sinjai'],
         ]);
 
         $this->assertCount(5, $padded);
@@ -129,5 +129,19 @@ final class GeminiTagSuggestionTest extends CIUnitTestCase
             'Makassar',
             'Bupati Sinjai',
         ], $padded);
+
+        // Jika tidak ada tag eksisting lain yang relevan di teks, jangan paksakan tag yang tidak disebut.
+        $strictPadded = $this->invokePrivate($service, 'padSuggestedTags', [
+            ['Diskominfo Sinjai', 'SPBE', 'Inovasi Daerah'],
+            'Rapat Internal Evaluasi SPBE',
+            'Pembahasan evaluasi aplikasi internal.',
+            ['Bupati Sinjai', 'Kesehatan', 'Sulawesi Selatan'],
+        ]);
+
+        $this->assertSame([
+            'Diskominfo Sinjai',
+            'SPBE',
+            'Inovasi Daerah',
+        ], $strictPadded);
     }
 }

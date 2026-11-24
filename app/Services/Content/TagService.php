@@ -267,15 +267,38 @@ class TagService extends BaseService
         }
 
         if (count($picked) < $need) {
+            $haystack = trim($titleLower . ' ' . $contentLower . ' ' . $categoryLower);
+            $stopWords = ['sinjai', 'daerah', 'berita', 'kabupaten', 'program', 'kegiatan', 'pemerintah', 'sulsel', 'nasional', 'indonesia'];
+            $tokenScores = [];
+
             foreach ($candidateTags as $tag) {
                 $tagId = (int) $tag['id'];
-                if (!in_array($tagId, $currentTagIds, true) && !in_array($tagId, $picked, true)) {
-                    $picked[] = $tagId;
-                    if (count($picked) >= $need) {
-                        break;
+                if (in_array($tagId, $currentTagIds, true) || in_array($tagId, $picked, true)) {
+                    continue;
+                }
+
+                $words = preg_split('/[^a-z0-9]+/u', $tag['lower'], -1, PREG_SPLIT_NO_EMPTY) ?: [];
+                $hits = 0;
+                foreach ($words as $word) {
+                    if (strlen($word) < 4 || in_array($word, $stopWords, true)) {
+                        continue;
+                    }
+                    $wordPattern = '/(?<![\p{L}\p{N}])' . preg_quote($word, '/') . '(?![\p{L}\p{N}])/u';
+                    if (preg_match($wordPattern, $haystack)) {
+                        $hits++;
                     }
                 }
+
+                if ($hits > 0) {
+                    $tokenScores[$tagId] = ($hits * 5.0) + min(2.0, log($tag['post_count'] + 1) * 0.3);
+                }
             }
+
+            arsort($tokenScores);
+            $picked = array_merge(
+                $picked,
+                array_slice(array_keys($tokenScores), 0, $need - count($picked))
+            );
         }
 
         return $picked;

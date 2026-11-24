@@ -65,7 +65,7 @@ class GeminiService
             return [];
         }
 
-        $prompt = $this->buildPrompt($title, $this->prepareContent($content), $existingTags);
+        $prompt = $this->buildPrompt($title, $this->prepareContent($content, 1000), $existingTags);
 
         foreach (self::MODEL_CHAIN as $index => $model) {
             try {
@@ -372,7 +372,7 @@ Daftar Tag:
 
         $existingSection = '';
         if (!empty($cleanExisting)) {
-            $existingSection = "\n- PRIORITASKAN menggunakan tag yang sudah ada pada Daftar Tag Eksisting di bawah dengan ejaan persis sama jika topiknya relevan. DILARANG membuat variasi ejaan/singkatan baru jika konsepnya sudah ada pada daftar tersebut.\n\nDaftar Tag Eksisting:\n"
+            $existingSection = "\n- PRIORITASKAN menggunakan tag yang sudah ada pada Daftar Tag Eksisting di bawah dengan ejaan persis sama jika topiknya relevan. DILARANG membuat variasi ejaan/singkatan baru jika konsepnya sudah ada pada daftar tersebut.\n- Setiap tag WAJIB relevan secara langsung dengan judul atau isi berita. DILARANG memilih tag dari Daftar Tag Eksisting apabila tokoh, OPD, lokasi, atau topiknya tidak disebut atau dibahas dalam berita.\n\nDaftar Tag Eksisting:\n"
                 . implode(', ', $cleanExisting);
         }
 
@@ -419,7 +419,6 @@ Konten: \"%s\"",
 
         $haystack = mb_strtolower($title . ' ' . strip_tags($content), 'UTF-8');
         $matchedExisting = [];
-        $remainingExisting = [];
 
         foreach ($existingTags as $candidate) {
             $name = trim((string) $candidate);
@@ -439,21 +438,17 @@ Konten: \"%s\"",
             $pattern = '/(?<![\p{L}\p{N}])' . preg_quote($lower, '/') . '(?![\p{L}\p{N}])/u';
             if (preg_match($pattern, $haystack)) {
                 $matchedExisting[] = $name;
-            } else {
-                $remainingExisting[] = $name;
             }
         }
 
-        $pool = array_merge($matchedExisting, $remainingExisting, self::HARDCODED_FALLBACK);
-        foreach ($pool as $candidate) {
+        foreach ($matchedExisting as $candidate) {
             if (count($tags) >= self::MAX_SUGGESTED_TAGS) {
                 break;
             }
             $lower = mb_strtolower($candidate, 'UTF-8');
             $alnum = preg_replace('/[^a-z0-9]/u', '', $lower) ?? '';
             if (
-                in_array($lower, self::GENERIC_TAG_BLOCKLIST, true)
-                || isset($seenLower[$lower])
+                isset($seenLower[$lower])
                 || ($alnum !== '' && isset($seenAlnum[$alnum]))
             ) {
                 continue;

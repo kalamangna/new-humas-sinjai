@@ -40,26 +40,27 @@ final class TagServiceBackfillTest extends CIUnitTestCase
         $this->assertSame([3, 4], $picked);
     }
 
-    public function testRankBackfillTagsFallsBackToPopularCandidateWhenNoTextMatch(): void
+    public function testRankBackfillTagsUsesKeywordOverlapAndNeverPicksUnrelatedPopularTags(): void
     {
         $service = new TagService();
 
         $candidates = [
             ['id' => 10, 'name' => 'Bupati Sinjai', 'lower' => 'bupati sinjai', 'post_count' => 500],
             ['id' => 11, 'name' => 'Sulawesi Selatan', 'lower' => 'sulawesi selatan', 'post_count' => 150],
-            ['id' => 12, 'name' => 'Kesehatan', 'lower' => 'kesehatan', 'post_count' => 30],
+            ['id' => 12, 'name' => 'Layanan Kesehatan', 'lower' => 'layanan kesehatan', 'post_count' => 30],
         ];
 
         $picked = $this->invokeRankBackfillTags($service, [
-            'Agenda Rapat Internal',
-            'Pembahasan jadwal kegiatan rutin.',
-            'Pemerintahan',
-            [10],
-            ['Bupati Sinjai'],
+            'Puskesmas Gelar Pemeriksaan Gratis',
+            'Warga antusias mengikuti layanan cek tensi.',
+            'Kesehatan',
+            [99],
+            ['Puskesmas'],
             $candidates,
-            1,
+            2,
         ]);
 
-        $this->assertSame([11], $picked);
+        // Hanya 'Layanan Kesehatan' (id=12) yang relevan lewat kata 'layanan'/'kesehatan'; Bupati Sinjai & Sulawesi Selatan tidak boleh dipilih.
+        $this->assertSame([12], $picked);
     }
 }

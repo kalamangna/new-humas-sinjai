@@ -22,7 +22,7 @@ class GeminiService
     ];
 
     private const MAX_SUGGESTED_TAGS = 5;
-    private const PROMPT_CANDIDATE_TAGS = 7;
+    private const PROMPT_CANDIDATE_TAGS = 10;
 
     private const GENERIC_TAG_BLOCKLIST = [
         'sinjai',
@@ -65,7 +65,8 @@ class GeminiService
             return [];
         }
 
-        $prompt = $this->buildPrompt($title, $this->prepareContent($content, 1000), $existingTags);
+        $preparedContent = $this->prepareContent($content, 1000);
+        $prompt = $this->buildPrompt($title, $preparedContent, $existingTags);
 
         foreach (self::MODEL_CHAIN as $index => $model) {
             try {
@@ -73,6 +74,19 @@ class GeminiService
                 $tags = $this->parseTags($tagsString, $existingTags);
                 if (count($tags) < self::MAX_SUGGESTED_TAGS) {
                     $tags = $this->padSuggestedTags($tags, $title, $content, $existingTags);
+                }
+                if (count($tags) < self::MAX_SUGGESTED_TAGS) {
+                    $missing = self::MAX_SUGGESTED_TAGS - count($tags);
+                    $topUpPrompt = $this->buildTopUpPrompt($title, $preparedContent, $tags, $missing + 3, $existingTags);
+                    try {
+                        $extraTagsString = $this->requestPrompt($topUpPrompt, $model);
+                        $extraTags = $this->parseTags($extraTagsString, $existingTags, $tags, $missing);
+                        if (!empty($extraTags)) {
+                            $tags = array_merge($tags, $extraTags);
+                        }
+                    } catch (Exception $topUpError) {
+                        log_message('warning', "[GeminiService] Tag top-up with {$model} failed: {$topUpError->getMessage()}");
+                    }
                 }
                 if ($index > 0) {
                     log_message('info', "[GeminiService] Succeeded with fallback model: {$model}.");
@@ -363,18 +377,24 @@ Daftar Tag:
         return $suggestions;
     }
 
-    private function buildPrompt(string $title, string $content, array $existingTags = []): string
+    private function buildExistingTagsSection(array $existingTags): string
     {
         $cleanExisting = array_values(array_filter(
             array_map(static fn ($tag) => trim((string) $tag), $existingTags),
             static fn ($tag) => $tag !== '' && !in_array(mb_strtolower($tag, 'UTF-8'), self::GENERIC_TAG_BLOCKLIST, true)
         ));
 
-        $existingSection = '';
-        if (!empty($cleanExisting)) {
-            $existingSection = "\n- PRIORITASKAN menggunakan tag yang sudah ada pada Daftar Tag Eksisting di bawah dengan ejaan persis sama jika topiknya relevan. DILARANG membuat variasi ejaan/singkatan baru jika konsepnya sudah ada pada daftar tersebut.\n- Setiap tag WAJIB relevan secara langsung dengan judul atau isi berita. DILARANG memilih tag dari Daftar Tag Eksisting apabila tokoh, OPD, lokasi, atau topiknya tidak disebut atau dibahas dalam berita.\n\nDaftar Tag Eksisting:\n"
-                . implode(', ', $cleanExisting);
+        if (empty($cleanExisting)) {
+            return '';
         }
+
+        return "\n- PRIORITASKAN menggunakan tag yang sudah ada pada Daftar Tag Eksisting di bawah dengan ejaan persis sama jika topiknya relevan. DILARANG membuat variasi ejaan/singkatan baru jika konsepnya sudah ada pada daftar tersebut.\n- Setiap tag WAJIB relevan secara langsung dengan judul atau isi berita. DILARANG memilih tag dari Daftar Tag Eksisting apabila tokoh, OPD, lokasi, atau topiknya tidak disebut atau dibahas dalam berita.\n\nDaftar Tag Eksisting:\n"
+            . implode(', ', $cleanExisting);
+    }
+
+    private function buildPrompt(string $title, string $content, array $existingTags = []): string
+    {
+        $existingSection = $this->buildExistingTagsSection($existingTags);
 
         return sprintf(
             "Berdasarkan judul dan konten berita pemerintah daerah di bawah ini, hasilkan %d kandidat tag SEO singkat, spesifik, dan paling relevan (urutkan dari yang paling relevan).
@@ -390,6 +410,37 @@ Aturan:
 Judul: \"%s\"
 Konten: \"%s\"",
             self::PROMPT_CANDIDATE_TAGS,
+            $existingSection,
+            $title,
+            $content
+        );
+    }
+
+    /**
+     * Bangun prompt tambahan untuk melengkapi kekurangan tag agar tetap relevan dan tidak mengulang tag yang sudah ada.
+     *
+     * @param string[] $currentTags
+     * @param string[] $existingTags
+     */
+    private function buildTopUpPrompt(string $title, string $content, array $currentTags, int $candidateCount, array $existingTags = []): string
+    {
+        $existingSection = $this->buildExistingTagsSection($existingTags);
+        $currentList = implode(', ', $currentTags);
+
+        return sprintf(
+            "Berdasarkan judul dan konten berita pemerintah daerah di bawah ini, hasilkan %d kandidat tag SEO tambahan yang singkat, spesifik, dan relevan.
+
+Aturan:
+- Tampilkan hanya daftar tag dipisahkan koma, tanpa penjelasan, nomor, bullet, atau tanda pagar (#).
+- Gunakan format Title Case dengan panjang 1 sampai 3 kata per tag.
+- DILARANG mengulang atau membuat variasi dari tag yang sudah terpilih berikut: %s
+- DILARANG menggunakan tag generik situs seperti: Sinjai, Berita Sinjai, Kabupaten Sinjai, Pemkab Sinjai, Pemerintah Daerah, Berita Daerah, Sinjai Hari Ini, Berita, Daerah, Informasi, Pemerintah, Pemerintahan.
+- DILARANG menghasilkan tag berupa angka saja.%s
+
+Judul: \"%s\"
+Konten: \"%s\"",
+            $candidateCount,
+            $currentList,
             $existingSection,
             $title,
             $content
@@ -473,8 +524,12 @@ Konten: \"%s\"",
         return $response['candidates'][0]['content']['parts'][0]['text'];
     }
 
-    private function parseTags(string $tagsString, array $existingTags = []): array
-    {
+    private function parseTags(
+        string $tagsString,
+        array $existingTags = [],
+        array $excludeTags = [],
+        int $limit = self::MAX_SUGGESTED_TAGS
+    ): array {
         $canonicalByLower = [];
         $canonicalByAlnum = [];
         foreach ($existingTags as $existing) {
@@ -490,13 +545,27 @@ Konten: \"%s\"",
             }
         }
 
-        $rawTags = explode(',', $tagsString);
+        $rawTags = preg_split('/[,\r\n;]+/', $tagsString) ?: [];
         $cleanTags = [];
         $seenLower = [];
         $seenAlnum = [];
 
+        foreach ($excludeTags as $excluded) {
+            $excludedName = trim((string) $excluded);
+            if ($excludedName === '') {
+                continue;
+            }
+            $excludedLower = mb_strtolower($excludedName, 'UTF-8');
+            $excludedAlnum = preg_replace('/[^a-z0-9]/u', '', $excludedLower) ?? '';
+            $seenLower[$excludedLower] = true;
+            if ($excludedAlnum !== '') {
+                $seenAlnum[$excludedAlnum] = true;
+            }
+        }
+
         foreach ($rawTags as $raw) {
-            $tag = trim(ltrim(trim($raw), '#-*• '));
+            $tag = preg_replace('/^\s*(?:\d+[\.\)]\s*|[-*•#]+\s*)/u', '', trim($raw)) ?? '';
+            $tag = trim($tag, " \t\n\r\0\x0B.\"'");
             $tag = preg_replace('/\s+/', ' ', $tag);
             if ($tag === '' || mb_strlen($tag, 'UTF-8') < 2 || ctype_digit($tag)) {
                 continue;
@@ -529,7 +598,7 @@ Konten: \"%s\"",
             }
             $cleanTags[] = $tag;
 
-            if (count($cleanTags) >= self::MAX_SUGGESTED_TAGS) {
+            if (count($cleanTags) >= $limit) {
                 break;
             }
         }

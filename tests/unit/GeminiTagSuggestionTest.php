@@ -23,7 +23,7 @@ final class GeminiTagSuggestionTest extends CIUnitTestCase
             ['Pemerintah', 'Diskominfo Sinjai', 'Pelayanan Publik', '  '],
         ]);
 
-        $this->assertStringContainsString('hasilkan 7 kandidat tag SEO', $promptWithTags);
+        $this->assertStringContainsString('hasilkan 10 kandidat tag SEO', $promptWithTags);
         $this->assertStringContainsString('Daftar Tag Eksisting:', $promptWithTags);
         $this->assertStringContainsString('Diskominfo Sinjai, Pelayanan Publik', $promptWithTags);
         $this->assertStringNotContainsString("Daftar Tag Eksisting:\nPemerintah", $promptWithTags);
@@ -143,5 +143,42 @@ final class GeminiTagSuggestionTest extends CIUnitTestCase
             'SPBE',
             'Inovasi Daerah',
         ], $strictPadded);
+    }
+
+    public function testParseTagsHandlesNumberedLinesAndExcludeLimit(): void
+    {
+        $service = new GeminiService('dummy-key');
+
+        $raw = "1. Pelayanan Publik.\n2) Diskominfo Sinjai;\n- SPBE\n* Inovasi Daerah\n5. Transformasi Digital";
+        $parsed = $this->invokePrivate($service, 'parseTags', [
+            $raw,
+            [],
+            ['Diskominfo Sinjai'],
+            3,
+        ]);
+
+        $this->assertSame([
+            'Pelayanan Publik',
+            'SPBE',
+            'Inovasi Daerah',
+        ], $parsed);
+    }
+
+    public function testBuildTopUpPromptIncludesCurrentTagsToAvoidDuplicates(): void
+    {
+        $service = new GeminiService('dummy-key');
+
+        $prompt = $this->invokePrivate($service, 'buildTopUpPrompt', [
+            'Rapat Koordinasi SPBE',
+            'Diskominfo Sinjai menggelar rapat koordinasi SPBE.',
+            ['Diskominfo Sinjai', 'SPBE', 'Pelayanan Publik', 'Inovasi Daerah'],
+            4,
+            ['Transformasi Digital'],
+        ]);
+
+        $this->assertStringContainsString('hasilkan 4 kandidat tag SEO tambahan', $prompt);
+        $this->assertStringContainsString('Diskominfo Sinjai, SPBE, Pelayanan Publik, Inovasi Daerah', $prompt);
+        $this->assertStringContainsString('Daftar Tag Eksisting:', $prompt);
+        $this->assertStringContainsString('Transformasi Digital', $prompt);
     }
 }
